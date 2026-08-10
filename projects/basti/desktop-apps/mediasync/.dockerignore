@@ -1,0 +1,11 @@
+**/node_modules
+**/dist
+**/dist-types
+**/out
+**/.git
+**/.github
+**/data
+**/*.db
+**/*.log
+**/.env
+**/.DS_Store

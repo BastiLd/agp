@@ -1,0 +1,3 @@
+$execute if score Arena wave_number matches 1 run execute as @e[tag=in_$(team)_arena] unless entity @s[x=25,y=$(y),z=212,dx=143,dy=-38,dz=-187] run tp @e[tag=spawn_$(team)s_enemies,limit=1,sort=random]
+$execute if score Arena wave_number matches 2 run execute as @e[tag=in_$(team)_arena] at @s unless entity @s[x=0,y=$(y),z=0,dx=119,dy=-45,dz=125] run tp @e[tag=spawn_$(team)s_enemies,limit=1,sort=random]
+$execute if score Arena wave_number matches 3 run execute as @e[tag=in_$(team)_arena] unless entity @s[x=25,y=$(y),z=212,dx=143,dy=-38,dz=-187] run tp @e[tag=spawn_$(team)s_enemies,limit=1,sort=random]

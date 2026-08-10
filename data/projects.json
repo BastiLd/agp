@@ -1,10 +1,26 @@
 {
   "aktualisiert": "2026-08-10",
   "kategorien": {
-    "websites": { "label": "Websites", "icon": "globe" },
-    "python-apps": { "label": "Python-Apps & Bots", "icon": "terminal" },
-    "browser-extensions": { "label": "Browser-Erweiterungen", "icon": "puzzle" },
-    "desktop-apps": { "label": "Desktop-Apps", "icon": "window" }
+    "websites": {
+      "label": "Websites",
+      "icon": "globe"
+    },
+    "python-apps": {
+      "label": "Python-Apps & Bots",
+      "icon": "terminal"
+    },
+    "browser-extensions": {
+      "label": "Browser-Erweiterungen",
+      "icon": "puzzle"
+    },
+    "desktop-apps": {
+      "label": "Desktop-Apps",
+      "icon": "window"
+    },
+    "minecraft-mods": {
+      "label": "Minecraft-Mods",
+      "icon": "cube"
+    }
   },
   "projekte": [
     {
@@ -14,7 +30,15 @@
       "kategorie": "websites",
       "kurz": "Lokale Netflix-Alternative für Windows mit eigenem Media-Server",
       "beschreibung": "Eine vollwertige Streaming-Oberfläche für die eigene Film- und Seriensammlung. GHGFlix durchsucht deine Ordner, holt Poster, Beschreibungen, Altersfreigaben und Episodendaten von TMDb und spielt alles über den eingebauten mpv-Player ab. Mit Mini-Player, Warteschlange, Intro-überspringen, Zeitleisten-Vorschau wie bei Plex, rund 60 Einstellungen, Kindersicherung und Cloud-Sync über Supabase. Dazu gibt es einen Server für ZimaOS/Docker, der dieselbe Oberfläche im Browser und am Handy bereitstellt — PC, Handy und Browser teilen sich automatisch den Fortschritt.",
-      "tech": ["Tauri 2", "React 19", "Rust", "TypeScript", "Vite", "Supabase", "Docker"],
+      "tech": [
+        "Tauri 2",
+        "React 19",
+        "Rust",
+        "TypeScript",
+        "Vite",
+        "Supabase",
+        "Docker"
+      ],
       "pfad": "projects/basti/websites/ghgflix",
       "repo": "https://github.com/BastiLd/GHGFLIX",
       "live": null,
@@ -28,7 +52,13 @@
       "kategorie": "websites",
       "kurz": "Ermittlungsspiel mit 20 realen europäischen Kriminalfällen",
       "beschreibung": "Ein Browser-Ermittlungsspiel für zwei Personen oder allein, komplett ohne Installation und auf Wunsch offline spielbar. Enthalten sind 20 reale, gerichtlich entschiedene Kriminalfälle aus 12 europäischen Ländern (1993–2024) mit 194 Ermittlungshinweisen, 113 Verdächtigen, 53 Aktendokumenten als Faksimile und 272 belegten Quellen — von Gerichtsurteilen über PDFs bis zu Presseartikeln. Läuft als Progressive Web App, ist also auch installierbar.",
-      "tech": ["HTML", "CSS", "JavaScript", "PWA", "Service Worker"],
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "PWA",
+        "Service Worker"
+      ],
       "pfad": "projects/basti/websites/murder-mystery",
       "repo": "https://github.com/BastiLd/MurderMystery",
       "live": "https://bastild.github.io/MurderMystery/",
@@ -41,7 +71,13 @@
       "kategorie": "websites",
       "kurz": "Interaktive 3D-Präsentationswebsite für den themenzentrierten Unterricht",
       "beschreibung": "Gemeinsames Schulprojekt von Basti und Mijo: eine Präsentations-Website mit 3D-Wurmloch-Effekt, umgesetzt mit Three.js. Ersetzt eine klassische PowerPoint durch eine navigierbare Web-Oberfläche. Die Seite ist bereits über GitHub Pages veröffentlicht.",
-      "tech": ["HTML", "CSS", "JavaScript", "Three.js", "WebGL"],
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Three.js",
+        "WebGL"
+      ],
       "pfad": "projects/basti/websites/claude-wormhole-site",
       "repo": "https://github.com/BastiLd/school-website-tzu-powerpoint",
       "live": "https://bastild.github.io/school-website-tzu-powerpoint/",
@@ -54,7 +90,12 @@
       "kategorie": "websites",
       "kurz": "Lern-App für Recht im Duolingo-Stil (Prototyp)",
       "beschreibung": "Ein Lern-App-Prototyp für österreichisches und EU-Recht, aufgebaut wie Duolingo oder Brilliant: Lektionen, Fortschritt, Maskottchen, Onboarding und ein iOS-Rahmen für die Vorschau. Läuft ohne Build-Schritt direkt im Browser, weil React und Babel zur Laufzeit geladen werden. Reine Demo — keine Rechtsberatung.",
-      "tech": ["React 18", "Babel Standalone", "CSS", "JSX"],
+      "tech": [
+        "React 18",
+        "Babel Standalone",
+        "CSS",
+        "JSX"
+      ],
       "pfad": "projects/basti/websites/avocado-at-law",
       "einstieg": "Avocado at Law.html",
       "repo": null,
@@ -68,7 +109,12 @@
       "kategorie": "websites",
       "kurz": "Persönliche Portfolio-Website",
       "beschreibung": "Deine eigene Portfolio-Seite mit Projektübersicht, einer Unterseite zum Tisch-Tennis-Turnier 2025 und der eingebetteten Studiow-Warteliste. Diese Kopie stammt aus der Sicherung des Live-Servers und enthält auch die serverseitige .htaccess-Konfiguration.",
-      "tech": ["HTML", "CSS", "JavaScript", "Apache/.htaccess"],
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Apache/.htaccess"
+      ],
       "pfad": "projects/basti/websites/bastiklaus-online",
       "repo": null,
       "live": "selbst",
@@ -81,7 +127,14 @@
       "kategorie": "websites",
       "kurz": "Installierbare Warteliste-Seite mit Supabase-Anbindung",
       "beschreibung": "Eine als Progressive Web App installierbare Landingpage mit Anmeldeformular für eine Warteliste. Die Einträge landen über den öffentlichen Supabase-Client direkt in einer Datenbank. Enthält zusätzlich einen kleinen Node-Server für den lokalen Betrieb.",
-      "tech": ["HTML", "CSS", "JavaScript", "Supabase", "Node.js", "PWA"],
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "Supabase",
+        "Node.js",
+        "PWA"
+      ],
       "pfad": "projects/basti/websites/echt-pwa",
       "repo": null,
       "live": "selbst",
@@ -94,7 +147,11 @@
       "kategorie": "websites",
       "kurz": "Mehrseitige Agentur-Website (Übungsprojekt)",
       "beschreibung": "Eine komplette Unternehmens-Website mit acht Unterseiten: Startseite, Über uns, Leistungen, Portfolio, Blog, Kontakt und Impressum. Entstanden als Übung zur klassischen mehrseitigen Website-Struktur ohne Framework.",
-      "tech": ["HTML", "CSS", "JavaScript"],
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
       "pfad": "projects/basti/websites/portfolio-chatgpt",
       "repo": null,
       "live": "selbst",
@@ -107,7 +164,11 @@
       "kategorie": "websites",
       "kurz": "Karteikarten-Lern-App im Browser",
       "beschreibung": "Eine kompakte Lern-Anwendung mit Karteikarten — Karten anlegen, umdrehen und durchgehen, alles im Browser ohne Server.",
-      "tech": ["HTML", "CSS", "JavaScript"],
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
       "pfad": "projects/basti/websites/website-chatgpt",
       "repo": null,
       "live": "selbst",
@@ -120,7 +181,11 @@
       "kategorie": "websites",
       "kurz": "Reise-Website mit Tailwind-Layout",
       "beschreibung": "Eine Reiseanbieter-Website mit großem Hero-Bereich, Angebotskarten und Unterseite. Umgesetzt mit Tailwind-Utility-Klassen direkt im HTML.",
-      "tech": ["HTML", "Tailwind CSS", "JavaScript"],
+      "tech": [
+        "HTML",
+        "Tailwind CSS",
+        "JavaScript"
+      ],
       "pfad": "projects/basti/websites/website-gemini",
       "repo": null,
       "live": "selbst",
@@ -133,7 +198,11 @@
       "kategorie": "websites",
       "kurz": "Informationsseite über die Plattform Roblox und ihre Kritikpunkte",
       "beschreibung": "Eine scrollbare Recherche-Website, die erklärt was Roblox ist, wie das Geschäftsmodell funktioniert und welche Kritik es rund um Kinder- und Jugendschutz gibt. Gestaltet mit Tailwind-Klassen und Abschnittsnavigation.",
-      "tech": ["HTML", "Tailwind CSS", "JavaScript"],
+      "tech": [
+        "HTML",
+        "Tailwind CSS",
+        "JavaScript"
+      ],
       "pfad": "projects/basti/websites/roblox-website",
       "repo": null,
       "live": "selbst",
@@ -146,7 +215,11 @@
       "kategorie": "websites",
       "kurz": "Vier kleine Browser-Spiele: HTML-Puzzle und Wortsuche",
       "beschreibung": "Eine Sammlung kleiner Einzelseiten-Spiele rund um die CHS Villach: ein HTML-Puzzle in zwei Varianten (auch mit Drehung der Teile) und zwei Wortsuchrätsel. Jedes Spiel ist eine einzelne HTML-Datei ohne Abhängigkeiten.",
-      "tech": ["HTML", "CSS", "JavaScript"],
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
       "pfad": "projects/basti/websites/mini-games",
       "repo": null,
       "live": "selbst",
@@ -159,7 +232,12 @@
       "kategorie": "websites",
       "kurz": "Nachbau der ResuMax.ai-Website mit Next.js",
       "beschreibung": "Ein 1:1-Nachbau der Landingpage von ResuMax.ai — als Übung im Umgang mit Next.js App Router, TypeScript und Tailwind. Dunkles Design mit Pink-Violett-Verläufen, komponentenbasiert aufgebaut und vollständig responsiv.",
-      "tech": ["Next.js 14", "TypeScript", "Tailwind CSS", "React"],
+      "tech": [
+        "Next.js 14",
+        "TypeScript",
+        "Tailwind CSS",
+        "React"
+      ],
       "pfad": "projects/basti/websites/resumax-clone",
       "repo": null,
       "live": null,
@@ -173,7 +251,13 @@
       "kategorie": "python-apps",
       "kurz": "Deutscher Discord-Sammelkarten-Bot mit Kampfsystem",
       "beschreibung": "Ein Discord-Bot rund um Sammelkarten: Karten sammeln und verwalten, tägliche Belohnungen, ein Handelsposten, 1-gegen-1-Kämpfe mit Effekten, Abklingzeiten und Statusregeln, dazu ein Admin-Panel für Wartung, Sichtbarkeit und Fehlersuche. Alles läuft über Slash-Commands und Discord-Views, die Daten liegen in SQLite. Kampfregeln, Karten und Persistenz sind modular getrennt und mit Tests abgedeckt. Dazu gehört eine Weboberfläche für die Verwaltung.",
-      "tech": ["Python 3.14", "discord.py", "SQLite", "pytest", "HTML/CSS/JS"],
+      "tech": [
+        "Python 3.14",
+        "discord.py",
+        "SQLite",
+        "pytest",
+        "HTML/CSS/JS"
+      ],
       "pfad": "projects/basti/python-apps/kartenbot-web",
       "repo": "https://github.com/BastiLd/kartenbot",
       "live": null,
@@ -187,7 +271,11 @@
       "kategorie": "python-apps",
       "kurz": "Web-Oberfläche zum Herunterladen und Verwalten von Mediathek-Inhalten",
       "beschreibung": "Ein selbstgeschriebenes Download-Werkzeug mit Flask-Weboberfläche, die auch vom Handy im gleichen Netzwerk erreichbar ist. Enthält einen eigenen Downloader-Kern, einen Mediathek-Generator, ein Kommandozeilen-Werkzeug und Skripte, die einen Download-Knopf in bereits gespiegelte Websites einbauen. Nur der eigene Code ist hier abgelegt — heruntergeladene Inhalte bewusst nicht.",
-      "tech": ["Python", "Flask", "HTTP-Streaming"],
+      "tech": [
+        "Python",
+        "Flask",
+        "HTTP-Streaming"
+      ],
       "pfad": "projects/basti/python-apps/mediathek-downloader",
       "repo": null,
       "live": null,
@@ -201,7 +289,13 @@
       "kategorie": "python-apps",
       "kurz": "Erzeugt aus zwei Bildern eine endlose Vorher/Nachher-Animation",
       "beschreibung": "Nimmt zwei Bilder und erzeugt daraus eine hochwertige, endlos laufende Vorher/Nachher-Animation mit weichem, bewegtem Wischübergang. Ausgabe wahlweise als GIF, APNG, animiertes WebP, MP4 oder MOV. Mit grafischer Oberfläche und Kommandozeilen-Modus; eine Prüffunktion zeigt an, welche Ausgabeformate auf dem System verfügbar sind.",
-      "tech": ["Python", "Pillow", "imageio", "ffmpeg", "Tkinter"],
+      "tech": [
+        "Python",
+        "Pillow",
+        "imageio",
+        "ffmpeg",
+        "Tkinter"
+      ],
       "pfad": "projects/basti/python-apps/wipe-animation",
       "repo": null,
       "live": null,
@@ -215,7 +309,12 @@
       "kategorie": "browser-extensions",
       "kurz": "Screenshots ganzer Seiten inklusive aller Unterseiten",
       "beschreibung": "Chrome-Erweiterung, die komplette Webseiten als Bild aufnimmt — nicht nur den sichtbaren Bereich, sondern die ganze Seite durch automatisches Scrollen und Zusammensetzen. Zusätzlich kann sie einer Seite folgen und deren Unterseiten gleich mit erfassen. Mit Verlauf, Einstellungsseite, Mehrsprachigkeit und Tastenkürzel (Alt+Shift+P).",
-      "tech": ["Manifest V3", "JavaScript", "Chrome Extension API", "Offscreen Canvas"],
+      "tech": [
+        "Manifest V3",
+        "JavaScript",
+        "Chrome Extension API",
+        "Offscreen Canvas"
+      ],
       "pfad": "projects/basti/browser-extensions/auto-capture",
       "repo": null,
       "live": null,
@@ -229,7 +328,11 @@
       "kategorie": "browser-extensions",
       "kurz": "Schließt neue Tabs automatisch nach eigenen Regeln",
       "beschreibung": "Chrome-Erweiterung, die neu geöffnete Tabs und Fenster automatisch wieder schließt — gesteuert über globale Regeln oder website-spezifische Ausnahmen. Praktisch gegen Werbe-Tabs und ungewollte Pop-ups. Mit Popup zur Schnellsteuerung und eigener Einstellungsseite.",
-      "tech": ["Manifest V3", "JavaScript", "Chrome Extension API"],
+      "tech": [
+        "Manifest V3",
+        "JavaScript",
+        "Chrome Extension API"
+      ],
       "pfad": "projects/basti/browser-extensions/auto-tab-close",
       "repo": null,
       "live": null,
@@ -243,7 +346,12 @@
       "kategorie": "browser-extensions",
       "kurz": "Füllt bei stadtlandfluss.cool automatisch alle Kategorien aus",
       "beschreibung": "Chrome-Erweiterung, die auf stadtlandfluss.cool ein eigenes Bedienfeld einblendet und zu einem vorgegebenen Buchstaben automatisch passende Antworten für alle Kategorien einträgt. Die komplette Wortliste steckt direkt im Content-Script.",
-      "tech": ["Manifest V3", "JavaScript", "Content Script", "CSS"],
+      "tech": [
+        "Manifest V3",
+        "JavaScript",
+        "Content Script",
+        "CSS"
+      ],
       "pfad": "projects/basti/browser-extensions/stadt-land-fluss",
       "repo": null,
       "live": null,
@@ -257,7 +365,15 @@
       "kategorie": "desktop-apps",
       "kurz": "Notfall-Tierarzt-Finder für Kärnten — Web, iPhone, Extension und Studio",
       "beschreibung": "Ein Notfall-Tierarzt-Finder für Kärnten: Praxen nach Bezirk, Tierart und Situation filtern, mit Status-Ampel (grün/gelb/grau/rot), Chat zwischen Tierhalter:innen und Praxen, Praxis-Dashboard sowie Login und Registrierung. Der gleiche Funktionsumfang existiert viermal — als Website und installierbare PWA, als iPhone-/Android-App mit Expo, als Chrome-Erweiterung mit Praxis-Popup und als VetNow Studio, einem Control-Panel zum Bauen, Vorschauen und Starten aller Teile inklusive QR-Codes. Alle enthaltenen Praxisdaten sind Platzhalter-Testdaten.",
-      "tech": ["React", "Vite", "Expo / React Native", "Node.js", "Express", "Docker", "Manifest V3"],
+      "tech": [
+        "React",
+        "Vite",
+        "Expo / React Native",
+        "Node.js",
+        "Express",
+        "Docker",
+        "Manifest V3"
+      ],
       "pfad": "projects/basti/desktop-apps/vetnow",
       "repo": "https://github.com/BastiLd/vetnow",
       "live": "https://bastild.github.io/vetnow/",
@@ -270,7 +386,14 @@
       "kategorie": "desktop-apps",
       "kurz": "Desktop-App für den Kopier- und Umbenennungs-Workflow zum Plex-Server",
       "beschreibung": "Eine Windows-Desktop-App, die den Weg von neuen Filmen und Serien auf den Plex-/NAS-Server automatisiert: Kopieren über Robocopy mit Fortschrittsanzeige und Geschwindigkeitsmessung, Umbenennen in die Plex-Ordnerstruktur, TMDb-Metadaten und automatisches Aktualisieren der Plex-Bibliothek nach dem Transfer. Kombiniert eine Python-Logik mit einer Electron-Oberfläche; die Konfiguration mit Server-Adresse und Zugangs-Token wird bewusst nicht mitveröffentlicht.",
-      "tech": ["Python", "Electron", "Node.js", "Robocopy", "Plex API", "TMDb API"],
+      "tech": [
+        "Python",
+        "Electron",
+        "Node.js",
+        "Robocopy",
+        "Plex API",
+        "TMDb API"
+      ],
       "pfad": "projects/basti/desktop-apps/plex-transfer",
       "repo": "https://github.com/BastiLd/transfermov-seritozimaOSserver",
       "live": null,
@@ -284,12 +407,673 @@
       "kategorie": "desktop-apps",
       "kurz": "Desktop-App zum Erstellen eigener Windows-Mauszeiger",
       "beschreibung": "Eine Tauri-Desktop-App, mit der sich aus eigenen Bildern Windows-Mauszeiger bauen lassen — Dateien per Drag & Drop hineinziehen, Vorschau ansehen und als Cursor-Set exportieren. Oberfläche mit React 19 und Tailwind, der Kern in Rust.",
-      "tech": ["Tauri 2", "React 19", "TypeScript", "Tailwind CSS", "Rust", "Vite"],
+      "tech": [
+        "Tauri 2",
+        "React 19",
+        "TypeScript",
+        "Tailwind CSS",
+        "Rust",
+        "Vite"
+      ],
       "pfad": "projects/basti/desktop-apps/cursor-forge",
       "repo": null,
       "live": null,
       "liveHinweis": "Tauri-App — npm install && npm run tauri build",
       "stand": "2026-07-17"
+    },
+    {
+      "id": "webhafen",
+      "titel": "WebHafen",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Eigenes Website-Hosting als Docker-App mit Dashboard und Analytics",
+      "beschreibung": "Eine Docker-App, die zum eigenen kleinen Hoster wird: Sie liefert sowohl statische Seiten als auch PHP-Seiten aus, jede unter einem eigenen Port. Zu jeder Website gehört ein Dashboard mit echten Auswertungen — Besucher, Aufrufe, Live-Ansicht, meistbesuchte Seiten, Herkunft, Geräte, Status-Codes, Antwortzeiten. Dazu ein Dateimanager mit ZIP-Upload, Drag-and-drop und eingebautem Editor, alles hinter einem Passwort-Login. Die Montrigor-Website wird beim ersten Start automatisch importiert. Ein GitHub-Actions-Workflow baut das Abbild bei jedem Push.",
+      "tech": [
+        "Docker",
+        "Node.js",
+        "PHP",
+        "Caddy",
+        "supervisord",
+        "GitHub Actions"
+      ],
+      "pfad": "projects/basti/websites/webhafen",
+      "repo": "https://github.com/BastiLd/MFU-TEST",
+      "live": null,
+      "liveHinweis": "docker compose up — danach im Browser auf den Dashboard-Port",
+      "stand": "2026-08-06"
+    },
+    {
+      "id": "webbing",
+      "titel": "IdeenHub",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Plattform zum Entdecken lohnender Web-App-Ideen, im Stil von Mobbin",
+      "beschreibung": "Eine Plattform, auf der sich Ideen für Web-Apps sammeln, durchsuchen und bewerten lassen — angelehnt an Mobbin. Mit Benutzerkonten und Datenhaltung über Supabase, Bezahlung über Stripe und einer GraphQL-Schnittstelle. Die Eingaben werden mit Zod geprüft, die Oberfläche ist mit Tailwind gebaut.",
+      "tech": [
+        "Next.js 14",
+        "TypeScript",
+        "Supabase",
+        "Stripe",
+        "GraphQL",
+        "SWR",
+        "Zod",
+        "Tailwind CSS"
+      ],
+      "pfad": "projects/basti/websites/webbing",
+      "repo": "https://github.com/BastiLd/Webbing",
+      "live": null,
+      "stand": "2025-12-09"
+    },
+    {
+      "id": "excel-formel-retter",
+      "titel": "Excel Formel Retter",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Erzeugt Excel- und Google-Sheets-Formeln aus einer Beschreibung in Worten",
+      "beschreibung": "Man beschreibt in normaler Sprache, was die Tabelle rechnen soll, und bekommt die passende Formel für Excel oder Google Sheets zurück. Die Umsetzung läuft über Googles Gemini-Modell. Konten und Nutzungsgrenzen liegen in einer Datenbank über Prisma, die Bezahlung läuft über Stripe; ohne Konto sind einige Anfragen frei.",
+      "tech": [
+        "Next.js 14",
+        "TypeScript",
+        "Prisma",
+        "Stripe",
+        "Google Gemini",
+        "Zod"
+      ],
+      "pfad": "projects/basti/websites/excel-formel-retter",
+      "repo": "https://github.com/BastiLd/Fromel-Excel",
+      "live": null,
+      "stand": "2025-12-08"
+    },
+    {
+      "id": "ai-response-verifier",
+      "titel": "KI-Antwort-Verifizierer",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Prüft KI-Antworten gegen die angegebenen Quellen",
+      "beschreibung": "Eine Webanwendung, die eine von einer KI erzeugte Antwort mit den Quellen abgleicht, auf die sie sich beruft — und sichtbar macht, was tatsächlich belegt ist und was nicht. Aufgeteilt in eine Oberfläche und einen eigenen Server-Teil.",
+      "tech": [
+        "Next.js",
+        "React 19",
+        "TypeScript",
+        "Tailwind CSS 4",
+        "Node.js"
+      ],
+      "pfad": "projects/basti/websites/ai-response-verifier",
+      "repo": null,
+      "live": null,
+      "stand": "2025-06-12"
+    },
+    {
+      "id": "viele-webapps",
+      "titel": "Viele WebApps",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Sammlung mehrerer kleiner Web-Apps unter einem Dach",
+      "beschreibung": "Mehrere kleine, voneinander unabhängige Web-Anwendungen in einem gemeinsamen Next.js-Projekt, ergänzt um ein Abo-Modell mit Stripe. Entstanden als Versuch, mehrere Ideen auf einer Grundlage laufen zu lassen, statt für jede ein eigenes Projekt aufzusetzen.",
+      "tech": [
+        "Next.js 14",
+        "TypeScript",
+        "Stripe",
+        "Tailwind CSS"
+      ],
+      "pfad": "projects/basti/websites/viele-webapps",
+      "repo": null,
+      "live": null,
+      "stand": "2025-11-24"
+    },
+    {
+      "id": "pfotennotruf-kaernten",
+      "titel": "Pfotennotruf Kärnten",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Anlaufstelle für Tiernotfälle in Kärnten",
+      "beschreibung": "Eine Website für den Ernstfall mit einem gefundenen oder verletzten Tier: Wer ist zuständig, wen ruft man an, was ist zu tun. Gebaut mit Next.js 16 und React 19. Inhaltlich verwandt mit VetNow, aber eigenständig — hier geht es um den Notruf selbst, nicht um die Praxissuche.",
+      "tech": [
+        "Next.js 16",
+        "React 19",
+        "TypeScript",
+        "Tailwind CSS 4"
+      ],
+      "pfad": "projects/basti/websites/pfotennotruf-kaernten",
+      "repo": null,
+      "live": null,
+      "stand": "2026-05-20"
+    },
+    {
+      "id": "pfotennotruf-mvp",
+      "titel": "Pfotennotruf — zweite Fassung",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Dieselbe Idee wie Pfotennotruf, von einem anderen Assistenten gebaut",
+      "beschreibung": "Ein zweiter Anlauf für dieselbe Aufgabe wie Pfotennotruf Kärnten, absichtlich mit einem anderen KI-Assistenten umgesetzt, um die Ergebnisse nebeneinander vergleichen zu können. Technisch derselbe Unterbau. Die mitgelieferten automatischen Browser-Aufnahmen wurden beim Übernehmen entfernt, weil darin echte Browser-Profildaten steckten.",
+      "tech": [
+        "Next.js 16",
+        "React 19",
+        "TypeScript",
+        "Tailwind CSS 4"
+      ],
+      "pfad": "projects/basti/websites/pfotennotruf-mvp",
+      "repo": null,
+      "live": null,
+      "stand": "2026-05-20"
+    },
+    {
+      "id": "discord-bot-maker",
+      "titel": "Discord Bot Maker",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Discord-Bots zusammenklicken statt programmieren",
+      "beschreibung": "Ein sichtbarer Baukasten für Discord-Bots: Bausteine werden als Knoten auf eine Fläche gezogen und mit Linien verbunden, daraus entsteht der fertige Bot zum Herunterladen als ZIP. Läuft komplett im Browser ohne Server, weshalb dieselbe Oberfläche auch über GitHub Pages funktioniert.",
+      "tech": [
+        "React",
+        "TypeScript",
+        "Vite",
+        "@xyflow/react",
+        "JSZip",
+        "Supabase"
+      ],
+      "pfad": "projects/basti/websites/discord-bot-maker",
+      "repo": "https://github.com/BastiLd/Discord_Bot-Maker",
+      "live": null,
+      "stand": "2026-03-28"
+    },
+    {
+      "id": "small-but-good",
+      "titel": "Small but Good",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Handverlesene Empfehlungen kleiner, guter Fundstücke",
+      "beschreibung": "Eine Entdeckungsseite für Dinge, die gut sind, aber wenig Aufmerksamkeit bekommen — kuratiert statt algorithmisch. Konten und Inhalte liegen in Supabase, die Logik ist mit Vitest getestet.",
+      "tech": [
+        "Next.js 14",
+        "TypeScript",
+        "Supabase",
+        "Vitest",
+        "Tailwind CSS"
+      ],
+      "pfad": "projects/basti/websites/small-but-good",
+      "repo": "https://github.com/BastiLd/Small-but-Good",
+      "live": "https://bastild.github.io/Small-but-Good/",
+      "stand": "2026-06-04"
+    },
+    {
+      "id": "perry-rat",
+      "titel": "Perry Rat",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Kleine statische Seite, über GitHub Pages veröffentlicht",
+      "beschreibung": "Eine kleine Seite aus reinem HTML, CSS und JavaScript ohne Build-Schritt — direkt öffnen und es läuft. Liegt in einem eigenen Repository und ist über GitHub Pages erreichbar.",
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "pfad": "projects/basti/websites/perry-rat",
+      "einstieg": "index.html",
+      "repo": "https://github.com/BastiLd/Perry-Rat",
+      "live": "https://bastild.github.io/Perry-Rat/",
+      "stand": "2026-03-12"
+    },
+    {
+      "id": "mcdiskussion-web",
+      "titel": "BastiLd Mod Hub",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Zweisprachige Vorstellungsseite für die eigenen Minecraft-Mods",
+      "beschreibung": "Eine schnelle, dunkel gestaltete Seite auf Deutsch und Englisch, die den Mod Restore Inventory vorstellt und Platz für weitere Mods lässt. Bewusst ohne Build-Werkzeug gebaut — reines HTML, CSS und JavaScript. Enthalten ist außerdem das kleine Browser-Spiel PaddleForce.",
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "pfad": "projects/basti/websites/mcdiskussion-web",
+      "einstieg": "index.html",
+      "repo": "https://github.com/BastiLd/MCDiskussionWeb",
+      "live": null,
+      "stand": "2026-06-10"
+    },
+    {
+      "id": "katabump-panel",
+      "titel": "Katabump Control Panel",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Selbst gehostete Steuerzentrale für Bot- und App-Container",
+      "beschreibung": "Ein Bedienfeld für eigene Docker-Container, gestaltet nach dem Vorbild von Katabump und als fertige Compose-App für ZimaOS gepackt. Aufgeteilt in mehrere Teile innerhalb eines npm-Projekts: eine Schnittstelle, ein Agent auf dem Zielrechner, ein Hintergrundarbeiter, ein SFTP-Zugang und die Weboberfläche. Datenbankänderungen laufen über Migrationen.",
+      "tech": [
+        "Node.js",
+        "Docker",
+        "npm workspaces",
+        "SFTP"
+      ],
+      "pfad": "projects/basti/websites/katabump-panel",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "docker compose up — Zugangsdaten in .env.local.example",
+      "stand": "2026-05-10"
+    },
+    {
+      "id": "discord-archive-web",
+      "titel": "Discord Archive (Browser)",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Discord-Exporte im Browser durchsuchen, ohne Server",
+      "beschreibung": "Öffnet Exporte von DiscordChatExporter direkt im Browser und zeigt sie in einer Discord-ähnlichen Oberfläche mit Suche. Läuft vollständig lokal — es gibt kein Backend, die Dateien verlassen den Rechner nicht. Die Schwesterfassung als Desktop-Programm liegt unter Discord Archive Viewer.",
+      "tech": [
+        "React 19",
+        "TypeScript",
+        "Vite"
+      ],
+      "pfad": "projects/basti/websites/discord-archive-web",
+      "repo": null,
+      "live": null,
+      "stand": "2026-05-22"
+    },
+    {
+      "id": "obbymm",
+      "titel": "ObbyMM",
+      "besitzer": "basti",
+      "kategorie": "desktop-apps",
+      "kurz": "Mindmap- und Notizprogramm im Stil von Notion und Obsidian",
+      "beschreibung": "Ein Desktop-Programm zum Denken in Verbindungen: Notizen werden als Knoten angelegt und miteinander verknüpft, die Darstellung als Karte übernimmt xyflow. Die Oberfläche orientiert sich an Notion und Obsidian und ist ausdrücklich zuerst für Windows gebaut. Als Electron-Anwendung mit React 19 umgesetzt und über electron-builder verpackt.",
+      "tech": [
+        "Electron",
+        "React 19",
+        "TypeScript",
+        "Vite",
+        "@xyflow/react",
+        "electron-builder"
+      ],
+      "pfad": "projects/basti/desktop-apps/obbymm",
+      "repo": "https://github.com/BastiLd/ObbyMM",
+      "live": null,
+      "liveHinweis": "Electron-App — npm install && npm run build",
+      "stand": "2026-04-30"
+    },
+    {
+      "id": "wo-was-filme-serien",
+      "titel": "Wo was — Filme & Serien",
+      "besitzer": "basti",
+      "kategorie": "desktop-apps",
+      "kurz": "Zeigt, in welchem Land ein Film oder eine Serie zu streamen ist",
+      "beschreibung": "Ein Desktop-Programm, das für einen Film oder eine Serie nachschlägt, bei welchem Anbieter und in welchem Land er zu sehen ist — weltweit, nicht nur im eigenen Land. Als Electron-Anwendung mit React-Oberfläche gebaut; die Einstellungen bleiben über electron-store erhalten.",
+      "tech": [
+        "Electron 28",
+        "React",
+        "electron-builder",
+        "electron-store",
+        "axios"
+      ],
+      "pfad": "projects/basti/desktop-apps/wo-was-filme-serien",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Electron-App — npm install && npm start",
+      "stand": "2025-06-27"
+    },
+    {
+      "id": "quizelt",
+      "titel": "Quizelt",
+      "besitzer": "basti",
+      "kategorie": "desktop-apps",
+      "kurz": "Karteikarten-App zum Lernen, angelehnt an Quizlet",
+      "beschreibung": "Eine Lern-App zum Anlegen und Üben von Karteikarten mit mehreren Lernmodi. Funktioniert auch ohne Internet, hat einen Bereich für erweiterte Funktionen und ist von Anfang an auf mehrere Sprachen ausgelegt. Mit Flutter gebaut und damit auf Handy und Rechner lauffähig.",
+      "tech": [
+        "Flutter",
+        "Dart",
+        "l10n"
+      ],
+      "pfad": "projects/basti/desktop-apps/quizelt",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Flutter-App — flutter pub get && flutter run",
+      "stand": "2025-11-22"
+    },
+    {
+      "id": "media-duplikat-finder",
+      "titel": "Media Duplikat Finder",
+      "besitzer": "basti",
+      "kategorie": "desktop-apps",
+      "kurz": "Findet doppelte Filme und Serienfolgen auf den eigenen Platten",
+      "beschreibung": "Eine tragbare Windows-App, die Film- und Seriensammlungen nach Mehrfachkopien durchsucht — auch wenn die Dateien unterschiedlich heißen. Ohne Installation lauffähig. Die Erkennungslogik ist mit Vitest abgesichert.",
+      "tech": [
+        "Electron",
+        "electron-vite",
+        "React 18",
+        "TypeScript",
+        "Vitest"
+      ],
+      "pfad": "projects/basti/desktop-apps/media-duplikat-finder",
+      "repo": "https://github.com/BastiLd/abgleich",
+      "live": null,
+      "liveHinweis": "Electron-App — npm install && npm run dev",
+      "stand": "2026-05-31"
+    },
+    {
+      "id": "medien-suche",
+      "titel": "Medien-Suche",
+      "besitzer": "basti",
+      "kategorie": "desktop-apps",
+      "kurz": "Verzeichnet Plex, PC, NAS und USB-Platten und vergleicht sie",
+      "beschreibung": "Legt einen durchsuchbaren Verzeichnisbestand über alle Orte an, an denen Filme und Serien liegen — Plex-Server, Rechner, NAS und Wechselplatten — und macht so vergleichbar, was wo vorhanden ist. Der Bestand liegt in einer SQLite-Datenbank, die über sql.js direkt in der App gelesen wird; die unscharfe Suche übernimmt Fuse.js.",
+      "tech": [
+        "Electron",
+        "electron-vite",
+        "React 19",
+        "TypeScript",
+        "sql.js",
+        "Fuse.js"
+      ],
+      "pfad": "projects/basti/desktop-apps/medien-suche",
+      "repo": "https://github.com/BastiLd/Medien-Suche-Privat",
+      "live": null,
+      "liveHinweis": "Electron-App — npm install && npm run dev",
+      "stand": "2026-05-01"
+    },
+    {
+      "id": "mediasync",
+      "titel": "MediaSync",
+      "besitzer": "basti",
+      "kategorie": "desktop-apps",
+      "kurz": "Filme und Serien auf dem Server vergleichen, umbenennen und verschieben",
+      "beschreibung": "Eine selbst gehostete Web-App für ZimaOS beziehungsweise Docker: Sie vergleicht die Bestände auf dem Server, benennt Dateien in die von Plex erwartete Schreibweise um und verschiebt sie zwischen Platten — bedienbar im Browser und durch ein Passwort geschützt. Verwandt mit Plex Transfer, aber vom Server aus statt vom Windows-Rechner.",
+      "tech": [
+        "Node.js",
+        "Express",
+        "React 19",
+        "Vite",
+        "Docker"
+      ],
+      "pfad": "projects/basti/desktop-apps/mediasync",
+      "repo": "https://github.com/BastiLd/MediaSync",
+      "live": null,
+      "liveHinweis": "docker compose up — danach im Browser öffnen",
+      "stand": "2026-06-08"
+    },
+    {
+      "id": "discord-archive-viewer",
+      "titel": "Discord Archive Viewer",
+      "besitzer": "basti",
+      "kategorie": "desktop-apps",
+      "kurz": "Desktop-Programm für Discord-Exporte samt Bildern und Dateien",
+      "beschreibung": "Zeigt Exporte von DiscordChatExporter — JSON, HTML und die zugehörigen Bilder und Dateien — in einer Discord-ähnlichen Oberfläche an, komplett auf dem eigenen Rechner. Die reine Browser-Fassung ohne Anhänge liegt unter Discord Archive.",
+      "tech": [
+        "Electron",
+        "React",
+        "TypeScript",
+        "Vite"
+      ],
+      "pfad": "projects/basti/desktop-apps/discord-archive-viewer",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Electron-App — npm install && npm run dev",
+      "stand": "2026-05-22"
+    },
+    {
+      "id": "tracker-kaufkompass",
+      "titel": "Tracker & Kamera Kaufkompass",
+      "besitzer": "basti",
+      "kategorie": "desktop-apps",
+      "kurz": "Kleines Textmenü zum Vergleichen von GPS-Trackern und Kameras",
+      "beschreibung": "Ein kleines Programm für die Eingabeaufforderung, das die Ergebnisse einer eigenen Kaufrecherche zu GPS-Trackern und Kameras durchblättern und vergleichen lässt. Die Daten liegen als JSON daneben. Es gibt dieselbe Auswertung zweimal — als Node-Programm und als PowerShell-Skript im Unterordner.",
+      "tech": [
+        "Node.js",
+        "PowerShell",
+        "JSON"
+      ],
+      "pfad": "projects/basti/desktop-apps/tracker-kaufkompass",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "node tracker_camera_app.js",
+      "stand": "2026-05-29"
+    },
+    {
+      "id": "game-server-zimaos",
+      "titel": "CraftControl",
+      "besitzer": "basti",
+      "kategorie": "python-apps",
+      "kurz": "Selbst gehostetes Bedienfeld für Minecraft-Server auf ZimaOS",
+      "beschreibung": "Ein Bedienfeld für eigene Minecraft-Server: Weboberfläche mit einem FastAPI-Server dahinter, der über den Docker-Socket direkt die Server-Container steuert — starten, stoppen, überwachen. Gedacht für ZimaOS und als Compose-Anwendung gepackt.",
+      "tech": [
+        "Python",
+        "FastAPI",
+        "Docker",
+        "HTML",
+        "CSS",
+        "JavaScript"
+      ],
+      "pfad": "projects/basti/python-apps/game-server-zimaos",
+      "repo": "https://github.com/BastiLd/Game-Server-ZimaOS",
+      "live": null,
+      "liveHinweis": "docker compose up — danach im Browser öffnen",
+      "stand": "2026-06-01"
+    },
+    {
+      "id": "docker-discord-bot",
+      "titel": "Homelab Discord Bot Manager",
+      "besitzer": "basti",
+      "kategorie": "python-apps",
+      "kurz": "Verwaltet mehrere Discord-Bots als Container, mit Live-Protokoll",
+      "beschreibung": "Eine Verwaltung für die eigenen Discord-Bots im Heimnetz: Ein FastAPI-Server startet und überwacht die Bot-Prozesse und zeigt ihre Ausgaben über WebSockets live in der Oberfläche an. Als ZimaOS-Paket geschnürt, sodass sich alles über den App-Store des Servers installieren lässt.",
+      "tech": [
+        "Python",
+        "FastAPI",
+        "Jinja2",
+        "WebSockets",
+        "Docker",
+        "ZimaOS"
+      ],
+      "pfad": "projects/basti/python-apps/docker-discord-bot",
+      "repo": "https://github.com/BastiLd/Docker-Discord-Bot",
+      "live": null,
+      "liveHinweis": "docker compose up — Zugangsdaten in .env eintragen",
+      "stand": "2026-06-04"
+    },
+    {
+      "id": "searchapp",
+      "titel": "SearchApp",
+      "besitzer": "basti",
+      "kategorie": "python-apps",
+      "kurz": "Dateisuche mit eigener Oberfläche und Inhaltsanalyse",
+      "beschreibung": "Ein Suchprogramm für den eigenen Rechner mit eigener Oberfläche: Es durchsucht Dateien im Hintergrund über Arbeiterprozesse, damit die Anzeige nicht einfriert, verwaltet Trefferlisten und kann Textinhalte auswerten statt nur Dateinamen zu vergleichen.",
+      "tech": [
+        "Python",
+        "Tkinter",
+        "Threading"
+      ],
+      "pfad": "projects/basti/python-apps/searchapp",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "pip install -r requirements.txt && python main.py",
+      "stand": "2025-04-28"
+    },
+    {
+      "id": "audio-zu-text",
+      "titel": "Audio zu Text",
+      "besitzer": "basti",
+      "kategorie": "python-apps",
+      "kurz": "Schreibt Sprachnachrichten in Text um und fasst sie zusammen",
+      "beschreibung": "Eine Kette aus drei Schritten: Sprachaufnahmen werden in Text umgeschrieben, mit vorhandenen schriftlichen Unterhaltungen zusammengeführt und zu einer Übersicht verdichtet. Die Umsetzung läuft über die OpenAI-Schnittstelle, die Anweisungen für die Zusammenfassung stehen in einer eigenen Textdatei und lassen sich ohne Codeänderung anpassen. Im Katalog liegt nur der Programmcode — die Aufnahmen und die daraus entstandenen Texte sind private Sprachnachrichten und bewusst nicht enthalten.",
+      "tech": [
+        "Python",
+        "OpenAI API",
+        "Whisper"
+      ],
+      "pfad": "projects/basti/python-apps/audio-zu-text",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "pip install -r requirements.txt — OPENAI_API_KEY als Umgebungsvariable setzen",
+      "stand": "2026-01-31"
+    },
+    {
+      "id": "privacy-guard-adblocker",
+      "titel": "Privacy Guard",
+      "besitzer": "basti",
+      "kategorie": "browser-extensions",
+      "kurz": "Blockt Werbung, Cookie-Banner und Verfolgung in einem",
+      "beschreibung": "Eine Chrome-Erweiterung, die vier Dinge verbindet: Sie blockiert Anfragen an Werbe- und Verfolgungsdienste, räumt übrig gebliebene Leerflächen optisch weg, beantwortet Cookie-Abfragen und zeigt sichtbar an, wer auf einer Seite mitliest. Die Regellisten werden über ein eigenes Skript erzeugt und liegen deshalb nicht im Katalog — sie entstehen beim Bauen neu.",
+      "tech": [
+        "Manifest V3",
+        "JavaScript",
+        "declarativeNetRequest",
+        "Node.js"
+      ],
+      "pfad": "projects/basti/browser-extensions/privacy-guard-adblocker",
+      "repo": "https://github.com/BastiLd/adblock-chrome-extension",
+      "live": null,
+      "liveHinweis": "node scripts/update-rules.mjs, dann in Chrome als entpackte Erweiterung laden",
+      "stand": "2026-04-27"
+    },
+    {
+      "id": "chs-instagram-audit-helper",
+      "titel": "Instagram Audit Helper",
+      "besitzer": "basti",
+      "kategorie": "browser-extensions",
+      "kurz": "Hilfsmittel für die Auswertung eines Instagram-Auftritts",
+      "beschreibung": "Eine kleine Chrome-Erweiterung, die beim Durchsehen eines Instagram-Profils die für eine Auswertung nötigen Angaben direkt auf der Seite einblendet und einsammelt. Entstanden für den Officemanagement-Unterricht.",
+      "tech": [
+        "Manifest V3",
+        "JavaScript",
+        "Content Script",
+        "CSS"
+      ],
+      "pfad": "projects/basti/browser-extensions/chs-instagram-audit-helper",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Chrome → Erweiterungen → Entwicklermodus → Entpackte Erweiterung laden",
+      "stand": "2026-06-09"
+    },
+    {
+      "id": "restore-inv",
+      "titel": "Restore Inventory",
+      "besitzer": "basti",
+      "kategorie": "minecraft-mods",
+      "kurz": "Sichert das Inventar regelmäßig und stellt es wieder her",
+      "beschreibung": "Ein Fabric-Mod, der das Inventar in festen Abständen sichert, sodass es sich nach einem Missgeschick — Sturz in Lava, unglücklicher Tod — vollständig wiederherstellen lässt. Mit Einstellungsbildschirm im Spiel. Läuft über mehrere Minecraft-Fassungen von 1.21 bis 1.21.11; die Versionsnummer wird über ein eigenes Python-Skript hochgezählt.",
+      "tech": [
+        "Java",
+        "Fabric",
+        "Gradle",
+        "Minecraft 1.21–1.21.11"
+      ],
+      "pfad": "projects/basti/minecraft-mods/restore-inv",
+      "repo": "https://github.com/BastiLd/Restore-Inv",
+      "live": null,
+      "liveHinweis": "Fabric-Mod — ./gradlew build, JAR nach .minecraft/mods kopieren",
+      "stand": "2026-06-05"
+    },
+    {
+      "id": "hotbar-mod",
+      "titel": "Hotbar Scroll",
+      "besitzer": "basti",
+      "kategorie": "minecraft-mods",
+      "kurz": "Ändert das Verhalten des Mausrads in der Schnellleiste",
+      "beschreibung": "Ein Fabric-Mod, der über einen Mixin in die Mausbedienung eingreift und das Durchblättern der Schnellleiste umgestaltet. Klein und auf eine Sache beschränkt.",
+      "tech": [
+        "Java",
+        "Fabric",
+        "Mixin",
+        "Gradle",
+        "Minecraft 1.21.1"
+      ],
+      "pfad": "projects/basti/minecraft-mods/hotbar-mod",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Fabric-Mod — ./gradlew build",
+      "stand": "2025-07-18"
+    },
+    {
+      "id": "invisible-mod",
+      "titel": "Stealth Creative",
+      "besitzer": "basti",
+      "kategorie": "minecraft-mods",
+      "kurz": "Unsichtbar werden und durch Wände gehen im Kreativmodus",
+      "beschreibung": "Ein Fabric-Mod für Serververwalter: Wer Rechte hat, kann sich im Kreativmodus mit Farbstoffen unsichtbar machen, wieder sichtbar werden und das Hindurchgehen durch Blöcke einschalten — praktisch, um unbemerkt nachzusehen, was auf dem Server passiert.",
+      "tech": [
+        "Java",
+        "Fabric",
+        "Gradle",
+        "Minecraft 1.21.1"
+      ],
+      "pfad": "projects/basti/minecraft-mods/invisible-mod",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Fabric-Mod — ./gradlew build",
+      "stand": "2025-07-04"
+    },
+    {
+      "id": "mab-mod",
+      "titel": "MAB",
+      "besitzer": "basti",
+      "kategorie": "minecraft-mods",
+      "kurz": "Mod und Datenpaket zusammen, mit eigenen Bauwerken",
+      "beschreibung": "Verbindet einen Fabric-Mod auf Grundlage von Restore Inventory mit einem eigenen Datenpaket im selben Projekt. Enthält neben den Funktionsdateien auch eigene gespeicherte Bauwerke, die im Spiel gesetzt werden können.",
+      "tech": [
+        "Java",
+        "Fabric",
+        "Gradle",
+        "Datapack",
+        "mcfunction",
+        "Minecraft 1.21.1"
+      ],
+      "pfad": "projects/basti/minecraft-mods/mab-mod",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Fabric-Mod — ./gradlew build",
+      "stand": "2025-08-07"
+    },
+    {
+      "id": "who-did-what-when",
+      "titel": "Who did what when",
+      "besitzer": "basti",
+      "kategorie": "minecraft-mods",
+      "kurz": "Hält fest, wer welche Kiste geöffnet und verändert hat",
+      "beschreibung": "Ein Fabric-Mod, der Zugriffe auf Truhen und andere Behälter mitschreibt — wer wann was entnommen oder hineingelegt hat. Gedacht für Server, auf denen mehrere Leute dieselben Lager benutzen.",
+      "tech": [
+        "Java",
+        "Fabric",
+        "Gradle"
+      ],
+      "pfad": "projects/basti/minecraft-mods/who-did-what-when",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Fabric-Mod — ./gradlew build",
+      "stand": "2025-06-09"
+    },
+    {
+      "id": "keep-inventory-worlds",
+      "titel": "Take it Anywhere",
+      "besitzer": "basti",
+      "kategorie": "minecraft-mods",
+      "kurz": "Inventar und Bauwerke in jede Welt mitnehmen",
+      "beschreibung": "Ein Fabric-Mod, der nicht nur das Inventar, sondern auch gebaute Strukturen über Weltgrenzen hinweg mitnehmbar macht. Hieß früher KeepInvEverywhere; die interne Kennung wurde absichtlich beibehalten, damit vorhandene Einstellungen und Spielstände weiter funktionieren.",
+      "tech": [
+        "Java",
+        "Fabric",
+        "Gradle",
+        "Minecraft 1.21"
+      ],
+      "pfad": "projects/basti/minecraft-mods/keep-inventory-worlds",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Fabric-Mod — ./gradlew build",
+      "stand": "2026-06-11"
+    },
+    {
+      "id": "timer-datapack",
+      "titel": "Timer Datapack",
+      "besitzer": "basti",
+      "kategorie": "minecraft-mods",
+      "kurz": "Zeitmessung im Spiel, nachgebaut nach dem Vorbild von BastiGHG",
+      "beschreibung": "Ein reines Datenpaket ohne Mod — es blendet eine Stoppuhr ein und steuert sie, so wie man es aus den Videos von BastiGHG kennt. Wird einfach in den Weltordner gelegt, es braucht keinen Fabric-Loader.",
+      "tech": [
+        "Datapack",
+        "mcfunction",
+        "JSON"
+      ],
+      "pfad": "projects/basti/minecraft-mods/timer-datapack",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Ordner nach saves/<Welt>/datapacks kopieren",
+      "stand": "2025-06-08"
     }
   ]
 }

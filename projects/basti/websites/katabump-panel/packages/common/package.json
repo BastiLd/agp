@@ -1,0 +1,13 @@
+{
+  "name": "@katabump/common",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.mjs",
+  "scripts": {
+    "build": "node -e \"console.log('common package is source-only')\""
+  },
+  "dependencies": {
+    "zod": "^3.24.4"
+  }
+}

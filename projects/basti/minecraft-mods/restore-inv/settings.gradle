@@ -1,0 +1,26 @@
+pluginManagement {
+    repositories {
+        maven {
+            name = 'Fabric'
+            url  = 'https://maven.fabricmc.net/'
+        }
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+
+// Sorgt dafuer, dass Gradle ein passendes JDK 21 selbst herunterlaedt,
+// falls keines gefunden wird.
+plugins {
+    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.10.0'
+}
+
+rootProject.name = 'RestoreInventory'
+
+// Pro unterstuetzter Minecraft-Version ein Subprojekt unter 'versions/<mc>'.
+def versionsDir = file('versions')
+versionsDir.eachDir { dir ->
+    def name = dir.name
+    include ":mc-${name}"
+    project(":mc-${name}").projectDir = dir
+}

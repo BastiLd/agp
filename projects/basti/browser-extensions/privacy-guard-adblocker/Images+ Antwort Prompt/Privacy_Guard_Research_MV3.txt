@@ -1,0 +1,411 @@
+Privacy Guard MV3 Research Pack
+Stand: 27. April 2026
+
+Kernentscheidung:
+Netzwerkblocking per Chrome declarativeNetRequest, kosmetisches Blocking per Content Script und Cookie-Banner-Aktionen als streng begrenzte, lokal gebündelte Provider-Engine. Große Listen gehören primär in statische Rulesets, nicht in dynamische Regeln. Kosmetische und Scriptlet-Regeln dürfen nicht blind in MV3-DNR übersetzt werden.
+
+1. Empfohlene Filterlisten
+
+- EasyList
+  Zweck: Ads / Basis-Werbeblocking
+  URL: https://easylist.to/easylist/easylist.txt
+  Lizenz: GPL-3.0-or-later OR CC-BY-SA-3.0-or-later
+  Format: Adblock-Plus-Filter
+  Lokal bündeln: Ja, mit Attribution/Lizenztext
+  MV3-Hinweise: Netzwerkregeln in statisches DNR-Ruleset; kosmetische ## separat; ca. 35k Netzwerkregeln relevant für 30k-Mindestquote.
+
+- EasyPrivacy
+  Zweck: Tracker, Web Bugs, Tracking-Skripte
+  URL: https://easylist.to/easylist/easyprivacy.txt
+  Lizenz: EasyList-Lizenzfamilie
+  Format: Adblock-Plus-Filter
+  Lokal bündeln: Ja
+  MV3-Hinweise: Eigenes Privacy-Ruleset; viele Regeln als block + third-party/Resource-Type abbildbar; @@ als Allow mit hoher Priorität.
+
+- EasyList Germany
+  Zweck: Deutsche Ergänzung
+  URL: https://easylist-downloads.adblockplus.org/easylistgermany.txt
+  Lizenz: EasyList-Lizenzfamilie
+  Format: Adblock-Plus-Filter
+  Lokal bündeln: Ja, DACH
+  MV3-Hinweise: Regional-Ruleset; per Locale vorschlagen, nicht zwingend default.
+
+- Fanboy’s Annoyance List
+  Zweck: Social Widgets, Popups, Newsletter, Annoyances
+  URL: https://easylist.to/easylist/fanboy-annoyance.txt
+  Lizenz: EasyList-Lizenzfamilie
+  Format: Adblock-Plus-Filter
+  Lokal bündeln: Teilweise
+  MV3-Hinweise: Viel kosmetisch; v1 nur kuratierte domain-spezifische Regeln; nicht pauschal aktivieren.
+
+- EasyList Cookie List
+  Zweck: Cookie-Banner, GDPR-Overlays, Privacy Notices
+  URL: https://secure.fanboy.co.nz/fanboy-cookiemonster.txt
+  Lizenz: CC BY 3.0 / EasyList-Familie je Quelle
+  Format: Adblock-Plus-Filter
+  Lokal bündeln: Teilweise
+  MV3-Hinweise: Nicht als Reject-all-Engine; nur sichere kosmetische Quellen; Overlays nicht blind entfernen.
+
+- AdGuard Base Filter
+  Zweck: Alternative/Ergänzung für Ads
+  URL: https://filters.adtidy.org/windows/filters/2.txt
+  Lizenz: GPL-3.0
+  Format: AdGuard-/ABP-artige Syntax
+  Lokal bündeln: Ja, eher Alternative
+  MV3-Hinweise: Nicht zusätzlich zu EasyList ohne Deduplizierung; AdGuard-Syntax-fähiger Parser nötig.
+
+- AdGuard Tracking Protection
+  Zweck: Tracker, Analytics, Counter
+  URL: https://filters.adtidy.org/windows/filters/3.txt
+  Lizenz: GPL-3.0
+  Format: AdGuard-/ABP-artige Syntax
+  Lokal bündeln: Ja, Alternative zu EasyPrivacy
+  MV3-Hinweise: Gute Liste, aber Überschneidung mit EasyPrivacy; deduplizieren oder wählbar machen.
+
+- AdGuard URL Tracking Filter
+  Zweck: Tracking-Parameter entfernen
+  URL: https://filters.adtidy.org/windows/filters/17.txt
+  Lizenz: GPL-3.0
+  Format: AdGuard-Syntax
+  Lokal bündeln: Teilweise
+  MV3-Hinweise: Einfache $removeparam auf DNR queryTransform.removeParams abbildbar; Regex/Ausnahmen testen.
+
+- AdGuard Cookie Notices Filter
+  Zweck: Cookie-Hinweise und Overlays
+  URL: https://filters.adtidy.org/windows/filters/18.txt
+  Lizenz: GPL-3.0
+  Format: AdGuard-Syntax, viel kosmetisch
+  Lokal bündeln: Teilweise
+  MV3-Hinweise: Nur kuratierte domain-spezifische kosmetische Regeln; keine Scriptlets/JS ausführen.
+
+- NoCoin Filter List
+  Zweck: Browser-basierte Crypto-Miner
+  URL: https://raw.githubusercontent.com/hoshsadiq/adblock-nocoin-list/master/nocoin.txt
+  Lizenz: MIT
+  Format: ABP
+  Lokal bündeln: Ja
+  MV3-Hinweise: Klein und fokussiert; statisches Security-Ruleset; User-Whitelist vorsehen.
+
+- URLhaus Filter
+  Zweck: Malware-URLs und Hosts aus abuse.ch URLhaus
+  URL: https://gitlab.com/malware-filter/urlhaus-filter
+  Lizenz: MIT/CC0 im Repo; Quellenbedingungen beachten
+  Format: uBO/AdGuard/Hosts u.a.
+  Lokal bündeln: Ja, bevorzugt Lite/aktive Variante
+  MV3-Hinweise: Vollversion groß; aktive/Lite-Variante; Security-Ruleset optional/priorisiert; FP-Ausnahmen beachten.
+
+- Phishing URL Blocklist
+  Zweck: Phishing-URLs und Domains
+  URL: https://gitlab.com/malware-filter/phishing-filter
+  Lizenz: CC BY-SA 4.0; Quellen mit eigenen Bedingungen
+  Format: Mehrere Formate
+  Lokal bündeln: Ja, mit Attribution und FP-Schutz
+  MV3-Hinweise: URL-basierte Variante bevorzugen; Domain-Variante blockiert stärker und birgt FP-Risiko.
+
+- HaGeZi TIF Mini/Medium
+  Zweck: Malware, Phishing, Scam, Spam, C2, Cryptojacking
+  URL: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/tif.mini.txt
+  Lizenz: GPL-3.0
+  Format: Adblock-/DNS-orientiert
+  Lokal bündeln: Optional, quotaabhängig
+  MV3-Hinweise: Mini browserfreundlicher; Medium empfohlen für Browser/Adblocker, aber Quoten prüfen.
+
+- HaGeZi Pro
+  Zweck: All-in-one Ads/Tracking/Telemetry/Phishing/Malware/Scam
+  URL: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/pro.txt
+  Lizenz: GPL-3.0
+  Format: Adblock-/DNS-orientiert
+  Lokal bündeln: Optional, nicht blind zusätzlich
+  MV3-Hinweise: Guter Balanced-Kandidat; starke Überschneidung mit EasyList/EasyPrivacy/Security.
+
+2. MV3-Regel-Limits und technische Grenzen
+
+- Statische Rulesets deklariert: Max. 100 statische Rulesets
+  Bedeutung: Listen fein aufteilen: Ads, Privacy, Regional, Security, Annoyances, URL-Tracking.
+
+- Statische Rulesets gleichzeitig aktiviert: Max. 50 aktivierte statische Rulesets
+  Bedeutung: Reicht für modulare Aufteilung; nicht pro Domain splitten.
+
+- Garantierte statische Regeln: Mindestens 30.000 statische Regeln pro Extension
+  Bedeutung: Nicht davon ausgehen, dass alle großen Listen immer aktivierbar sind; verfügbare Quote anzeigen.
+
+- Globaler statischer Pool: Shared pool; getAvailableStaticRuleCount() verwenden
+  Bedeutung: Große Listen abhängig von anderen installierten Extensions.
+
+- Dynamische Regeln, safe actions: Bis 30.000 dynamische Regeln
+  Bedeutung: Für User-Regeln, Hotfixes, kleine Deltas; nicht für komplette Großlisten.
+
+- Unsafe dynamic/session rules: 5.000 unsafe dynamic + 5.000 unsafe session rules
+  Bedeutung: Redirect/Header-Modifikation gezielt verwenden.
+
+- Session rules: 5.000
+  Bedeutung: Temporäre Ausnahmen und Debug.
+
+- Regex-Regeln: 1.000 Regex-Regeln je Ruleset-Typ; isRegexSupported() prüfen
+  Bedeutung: Regex minimieren und bei Converter abweisen, wenn nicht sicher.
+
+- DNR-Aktionen: block, redirect, allow, upgradeScheme, modifyHeaders, allowAllRequests
+  Bedeutung: Ads/Tracker meist block; Site-Ausnahmen mit allowAllRequests.
+
+- Priorität/Konflikte: Höchste Priorität gewinnt; allow/allowAllRequests vor block bei gleicher Priorität
+  Bedeutung: Explizite Prioritäten vergeben.
+
+- URL-Filter-Syntax: DNR unterstützt *, |, ||, ^, urlFilter, regexFilter
+  Bedeutung: Einfache ABP-Netzwerkregeln abbildbar; kosmetische Regeln nicht.
+
+- Resource Types / Domain Type: resourceTypes, domainType, initiatorDomains, requestDomains
+  Bedeutung: ABP-Optionen wie $script, $image, $third-party, $domain teils sauber mappbar.
+
+- Header-Regeln: modifyHeaders mit Request-/Response-Headern
+  Bedeutung: Nur gezielt, da unsafe quota und Breakage-Risiko.
+
+- Matched-rule-Debugging: getMatchedRules() ist quotiert; User-Gesture wichtig
+  Bedeutung: Debug-UI nur auf Nutzeraktion.
+
+- DNR-Test in Dev: testMatchOutcome() für unpacked Extensions
+  Bedeutung: CI/Dev-Test, nicht Runtime-Feature.
+
+- Remote Code: Remote JS/WASM verboten; Remote Daten erlaubt
+  Bedeutung: Filterlisten als Daten ok; keine remote Scriptlets ausführen.
+
+3. Empfohlene Architektur
+
+Ruleset-Aufteilung:
+- rs_010_ads_easylist_core (An): EasyList-Netzwerkregeln nach Konvertierung und Deduplizierung
+- rs_020_privacy_easyprivacy (An): EasyPrivacy-Netzwerkregeln
+- rs_030_regional_de_easylist (Auto/Opt-in): EasyList Germany je Locale oder manuell
+- rs_040_security_nocoin (An): NoCoin
+- rs_050_security_urlhaus_lite (An/Opt-in): URLhaus Lite/aktive Variante, quotaabhängig
+- rs_060_security_hagezi_tif_mini (Opt-in): Security+ für Malware/Phishing/Scam
+- rs_070_url_tracking (Opt-in): Einfache removeparam-Regeln
+- rs_080_annoyance_network (Aus): Nur gut abbildbare Annoyance-Netzwerkregeln
+- rs_090_experiment_lab (Dev only): Lokale Testregeln
+
+ID-Bereiche:
+- 1_000_000-1_399_999: Ads / EasyList
+- 1_400_000-1_499_999: Regionale Listen
+- 1_500_000-1_899_999: Privacy / Tracking
+- 2_000_000-2_499_999: Security: Malware, Phishing, Miner
+- 2_500_000-2_699_999: URL-Tracking-Parameter
+- 3_000_000-3_199_999: Allow-/Exception-Regeln
+- 4_000_000-4_099_999: User-/Dynamic-Regeln
+- 5_000_000-5_099_999: Session-/Temporary-Regeln
+
+Prioritäten:
+- User-Allowlist / Site-Pause: 10000
+- Listen-Ausnahmen @@: 9000
+- Security-Block: 5000
+- URL-Tracking-Parameter: 2000
+- normale Ads/Privacy-Blocks: 1000
+- experimentelle/Annoyance-Regeln: 500
+
+Update-Flow:
+- Build/CI: Listen laden; Header/Version/Expires/Lizenz/SHA-256 speichern.
+- Build/CI: Parser trennt network, cosmetic, scriptlet/snippet, unsupported, exception.
+- Build/CI: Netzwerkregeln in DNR konvertieren; Regex prüfen; deduplizieren und splitten.
+- Build/CI: rule-map.jsonl und conversion-report.json erzeugen; testMatchOutcome() in Dev nutzen.
+- Runtime: getAvailableStaticRuleCount() prüfen; Defaults aktivieren; bei Quota-Mangel warnen.
+- Runtime: Remote Updates nur als Daten; dynamische Updates atomar; bei Fehler Rollback.
+
+Speicherformat:
+/rulesets/
+  ads_easylist_core.json
+  privacy_easyprivacy.json
+  regional_easylist_de.json
+  security_nocoin.json
+  security_urlhaus_lite.json
+  security_hagezi_tif_mini.json
+
+/metadata/
+  ruleset-meta.json
+  rule-map.jsonl
+  conversion-report.json
+
+/cosmetic/
+  cosmetic-index.json
+  cosmetic-exceptions.json
+  youtube-safe-rules.json
+
+/cmp/
+  cmp-providers.json
+  cmp-test-fixtures.json
+
+UI-Anzeige:
+- Netzwerkblocking an/aus pro Domain
+- Kosmetisches Blocking an/aus pro Domain
+- Cookie-Helfer an/aus pro Domain
+- Heute blockiert nach Ads/Privacy/Security
+- Kosmetisch ausgeblendet mit Top-Selektoren
+- Aktive Listen mit Name, Version/Datum, Regelanzahl, Status, Fehler
+- Letzte Fehler und Matched rules nur auf Klick
+
+4. Kosmetische Filter
+
+v1 unterstützen:
+- Domain-spezifisches Element Hiding (example.com##.ad-banner): Ja
+- Mehrere Domains (a.com,b.com##.ad): Ja
+- Einfache CSS-Selektoren (.ad, #sponsor, [data-ad-slot]): Ja, nach Validierung
+- Element-Hiding-Ausnahmen (example.com#@#.ad-banner): Ja, exakte Ausnahme gewinnt
+- Kleine kuratierte Generic-Selektoren (.adsbygoogle): Ja, sehr begrenzt
+- YouTube-spezifische Safe-Rules (explicit ad renderer markers): Ja, eigene Engine statt rohe Listenregel
+
+Bewusst nicht unterstützen:
+- ABP Extended CSS #?# mit :-abp-contains/-has/-properties: Höheres False-Positive- und Performance-Risiko
+- XPath-Filter: Schwer performant und sicher zu begrenzen
+- Snippet-/Scriptlet-Filter #$# / ##+js: Führt Logik aus; remote Snippets MV3/CWS-riskant
+- Auto-Klick-Regeln aus Filterlisten: Consent-/Kauf-/Login-Risiko
+- Generisches Verstecken von body/html/main/#app/#root: Hohe Breakage-Gefahr
+- Anti-Adblock-Circumvention-Scriptlets: Spezialfall, hoher Wartungsaufwand, CWS-Risiko
+- Sehr breite oder riesige CSS-Selektoren: Performance und Breakage
+
+False-Positive-Schutz:
+- Default nur domain-spezifisch; Generic cosmetics nur aus kuratierter Allowlist.
+- Selector-Denylist: html, body, main, #app, #root, [role=main], form, input, button, ytd-app, ytd-page-manager, ytd-rich-grid-renderer.
+- Größencheck: kein Element verstecken, das mehr als ca. 60% der sichtbaren Seite bedeckt, außer geprüfte CMP-Overlays.
+- MutationObserver mit Debounce und Operationslimits.
+- Popup zeigt aktive kosmetische Selektoren und Quelle.
+- Kosmetisches Blocking pro Domain separat abschaltbar.
+- #@# Exceptions gewinnen gegen ##.
+- Keine Textheuristik als alleiniger Trigger.
+
+5. YouTube-spezifische Empfehlungen
+- Allgemeines Prinzip: Nur explizite YouTube-Ad-Renderer, keine Text- oder Metadatenheuristik.
+- Host/Route: Host exakt www.youtube.com; Route Home/Feed, Watch oder Shorts prüfen.
+- Safe Marker: ytd-ad-slot-renderer, ytd-display-ad-renderer, ytd-promoted-sparkles-web-renderer, ytd-in-feed-ad-layout-renderer, ytd-video-masthead-ad-v3-renderer, ytd-compact-promoted-video-renderer, ytd-companion-slot-renderer
+- Safe Container: ytd-rich-item-renderer, ytd-compact-video-renderer, ytd-video-masthead-ad-v3-renderer, ytd-compact-promoted-video-renderer, ytd-companion-slot-renderer
+- Home sicher: ytd-rich-item-renderer nur ausblenden, wenn darin expliziter Ad-Renderer gefunden wird.
+- Home nicht sicher: Karten nicht wegen Text 'Ad/Anzeige/Sponsored', fehlendem Viewcount oder kommerziellem Titel entfernen.
+- Watch sicher: Companion-/Display-Ad-Renderer im rechten Bereich entfernen, wenn explizite Renderer vorhanden sind.
+- Watch nicht sicher: #secondary, Player, Kommentare oder Beschreibung nie pauschal ausblenden.
+- Shorts: Nur explizite DOM-Ad-Renderer; keine Text-/Strukturheuristik; kein JSON-Pruning in v1.
+
+Empfohlene JS-Heuristik:
+
+function hideYoutubeAdMarker(marker) {
+  const container = marker.closest(YOUTUBE_SAFE_CONTAINERS.join(","));
+  if (!container) return;
+
+  if (container.matches([
+    "ytd-app",
+    "ytd-page-manager",
+    "ytd-browse",
+    "ytd-watch-flexy",
+    "ytd-rich-grid-renderer",
+    "ytd-rich-grid-row",
+    "#primary",
+    "#secondary",
+    "#columns",
+    "#player"
+  ].join(","))) {
+    return;
+  }
+
+  container.dataset.privacyGuardHidden = "youtube-ad-marker";
+  container.style.setProperty("display", "none", "important");
+}
+
+6. Cookie-Banner/CMPs
+
+- OneTrust
+  Erkennung: #onetrust-banner-sdk, #onetrust-consent-sdk, #onetrust-pc-sdk, window.OneTrust
+  Reject-Kandidaten:  #onetrust-reject-all-handler; Preference Center; OneTrust.RejectAll()
+  Risiken: Close ist nicht Reject; Button kann fehlen; Kategorien/Vendors getrennt
+  Sichere v1-Strategie: Erst sichtbaren Reject-All klicken; API nur nach Banner-Erkennung; danach Consent-Zustand prüfen.
+
+- Usercentrics
+  Erkennung: script#usercentrics-cmp, web.cmp.usercentrics.eu loader, #usercentrics-root, window.UC_UI
+  Reject-Kandidaten: Deny All / Alle ablehnen; uc-deny-all-button oder uc-reject-all-button nach Verifikation
+  Risiken: Deny-All kann fehlen; Shadow DOM und Übersetzungen variieren
+  Sichere v1-Strategie: Nur container-gescoped klicken; ggf. zweite Ebene öffnen; keine globale Textsuche.
+
+- Didomi
+  Erkennung: window.Didomi, #didomi-host, Didomi SDK, __tcfapi
+  Reject-Kandidaten:  #didomi-notice-disagree-button, Disagree & Close, Continue without agreeing
+  Risiken: Legitimate Interest kann separat sein; Close != Ablehnen
+  Sichere v1-Strategie: Nur Didomi-Container; danach Didomi-/TCF-API prüfen; LI in v1 konservativ.
+
+- Cookiebot
+  Erkennung: script#Cookiebot, consent.cookiebot.com/uc.js, data-cbid, window.Cookiebot, #CybotCookiebotDialog
+  Reject-Kandidaten: Decline-All-Button; Cookiebot.submitCustomConsent(false,false,false)
+  Risiken: Mehrere Layouts; Kategorien und Script-Blockierung
+  Sichere v1-Strategie: Exakten Decline-All klicken oder sichere API; danach Cookiebot.declined/hasResponse prüfen.
+
+- Quantcast / InMobi Choice
+  Erkennung: #qc-cmp2-container, Quantcast/Choice-Skripte/Iframes, __tcfapi
+  Reject-Kandidaten: Reject All; Manage Options -> Reject/Save
+  Risiken: Quantcast Choice wurde übernommen; viele Alt-/Custom-Varianten
+  Sichere v1-Strategie: Sehr konservativ; nur im CMP-Container; TCF ping nutzen; bei Ambiguität keine Aktion.
+
+7. Security-Listen
+- Default klein: NoCoin + URLhaus aktive/Lite-Variante — Guter Schutz gegen Miner/Malware bei überschaubarem Risiko.
+- Default oder Opt-in: Phishing URL Blocklist URL-basierte Variante — Sinnvoll gegen Phishing; URL-basiert bevorzugen wegen weniger Domain-FPs.
+- Security+ Opt-in: HaGeZi TIF Mini — Gute Balance für Malware/Phishing/Scam/Spam/C2/Cryptojacking.
+- Security+ Advanced: HaGeZi TIF Medium — Umfangreicher; nur bei ausreichender Quote und bewusster Aktivierung.
+- Nicht default: HaGeZi NRD/DGA, Badware Hoster, URL Shortener — Hohes Ressourcen-/False-Positive-/Breakage-Risiko.
+
+8. Testplan
+Lokale Testseiten:
+- ads.html: Bild, Script, Iframe, Stylesheet, Fetch, XHR, Beacon und WebSocket zu Werbedomains
+- tracker.html: Analytics-Requests, Third-party-Scripts, URL-Parameter wie utm_source, fbclid, gclid
+- cosmetic.html: Echte Ads und normale Elemente mit Klassen wie .advice, .address, .admin; Exception-Fälle
+- cookie-onetrust.html: OneTrust-artige IDs, Reject-Button, Preference Center
+- cookie-usercentrics.html: Usercentrics-artige Root-Struktur, Deny-All vorhanden/fehlend
+- cookie-didomi.html: Didomi-artige Buttons, legitimes-Interesse-Hinweisfall
+- cookie-cookiebot.html: Cookiebot-Dialog und API-Mock
+- cookie-quantcast.html: qc-cmp2-container, TCF-ping-Mock
+- youtube-home.html: Fake-YouTube-Grid mit normalen Karten und einer Karte mit ytd-ad-slot-renderer
+- youtube-watch.html: Player, Sidebar, Companion-Ad und normale Empfehlungen
+- youtube-shorts.html: Shorts-Karten mit normalen Titeln und explizitem Ad-Marker
+- breakage.html: Login, Checkout, Modals, Cookie-abhängiger Scrolllock, Formulare
+- security.html: URLs gegen NoCoin/URLhaus/Phishing-Testregeln via testMatchOutcome()
+
+Converter-Tests:
+- ||ads.example.com^ -> block mit urlFilter oder requestDomains
+- ||tracker.example^$third-party,script -> block + domainType thirdParty + resourceTypes script
+- @@||cdn.example.com^$script,domain=site.example -> allow mit höherer Priorität und initiator domain
+- $removeparam=utm_source -> queryTransform.removeParams
+- Regex-Regel -> nur übernehmen, wenn isRegexSupported() erfolgreich
+- example.com##.ad -> nicht DNR; kosmetischer Index
+- example.com#$#... -> unsupported; nicht ausführen
+- example.com#@#.ad -> kosmetische Exception
+
+Manuelle Tests:
+- ABP Test Pages: Netzwerkblocking, Element Hiding, Exceptions, Extended Selectors, Rewrite/Snippets als Negativtests
+- Didomi Sandbox: CMP-Verhalten und Didomi-API-Checks
+- YouTube Home/Watch/Shorts: Manuelle Regression, da DOM und Ad-Auslieferung variieren
+- Nachrichten-/E-Commerce-/Login-Seiten: Breakage-Suite für reale Seiten
+
+9. Umsetzungsschritte
+1. Listen-Konvertierungs-Pipeline bauen — Parser, DNR-Konverter, rule-map.jsonl, conversion-report.json, Lizenz-/Metadaten-Export.
+2. Statische Basis-Rulesets einbauen — EasyList, EasyPrivacy, EasyList Germany optional, NoCoin; verfügbare statische Quote anzeigen.
+3. Popup mit Listen-/Regelstatus erweitern — Aktive Listen, Regelanzahlen, letzte Updates, Fehler, verfügbare Quote, dynamische Regelanzahl.
+4. Per-Domain-Schutz trennen — Netzwerkblocking, kosmetisches Blocking und Cookie-Helfer unabhängig schaltbar.
+5. Kosmetische v1-Engine implementieren — Nur domain-spezifisches Standard-CSS, Exceptions, Denylist, MutationObserver-Limits, Debug-Anzeige.
+6. Update-Flow mit Rollback bauen — Remote nur Daten; dynamische Deltas atomar; UI mit Update-Status und Fehlern.
+7. Security-Schicht ergänzen — NoCoin/URLhaus zuerst; Phishing danach; HaGeZi TIF Mini/Medium als Security+ Opt-in.
+8. Cookie-CMP-Engine implementieren — Module für OneTrust, Cookiebot, Didomi, Usercentrics, Quantcast/InMobi; nur eindeutige Reject-Flows.
+9. YouTube-Modul als Spezialfall — Explizite Ad-Renderer; keine Textheuristiken; lokale YouTube-Fixtures als Pflicht.
+10. Icons/Mascot-Zustände einführen — Grün aktiv, Grau pausiert, Gelb Teilfunktionen, Rot Security-Block, Blau Cookie-Helper, Orange Fehler.
+
+10. Quellen
+- Chrome declarativeNetRequest API: https://developer.chrome.com/docs/extensions/reference/api/declarativeNetRequest — Limits, Actions, Prioritäten, Regex, Rulesets, Debugmethoden
+- Chrome Content Filtering Guide: https://developer.chrome.com/docs/extensions/develop/concepts/content-filtering — MV3-Architektur: DNR für Netzwerk, Content Scripts für DOM
+- Chromium DNR README: https://chromium.googlesource.com/chromium/src/%2B/refs/heads/main/extensions/browser/api/declarative_net_request — Interne Architektur und Indexierung von Rulesets
+- Chrome MV3 Remote-Code-Regeln: https://developer.chrome.com/docs/webstore/program-policies/mv3-requirements/ — Remote-Code-Verbot, erlaubte Remote-Daten
+- Adblock Plus Filter-Dokumentation: https://help.adblockplus.org/adblock-plus-help-center/how-to-write-filters — Filtersyntax, Element Hiding, Exceptions
+- EasyList: https://easylist.to/ — Listen, Formate, Lizenzfamilie
+- AdGuard Filters: https://github.com/AdguardTeam/AdguardFilters — Filterfamilien, Lizenz, Syntax
+- abp2dnr: https://gitlab.com/eyeo/adblockplus/abc/abp2dnr — Konvertierung ABP zu DNR
+- uBlock Origin uAssets: https://github.com/uBlockOrigin/uAssets — YouTube- und Scriptlet-Regeln als Referenz/Nicht-blind-übernehmen
+- OneTrust Developer Docs: https://developer.onetrust.com/onetrust/docs/javascript-api — CMP API und RejectAll
+- Usercentrics Docs: https://support.usercentrics.com/hc/en-us/articles/15654847514780-Usercentrics-CMP-default-banner-settings — CMP-Konfiguration und Deny-All
+- Didomi Docs: https://developers.didomi.io/ — CMP API und Banner-Verhalten
+- Cookiebot Developer Docs: https://www.cookiebot.com/en/developer/ — Cookiebot API und Consent-Zustand
+- IAB TCF CMP API: https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md — __tcfapi, ping, addEventListener
+- DuckDuckGo Autoconsent: https://github.com/duckduckgo/autoconsent — CMP-Regelarchitektur
+- NoCoin: https://github.com/hoshsadiq/adblock-nocoin-list — Crypto-Miner-Liste
+- URLhaus Filter: https://github.com/curbengh/urlhaus-filter — Malware-URL-Liste
+- Phishing URL Blocklist: https://github.com/curbengh/phishing-filter — Phishing-Liste
+- HaGeZi DNS Blocklists: https://github.com/hagezi/dns-blocklists — Security-/Threat-Intelligence-Listen
+- ABP Test Pages: https://www.abptestpages.org/ — Manuelle Adblocker-Testseiten
+- Didomi Sandbox: https://sandbox.didomi.io/cmp.html — CMP-Testseite

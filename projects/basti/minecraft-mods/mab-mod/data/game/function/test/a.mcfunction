@@ -1,0 +1,1 @@
+function game:test/b {wave:"1",mob:"piglin_brute"}

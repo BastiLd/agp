@@ -1,0 +1,12 @@
+$scoreboard players add BlueTeamWave1_for_$(team) sniffer 1
+$scoreboard players add BlueTeamWave2_for_$(team) sniffer 1
+$scoreboard players add BlueTeamWave3_for_$(team) sniffer 1
+$scoreboard players add RedTeamWave1_for_$(team) ghast 1
+$scoreboard players add RedTeamWave2_for_$(team) ghast 1
+$scoreboard players add RedTeamWave3_for_$(team) ghast 1
+$scoreboard players add YellowTeamWave1_for_$(team) cow 1
+$scoreboard players add YellowTeamWave2_for_$(team) cow 1
+$scoreboard players add YellowTeamWave3_for_$(team) cow 1
+$scoreboard players add GreenTeamWave1_for_$(team) creaking 1
+$scoreboard players add GreenTeamWave2_for_$(team) creaking 1
+$scoreboard players add GreenTeamWave3_for_$(team) creaking 1

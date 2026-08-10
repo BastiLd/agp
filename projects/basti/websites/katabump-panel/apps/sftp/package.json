@@ -1,0 +1,16 @@
+{
+  "name": "@katabump/sftp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node src/index.mjs",
+    "start": "node src/index.mjs"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.7",
+    "pg": "^8.14.1",
+    "ssh2": "^1.16.0"
+  }
+}

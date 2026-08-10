@@ -1,0 +1,21 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+
+# Editor folders
+.vscode/
+.idea/
+
+# Node (not used for the build, but keep stray installs out)
+node_modules/
+npm-debug.log*
+
+# Local env overrides (the Supabase anon key is public and lives in js/config.js)
+.env
+.env.local
+
+# Local HTTrack mirrors / planning scratch (the game itself lives in paddleforce/)
+Test/
+PLAN_PaddleForce.md

@@ -1,0 +1,59 @@
+name: build
+
+on:
+  push:
+    branches: [ main ]
+    tags:     [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build all versions
+        run: ./gradlew build --no-daemon
+
+      - name: Upload artifact (alle Builds, zum Debuggen)
+        uses: actions/upload-artifact@v4
+        with:
+          name: RestoreInventory-jars
+          path: build/libs/*.jar
+
+      # Release: nur die 2 Umbrella-JARs (alte + neue API-Familie), ohne Sources.
+      # Die 8 Per-Version-Builds dienen nur als Compile-Check.
+      - name: Stage release JARs
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          mkdir -p release
+          cp build/libs/RestoreInventory-mc1.21-1.21.1-*.jar release/ 2>/dev/null || true
+          cp build/libs/RestoreInventory-mc1.21.2-1.21.4-*.jar release/ 2>/dev/null || true
+          cp build/libs/RestoreInventory-mc1.21.9-1.21.11-*.jar release/ 2>/dev/null || true
+          rm -f release/*-sources.jar
+          ls -l release/
+
+      - name: Create release on tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release/*.jar
+          generate_release_notes: true

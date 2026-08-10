@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Privacy Guard</title>
+    <link rel="stylesheet" href="popup.css">
+    <link rel="stylesheet" href="../common/tour.css">
+  </head>
+  <body>
+    <main class="popup-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div id="popupMascot" class="mascot" aria-hidden="true">
+            <span class="mascot-eye left"></span>
+            <span class="mascot-eye right"></span>
+            <span class="mascot-scan"></span>
+          </div>
+          <div>
+            <h1>Privacy Guard</h1>
+            <p id="hostLabel">...</p>
+          </div>
+        </div>
+        <label class="switch" title="Toggle protection for this site">
+          <input id="siteToggle" type="checkbox">
+          <span></span>
+        </label>
+      </header>
+
+      <section id="status" class="status">...</section>
+
+      <section class="scope-panel" aria-label="Protection scopes">
+        <label><input id="networkToggle" type="checkbox"> <span data-i18n="network">Network</span></label>
+        <label><input id="cosmeticToggle" type="checkbox"> <span data-i18n="cosmetic">Cosmetic</span></label>
+        <label><input id="cookieToggle" type="checkbox"> <span data-i18n="cookieHelper">Cookie helper</span></label>
+      </section>
+
+      <section class="stats-grid" aria-label="Stats">
+        <div class="metric">
+          <span id="totalValue">0</span>
+          <small data-i18n="trackers">Tracker</small>
+        </div>
+        <div class="metric">
+          <span id="adsValue">0</span>
+          <small data-i18n="ads">Ads</small>
+        </div>
+        <div class="metric">
+          <span id="cookieValue">0</span>
+          <small data-i18n="cookies">Cookies</small>
+        </div>
+      </section>
+
+      <section id="recentPanel" class="event-panel">
+        <div class="section-title">
+          <span data-ui="recentTitle">Letzte Treffer</span>
+          <button id="clearStatsButton" type="button" class="icon-button" title="Clear stats">Clear</button>
+        </div>
+        <ul id="eventList" class="event-list"></ul>
+      </section>
+
+      <section id="debugPanel" class="event-panel">
+        <div class="section-title">
+          <span data-i18n="diagnostics">Diagnostics</span>
+          <button id="clearDebugButton" type="button" class="icon-button">Clear</button>
+        </div>
+        <ul id="debugList" class="event-list compact-list"></ul>
+      </section>
+
+      <section id="rulesetPanel" class="event-panel">
+        <div class="section-title">
+          <span data-i18n="ruleSets">Rule lists</span>
+          <span id="quotaLabel" class="muted-text"></span>
+        </div>
+        <ul id="rulesetList" class="ruleset-list"></ul>
+      </section>
+
+      <footer class="actions">
+        <div class="segmented" role="group" aria-label="Language">
+          <button id="langDe" type="button">DE</button>
+          <button id="langEn" type="button">EN</button>
+        </div>
+        <button id="updateButton" type="button" data-i18n="updateRules">Update rules</button>
+        <button id="tourButton" type="button">Tour</button>
+        <button id="optionsButton" type="button" data-i18n="options">Options</button>
+      </footer>
+    </main>
+    <script src="../common/constants.js"></script>
+    <script src="../common/tour.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

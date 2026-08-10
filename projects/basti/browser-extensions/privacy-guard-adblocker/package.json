@@ -1,0 +1,13 @@
+{
+  "name": "privacy-guard-adblocker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Chrome MV3 ad, cookie banner, and tracking protection extension.",
+  "type": "module",
+  "scripts": {
+    "make-icons": "node scripts/make-icons.mjs",
+    "validate": "node scripts/validate-extension.mjs",
+    "test:rules": "node scripts/update-rules.mjs --dry-run --ads-file scripts/fixtures/sample-filter.txt --privacy-file scripts/fixtures/sample-filter.txt --regional-file scripts/fixtures/sample-filter.txt --security-file scripts/fixtures/sample-filter.txt --url-tracking-file scripts/fixtures/sample-filter.txt --cookies-file scripts/fixtures/sample-filter.txt --annoyances-file scripts/fixtures/sample-filter.txt --youtube-file scripts/fixtures/sample-filter.txt --security-plus-file scripts/fixtures/sample-filter.txt --limit 20",
+    "update-rules": "node scripts/update-rules.mjs"
+  }
+}

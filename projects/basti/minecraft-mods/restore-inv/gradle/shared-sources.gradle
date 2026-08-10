@@ -1,0 +1,20 @@
+// Verbindet das aktuelle Subprojekt mit dem gemeinsamen Source-Tree
+// shared/common/ und einem versionsspezifischen Tree unter shared/<sharedSourceTree>/.
+// Ueblich: ext.sharedSourceTree = 'api-old' oder 'api-new'. Der gemeinsame Tree
+// enthaelt den gesamten Code, der versionsspezifische Tree nur PlatformCompat.
+
+def commonRoot = rootProject.file("shared/common")
+def apiRoot    = rootProject.file("shared/${project.ext.sharedSourceTree}")
+
+sourceSets {
+    main {
+        java.srcDirs = [
+            "${commonRoot}/src/main/java",
+            "${apiRoot}/src/main/java"
+        ]
+        resources.srcDirs = [
+            "${commonRoot}/src/main/resources",
+            "${apiRoot}/src/main/resources"
+        ]
+    }
+}

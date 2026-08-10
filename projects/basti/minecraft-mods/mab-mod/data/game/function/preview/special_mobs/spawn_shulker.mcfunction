@@ -1,0 +1,3 @@
+#$summon $(mob) ~$(mob_x) ~ ~$(mob_z) {Tags:[$(team)_preview],OnGround:true,Invulnerable:1b,NoAI:1b,PersistenceRequired:1b,Silent:1b,attributes:[{id:scale,base:0.2f},{id:burning_time,base:0.0f}]}
+
+$summon block_display ~$(mob_x) ~ ~$(mob_z) {Tags:[$(team)_preview],Passengers:[{id:"minecraft:block_display",block_state:{Name:"minecraft:shulker_box",Properties:{}},transformation:[0.2f,0f,0f,-0.1f,0f,0.2f,0f,0f,0f,0f,0.2f,-0.1f,0f,0f,0f,1f]}]}

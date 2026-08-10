@@ -1,0 +1,64 @@
+import java.io.File
+import java.nio.file.Files
+import java.nio.file.Paths
+
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+def getModVersion() {
+    def propertiesFile = new File('gradle.properties')
+    if (!propertiesFile.exists()) {
+        throw new GradleException("gradle.properties file not found!")
+    }
+    def props = new Properties()
+    propertiesFile.withReader { reader -> props.load(reader) }
+    return props.getProperty('mod_version')
+}
+
+def setModVersion(version) {
+    def propertiesFile = new File('gradle.properties')
+    def props = new Properties()
+    propertiesFile.withReader { reader -> props.load(reader) }
+    props.setProperty('mod_version', version)
+    propertiesFile.withWriter { writer -> props.store(writer, null) }
+}
+
+group = 'com.example'
+version = getModVersion()
+
+repositories {
+    maven { url = 'https://repo.papermc.io/repository/maven-public/' }
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    withSourcesJar()
+}
+
+tasks.withType(Jar) {
+    archiveBaseName.set('who_did_what_when_tracker')
+    archiveVersion.set(version)
+}
+
+tasks.build {
+    doLast {
+        def currentVersion = getModVersion()
+        def versionParts = currentVersion.split('\\.')
+        def major = versionParts[0].toInteger()
+        def minor = versionParts[1].toInteger()
+        def patch = versionParts[2].toInteger()
+        patch++
+        def newVersion = "${major}.${minor}.${patch}"
+        setModVersion(newVersion)
+        println "Incremented mod version to: ${newVersion}"
+    }
+}

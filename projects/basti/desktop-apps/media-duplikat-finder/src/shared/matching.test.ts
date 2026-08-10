@@ -1,0 +1,147 @@
+﻿import { describe, expect, it } from 'vitest'
+import { buildDuplicateGroups, buildFolderCandidateGroups, parseMediaName } from './matching'
+import type { FolderCandidate, MediaFile } from './types'
+
+function file(name: string, size: number, rootIndex = 0, fingerprint?: string): MediaFile {
+  return {
+    id: `${rootIndex}-${name}`,
+    path: `D:/Root${rootIndex}/${name}`,
+    name,
+    folder: `D:/Root${rootIndex}`,
+    rootPath: `D:/Root${rootIndex}`,
+    rootIndex,
+    size,
+    modifiedAt: 1700000000000 + rootIndex,
+    extension: name.split('.').pop() ?? '',
+    fingerprint,
+    parsed: parseMediaName(name)
+  }
+}
+
+describe('parseMediaName', () => {
+  it('normalisiert typische Filmtitel', () => {
+    const parsed = parseMediaName('Film.Name.2020.German.1080p.WEB-DL.x265.mkv')
+
+    expect(parsed.comparableTitle).toBe('film name')
+    expect(parsed.year).toBe(2020)
+    expect(parsed.qualityLabel).toBe('1080p')
+  })
+
+  it('erkennt deutsche Serienfolgen', () => {
+    const parsed = parseMediaName('Meine Serie Staffel 2 Folge 11 720p.mkv')
+
+    expect(parsed.comparableTitle).toBe('meine serie')
+    expect(parsed.episodeKey).toBe('S02E11')
+  })
+
+  it('erkennt Qualität auch aus dem Ordnerpfad', () => {
+    const parsed = parseMediaName('Film.mkv', 'D:/Movies/Film (2020)/2160p 4K BluRay')
+
+    expect(parsed.qualityLabel).toBe('2160p/4K')
+    expect(parsed.year).toBe(2020)
+  })
+
+  it('gleicht römische und arabische Sequel-Nummern auf denselben Vergleichstitel an', () => {
+    // Eigenständige Zahlen werden ohnehin aus dem Vergleichstitel entfernt; durch die
+    // Römisch→Arabisch-Normalisierung landet "Frozen II" auf demselben Titel wie "Frozen 2".
+    expect(parseMediaName('Frozen II 2019 1080p.mkv').comparableTitle).toBe('frozen')
+    expect(parseMediaName('Frozen 2 (2019) WEBRip.mkv').comparableTitle).toBe('frozen')
+  })
+
+  it('lässt einzelne Buchstaben in Titeln unangetastet', () => {
+    expect(parseMediaName('Movie X 2020.mkv').comparableTitle).toBe('movie x')
+  })
+
+  it('entfernt Editions- und Schnittfassungs-Zusätze', () => {
+    expect(parseMediaName('Blade.Runner.1982.Directors.Cut.1080p.mkv').comparableTitle).toBe('blade runner')
+    expect(parseMediaName('Blade Runner (1982) Remastered.mkv').comparableTitle).toBe('blade runner')
+  })
+})
+
+describe('buildDuplicateGroups', () => {
+  it('findet fast gleiche Filme', () => {
+    const groups = buildDuplicateGroups([
+      file('Film.Name.2020.1080p.mkv', 4_000_000_000, 0, 'same'),
+      file('Film Name (2020) German WEB-DL.mkv', 3_950_000_000, 1, 'same')
+    ])
+
+    expect(groups).toHaveLength(1)
+    expect(groups[0].confidence).toBe('safe')
+    expect(groups[0].files[0].recommendation).toBe('keep')
+  })
+
+  it('vermischt unterschiedliche Serienfolgen nicht', () => {
+    const groups = buildDuplicateGroups([
+      file('Serie.S01E01.1080p.mkv', 2_000_000_000, 0),
+      file('Serie.S01E02.1080p.mkv', 2_010_000_000, 1)
+    ])
+
+    expect(groups).toHaveLength(0)
+  })
+
+  it('hält ähnliche aber verschiedene Filme auseinander', () => {
+    const groups = buildDuplicateGroups([
+      file('The Thing 1982 1080p.mkv', 3_000_000_000, 0),
+      file('The Thing 2011 1080p.mkv', 3_100_000_000, 1)
+    ])
+
+    expect(groups).toHaveLength(0)
+  })
+
+  it('erkennt denselben Film mit römischer und arabischer Sequel-Nummer', () => {
+    const groups = buildDuplicateGroups([
+      file('Frozen.II.2019.1080p.mkv', 4_000_000_000, 0),
+      file('Frozen 2 (2019) WEBRip.mkv', 3_950_000_000, 1)
+    ])
+
+    expect(groups).toHaveLength(1)
+  })
+
+  it('erkennt denselben Film trotz unterschiedlicher Schnittfassung-Tags', () => {
+    const groups = buildDuplicateGroups([
+      file('Blade.Runner.1982.Directors.Cut.1080p.mkv', 3_000_000_000, 0),
+      file('Blade Runner (1982) Remastered 1080p.mkv', 3_050_000_000, 1)
+    ])
+
+    expect(groups).toHaveLength(1)
+  })
+})
+
+describe('buildFolderCandidateGroups', () => {
+  it('gruppiert ähnliche Ordner ohne Videos', () => {
+    const folders: FolderCandidate[] = [
+      {
+        id: 'a',
+        path: 'D:/A/Movie Name 2020',
+        name: 'Movie Name 2020',
+        parentPath: 'D:/A',
+        rootPath: 'D:/A',
+        rootIndex: 0,
+        fileCount: 2,
+        videoCount: 0,
+        size: 100,
+        modifiedAt: 1,
+        recommendation: 'delete'
+      },
+      {
+        id: 'b',
+        path: 'E:/B/Movie.Name.(2020)',
+        name: 'Movie.Name.(2020)',
+        parentPath: 'E:/B',
+        rootPath: 'E:/B',
+        rootIndex: 1,
+        fileCount: 1,
+        videoCount: 0,
+        size: 90,
+        modifiedAt: 1,
+        recommendation: 'delete'
+      }
+    ]
+
+    const groups = buildFolderCandidateGroups(folders)
+
+    expect(groups).toHaveLength(1)
+    expect(groups[0].folders.some((folder) => folder.recommendation === 'keep')).toBe(true)
+  })
+})
+

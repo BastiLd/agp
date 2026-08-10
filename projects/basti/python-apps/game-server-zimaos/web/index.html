@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="nether">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CraftControl // Ultimate Game Server Manager</title>
+    <!-- Google Fonts: Outfit (UI) and JetBrains Mono (Terminal) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+    <!-- ==========================================================================
+       v1.1.0 LOGIN-OVERLAY (nur sichtbar, wenn das Backend einen Token verlangt)
+       ========================================================================== -->
+    <div id="login-overlay" class="login-overlay" style="display:none;">
+        <form id="login-form" class="login-card glass-panel">
+            <div class="login-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2 22 9.5M16 4l4 4M2 22 9.5 14.5M4 16l4 4M10 8.5 15.5 3M8.5 10 3 15.5M14 14l5-5M9 19l5-5"/></svg>
+            </div>
+            <h2>CraftControl</h2>
+            <p class="login-hint" data-i18n="login.hint">Dieses Panel ist mit einem Zugriffs-Token geschützt.</p>
+            <input type="password" id="login-token-input" class="login-input" data-i18n-placeholder="login.placeholder" placeholder="Zugriffs-Token" autocomplete="current-password" />
+            <div id="login-error" class="login-error" style="display:none;"></div>
+            <button type="submit" class="btn btn-primary login-submit" data-i18n="login.submit">Anmelden</button>
+        </form>
+    </div>
+
+    <!-- ==========================================================================
+       A. MAIN APP HEADER / THEME SWITCHER
+       ========================================================================== -->
+    <header class="main-header glass-panel">
+        <div class="brand" onclick="app.showOverview()">
+            <div class="brand-logo">
+                <!-- SVG Minecraft Logo Block / Pickaxe outline -->
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2 22 9.5M16 4l4 4M2 22 9.5 14.5M4 16l4 4M10 8.5 15.5 3M8.5 10 3 15.5M14 14l5-5M9 19l5-5"/></svg>
+            </div>
+            <h1>CraftControl</h1>
+        </div>
+        
+        <!-- Theme-Picker: schaltet zwischen den vorbereiteten CSS-Themes um.
+             Auswahl wird in localStorage gespeichert. -->
+        <div class="header-actions">
+            <select class="lang-select" id="lang-select" onchange="app.setLanguage(this.value)" data-i18n-title="header.language" title="Sprache">
+                <option value="en">🇬🇧 EN</option>
+                <option value="de">🇩🇪 DE</option>
+            </select>
+            <div class="theme-picker">
+                <button class="theme-btn active" onclick="app.switchTheme('nether')" id="theme-btn-nether">
+                    <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8"/></svg> <span data-i18n="theme.nether">Nether Core</span>
+                </button>
+                <button class="theme-btn" onclick="app.switchTheme('end-void')" id="theme-btn-end-void">
+                    <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8"/></svg> <span data-i18n="theme.endvoid">End Void</span>
+                </button>
+                <button class="theme-btn" onclick="app.switchTheme('overworld')" id="theme-btn-overworld">
+                    <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8"/></svg> <span data-i18n="theme.overworld">Overworld</span>
+                </button>
+                <button class="theme-btn" onclick="app.switchTheme('cyberpunk')" id="theme-btn-cyberpunk">
+                    <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><circle cx="8" cy="8" r="8"/></svg> <span data-i18n="theme.cyberpunk">Redstone Grid</span>
+                </button>
+            </div>
+            <button class="btn btn-secondary" id="btn-logout" onclick="app.logout()" style="display:none;" data-i18n-title="header.logout" title="Abmelden">
+                <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                <span data-i18n="header.logout">Abmelden</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- v1.2.0: generisches animiertes Modal (z.B. playit-Erklaerung) -->
+    <div id="cc-modal" class="cc-modal-overlay" onclick="if(event.target===this)app.closeModal()">
+        <div class="cc-modal glass-panel" role="dialog" aria-modal="true">
+            <div class="cc-modal-head">
+                <h3 id="cc-modal-title"></h3>
+                <button class="cc-modal-close" onclick="app.closeModal()" data-i18n-title="modal.close" title="Schließen">&times;</button>
+            </div>
+            <div class="cc-modal-body" id="cc-modal-body"></div>
+        </div>
+    </div>
+
+    <!-- ==========================================================================
+       B. VIEW WRAPPER
+       ========================================================================== -->
+    <main class="view-container">
+
+        <!-- ==========================================================================
+           B.1 SERVER OVERVIEW SCREEN
+           ========================================================================== -->
+        <section id="view-overview" class="view-section active">
+            <!-- Summary stats panel -->
+            <div class="overview-stats">
+                <div class="stat-card glass-panel">
+                    <div class="stat-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                    </div>
+                    <div class="stat-info">
+                        <h4 data-i18n="overview.total">Server Gesamt</h4>
+                        <p id="stat-total-servers">3</p>
+                    </div>
+                </div>
+                <div class="stat-card glass-panel">
+                    <div class="stat-icon" style="color: var(--status-online);">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <div class="stat-info">
+                        <h4 data-i18n="overview.online">Aktiv Online</h4>
+                        <p id="stat-online-servers" style="color: var(--status-online);">2</p>
+                    </div>
+                </div>
+                <div class="stat-card glass-panel">
+                    <div class="stat-icon" style="color: var(--accent-color);">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <div class="stat-info">
+                        <h4 data-i18n="overview.players">Spieler Online</h4>
+                        <p id="stat-total-players">7 / 40</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Server grid -->
+            <div class="server-grid" id="server-list-container">
+                <!-- Rendered dynamically via JS -->
+            </div>
+        </section>
+
+
+        <!-- ==========================================================================
+           B.2 SERVER DASHBOARD SCREEN (TAB MANAGED)
+           ========================================================================== -->
+        <section id="view-dashboard" class="view-section">
+            <div class="dashboard-layout">
+                
+                <!-- Sidebar Layout Column -->
+                <div class="dash-sidebar">
+                    <div class="dash-server-meta glass-panel">
+                        <div class="server-icon" id="dash-server-icon">
+                            <!-- Injected by Server selection -->
+                        </div>
+                        <h2 id="dash-server-title">Survival Server</h2>
+                        <p id="dash-server-software-label">Spigot 1.20.4</p>
+                        <div class="status-badge" id="dash-server-badge">
+                            <span class="status-dot"></span>
+                            <span class="status-text">ONLINE</span>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Navigation menu -->
+                    <nav class="glass-panel" style="padding: 0.75rem;">
+                        <ul class="dash-nav">
+                            <li>
+                                <button class="dash-nav-btn active" onclick="app.switchTab('status')" id="tab-btn-status">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="14" x2="14" y2="9"/></svg>
+                                    <span data-i18n="nav.status">Konsole & Status</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dash-nav-btn" onclick="app.switchTab('performance')" id="tab-btn-performance">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 3 5-6"/></svg>
+                                    <span data-i18n="nav.performance">Performance</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dash-nav-btn" onclick="app.switchTab('software')" id="tab-btn-software">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                                    <span data-i18n="nav.software">Software / Version</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dash-nav-btn" onclick="app.switchTab('plugins')" id="tab-btn-plugins">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                                    <span data-i18n="nav.plugins">Plugins & Mods</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dash-nav-btn" onclick="app.switchTab('backups')" id="tab-btn-backups">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                                    <span data-i18n="nav.backups">Backup-Verlauf</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dash-nav-btn" onclick="app.switchTab('files')" id="tab-btn-files">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                                    <span data-i18n="nav.files">Dateien</span>
+                                </button>
+                            </li>
+                            <li>
+                                <button class="dash-nav-btn" onclick="app.switchTab('settings')" id="tab-btn-settings">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                                    <span data-i18n="nav.settings">Einstellungen</span>
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <button class="btn btn-secondary" onclick="app.showOverview()">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                        <span data-i18n="nav.back">Zurück zur Übersicht</span>
+                    </button>
+
+                    <!-- Permanente Loesch-Aktion fuer den aktiven Server -->
+                    <button class="btn btn-danger" id="dash-btn-delete" onclick="app.deleteActiveServer()" title="Container und Welt-Volume entfernen">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg>
+                        <span data-i18n="nav.delete">Server löschen</span>
+                    </button>
+                </div>
+
+                <!-- Main Dashboard Panels Column -->
+                <div class="dash-content">
+                    
+                    <!-- Global Dashboard Header Panel -->
+                    <div class="dash-header-panel glass-panel">
+                        <div class="dash-header-left">
+                            <h2 style="font-size: 1.5rem;" id="dash-header-status-text" data-i18n="dash.control">Serversteuerung</h2>
+                        </div>
+                        <div style="display: flex; gap: 0.75rem;">
+                            <button class="btn btn-success" id="dash-btn-start" onclick="app.triggerActiveServerPower('start')">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg> <span data-i18n="btn.start">Starten</span>
+                            </button>
+                            <button class="btn btn-danger" id="dash-btn-stop" onclick="app.triggerActiveServerPower('stop')">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M5 3.5h6A1.5 1.5 0 0 1 12.5 5v6a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 11V5A1.5 1.5 0 0 1 5 3.5z"/></svg> <span data-i18n="btn.stop">Stoppen</span>
+                            </button>
+                            <button class="btn btn-secondary" id="dash-btn-restart" onclick="app.triggerActiveServerPower('restart')">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/></svg> <span data-i18n="btn.restart">Neustart</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Panel 1: Live Status & Console Terminal -->
+                    <div id="panel-status" class="tab-panel active">
+                        <!-- Gauges Area -->
+                        <div class="dash-stats-row">
+                            <div class="stat-card glass-panel">
+                                <div class="stat-icon" id="gauge-cpu-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="15" x2="23" y2="15"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="15" x2="4" y2="15"/></svg>
+                                </div>
+                                <div class="stat-info" style="flex:1;">
+                                    <h4 data-i18n="gauge.cpu">CPU Auslastung</h4>
+                                    <p id="dash-gauge-cpu">0%</p>
+                                    <div class="meter-bar-container" style="margin-top:6px; width:100%;">
+                                        <div class="meter-bar-fill" id="dash-gauge-cpu-bar" style="width:0%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stat-card glass-panel">
+                                <div class="stat-icon" id="gauge-ram-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 19h12V5H6v14z"/><path d="M10 5V2h4v3"/><path d="M7 19v3h2v-3"/><path d="M15 19v3h2v-3"/></svg>
+                                </div>
+                                <div class="stat-info" style="flex:1;">
+                                    <h4 data-i18n="gauge.ram">RAM Belegung</h4>
+                                    <p id="dash-gauge-ram">0.0 / 8.0 GB</p>
+                                    <div class="meter-bar-container" style="margin-top:6px; width:100%;">
+                                        <div class="meter-bar-fill" id="dash-gauge-ram-bar" style="width:0%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stat-card glass-panel">
+                                <div class="stat-icon" id="gauge-players-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                                </div>
+                                <div class="stat-info">
+                                    <h4 data-i18n="gauge.players">Spielerzahl</h4>
+                                    <p id="dash-gauge-players">0 / 20</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Verbindungs-Info: lokale IP/Port + Internet-Tunnel-Platzhalter -->
+                        <div class="glass-panel" id="connection-info-panel" style="padding:1.25rem 1.5rem; margin-bottom:1.5rem;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap; margin-bottom:0.85rem;">
+                                <h3 style="font-size:1.05rem; display:flex; align-items:center; gap:8px;">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                                    <span data-i18n="conn.title">Verbindung</span>
+                                </h3>
+                                <span id="dash-server-port-badge" class="badge-software" style="font-size:0.75rem;">Port: --</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:0.85rem;">
+                                <!-- Lokale IP -->
+                                <div style="background:var(--bg-tertiary); border:1px solid var(--border-glass); border-radius:var(--radius-md); padding:0.85rem 1rem;">
+                                    <div style="display:flex; align-items:center; gap:6px; font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em;">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                                        <span data-i18n="conn.local">Lokales Netzwerk</span>
+                                    </div>
+                                    <div style="font-family: var(--font-mono); font-size: 1.05rem; font-weight:700; color:var(--text-main); margin-top:6px; word-break:break-all;">
+                                        <span id="conn-local-address">-</span>
+                                        <button class="btn-circle" id="conn-local-copy" data-i18n-title="conn.copy_local" title="In die Zwischenablage kopieren"
+                                                style="display:inline-flex; width:26px; height:26px; margin-left:6px; vertical-align:middle; background:transparent; color:var(--text-muted); border:1px solid var(--border-glass); cursor:pointer;">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Internet (playit.gg Tunnel) -->
+                                <div style="background:var(--bg-tertiary); border:1px solid var(--border-glass); border-radius:var(--radius-md); padding:0.85rem 1rem;">
+                                    <div style="display:flex; align-items:center; justify-content:space-between; gap:6px; font-size:0.75rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.05em;">
+                                        <span style="display:flex; align-items:center; gap:6px;">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20"/></svg>
+                                            <span data-i18n="conn.internet">Internet (playit.gg)</span>
+                                            <button type="button" class="info-btn" onclick="app.openTunnelInfo()" data-i18n-title="tunnel.info_btn" title="Wie funktioniert playit.gg?">i</button>
+                                        </span>
+                                        <span id="conn-tunnel-status" class="badge-software" style="font-size:0.65rem;" data-i18n="conn.offline">offline</span>
+                                    </div>
+                                    <div id="conn-tunnel-row" style="font-family: var(--font-mono); font-size: 0.95rem; font-weight:700; color:var(--text-main); margin-top:6px; word-break:break-all;">
+                                        <span id="conn-tunnel-domain" data-i18n="conn.no_tunnel">Noch kein Tunnel aktiv.</span>
+                                        <button class="btn-circle" id="conn-tunnel-copy" data-i18n-title="conn.copy_domain" title="Domain kopieren"
+                                                style="display:none; width:26px; height:26px; margin-left:6px; vertical-align:middle; background:transparent; color:var(--text-muted); border:1px solid var(--border-glass); cursor:pointer;">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                                        </button>
+                                    </div>
+
+                                    <!-- v1.0.7: Setup-Wizard -->
+                                    <ol id="tunnel-wizard" class="tunnel-wizard" style="display:none;">
+                                        <li data-step="image_pull"><span class="tw-dot"></span><span data-i18n="tw.image">Image gezogen</span></li>
+                                        <li data-step="agent_started"><span class="tw-dot"></span><span data-i18n="tw.agent">Agent gestartet</span></li>
+                                        <li data-step="auth_required"><span class="tw-dot"></span><span data-i18n="tw.auth">Token / Auth nötig</span></li>
+                                        <li data-step="active"><span class="tw-dot"></span><span data-i18n="tw.active">Tunnel aktiv</span></li>
+                                    </ol>
+
+                                    <div id="tunnel-claim-row" style="display:none; margin-top:0.5rem; font-size:0.78rem;">
+                                        <span style="color:var(--text-muted);" data-i18n="tunnel.claim">Claim-Link: </span>
+                                        <a id="tunnel-claim-link" href="#" target="_blank" rel="noopener" style="color:var(--accent-color); text-decoration:none; word-break:break-all;"></a>
+                                    </div>
+
+                                    <details id="tunnel-logs-details" style="display:none; margin-top:0.5rem;">
+                                        <summary style="cursor:pointer; color:var(--text-muted); font-size:0.75rem;">
+                                            <span data-i18n="tunnel.show_logs">playit-Logs anzeigen</span>
+                                            <span style="cursor:pointer; color:var(--accent-color); margin-left:8px;" onclick="event.preventDefault(); app.copyTunnelLogs();" data-i18n="tunnel.copy_logs">Kopieren</span>
+                                        </summary>
+                                        <pre id="tunnel-logs-pre" class="copyable" style="margin-top:6px; max-height:160px; overflow:auto; background:#06080e; color:#d8dee9; border:1px solid var(--border-glass); border-radius:var(--radius-sm); padding:8px; font-size:0.72rem; font-family:var(--font-mono); white-space:pre-wrap;"></pre>
+                                    </details>
+
+                                    <div id="tunnel-message" style="display:none; margin-top:0.5rem; color:var(--text-muted); font-size:0.78rem;"></div>
+
+                                    <div class="tunnel-secret-row">
+                                        <input type="password" id="tunnel-secret-input" autocomplete="off" data-i18n-placeholder="tunnel.secret_ph" placeholder="Secret-Key einfügen (oder leer lassen)">
+                                        <a href="https://playit.gg/account/agents" target="_blank" rel="noopener" class="tunnel-where" data-i18n="tunnel.where">Wo bekomme ich den?</a>
+                                    </div>
+
+                                    <div style="display:flex; gap:0.5rem; margin-top:0.6rem;">
+                                        <button class="btn btn-primary" id="btn-tunnel-start" onclick="app.startTunnel()" style="padding: 6px 12px; font-size: 0.75rem;" data-i18n="tunnel.start">Tunnel starten</button>
+                                        <button class="btn btn-secondary" id="btn-tunnel-stop" onclick="app.stopTunnel()" style="padding: 6px 12px; font-size: 0.75rem; display:none;" data-i18n="tunnel.stop">Tunnel stoppen</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Console Box -->
+                        <div class="console-container">
+                            <div class="console-header">
+                                <div style="display:flex; gap:6px;">
+                                    <span class="console-dot"></span>
+                                    <span class="console-dot"></span>
+                                    <span class="console-dot"></span>
+                                </div>
+                                <div data-i18n="console.title">craftcontrol@terminal:~ log-viewer</div>
+                                <div class="console-header-actions">
+                                    <span style="cursor:pointer;" onclick="app.copyTerminalText()" data-i18n="console.copy">[Kopieren]</span>
+                                    <span style="cursor:pointer;" onclick="app.downloadTerminalLog()" data-i18n="console.download">[Log herunterladen]</span>
+                                    <span style="cursor:pointer;" onclick="app.clearConsoleLogs()" data-i18n="console.clear">[Konsole Leeren]</span>
+                                </div>
+                            </div>
+
+                            <!-- Logs lines injection -->
+                            <div class="console-logs" id="console-logs-pane">
+                                <!-- Injected by JS -->
+                            </div>
+
+                            <div class="console-input-bar">
+                                <span class="console-prompt-indicator">&gt;</span>
+                                <input type="text" class="console-input" id="console-cmd-input" data-i18n-placeholder="console.input_ph" placeholder="Minecraft-Befehl eingeben (z.B. /help, /op basti, /say hallo)..." autocomplete="off">
+                                <button class="btn btn-primary" style="padding:6px 12px; font-size:0.8rem;" onclick="app.submitConsoleCommand()" data-i18n="console.send">Senden</button>
+                            </div>
+                        </div>
+
+                        <!-- Overload-Banner (CSS .overload-banner.active blendet ein) -->
+                        <div id="overload-banner" class="overload-banner" role="alert" data-i18n="overload.banner">
+                            ⚠ Server überlastet – Tick-Rate sinkt!
+                        </div>
+
+                        <!-- Online-Spieler -->
+                        <div class="glass-panel players-card" id="players-card">
+                            <div class="players-card-head">
+                                <h3>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                    <span data-i18n="players.title">Online-Spieler</span>
+                                </h3>
+                                <span id="players-count-badge" class="badge-software" style="font-size:0.7rem;">0 / 20</span>
+                            </div>
+                            <div class="players-list" id="players-list-container">
+                                <div class="player-empty" data-i18n="players.empty">Keine Spieler online.</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel: Performance (eigener Tab, v1.2.0) -->
+                    <div id="panel-performance" class="tab-panel">
+                        <div class="glass-panel" style="padding: 1.25rem 1.5rem;">
+                            <div class="perf-toolbar" style="flex-wrap:wrap; gap:0.75rem;">
+                                <h3><span data-i18n="perf.title">Performance</span></h3>
+                                <div class="perf-modes">
+                                    <button class="perf-mode-btn active" id="perf-mode-normal" onclick="app.setPerfMode('normal')" data-i18n="perf.mode_normal">Normal</button>
+                                    <button class="perf-mode-btn" id="perf-mode-detailed" onclick="app.setPerfMode('detailed')" data-i18n="perf.mode_detailed">Detailliert</button>
+                                    <label class="perf-mode-btn" style="display:inline-flex; gap:6px; align-items:center;">
+                                        <input type="checkbox" id="perf-charts-toggle" onchange="app.togglePerfCharts(this.checked)"> <span data-i18n="perf.charts">Diagramme</span>
+                                    </label>
+                                    <select id="perf-range" class="form-control" style="width:auto; min-width:160px;" onchange="app.changePerfRange()">
+                                        <option value="5" data-i18n="perf.range5">Letzte 5 Minuten</option>
+                                        <option value="30" data-i18n="perf.range30">Letzte 30 Minuten</option>
+                                        <option value="120" data-i18n="perf.range120">Letzte 2 Stunden</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Detailed: Pro-Core-Balken + Metrik-Kacheln -->
+                            <div id="perf-detailed" style="display:none;">
+                                <h4 style="margin-top:0.5rem;" data-i18n="perf.cores">CPU-Kerne</h4>
+                                <div class="perf-cores-grid" id="perf-cores-grid"></div>
+                                <p id="perf-cores-na" class="perf-empty" style="display:none;" data-i18n="perf.per_core_na">Pro-Kern-Daten sind auf diesem Host nicht verfügbar (cgroup v2).</p>
+                                <div class="perf-metrics" id="perf-metrics"></div>
+                            </div>
+
+                            <!-- Charts (History) -->
+                            <div id="perf-charts-wrap" style="display:none;">
+                                <div class="perf-charts">
+                                    <div class="perf-chart-card glass-panel">
+                                        <div class="perf-chart-head">
+                                            <h4 data-i18n="gauge.cpu">CPU Auslastung</h4>
+                                            <span class="perf-value" id="perf-cpu-now">0%</span>
+                                        </div>
+                                        <div class="perf-chart-body">
+                                            <div class="perf-axes">
+                                                <span class="perf-axis-label">100%</span>
+                                                <span class="perf-axis-label">50%</span>
+                                                <span class="perf-axis-label">0%</span>
+                                            </div>
+                                            <div class="perf-bars" id="perf-cpu-bars"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="perf-chart-card glass-panel">
+                                        <div class="perf-chart-head">
+                                            <h4 data-i18n="gauge.ram">RAM Belegung</h4>
+                                            <span class="perf-value" id="perf-ram-now">0 / 0 GB</span>
+                                        </div>
+                                        <div class="perf-chart-body">
+                                            <div class="perf-axes">
+                                                <span class="perf-axis-label">100%</span>
+                                                <span class="perf-axis-label">50%</span>
+                                                <span class="perf-axis-label">0%</span>
+                                            </div>
+                                            <div class="perf-bars" id="perf-ram-bars"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Normal: kompakte Live-Kacheln -->
+                            <div id="perf-normal" class="perf-metrics"></div>
+
+                            <p id="perf-empty-hint" class="perf-empty" data-i18n="perf.empty">Noch keine Daten gesammelt – bitte einen Moment Geduld.</p>
+                        </div>
+                    </div>
+
+
+                    <!-- Panel 2: Software / Versions Selection Grid -->
+                    <div id="panel-software" class="tab-panel">
+                        <div class="glass-panel" style="padding: 1.75rem;">
+                            <h3 style="margin-bottom: 0.5rem; font-size: 1.25rem;" data-i18n="sw.title">Serversoftware wählen</h3>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;" data-i18n="sw.desc">Wechsle die Minecraft-Engine deines Servers. Spigot, Paper und Fabric unterstützen Plugins/Mods.</p>
+                            
+                            <div class="software-grid" id="software-selector-cards">
+                                <!-- Renders dynamic software cards via app init -->
+                            </div>
+
+                            <hr style="border:none; border-top:1px solid var(--border-glass); margin: 1.75rem 0;">
+
+                            <div class="version-form">
+                                <div class="version-row">
+                                    <div class="form-group">
+                                        <label for="select-mc-version" data-i18n="sw.version">Minecraft-Version</label>
+                                        <select class="form-control" id="select-mc-version">
+                                            <option value="1.21.1">1.21.1 (Standard)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="input-allocated-ram" data-i18n="sw.ram">RAM Zuweisung</label>
+                                        <div class="range-container" style="margin-top: 6px;">
+                                            <input type="range" class="range-slider" id="input-allocated-ram" min="1" max="16" value="4">
+                                            <span class="range-value" id="label-allocated-ram">4 GB</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- v1.0.4: Auto RAM-Optimierer -->
+                                <div class="toggle-row">
+                                    <div class="toggle-info">
+                                        <h4 data-i18n="sw.optimizer">Automatischer RAM-Optimierer</h4>
+                                        <p data-i18n="sw.optimizer_desc">Triggert nach 30 Minuten ohne Spieler ein <code>save-all</code> + GC-Hilfe, um RAM zurückzugewinnen.</p>
+                                    </div>
+                                    <label class="toggle-switch" title="Optimierer aktivieren">
+                                        <input type="checkbox" id="toggle-optimizer" onchange="app.toggleOptimizer(this.checked)">
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                </div>
+
+                                <button class="btn btn-primary" style="align-self: flex-start; margin-top: 0.5rem;" onclick="app.saveSoftwareConfig()" data-i18n="sw.save">
+                                    Software-Konfiguration Speichern & Übernehmen
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Panel 3: Plugins & Mods Management -->
+                    <div id="panel-plugins" class="tab-panel">
+                        <div class="plugins-layout">
+                            <!-- Left: Search Catalog -->
+                            <div class="glass-panel" style="padding: 1.5rem;">
+                                <h3 style="margin-bottom: 0.25rem;" data-i18n="plug.title">Plugin & Mod Katalog</h3>
+                                <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.25rem;" data-i18n="plug.desc">Durchsuche und installiere beliebte Servererweiterungen per Klick.</p>
+
+                                <div class="search-bar-container">
+                                    <div class="search-input-wrapper">
+                                        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                                        <input type="text" class="form-control search-control" id="search-plugin-input" data-i18n-placeholder="plug.search_ph" placeholder="Plugin oder Mod suchen..." oninput="app.filterPluginsCatalog()">
+                                    </div>
+                                    <select class="form-control" style="width: auto; min-width: 160px;" id="filter-plugin-category" onchange="app.filterPluginsCatalog()">
+                                        <option value="auto" data-i18n="plug.cat_auto">Auto (Software-passend)</option>
+                                        <option value="plugin" data-i18n="plug.cat_plugin">Nur Plugins</option>
+                                        <option value="mod" data-i18n="plug.cat_mod">Nur Mods</option>
+                                        <option value="all" data-i18n="plug.cat_all">Alle kompatiblen</option>
+                                    </select>
+                                </div>
+
+                                <div class="plugin-catalog" id="plugin-catalog-list">
+                                    <!-- Rendered dynamically -->
+                                </div>
+                            </div>
+
+                            <!-- Right: Installed & Upload Panel -->
+                            <div class="upload-section">
+                                <!-- Upload Dropzone -->
+                                <div class="glass-panel upload-dropzone" id="plugin-upload-dropzone">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                                    <h4 data-i18n="plug.upload_title">Eigene .jar hochladen</h4>
+                                    <p data-i18n="plug.upload_hint">Datei hierher ziehen oder klicken</p>
+                                    <input type="file" id="plugin-file-upload-input" accept=".jar" style="display:none;">
+                                </div>
+
+                                <!-- Injected Upload Progress -->
+                                <div class="upload-progress-container" id="plugin-upload-progress">
+                                    <div class="upload-progress-meta">
+                                        <span id="plugin-upload-filename">upload.jar</span>
+                                        <span id="plugin-upload-percent">0%</span>
+                                    </div>
+                                    <div class="upload-progress-bar">
+                                        <div class="upload-progress-fill" id="plugin-upload-progress-bar-fill"></div>
+                                    </div>
+                                </div>
+
+                                <!-- List of Installed plugins -->
+                                <div class="glass-panel" style="padding: 1.5rem;">
+                                    <h3 style="margin-bottom: 0.75rem; font-size: 1.1rem;" data-i18n="plug.installed">Installierte Erweiterungen</h3>
+                                    <div class="installed-plugins-list" id="installed-plugins-panel">
+                                        <!-- Injected by Server selection -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Panel 4: Backups history & generation -->
+                    <div id="panel-backups" class="tab-panel">
+                        <div class="glass-panel backups-container" style="padding: 1.75rem;">
+                            <div class="backups-toolbar">
+                                <div>
+                                    <h3 style="font-size: 1.25rem; margin-bottom: 0.25rem;" data-i18n="bk.title">Server-Backups</h3>
+                                    <p style="color: var(--text-muted); font-size: 0.85rem;" data-i18n="bk.desc">Sichere den Zustand deiner Welten und Konfigurationsdateien.</p>
+                                </div>
+                                <button class="btn btn-primary" id="btn-create-backup" onclick="app.createNewBackup()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                                    <span data-i18n="bk.create">Backup Erstellen</span>
+                                </button>
+                            </div>
+
+                            <!-- Backups loader bar (optional during generation) -->
+                            <div class="upload-progress-container" id="backup-generation-progress" style="margin-top: -0.5rem; display: none;">
+                                <div class="upload-progress-meta">
+                                    <span data-i18n="bk.compressing">Komprimiere Weltdateien & Konfigurationen...</span>
+                                    <span id="backup-progress-percent">0%</span>
+                                </div>
+                                <div class="upload-progress-bar">
+                                    <div class="upload-progress-fill" id="backup-progress-fill" style="width: 0%;"></div>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th data-i18n="bk.name">Backup Name</th>
+                                            <th data-i18n="bk.date">Erstelldatum</th>
+                                            <th data-i18n="bk.size">Größe</th>
+                                            <th data-i18n="bk.actions">Aktionen</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="backup-list-tbody">
+                                        <!-- Injected by Server selection -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 5: Datei-Manager (v1.0.4) -->
+                    <div id="panel-files" class="tab-panel">
+                        <div class="glass-panel file-manager-layout" style="padding: 0.75rem;">
+                            <div class="file-list" id="file-list-container">
+                                <div style="color:var(--text-muted); padding: 0.75rem; font-size: 0.85rem;" data-i18n="files.loading">Lade Dateien...</div>
+                            </div>
+                            <div class="file-editor-panel">
+                                <div class="file-editor-toolbar">
+                                    <div>
+                                        <h3 style="font-size: 1rem;" id="file-editor-name" data-i18n="files.none_selected">Keine Datei ausgewählt</h3>
+                                        <p style="font-size: 0.75rem; color:var(--text-muted);" id="file-editor-path" data-i18n="files.pick">Wähle links eine Datei aus, um sie zu bearbeiten.</p>
+                                    </div>
+                                    <button class="btn btn-save-file" id="btn-file-save" onclick="app.saveActiveFile()" disabled>
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                                        <span data-i18n="files.save">Datei speichern</span>
+                                    </button>
+                                </div>
+                                <textarea class="file-editor-textarea" id="file-editor-textarea" data-i18n-placeholder="files.textarea_ph" placeholder="// Datei links auswählen..." spellcheck="false"></textarea>
+                                <div id="file-editor-hint" class="file-hint-banner" style="display:none;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel: Einstellungen (server.properties + App, v1.2.0) -->
+                    <div id="panel-settings" class="tab-panel">
+                        <!-- Server-Einstellungen (server.properties) -->
+                        <div class="glass-panel" style="padding: 1.5rem;">
+                            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; flex-wrap:wrap;">
+                                <div>
+                                    <h3 style="font-size: 1.25rem; margin-bottom: 0.25rem;" data-i18n="set.title">Server-Einstellungen</h3>
+                                    <p style="color: var(--text-muted); font-size: 0.85rem;" data-i18n="set.desc">Aternos-artige Optionen, die in server.properties geschrieben werden.</p>
+                                </div>
+                                <button class="btn btn-primary" id="btn-settings-save" onclick="app.saveSettings()" data-i18n="set.save">Einstellungen speichern</button>
+                            </div>
+                            <p class="file-hint-banner" style="margin-top:0.75rem;" data-i18n="set.restart_hint">Änderungen erfordern einen Server-Neustart.</p>
+
+                            <div class="settings-grid" id="settings-grid">
+                                <div class="setting-card"><span class="setting-label" data-i18n="set.maxplayers">Maximale Spieler</span><input type="number" min="1" max="1000" id="set-max-players"></div>
+                                <div class="setting-card"><span class="setting-label" data-i18n="set.gamemode">Spielmodus</span>
+                                    <select id="set-gamemode">
+                                        <option value="survival" data-i18n="set.gm_survival">Überleben</option>
+                                        <option value="creative" data-i18n="set.gm_creative">Kreativ</option>
+                                        <option value="adventure" data-i18n="set.gm_adventure">Abenteuer</option>
+                                        <option value="spectator" data-i18n="set.gm_spectator">Zuschauer</option>
+                                    </select>
+                                </div>
+                                <div class="setting-card"><span class="setting-label" data-i18n="set.difficulty">Schwierigkeit</span>
+                                    <select id="set-difficulty">
+                                        <option value="peaceful" data-i18n="set.diff_peaceful">Friedlich</option>
+                                        <option value="easy" data-i18n="set.diff_easy">Einfach</option>
+                                        <option value="normal" data-i18n="set.diff_normal">Normal</option>
+                                        <option value="hard" data-i18n="set.diff_hard">Schwer</option>
+                                    </select>
+                                </div>
+                                <div class="setting-card"><span class="setting-label" data-i18n="set.whitelist">Whitelist</span><label class="toggle-switch"><input type="checkbox" id="set-white-list"><span class="toggle-slider"></span></label></div>
+                                <div class="setting-card"><span class="setting-label"><span data-i18n="set.cracked">Gecrackt (Offline-Modus)</span><button type="button" class="info-btn" onclick="app.openCrackedInfo()" title="?">i</button></span><label class="toggle-switch"><input type="checkbox" id="set-cracked"><span class="toggle-slider"></span></label></div>
+                                <div class="setting-card"><span class="setting-label" data-i18n="set.pvp">PvP</span><label class="toggle-switch"><input type="checkbox" id="set-pvp"><span class="toggle-slider"></span></label></div>
+                                <div class="setting-card"><span class="setting-label" data-i18n="set.cmdblock">Befehlsblöcke</span><label class="toggle-switch"><input type="checkbox" id="set-enable-command-block"><span class="toggle-slider"></span></label></div>
+                                <div class="setting-card"><span class="setting-label" data-i18n="set.flight">Fliegen erlauben</span><label class="toggle-switch"><input type="checkbox" id="set-allow-flight"><span class="toggle-slider"></span></label></div>
+                                <div class="setting-card"><span class="setting-label" data-i18n="set.monsters">Monster</span><label class="toggle-switch"><input type="checkbox" id="set-spawn-monsters"><span class="toggle-slider"></span></label></div>
+                                <div class="setting-card"><span class="setting-label" data-i18n="set.nether">Nether</span><label class="toggle-switch"><input type="checkbox" id="set-allow-nether"><span class="toggle-slider"></span></label></div>
+                                <div class="setting-card"><span class="setting-label" data-i18n="set.forcegm">Spielmodus erzwingen</span><label class="toggle-switch"><input type="checkbox" id="set-force-gamemode"><span class="toggle-slider"></span></label></div>
+                                <div class="setting-card"><span class="setting-label" data-i18n="set.spawnprot">Spawn-Schutz</span><input type="number" min="0" max="1000" id="set-spawn-protection"></div>
+                                <div class="setting-card full"><span class="setting-label" data-i18n="set.motd">MOTD (Server-Beschreibung)</span><input type="text" id="set-motd" maxlength="200"></div>
+                                <div class="setting-card full"><span class="setting-label" data-i18n="set.resourcepack">Ressourcenpaket-URL</span><input type="text" id="set-resource-pack" placeholder="https://..."></div>
+                            </div>
+                        </div>
+
+                        <!-- App-Einstellungen (global) -->
+                        <div class="glass-panel" style="padding: 1.5rem; margin-top: 1.25rem;">
+                            <h3 style="font-size: 1.15rem; margin-bottom: 0.75rem;" data-i18n="app.settings">App-Einstellungen</h3>
+                            <div class="settings-grid">
+                                <div class="setting-card"><span class="setting-label" data-i18n="app.language">Sprache</span>
+                                    <select id="set-app-language" onchange="app.setLanguage(this.value)">
+                                        <option value="en">English</option>
+                                        <option value="de">Deutsch</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <h4 style="margin-top:1.25rem; display:flex; align-items:center; gap:6px;"><span data-i18n="app.access_title">Externer Zugriff (Origins)</span></h4>
+                            <p style="color: var(--text-muted); font-size: 0.82rem; margin:0.4rem 0 0.6rem;" data-i18n="app.access_desc">Zugriff vom selben Origin funktioniert immer.</p>
+                            <div class="setting-card full">
+                                <label class="setting-label" style="display:flex; align-items:center; gap:8px; margin-bottom:6px;"><input type="checkbox" id="set-allow-all-origins"> <span data-i18n="app.allow_all">Alle Origins erlauben (nicht empfohlen)</span></label>
+                                <textarea id="set-cors-origins" rows="3" data-i18n-placeholder="app.origins_ph" placeholder="https://mein-host.ts.net, http://100.x.y.z:8080"></textarea>
+                            </div>
+                            <button class="btn btn-primary" style="margin-top:0.75rem;" onclick="app.saveAccessConfig()" data-i18n="app.save">Zugriffs-Einstellungen speichern</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==========================================================================
+       C. ADD SERVER MODAL OVERLAY
+       ========================================================================== -->
+    <div class="modal-overlay" id="createServerModal">
+        <div class="modal-box glass-panel">
+            <div class="modal-header">
+                <h3 style="font-size: 1.35rem;" data-i18n="modal.create_title">Neuen Server anlegen</h3>
+                <button class="modal-close" onclick="app.closeCreateModal()">&times;</button>
+            </div>
+
+            <form id="create-server-form" onsubmit="app.handleCreateServer(event)">
+                <div class="form-group">
+                    <label for="new-server-name" data-i18n="modal.name">Servername</label>
+                    <input type="text" class="form-control" id="new-server-name" data-i18n-placeholder="modal.name_ph" placeholder="z.B. Skyblock Fun" required autocomplete="off">
+                </div>
+
+                <div class="form-group">
+                    <label for="new-server-software" data-i18n="modal.software">Serversoftware</label>
+                    <select class="form-control" id="new-server-software">
+                        <option value="Vanilla">Vanilla (Standard Minecraft)</option>
+                        <option value="Spigot">Spigot (Klassische Plugins)</option>
+                        <option value="Paper">Paper (Optimierte Plugins)</option>
+                        <option value="Purpur">Purpur (Paper + Extras)</option>
+                        <option value="Forge">Forge (Schwere Modpacks)</option>
+                        <option value="Fabric">Fabric (Leichte, moderne Mods)</option>
+                        <option value="Mohist">Mohist (Plugins & Forge Hybrid)</option>
+                        <option value="Arclight">Arclight (Plugins & Mods Hybrid)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="new-server-version" data-i18n="modal.version">Minecraft Version</label>
+                    <select class="form-control" id="new-server-version">
+                        <option value="1.21.1">1.21.1 (Standard)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="new-server-ram" data-i18n="modal.ram">RAM Zuweisung</label>
+                    <div class="range-container">
+                        <input type="range" class="range-slider" id="new-server-ram" min="1" max="16" value="4">
+                        <span class="range-value" id="new-ram-value-label">4 GB</span>
+                    </div>
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; gap:0.75rem; margin-top: 1.75rem;">
+                    <button type="button" class="btn btn-secondary" onclick="app.closeCreateModal()" data-i18n="modal.cancel">Abbrechen</button>
+                    <button type="submit" class="btn btn-primary" data-i18n="modal.create">Server Erstellen</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification container -->
+    <div class="toast-container" id="toast-wrapper"></div>
+
+
+    <!-- ==========================================================================
+       D. JAVASCRIPT ENGINE (SIMULATION & INTERACTION)
+       ========================================================================== -->
+    <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "creative",
+  "version": "1.0.2",
+  "name": "Creative",
+  "description": "OPs im Creative Mode können sich mit Farbstoffen unsichtbar machen, sichtbar werden und NoClip aktivieren.",
+  "authors": [
+    "BastiAI"
+  ],
+  "license": "MIT",
+  "icon": "assets/creative/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.example.creative.CreativeMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.4",
+    "minecraft": "~1.21.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+} 

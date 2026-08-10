@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "timermod",
+  "version": "${version}",
+  "name": "Timer Mod",
+  "description": "A simple timer mod that adds /timer commands to Minecraft.",
+  "authors": [
+    "Timer Mod Developer"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "license": "MIT",
+  "icon": "assets/timermod/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.example.timermod.TimerMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.15.0",
+    "minecraft": "~1.21.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  },
+  "suggests": {
+    "another-mod": "*"
+  }
+}

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block page_body %}
+{% if not auth_enabled %}
+<div class="auth-warning-banner" role="alert">
+    <div class="auth-warning-copy">
+        <span>{{ ui["console.auth_required"] }}</span>
+    </div>
+</div>
+{% endif %}
+<section class="stats-grid">
+    <article class="kb-card metric-card">
+        <div class="metric-copy">
+            <span class="metric-label">{{ ui["dashboard.cpu"] }}</span>
+            <strong class="metric-value" data-metric-field="cpu-primary">0%</strong>
+            <span class="metric-meta" data-metric-field="cpu-secondary">{{ ui["status.unknown"] }}</span>
+        </div>
+        <span class="metric-tile metric-tile-cpu" aria-hidden="true"></span>
+    </article>
+    <article class="kb-card metric-card">
+        <div class="metric-copy">
+            <span class="metric-label">{{ ui["dashboard.memory"] }}</span>
+            <strong class="metric-value" data-metric-field="memory-primary">{{ ui["common.none"] }}</strong>
+            <span class="metric-meta" data-metric-field="memory-secondary"></span>
+        </div>
+        <span class="metric-tile metric-tile-memory" aria-hidden="true"></span>
+    </article>
+    <article class="kb-card metric-card">
+        <div class="metric-copy">
+            <span class="metric-label">{{ ui["dashboard.disk"] }}</span>
+            <strong class="metric-value" data-metric-field="disk-primary">{{ ui["common.none"] }}</strong>
+            <span class="metric-meta" data-metric-field="disk-secondary"></span>
+        </div>
+        <span class="metric-tile metric-tile-disk" aria-hidden="true"></span>
+    </article>
+</section>
+
+<section class="kb-card console-shell">
+    <div class="console-logline">
+        <span class="console-prompt">container@katabump~</span>
+        <span class="console-logtext" data-status-field="console_message">{{ ui["console.status_unknown"] }}</span>
+    </div>
+    <div class="console-filter-bar" role="group" aria-label="{{ ui['console.filters'] }}">
+        <div class="btn-group filter-chip-group">
+            <button class="filter-chip is-active" type="button" data-console-filter="all">{{ ui["console.filter_all"] }}</button>
+            <button class="filter-chip" type="button" data-console-filter="errors">{{ ui["console.filter_errors"] }}</button>
+            <button class="filter-chip" type="button" data-console-filter="warnings">{{ ui["console.filter_warnings"] }}</button>
+            <button class="filter-chip" type="button" data-console-filter="success">{{ ui["console.filter_success"] }}</button>
+            <button class="filter-chip" type="button" data-console-filter="commands">{{ ui["console.filter_commands"] }}</button>
+            <button class="filter-chip" type="button" data-console-filter="system">{{ ui["console.filter_system"] }}</button>
+        </div>
+        <div class="btn-group console-action-group">
+            <button class="btn btn-secondary btn-sm console-clear-btn" type="button" id="clearTaskOutputBtn">{{ ui["common.clear"] }}</button>
+            <button class="btn btn-secondary btn-sm hidden" type="button" id="restoreTaskBtn">{{ ui["activity.restore"] }}</button>
+        </div>
+    </div>
+
+    <div class="undo-banner hidden" id="taskUndoBanner" role="status">
+        <div class="undo-banner-copy">
+            <strong>{{ ui["activity.undo_tasks_body"] }}</strong>
+            <span class="undo-banner-timer" id="taskUndoTimer"></span>
+        </div>
+        <button class="btn btn-primary btn-sm" id="taskUndoBtn" type="button">{{ ui["activity.undo_clear"] }}</button>
+    </div>
+
+    <pre class="terminal-output console-terminal" id="taskOutput">{{ ui["console.empty"] }}</pre>
+
+    <form class="console-command-bar console-command-strip" id="consoleForm">
+        <span class="console-chevron" aria-hidden="true"></span>
+        <input id="consoleInput" type="text" placeholder="{{ ui['console.command_placeholder'] }}"{% if not auth_enabled %} disabled{% endif %}>
+        <div class="console-tools" aria-hidden="true">
+            <span class="console-tool console-tool-copy"></span>
+            <span class="console-tool console-tool-expand"></span>
+        </div>
+    </form>
+
+    <details class="log-snapshots" id="taskSnapshots">
+        <summary>{{ ui["activity.snapshots"] }}</summary>
+        <p class="surface-note">{{ ui["activity.snapshots_tasks_hint"] }}</p>
+        <div class="log-snapshot-list" id="taskSnapshotList">
+            <p class="surface-note">{{ ui["activity.no_snapshots"] }}</p>
+        </div>
+    </details>
+</section>
+
+<section class="stats-grid console-bottom-grid">
+    <article class="kb-card metric-card metric-card-bottom">
+        <div class="metric-copy">
+            <span class="metric-label">{{ ui["dashboard.cpu"] }}</span>
+            <strong class="metric-value" data-metric-field="cpu-primary">0%</strong>
+            <span class="metric-meta" data-metric-field="cpu-secondary">{{ ui["status.unknown"] }}</span>
+        </div>
+        <span class="metric-tile metric-tile-cpu" aria-hidden="true"></span>
+    </article>
+    <article class="kb-card metric-card metric-card-bottom">
+        <div class="metric-copy">
+            <span class="metric-label">{{ ui["dashboard.memory"] }}</span>
+            <strong class="metric-value" data-metric-field="memory-primary">{{ ui["common.none"] }}</strong>
+            <span class="metric-meta" data-metric-field="memory-secondary"></span>
+        </div>
+        <span class="metric-tile metric-tile-memory" aria-hidden="true"></span>
+    </article>
+    <article class="kb-card metric-card metric-card-bottom">
+        <div class="metric-copy">
+            <span class="metric-label">Inbound / Outbound</span>
+            <strong class="metric-value">Offline</strong>
+            <span class="metric-meta">Offline</span>
+        </div>
+        <span class="metric-tile metric-tile-network" aria-hidden="true"></span>
+    </article>
+</section>
+
+<section class="hidden">
+    <div class="task-list task-list-wide" id="taskList"></div>
+</section>
+{% endblock %}

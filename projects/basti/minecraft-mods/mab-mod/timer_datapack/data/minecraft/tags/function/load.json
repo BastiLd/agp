@@ -1,0 +1,6 @@
+{
+  "values": [
+    "timer:load",
+    "timer:register_commands"
+  ]
+}

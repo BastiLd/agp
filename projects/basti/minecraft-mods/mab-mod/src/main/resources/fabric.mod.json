@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "restoreinv",
+  "version": "1.0.2",
+  "name": "Restore Inventory",
+  "description": "A mod that allows you to save and restore your inventory state",
+  "authors": [
+    "Example"
+  ],
+  "contact": {
+    "homepage": "https://example.com/",
+    "sources": "https://github.com/example/restoreinv"
+  },
+  "license": "MIT",
+  "icon": "assets/restoreinv/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.example.restoreinv.RestoreInvMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.4",
+    "minecraft": "~1.21.1",
+    "java": ">=17",
+    "fabric-api": "*"
+  }
+} 

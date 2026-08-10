@@ -9,9 +9,10 @@ zum Durchstöbern.
 
 ## Was hier drin ist
 
-Nur Software: Websites, Browser-Erweiterungen, Python-Apps und Desktop-Programme.
-Bewusst **nicht** enthalten sind Fotos, Videos, Schuldokumente, Präsentationen, Dateien
-von Mitschüler:innen sowie installierte Fremdprogramme.
+**56 Projekte** von zwei Rechnern — Websites, Browser-Erweiterungen, Python-Apps,
+Desktop-Programme und Minecraft-Mods. Bewusst **nicht** enthalten sind Fotos, Videos,
+Schuldokumente, Präsentationen, Dateien von Mitschüler:innen sowie installierte
+Fremdprogramme.
 
 ```
 agp/
@@ -25,18 +26,22 @@ agp/
 │   │   ├── websites/
 │   │   ├── python-apps/
 │   │   ├── browser-extensions/
-│   │   └── desktop-apps/
+│   │   ├── desktop-apps/
+│   │   └── minecraft-mods/
 │   └── mijo/
 │       └── websites/
 ├── duplicate-finder/       PowerShell-Skript zur Duplikatsuche
-├── tools/                  Hilfsskripte
-└── DUPLIKATE.md            Wo dasselbe Projekt mehrfach liegt
+├── tools/                  Import-Werkzeug und Verschlüsselung
+├── DUPLIKATE.md            Wo dasselbe Projekt mehrfach liegt
+└── NAECHSTE-SCHRITTE.md    Was als Nächstes ansteht
 ```
 
 ## Die Katalog-Website
 
 - **Kacheln in vier Größen** — klein, mittel, groß und Liste, wie die Symbolansicht im
   Windows-Explorer. Die Wahl bleibt gespeichert.
+- **Fünf Kategorien** — Websites, Python-Apps & Bots, Browser-Erweiterungen, Desktop-Apps
+  und Minecraft-Mods, jede mit eigenem Symbol und eigener Farbe.
 - **Schalter oben in der Mitte** — links **Basti** (blau), rechts **Mijo** (grün).
   Anklicken oder mit der Maus bzw. dem Finger hinüberziehen.
 - **Klick auf eine Kachel** öffnet die Beschreibung mit verwendeter Technik und Links
@@ -56,6 +61,21 @@ Momentaufnahme für den Katalog:
 | Kartenbot | [kartenbot](https://github.com/BastiLd/kartenbot) | — |
 | VetNow Kärnten | [vetnow](https://github.com/BastiLd/vetnow) | [Seite](https://bastild.github.io/vetnow/) |
 | Plex Transfer | [transfermov-seritozimaOSserver](https://github.com/BastiLd/transfermov-seritozimaOSserver) | — |
+| WebHafen | [MFU-TEST](https://github.com/BastiLd/MFU-TEST) | — |
+| ObbyMM | [ObbyMM](https://github.com/BastiLd/ObbyMM) | — |
+| IdeenHub | [Webbing](https://github.com/BastiLd/Webbing) | — |
+| Excel Formel Retter | [Fromel-Excel](https://github.com/BastiLd/Fromel-Excel) | — |
+| Small but Good | [Small-but-Good](https://github.com/BastiLd/Small-but-Good) | [Seite](https://bastild.github.io/Small-but-Good/) |
+| Perry Rat | [Perry-Rat](https://github.com/BastiLd/Perry-Rat) | [Seite](https://bastild.github.io/Perry-Rat/) |
+| Discord Bot Maker | [Discord_Bot-Maker](https://github.com/BastiLd/Discord_Bot-Maker) | — |
+| BastiLd Mod Hub | [MCDiskussionWeb](https://github.com/BastiLd/MCDiskussionWeb) | — |
+| CraftControl | [Game-Server-ZimaOS](https://github.com/BastiLd/Game-Server-ZimaOS) | — |
+| Homelab Discord Bot Manager | [Docker-Discord-Bot](https://github.com/BastiLd/Docker-Discord-Bot) | — |
+| Media Duplikat Finder | [abgleich](https://github.com/BastiLd/abgleich) | — |
+| Medien-Suche | [Medien-Suche-Privat](https://github.com/BastiLd/Medien-Suche-Privat) | — |
+| MediaSync | [MediaSync](https://github.com/BastiLd/MediaSync) | — |
+| Privacy Guard | [adblock-chrome-extension](https://github.com/BastiLd/adblock-chrome-extension) | — |
+| Restore Inventory | [Restore-Inv](https://github.com/BastiLd/Restore-Inv) | — |
 
 Alle übrigen Projekte haben (noch) kein eigenes Repository und liegen vorerst nur hier.
 
@@ -84,8 +104,36 @@ Durchsucht standardmäßig alle lokalen Laufwerke nach mehrfach vorhandenen Proj
 erkannt über gleichen Namen, gleichen Inhalt oder dasselbe Git-Repository. Das Skript
 **liest nur**, es löscht und verschiebt nichts. Ergebnis landet als CSV auf dem Desktop.
 
+Was gefunden wurde, steht in [DUPLIKATE.md](DUPLIKATE.md) — der Kartenbot etwa liegt über
+beide Rechner verteilt in **neun** Kopien.
+
+## Ein Projekt übernehmen
+
+```powershell
+.\tools\Import-Projekt.ps1 -Quelle "D:\Pfad\zum\Projekt" -Ziel "projects/basti/websites/name"
+```
+
+Kopiert ein Projekt in den Katalog und lässt dabei automatisch weg: Zugangsdaten, Build-
+Ausgaben und Abhängigkeiten, Browser-Profile aus Testläufen, Mediendateien und alles über
+20 MB. Zusätzlich wird der **Inhalt** jeder Textdatei auf bekannte Schlüsselformen geprüft.
+Jede ausgelassene Datei landet in einem CSV-Bericht. Mit `-NurAnzeigen` erst einmal nur
+schauen, was passieren würde.
+
 ## Hinweis zu Zugangsdaten
 
-Vor der Veröffentlichung wurden aus den Kopien entfernt: ein Plex-Zugangstoken samt
-Server-Adresse, ein TMDb-API-Schlüssel, die Kartenbot-Datenbank (enthielt Discord-IDs)
-sowie Laufzeit-Protokolle. Die Originale auf dem Rechner sind unverändert.
+Das Repo ist öffentlich, deshalb wurde beides Mal vor der Veröffentlichung ausgemistet.
+
+**Vom Laptop entfernt:** ein Plex-Zugangstoken samt Server-Adresse, ein TMDb-API-Schlüssel,
+die Kartenbot-Datenbank (enthielt Discord-IDs) sowie Laufzeit-Protokolle.
+
+**Vom PC zurückgelassen:** 63 Dateien — unter anderem 13 `.env`-Dateien des Discord-Bot-
+Managers, ein SFTP-Hostschlüssel, zwei Projektdatenbanken, Supabase-Schlüssel und drei
+vollständige **Chrome-Profile** mit gespeicherten Anmeldedaten, die als Rückstände
+automatischer Screenshot-Läufe in einem Projektordner lagen.
+
+Ein Fund fiel nur der Inhaltsprüfung auf: In *Audio zu Text* stand ein gültiger
+OpenAI-Schlüssel fest im Quelltext. Die betroffenen Dateien sind im Katalog, aber mit
+`DEIN_API_KEY_HIER` an seiner Stelle.
+
+Die vollständige Liste steht in [DUPLIKATE.md](DUPLIKATE.md). **Die Originale auf den
+Rechnern sind unverändert** — es wurde nur gelesen und kopiert.

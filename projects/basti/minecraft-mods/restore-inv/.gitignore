@@ -1,0 +1,42 @@
+# Gradle
+.gradle/
+build/
+bin/
+out/
+!gradle/wrapper/gradle-wrapper.jar
+gradle-app.setting
+.gradletasknamecache
+
+# Loom / Multi-Build Output
+builds/
+run/
+*.log
+
+# IDE - IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# IDE - Eclipse
+.classpath
+.project
+.settings/
+
+# IDE - VS Code (workspace-spezifisch)
+.vscode/
+
+# Lokale Override fuer JDK-Pfad / persoenliche Properties
+gradle-local.properties
+
+# Eingeschleppte Drittanbieter-Vorlagen / Test-Server
+fabric-1.21.*/
+fabric-*.zip
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Lokale Hilfsskripte / Logs
+_*.py
+action_log.*

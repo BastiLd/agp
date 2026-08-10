@@ -1,0 +1,1 @@
+$say Team:$(Team) Opponents:$(Opponent)

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Privacy Guard Options</title>
+    <link rel="stylesheet" href="options.css">
+    <link rel="stylesheet" href="../common/tour.css">
+  </head>
+  <body>
+    <main class="options-shell">
+      <header class="page-header">
+        <div class="brand">
+          <div id="optionsMascot" class="mascot large" aria-hidden="true">
+            <span class="mascot-eye left"></span>
+            <span class="mascot-eye right"></span>
+            <span class="mascot-scan"></span>
+          </div>
+          <div>
+            <h1>Privacy Guard</h1>
+            <p id="subtitle">Optionen</p>
+          </div>
+        </div>
+        <div class="segmented" role="group" aria-label="Language">
+          <button id="langDe" type="button">DE</button>
+          <button id="langEn" type="button">EN</button>
+        </div>
+      </header>
+
+      <form id="optionsForm">
+        <section id="protectionSection">
+          <h2 data-label="protectionTitle">Schutz</h2>
+          <div class="field-row">
+            <label>
+              <input id="protectionEnabled" type="checkbox">
+              <span data-label="protectionEnabled">Schutz global aktivieren</span>
+            </label>
+            <label>
+              <input id="badgeEnabled" type="checkbox">
+              <span data-label="badgeEnabled">Badge-Zaehler anzeigen</span>
+            </label>
+            <label>
+              <input id="pageWarnings" type="checkbox">
+              <span data-label="pageWarnings">Seitenwarnung bei starkem Tracking</span>
+            </label>
+            <label>
+              <input id="networkDefaultEnabled" type="checkbox">
+              <span data-label="networkDefaultEnabled">Netzwerkblocking standardmaessig aktiv</span>
+            </label>
+            <label>
+              <input id="cosmeticDefaultEnabled" type="checkbox">
+              <span data-label="cosmeticDefaultEnabled">Kosmetisches Blocking standardmaessig aktiv</span>
+            </label>
+            <label>
+              <input id="cookieHelperDefaultEnabled" type="checkbox">
+              <span data-label="cookieHelperDefaultEnabled">Cookie-Helfer standardmaessig aktiv</span>
+            </label>
+          </div>
+        </section>
+
+        <section id="cookieSection">
+          <h2 data-label="cookiesTitle">Cookies</h2>
+          <label class="stacked">
+            <span data-label="cookieMode">Cookie-Modus</span>
+            <select id="cookieMode">
+              <option value="rejectPreferred" data-label="rejectPreferred">Ablehnen bevorzugt</option>
+              <option value="aggressive" data-label="aggressive">Maximal aggressiv</option>
+              <option value="detectOnly" data-label="detectOnly">Nur markieren</option>
+            </select>
+          </label>
+        </section>
+
+        <section id="remoteSection">
+          <h2 data-label="remoteTitle">Remote-Regeln</h2>
+          <label>
+            <input id="remoteRulesEnabled" type="checkbox">
+            <span data-label="remoteEnabled">Remote-Updates aktivieren</span>
+          </label>
+          <label class="stacked">
+            <span data-label="remoteUrl">URL zu vorkompiliertem DNR-JSON</span>
+            <input id="remoteRulesUrl" type="url" placeholder="https://example.com/privacy-guard-rules.json">
+          </label>
+          <label class="stacked compact">
+            <span data-label="remoteInterval">Update-Intervall in Stunden</span>
+            <input id="remoteUpdateIntervalHours" type="number" min="1" max="168" step="1">
+          </label>
+          <div class="inline-actions">
+            <button id="runUpdateButton" type="button" data-label="runUpdate">Jetzt aktualisieren</button>
+            <span id="remoteStatus" class="muted"></span>
+          </div>
+        </section>
+
+        <section id="rulesetSection">
+          <h2 data-label="bundledListsTitle">Gebündelte Listen</h2>
+          <p class="muted" data-label="bundledListsCopy">Diese Quellen sind als lokale MV3-Regeln vorbereitet oder per Updater konvertierbar.</p>
+          <div id="filterSourceList" class="source-list"></div>
+          <h3 data-label="activeRulesets">Aktive Rulesets</h3>
+          <div id="rulesetToggleList" class="ruleset-toggle-list"></div>
+          <p id="quotaStatus" class="muted"></p>
+        </section>
+
+        <section id="domainListsSection">
+          <h2 data-label="listsTitle">Domain-Listen</h2>
+          <div class="two-col">
+            <label class="stacked">
+              <span data-label="allowlist">Allowlist, eine Domain pro Zeile</span>
+              <textarea id="disabledHosts" spellcheck="false"></textarea>
+            </label>
+            <label class="stacked">
+              <span data-label="blocklist">Blocklist, eine Domain pro Zeile</span>
+              <textarea id="blockedHosts" spellcheck="false"></textarea>
+            </label>
+          </div>
+        </section>
+
+        <footer id="saveSection" class="form-actions">
+          <button id="saveButton" type="submit" data-label="save">Speichern</button>
+          <span id="saveStatus" class="muted"></span>
+        </footer>
+      </form>
+    </main>
+    <script src="../common/constants.js"></script>
+    <script src="../common/tour.js"></script>
+    <script src="options.js"></script>
+  </body>
+</html>

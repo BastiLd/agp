@@ -1,0 +1,294 @@
+{
+  "info": {
+    "name": "IdeenHub API",
+    "description": "API collection for IdeenHub MVP",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Ideas",
+      "item": [
+        {
+          "name": "Search Ideas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/ideas?q=saas&tags=Productivity&page=1",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ideas"],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "saas",
+                  "description": "Search query"
+                },
+                {
+                  "key": "tags",
+                  "value": "Productivity",
+                  "description": "Comma-separated tags"
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                }
+              ]
+            },
+            "description": "Search for ideas with optional query, tags, and pagination"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Idea by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-free-preview",
+                "value": "true",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/ideas/:id",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ideas", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "idea-uuid-here"
+                }
+              ]
+            },
+            "description": "Get full idea details. Requires Pro subscription or free preview header."
+          },
+          "response": []
+        },
+        {
+          "name": "Submit New Idea",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"My Awesome Web App\",\n  \"short_desc\": \"A brief description\",\n  \"long_desc\": \"A longer description with more details\",\n  \"source_url\": \"https://example.com\",\n  \"tags\": [\"SaaS\", \"Productivity\"],\n  \"monthly_revenue_estimate\": 50000,\n  \"monthly_users_estimate\": 10000,\n  \"time_to_revenue_days\": 90\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/ideas",
+              "host": ["{{base_url}}"],
+              "path": ["api", "ideas"]
+            },
+            "description": "Submit a new idea. Auth is optional but recommended."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Sign Up",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"signup\",\n  \"email\": \"user@example.com\",\n  \"password\": \"securepassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth"]
+            },
+            "description": "Create a new user account"
+          },
+          "response": []
+        },
+        {
+          "name": "Sign In",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"signin\",\n  \"email\": \"user@example.com\",\n  \"password\": \"securepassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth"]
+            },
+            "description": "Sign in with email and password"
+          },
+          "response": []
+        },
+        {
+          "name": "Sign Out",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"action\": \"signout\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth",
+              "host": ["{{base_url}}"],
+              "path": ["api", "auth"]
+            },
+            "description": "Sign out current user"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Stripe",
+      "item": [
+        {
+          "name": "Create Checkout Session",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "sb-access-token=your-token-here",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/stripe/create-checkout",
+              "host": ["{{base_url}}"],
+              "path": ["api", "stripe", "create-checkout"]
+            },
+            "description": "Create a Stripe checkout session for Pro subscription. Requires authentication."
+          },
+          "response": []
+        },
+        {
+          "name": "Webhook Handler",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "stripe-signature",
+                "value": "t=timestamp,v1=signature",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": \"checkout.session.completed\",\n  \"data\": {\n    \"object\": {\n      \"id\": \"cs_test_...\",\n      \"mode\": \"subscription\",\n      \"subscription\": \"sub_test_...\"\n    }\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/stripe/webhook",
+              "host": ["{{base_url}}"],
+              "path": ["api", "stripe", "webhook"]
+            },
+            "description": "Stripe webhook endpoint. Called by Stripe for subscription events."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Sync Product Hunt",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "sb-access-token=admin-token-here",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"limit\": 10\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/producthunt/sync",
+              "host": ["{{base_url}}"],
+              "path": ["api", "producthunt", "sync"]
+            },
+            "description": "Sync products from Product Hunt API. Requires admin role."
+          },
+          "response": []
+        },
+        {
+          "name": "Generate Screenshot",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Cookie",
+                "value": "sb-access-token=admin-token-here",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"source_url\": \"https://example.com\",\n  \"idea_id\": \"optional-idea-uuid\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/api/screenshot",
+              "host": ["{{base_url}}"],
+              "path": ["api", "screenshot"]
+            },
+            "description": "Generate screenshot for a URL and store in Supabase Storage. Requires admin role."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}
+

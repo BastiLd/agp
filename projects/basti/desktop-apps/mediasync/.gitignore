@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+dist-types/
+out/
+web/dist/
+server/dist/
+
+# runtime data
+data/
+config/
+*.db
+*.sqlite
+
+# env & logs
+.env
+*.log
+
+# os / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

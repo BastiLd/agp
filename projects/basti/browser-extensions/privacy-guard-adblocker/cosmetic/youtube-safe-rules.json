@@ -1,0 +1,30 @@
+{
+  "markers": [
+    "ytd-ad-slot-renderer",
+    "ytd-display-ad-renderer",
+    "ytd-promoted-sparkles-web-renderer",
+    "ytd-in-feed-ad-layout-renderer",
+    "ytd-video-masthead-ad-v3-renderer",
+    "ytd-compact-promoted-video-renderer",
+    "ytd-companion-slot-renderer"
+  ],
+  "containers": [
+    "ytd-rich-item-renderer",
+    "ytd-compact-video-renderer",
+    "ytd-video-masthead-ad-v3-renderer",
+    "ytd-compact-promoted-video-renderer",
+    "ytd-companion-slot-renderer"
+  ],
+  "denyContainers": [
+    "ytd-app",
+    "ytd-page-manager",
+    "ytd-browse",
+    "ytd-watch-flexy",
+    "ytd-rich-grid-renderer",
+    "ytd-rich-grid-row",
+    "#primary",
+    "#secondary",
+    "#columns",
+    "#player"
+  ]
+}

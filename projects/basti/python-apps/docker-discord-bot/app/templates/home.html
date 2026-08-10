@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block page_body %}
+<section class="home-hero">
+    <div class="home-hero-copy">
+        <p class="section-label">{{ ui["home.eyebrow"] }}</p>
+        <h1>{{ ui["home.heading"] }}</h1>
+        <p class="hero-description">{{ ui["home.intro"] }}</p>
+    </div>
+    <form class="home-create-card" id="createServerForm">
+        <label class="field">
+            <span>{{ ui["home.server_name"] }}</span>
+            <input id="serverNameInput" type="text" maxlength="80" value="Discord-Bot">
+        </label>
+        <label class="field">
+            <span>{{ ui["home.description"] }}</span>
+            <input id="serverDescriptionInput" type="text" maxlength="280" placeholder="{{ ui['home.description_placeholder'] }}">
+        </label>
+        <label class="field">
+            <span>{{ ui["git.repo_url"] }}</span>
+            <input id="serverGitRepoInput" type="url" maxlength="300" placeholder="https://github.com/user/repo">
+        </label>
+        <label class="field">
+            <span>{{ ui["git.branch"] }}</span>
+            <input id="serverGitBranchInput" type="text" maxlength="120" value="main">
+        </label>
+        <p class="surface-note">{{ ui["home.git_help"] }}</p>
+        <button class="btn btn-primary" id="createServerBtn" type="submit">
+            <span class="btn-label">{{ ui["home.create"] }}</span>
+            <span class="btn-spinner" aria-hidden="true"></span>
+        </button>
+    </form>
+</section>
+
+<section class="server-grid-home" aria-label="{{ ui['home.servers'] }}">
+    {% for server in servers %}
+    <a class="server-card-home {% if server.server_id == active_server_id %}is-active{% endif %}" href="/servers/{{ server.server_id }}">
+        <span class="server-card-mark" aria-hidden="true"></span>
+        <span class="server-card-copy">
+            <strong>{{ server.display_name }}</strong>
+            <span>{{ server.description or ui["home.workspace_hint"] }}</span>
+            <small>{{ "/data/workspace" if server.server_id == "default" else "/data/config/servers/" ~ server.server_id ~ "/workspace" }}</small>
+        </span>
+        <span class="status-pill {{ server.status_class }}">{{ server.status_label }}</span>
+        {% if server.server_id == active_server_id %}
+        <span class="server-active-badge">{{ ui["home.active"] }}</span>
+        {% else %}
+        <span class="btn btn-secondary">{{ ui["home.open"] }}</span>
+        {% endif %}
+        {% if server.can_delete %}
+        <button class="server-delete-btn" type="button" data-server-id="{{ server.server_id }}" data-server-name="{{ server.display_name }}">{{ ui["home.delete"] }}</button>
+        {% endif %}
+    </a>
+    {% endfor %}
+</section>
+{% endblock %}

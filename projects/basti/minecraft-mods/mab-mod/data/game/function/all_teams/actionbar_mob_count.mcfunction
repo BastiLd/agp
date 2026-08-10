@@ -1,0 +1,4 @@
+function game:w_config/new/show/actionbar_mobcount_wave with storage red_wave_actionbar
+function game:w_config/new/show/actionbar_mobcount_wave with storage blue_wave_actionbar
+function game:w_config/new/show/actionbar_mobcount_wave with storage yellow_wave_actionbar
+function game:w_config/new/show/actionbar_mobcount_wave with storage green_wave_actionbar

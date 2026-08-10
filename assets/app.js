@@ -4,14 +4,16 @@ const SYMBOLE = {
   websites: '\u{1F310}',
   'python-apps': '\u{1F40D}',
   'browser-extensions': '\u{1F9E9}',
-  'desktop-apps': '\u{1F5A5}️'
+  'desktop-apps': '\u{1F5A5}️',
+  'minecraft-mods': '\u{1F9F1}'
 };
 
 const FARBEN = {
   websites: '#5aa6f0',
   'python-apps': '#f0c14a',
   'browser-extensions': '#c084f5',
-  'desktop-apps': '#4ad6c0'
+  'desktop-apps': '#4ad6c0',
+  'minecraft-mods': '#7cc45a'
 };
 
 const zustand = {
@@ -148,9 +150,15 @@ function zeichnen() {
     return;
   }
 
+  // Private Projekte kommen in einen eigenen Abschnitt am Ende. Zwischen den
+  // öffentlichen Kacheln gingen sie unter — nach dem Entsperren soll sichtbar
+  // etwas dazukommen, nicht nur ein kleines Abzeichen an einer Kachel.
+  const oeffentlich = projekte.filter((p) => !p.istPrivat);
+  const privat = projekte.filter((p) => p.istPrivat);
+
   const reihenfolge = Object.keys(kategorien);
   const gruppen = new Map();
-  for (const p of projekte) {
+  for (const p of oeffentlich) {
     if (!gruppen.has(p.kategorie)) gruppen.set(p.kategorie, []);
     gruppen.get(p.kategorie).push(p);
   }
@@ -170,6 +178,20 @@ function zeichnen() {
       </section>`);
   }
 
+  if (privat.length) {
+    privat.sort((a, b) => a.titel.localeCompare(b.titel, 'de'));
+    teile.push(`
+      <section class="gruppe gruppe-privat">
+        <h2 class="gruppe-titel">
+          <span class="gruppe-schloss" aria-hidden="true">\u{1F513}</span>
+          Privater Bereich
+          <span class="gruppe-anzahl">${privat.length} ${privat.length === 1 ? 'Projekt' : 'Projekte'}</span>
+        </h2>
+        <p class="gruppe-hinweis">Nur nach Eingabe des Passworts sichtbar. Der Code liegt nicht in diesem Repo.</p>
+        <div class="raster">${privat.map(kachelHtml).join('')}</div>
+      </section>`);
+  }
+
   inhalt.innerHTML = teile.join('');
   inhalt.querySelectorAll('.kachel').forEach((k) => {
     k.addEventListener('click', () => detailZeigen(k.dataset.id));
@@ -181,10 +203,10 @@ function kachelHtml(p) {
   if (p.live) marken.push('<span class="marke live">Live</span>');
   if (p.repo) marken.push('<span class="marke repo">Repo</span>');
   if (p.besitzer === 'beide') marken.push('<span class="marke geteilt">Gemeinsam</span>');
-  if (p.istPrivat) marken.push('<span class="marke">Privat</span>');
+  if (p.istPrivat) marken.push('<span class="marke privat">\u{1F512} Privat</span>');
 
   return `
-    <button type="button" class="kachel" data-id="${escapeHtml(p.id)}">
+    <button type="button" class="kachel${p.istPrivat ? ' kachel-privat' : ''}" data-id="${escapeHtml(p.id)}">
       <span class="kachel-symbol" style="--kachel-farbe:${FARBEN[p.kategorie] || '#5aa6f0'}">${SYMBOLE[p.kategorie] || '\u{1F4C1}'}</span>
       <span class="kachel-titel">${escapeHtml(p.titel)}</span>
       <span class="kachel-kurz">${escapeHtml(p.kurz)}</span>
@@ -222,7 +244,7 @@ function detailZeigen(id) {
       <span class="kachel-symbol" style="--kachel-farbe:${FARBEN[p.kategorie] || '#5aa6f0'}">${SYMBOLE[p.kategorie] || '\u{1F4C1}'}</span>
       <div>
         <h2 id="detailTitel">${escapeHtml(p.titel)}</h2>
-        <p class="detail-meta">${escapeHtml(kat)}${p.stand ? ` · Stand ${escapeHtml(p.stand)}` : ''}${p.besitzer === 'beide' ? ' · Gemeinsames Projekt' : ''}</p>
+        <p class="detail-meta">${escapeHtml(kat)}${p.stand ? ` · Stand ${escapeHtml(p.stand)}` : ''}${p.besitzer === 'beide' ? ' · Gemeinsames Projekt' : ''}${p.istPrivat ? ' · <span class="meta-privat">\u{1F512} Privat</span>' : ''}</p>
       </div>
     </div>
 

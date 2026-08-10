@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block page_body %}
+<section class="hero-banner">
+    <div class="hero-copy">
+        <p class="section-label">{{ ui["dashboard.heading"] }}</p>
+        <h1>{{ panel_meta.display_name }}</h1>
+        <p class="hero-description">{{ panel_meta.description or ui["dashboard.hero_default"] }}</p>
+        <div class="hero-status-row">
+            <span class="status-pill is-unknown" data-status-field="badge">{{ ui["status.unknown"] }}</span>
+            <span class="code-pill" data-status-field="command">{{ settings.start_command }}</span>
+        </div>
+    </div>
+
+    <div class="mascot-stage" aria-hidden="true">
+        <div class="katabot katabot-large">
+            <span class="katabot-antenna"></span>
+            <span class="katabot-ear katabot-ear-left"></span>
+            <span class="katabot-ear katabot-ear-right"></span>
+            <span class="katabot-head">
+                <span class="katabot-eye katabot-eye-left"></span>
+                <span class="katabot-eye katabot-eye-right"></span>
+                <span class="katabot-smile"></span>
+            </span>
+            <span class="katabot-body">
+                <span class="katabot-badge"></span>
+            </span>
+            <span class="katabot-arm katabot-arm-left"></span>
+            <span class="katabot-arm katabot-arm-right"></span>
+        </div>
+    </div>
+</section>
+
+<section class="stats-grid">
+    <article class="kb-card metric-card">
+        <div class="metric-copy">
+            <span class="metric-label">{{ ui["dashboard.cpu"] }}</span>
+            <strong class="metric-value" data-metric-field="cpu-primary">Offline / 25%</strong>
+            <span class="metric-meta" data-metric-field="cpu-secondary">{{ ui["status.unknown"] }}</span>
+        </div>
+        <span class="metric-tile metric-tile-cpu" aria-hidden="true"></span>
+    </article>
+    <article class="kb-card metric-card">
+        <div class="metric-copy">
+            <span class="metric-label">{{ ui["dashboard.memory"] }}</span>
+            <strong class="metric-value" data-metric-field="memory-primary">{{ ui["common.none"] }}</strong>
+            <span class="metric-meta" data-metric-field="memory-secondary"></span>
+        </div>
+        <span class="metric-tile metric-tile-memory" aria-hidden="true"></span>
+    </article>
+    <article class="kb-card metric-card">
+        <div class="metric-copy">
+            <span class="metric-label">{{ ui["dashboard.disk"] }}</span>
+            <strong class="metric-value" data-metric-field="disk-primary">{{ ui["common.none"] }}</strong>
+            <span class="metric-meta" data-metric-field="disk-secondary"></span>
+        </div>
+        <span class="metric-tile metric-tile-disk" aria-hidden="true"></span>
+    </article>
+</section>
+
+<section class="dashboard-info-grid">
+    <article class="kb-card info-card">
+        <h2 class="card-title">Server Info</h2>
+        <dl class="info-table">
+            <div>
+                <dt>{{ ui["layout.status"] }}</dt>
+                <dd><span class="status-pill is-unknown" data-status-field="badge">{{ ui["status.unknown"] }}</span></dd>
+            </div>
+            <div>
+                <dt>{{ ui["layout.uptime"] }}</dt>
+                <dd data-status-field="uptime">{{ ui["common.none"] }}</dd>
+            </div>
+            <div>
+                <dt>{{ ui["dashboard.hostname"] }}</dt>
+                <dd>{{ server_address }}</dd>
+            </div>
+            <div>
+                <dt>Server IP</dt>
+                <dd>{{ server_address.rsplit(':', 1)[0] if ':' in server_address else server_address }}</dd>
+            </div>
+            <div>
+                <dt>Node ID</dt>
+                <dd>GRA-N47 - Gratuit</dd>
+            </div>
+            <div>
+                <dt>Server ID</dt>
+                <dd>{{ panel_meta.server_id }}</dd>
+            </div>
+        </dl>
+    </article>
+
+    <article class="kb-card info-card">
+        <h2 class="card-title">Server Info</h2>
+        <dl class="info-table">
+            <div>
+                <dt>Hostname</dt>
+                <dd>{{ server_address }}</dd>
+            </div>
+            <div>
+                <dt>Node ID</dt>
+                <dd>GRA-N47 - Gratuit</dd>
+            </div>
+            <div>
+                <dt>Server ID</dt>
+                <dd># {{ panel_meta.server_id }}</dd>
+            </div>
+            <div>
+                <dt>{{ ui["dashboard.workspace"] }}</dt>
+                <dd>{{ workspace_path }}</dd>
+            </div>
+        </dl>
+    </article>
+</section>
+{% endblock %}

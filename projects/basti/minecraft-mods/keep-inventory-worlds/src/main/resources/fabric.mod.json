@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "keepinveverywhere",
+  "version": "${version}",
+  "name": "Take it Anywhere",
+  "description": "Take your inventory AND your builds into any other world: save inventories into named slots, copy Axiom selections as builds and paste them anywhere. Includes a keep-inventory-on-death toggle, a polished GUI, Mod Menu + Cloth Config integration, and English/German localization.",
+  "authors": [
+    "Bastian Klaus"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.bastianklaus.keepinveverywhere.KeepInvEverywhere"
+    ],
+    "client": [
+      "net.bastianklaus.keepinveverywhere.client.KeepInvEverywhereClient"
+    ],
+    "modmenu": [
+      "net.bastianklaus.keepinveverywhere.client.ModMenuIntegration"
+    ]
+  },
+  "mixins": [
+    "keepinveverywhere.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft": ">=1.21.1 <1.21.5",
+    "java": ">=21",
+    "fabric-api": "*",
+    "cloth-config": ">=15.0.0"
+  },
+  "suggests": {
+    "modmenu": "*"
+  }
+}

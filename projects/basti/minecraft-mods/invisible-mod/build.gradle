@@ -1,0 +1,43 @@
+plugins {
+    // Die korrekte Loom-Version und Publishing, falls benötigt
+    id 'fabric-loom' version '1.6.12'
+    id 'maven-publish'
+}
+
+group = 'com.example'
+version = '1.0.0'
+
+repositories {
+    // Normale Artefakt-Repos
+    maven { url = 'https://maven.fabricmc.net/' }
+    mavenCentral()
+}
+
+dependencies {
+    // Minecraft & Yarn-Mappings
+    minecraft 'com.mojang:minecraft:1.21.1'
+    mappings   'net.fabricmc:yarn:1.21.1+build.1:v2'
+
+    // Fabric Loader und API
+    modImplementation 'net.fabricmc:fabric-loader:0.16.4'
+    modImplementation 'net.fabricmc.fabric-api:fabric-api:0.102.0+1.21.1'
+}
+
+loom {
+    // Trennt Client/Server Code, empfohlen
+    splitEnvironmentSourceSets()
+}
+
+java {
+    // Stelle sicher, dass Gradle Java 21 verwendet
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    withSourcesJar()
+}
+
+// Optional: jar-Metadaten
+tasks.withType(Jar) {
+    archiveBaseName.set('creative')
+    archiveVersion.set('1.0.2')
+}

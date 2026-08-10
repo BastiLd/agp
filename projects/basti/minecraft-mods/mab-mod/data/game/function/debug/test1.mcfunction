@@ -1,0 +1,1 @@
+function game:debug/test2 {Opponent:Red,Team:Red}

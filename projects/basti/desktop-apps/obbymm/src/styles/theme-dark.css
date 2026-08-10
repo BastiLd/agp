@@ -1,0 +1,52 @@
+html.dark {
+  --bg-primary: #191919;
+  --bg-page: #1f1f1f;
+  --bg-secondary: #202020;
+  --bg-sidebar: #202020;
+  --bg-chrome: #1b1b1b;
+  --bg-tertiary: #2b2b2b;
+  --bg-panel: #252525;
+  --bg-panel-soft: #222222;
+  --bg-input: #242424;
+  --bg-button: #2b2b2b;
+  --bg-hover: #333333;
+  --toolbar-bg: rgb(37 37 37 / 0.96);
+
+  --canvas-bg: #181818;
+  --canvas-glow: rgb(126 139 160 / 0.1);
+  --node-bg: #242424;
+  --node-border: #3a3a3a;
+  --node-border-active: #898984;
+  --edge-color: #7b7c77;
+  --handle-bg: #a6a7a0;
+  --handle-border: #d3d3cc;
+  --node-icon: #c7c8c0;
+  --document-fold: #393936;
+  --shape-preview-bg: #2b2b2b;
+  --shape-preview-border: #bdbeb6;
+  --cube-side: #303030;
+
+  --text-primary: #e7e7e2;
+  --text-secondary: #b6b6ae;
+  --text-muted: #85857e;
+
+  --border-color: #343434;
+  --border-subtle: #2a2a2a;
+  --border-strong: #484848;
+
+  --accent-primary: #b7b8b0;
+  --accent-soft: #30302d;
+  --accent-border: #5d5e58;
+  --accent-hover: #43443e;
+  --accent-text: #f0f0ea;
+  --selection-bg: #2f302d;
+  --danger-text: #f0a9a1;
+  --danger-border: #6d3934;
+
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.32);
+  --shadow-md: 0 8px 20px -14px rgb(0 0 0 / 0.72);
+  --shadow-lg: 0 18px 44px -22px rgb(0 0 0 / 0.86);
+  --shadow-node: 0 1px 1px rgb(0 0 0 / 0.18);
+  --shadow-node-active: 0 12px 28px -20px rgb(0 0 0 / 0.9);
+  --shadow-node-raised: 0 18px 44px -24px rgb(0 0 0 / 0.92), 0 1px 1px rgb(0 0 0 / 0.24);
+}

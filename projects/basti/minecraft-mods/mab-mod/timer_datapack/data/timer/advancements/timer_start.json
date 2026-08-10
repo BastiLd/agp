@@ -1,0 +1,16 @@
+{
+  "criteria": {
+    "requirement": {
+      "trigger": "minecraft:player_hurt_entity",
+      "conditions": {
+        "entity": {
+          "type": "interaction",
+          "nbt": "{Tags:[\"timer_start\"]}"
+        }
+      }
+    }
+  },
+  "rewards": {
+    "function": "timer:commands/start"
+  }
+}

@@ -1,0 +1,9 @@
+pluginManagement {
+    repositories {
+        // Hier werden die Plugins (inkl. fabric-loom) aufgelöst
+        maven { url = 'https://maven.fabricmc.net/' }
+        gradlePluginPortal()
+        mavenCentral()
+    }
+}
+rootProject.name = 'RestoreInventory'

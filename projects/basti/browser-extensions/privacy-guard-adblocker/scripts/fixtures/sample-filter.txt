@@ -1,0 +1,11 @@
+! Minimal fixture for scripts/update-rules.mjs
+||ads.example.test^$script,image,xmlhttprequest
+||tracker.example.test^
+||thirdparty.example.test^$third-party,script
+@@||allowed.example.test^$script,domain=example.org
+$removeparam=utm_source
+example.org##.ad-banner
+example.org#@#.ad-banner-safe
+example.org#$#abort-on-property-read ads
+example.org#?#div:-abp-contains(Advertisement)
+||frame.example.test^$subdocument

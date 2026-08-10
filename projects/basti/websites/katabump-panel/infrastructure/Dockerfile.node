@@ -1,0 +1,14 @@
+FROM node:20-alpine
+WORKDIR /app
+COPY package.json package-lock.json ./
+COPY apps/api/package.json apps/api/package.json
+COPY apps/agent/package.json apps/agent/package.json
+COPY apps/worker/package.json apps/worker/package.json
+COPY apps/sftp/package.json apps/sftp/package.json
+COPY packages/common/package.json packages/common/package.json
+COPY packages/runtime/package.json packages/runtime/package.json
+RUN npm ci
+COPY . .
+ARG SERVICE_DIR
+WORKDIR /app/${SERVICE_DIR}
+CMD ["npm", "run", "start"]

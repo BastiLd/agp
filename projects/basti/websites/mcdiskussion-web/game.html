@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0a0a16" />
+    <title>Paddle Force — BastiLd Mod Hub</title>
+    <meta
+      name="description"
+      content="Paddle Force — the original game by Flobotron (Luke Pacholski, Bobby Richter & Devon Bird), hosted with the developers' permission."
+    />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #0a0a16;
+        overflow: hidden;
+      }
+      .pf-frame {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        display: block;
+      }
+      .pf-back {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 10;
+        padding: 6px 14px;
+        border-radius: 999px;
+        font: 600 14px/1.4 system-ui, sans-serif;
+        color: #eee;
+        background: rgba(10, 10, 22, 0.65);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        text-decoration: none;
+        opacity: 0.55;
+        transition: opacity 0.2s ease;
+      }
+      .pf-back:hover,
+      .pf-back:focus-visible {
+        opacity: 1;
+      }
+    </style>
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module">
+      import { trackEvent } from './js/analytics.js';
+      window.addEventListener('load', () => trackEvent('game_open', 'paddleforce-original'));
+    </script>
+  </head>
+  <body>
+    <a class="pf-back" href="index.html#games" aria-label="Back to the site">← Back</a>
+    <iframe
+      class="pf-frame"
+      src="paddleforce/index.html"
+      title="Paddle Force — original game by Flobotron"
+      allow="autoplay; fullscreen; gamepad"
+      allowfullscreen
+    ></iframe>
+    <script>
+      // The game is keyboard/gamepad controlled — give the iframe focus right away.
+      const frame = document.querySelector('.pf-frame');
+      frame.addEventListener('load', () => frame.focus());
+    </script>
+  </body>
+</html>

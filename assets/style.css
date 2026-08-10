@@ -7,6 +7,11 @@
   --akzent: var(--basti);
   --akzent-hell: var(--basti-hell);
 
+  /* Eigene Farbe für alles Private — bewusst keine der beiden Personenfarben,
+     damit „gesperrt" nicht mit „von Basti" oder „von Mijo" verwechselt wird. */
+  --privat: #c9762f;
+  --privat-hell: #f0a860;
+
   --bg: #0f1117;
   --bg-erhoben: #171a23;
   --bg-kachel: #1c202b;
@@ -29,6 +34,8 @@
     --text: #161a22;
     --text-leise: #5d6779;
     --schatten: 0 4px 20px rgba(20, 30, 60, .10);
+    --privat: #b0621f;
+    --privat-hell: #8a4a15;
   }
 }
 
@@ -252,6 +259,31 @@ main {
   color: var(--text-leise);
 }
 
+/* ---------- Privater Bereich ---------- */
+
+.gruppe-privat {
+  margin-top: 3rem;
+  padding: 1.25rem 1.25rem .5rem;
+  border: 1px dashed color-mix(in srgb, var(--privat) 55%, transparent);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--privat) 7%, transparent);
+}
+
+.gruppe-privat .gruppe-titel {
+  color: var(--privat-hell);
+  border-bottom-color: color-mix(in srgb, var(--privat) 35%, transparent);
+}
+
+.gruppe-schloss { font-size: 1.1rem; }
+
+.gruppe-hinweis {
+  margin: -.4rem 0 1rem;
+  font-size: .82rem;
+  color: var(--text-leise);
+}
+
+.meta-privat { color: var(--privat-hell); font-weight: 600; }
+
 .raster {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--kachel-breite), 1fr));
@@ -334,6 +366,18 @@ main {
 .marke.live   { background: color-mix(in srgb, #2fa860 22%, transparent); color: #55cf88; }
 .marke.repo   { background: color-mix(in srgb, #7c6fe0 22%, transparent); color: #a99cf5; }
 .marke.geteilt{ background: color-mix(in srgb, #e0a13a 22%, transparent); color: #f0bf6e; }
+.marke.privat { background: color-mix(in srgb, var(--privat) 26%, transparent); color: var(--privat-hell); }
+
+/* Muss nach .kachel stehen — gleiche Spezifität, die spätere Regel gewinnt. */
+.kachel-privat {
+  border-color: color-mix(in srgb, var(--privat) 60%, transparent);
+  background: color-mix(in srgb, var(--privat) 9%, var(--bg-kachel));
+}
+
+.kachel-privat:hover {
+  border-color: var(--privat-hell);
+  background: color-mix(in srgb, var(--privat) 16%, var(--bg-kachel));
+}
 
 /* Größenstufen */
 body[data-groesse="klein"]  { --kachel-breite: 150px; }

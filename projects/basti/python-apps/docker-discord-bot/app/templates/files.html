@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block page_body %}
+<section class="file-browser-view" id="fileBrowserView">
+    <article class="kb-card files-toolbar-card">
+        <div class="files-toolbar-grid">
+            <div class="file-path-row">
+                <label class="toolbar-checkbox">
+                    <input id="selectAllCheckbox" type="checkbox" aria-label="Select all">
+                    <span></span>
+                </label>
+                <div class="breadcrumbs" id="breadcrumbs"></div>
+            </div>
+
+            <div class="files-toolbar-actions">
+                <label class="search-box search-box-wide">
+                    <span class="visually-hidden">{{ ui["files.search"] }}</span>
+                    <input id="fileSearchInput" type="search" placeholder="{{ ui['files.search'] }}">
+                </label>
+                <button class="btn btn-icon btn-danger-soft" id="bulkDeleteBtn" type="button" disabled aria-label="{{ ui['files.delete'] }}"><span class="visually-hidden">{{ ui["files.delete"] }}</span></button>
+                <button class="btn btn-icon btn-secondary" id="bulkDownloadBtn" type="button" disabled aria-label="{{ ui['files.bulk_download'] }}"><span class="visually-hidden">{{ ui["files.bulk_download"] }}</span></button>
+                <button class="btn btn-icon btn-secondary" id="bulkMoveBtn" type="button" disabled aria-label="{{ ui['files.move'] }}"><span class="visually-hidden">{{ ui["files.move"] }}</span></button>
+                <button class="btn btn-icon btn-secondary" id="bulkCopyBtn" type="button" disabled aria-label="{{ ui['files.copy'] }}"><span class="visually-hidden">{{ ui["files.copy"] }}</span></button>
+                <button class="btn btn-icon btn-secondary" id="navigateUpBtn" type="button" aria-label="{{ ui['files.up'] }}"><span class="visually-hidden">{{ ui["files.up"] }}</span></button>
+                <button class="btn btn-icon btn-secondary" id="refreshFilesBtn" type="button" aria-label="{{ ui['files.refresh'] }}"><span class="visually-hidden">{{ ui["files.refresh"] }}</span></button>
+                <button class="btn btn-secondary" id="newFolderBtn" type="button">{{ ui["files.new_folder"] }}</button>
+                <button class="btn btn-secondary" id="newFileBtn" type="button">{{ ui["files.new_file"] }}</button>
+                <button class="btn btn-icon btn-primary" id="uploadFilesBtn" type="button" aria-label="{{ ui['files.upload'] }}"><span class="visually-hidden">{{ ui["files.upload"] }}</span></button>
+                <button class="btn btn-icon btn-primary" id="uploadArchiveBtn" type="button" aria-label="{{ ui['files.upload_zip'] }}"><span class="visually-hidden">{{ ui["files.upload_zip"] }}</span></button>
+            </div>
+        </div>
+
+        <div class="drop-hint" id="dropzone">
+            <strong>Drag and drop</strong>
+            <span>{{ workspace_path }}</span>
+        </div>
+    </article>
+
+    <article class="kb-card">
+        <div class="table-wrap">
+            <table class="data-table file-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>{{ ui["files.name"] }}</th>
+                        <th>{{ ui["files.type"] }}</th>
+                        <th>{{ ui["files.size"] }}</th>
+                        <th>{{ ui["files.modified"] }}</th>
+                        <th>{{ ui["files.actions"] }}</th>
+                    </tr>
+                </thead>
+                <tbody id="fileTableBody"></tbody>
+            </table>
+        </div>
+    </article>
+</section>
+
+<section class="kb-card hidden file-editor-view" id="fileEditorView">
+    <div class="surface-header toolbar-spread">
+        <div>
+            <button class="btn btn-secondary back-button" id="fileEditorBackBtn" type="button">{{ ui["files.editor_back"] }}</button>
+            <p class="section-label" id="editorPath">/</p>
+            <h1 id="editorTitle">{{ ui["files.editor_empty"] }}</h1>
+        </div>
+        <div class="toolbar-actions">
+            <span class="tag" id="editorLanguage">Text</span>
+            <span class="tag" id="editorDirtyBadge" data-dirty="false">{{ ui["files.editor_saved"] }}</span>
+            <button class="btn btn-secondary" id="reloadFileBtn" type="button" disabled>{{ ui["files.editor_reload"] }}</button>
+            <button class="btn btn-primary" id="saveFileBtn" type="button" disabled>{{ ui["files.editor_save"] }}</button>
+        </div>
+    </div>
+    <textarea id="editorTextarea" class="editor-textarea" spellcheck="false" placeholder="{{ ui['files.placeholder'] }}"></textarea>
+    <p class="surface-note" id="editorMeta">{{ ui["editor.none"] }}</p>
+</section>
+
+<input id="uploadFilesInput" type="file" multiple hidden>
+<input id="uploadArchiveInput" type="file" accept=".zip" multiple hidden>
+{% endblock %}

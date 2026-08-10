@@ -1,0 +1,12 @@
+# Anweisungen für die Text-Generierung
+# 
+# Schreibe hier deine Anweisungen, wie die Texte erstellt werden sollen.
+# Diese Datei wird automatisch vom Script gelesen.
+#
+# Beispiele:
+# - "Mach die Version 2 mehr wie dieser Text..."
+# - "Mach die Version 3 höflich"
+# - "Fokus auf die Audios 38, 41, 42"
+#
+# Aktuelle Anweisungen:
+# (Hier kannst du deine Anweisungen schreiben)

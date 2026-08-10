@@ -1,0 +1,25 @@
+// Root build: kein eigener Code, sammelt nur die JARs aller
+// Multi-Version-Subprojekte unter build/libs/ ein.
+
+plugins {
+    id 'base'
+}
+
+def collectArtifacts = tasks.register('collectArtifacts', Copy) {
+    group = 'build'
+    description = 'Kopiert die remappten JARs aller Subprojekte nach build/libs/.'
+
+    destinationDir = file("$buildDir/libs")
+    doFirst { destinationDir.mkdirs() }
+
+    subprojects.each { sub ->
+        from(sub.layout.buildDirectory.dir('libs')) {
+            include '*.jar'
+        }
+        dependsOn "${sub.path}:build"
+    }
+}
+
+tasks.named('build') {
+    dependsOn collectArtifacts
+}

@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+
+{% block page_body %}
+<section class="startup-grid">
+    <article class="surface startup-card">
+        <div class="surface-header toolbar-spread">
+            <div class="title-block">
+                <p class="section-label">{{ ui["nav.startup"] }}</p>
+                <h1>{{ ui["startup.heading"] }}</h1>
+            </div>
+            <button class="btn btn-primary" id="saveSettingsBtn" type="button">{{ ui["startup.save"] }}</button>
+        </div>
+        <label class="field field-span-2">
+            <span>{{ ui["startup.command"] }}</span>
+            <input id="startCommandInput" class="command-strip command-strip-compact" type="text" placeholder="python /home/container/app.py">
+        </label>
+        <div class="startup-options">
+            <label class="checkbox-field">
+                <input id="autoRestartInput" type="checkbox">
+                <span>{{ ui["startup.auto_restart"] }}</span>
+            </label>
+            <label class="checkbox-field">
+                <input id="useVenvInput" type="checkbox">
+                <span>{{ ui["startup.use_venv"] }}</span>
+            </label>
+            <label class="field field-medium">
+                <span>{{ ui["startup.restart_delay"] }}</span>
+                <input id="restartDelayInput" type="number" min="1" max="300">
+            </label>
+        </div>
+    </article>
+
+    <article class="surface startup-card">
+        <div class="surface-header toolbar-spread">
+            <div class="title-block">
+                <p class="section-label">{{ ui["startup.runtime"] }}</p>
+                <h2>{{ ui["startup.runtime"] }}</h2>
+            </div>
+            <button class="btn btn-secondary" id="refreshStartupBtn" type="button">{{ ui["startup.refresh"] }}</button>
+        </div>
+        <label class="field">
+            <span>{{ ui["startup.docker_image"] }}</span>
+            <select id="pythonRuntimeInput">
+                <option value="3.14">Python 3.14</option>
+                <option value="3.13">Python 3.13</option>
+                <option value="3.12">Python 3.12</option>
+            </select>
+        </label>
+        <p class="surface-note">{{ ui["startup.runtime_help"] }}</p>
+    </article>
+</section>
+
+<section class="surface startup-section">
+    <div class="surface-header toolbar-spread">
+        <div class="title-block">
+            <p class="section-label">{{ ui["git.eyebrow"] }}</p>
+            <h2 class="big-section-title">{{ ui["git.heading"] }}</h2>
+        </div>
+        <div class="toolbar-actions">
+            <button class="btn btn-secondary" id="saveGitBtn" type="button">{{ ui["common.save"] }}</button>
+            <button class="btn btn-secondary" id="checkGitBtn" type="button">{{ ui["git.check"] }}</button>
+            <button class="btn btn-secondary" id="importGitBtn" type="button">{{ ui["git.import"] }}</button>
+            <button class="btn btn-primary" id="updateGitBtn" type="button">{{ ui["git.update"] }}</button>
+        </div>
+    </div>
+    <div class="field-grid section-stack">
+        <label class="field field-span-2">
+            <span>{{ ui["git.repo_url"] }}</span>
+            <input id="gitRepoInput" type="url" placeholder="https://github.com/user/repo">
+        </label>
+        <label class="field">
+            <span>{{ ui["git.branch"] }}</span>
+            <input id="gitBranchInput" type="text" placeholder="main">
+        </label>
+        <label class="checkbox-field">
+            <input id="gitAutoUpdateInput" type="checkbox">
+            <span>{{ ui["git.auto_update"] }}</span>
+        </label>
+        <label class="checkbox-field">
+            <input id="gitInstallDepsInput" type="checkbox">
+            <span>{{ ui["git.install_deps"] }}</span>
+        </label>
+        <label class="checkbox-field">
+            <input id="gitRestartInput" type="checkbox">
+            <span>{{ ui["git.restart_after_update"] }}</span>
+        </label>
+        <label class="checkbox-field">
+            <input id="gitKeepUserDataInput" type="checkbox">
+            <span>{{ ui["git.keep_user_data"] }}</span>
+        </label>
+    </div>
+    <fieldset class="kb-fieldset section-stack" id="gitProtectedSection">
+        <legend>{{ ui["git.protected_paths"] }}</legend>
+        <p class="surface-note">{{ ui["git.protected_paths_help"] }}</p>
+        <div class="git-protected-list" id="gitProtectedList">
+            <p class="surface-note" id="gitProtectedEmpty">{{ ui["git.protected_paths_empty"] }}</p>
+        </div>
+        <div class="card-actions card-actions-end">
+            <button class="btn btn-secondary" id="refreshProtectedBtn" type="button">{{ ui["git.protected_refresh"] }}</button>
+        </div>
+    </fieldset>
+    <fieldset class="kb-fieldset section-stack" id="gitExtraPatternSection">
+        <legend>{{ ui["git.protected_extra"] }}</legend>
+        <p class="surface-note">{{ ui["git.protected_extra_help"] }}</p>
+        <div class="extra-pattern-row">
+            <input id="gitExtraPatternInput" type="text" placeholder="{{ ui['git.protected_extra_placeholder'] }}">
+            <button class="btn btn-primary" id="addExtraPatternBtn" type="button">{{ ui["git.protected_add"] }}</button>
+        </div>
+        <ul class="extra-pattern-list" id="gitExtraPatternList"></ul>
+    </fieldset>
+    <div class="card-actions card-actions-end section-stack">
+        <button class="btn btn-secondary" id="previewGitBtn" type="button">{{ ui["git.preview"] }}</button>
+    </div>
+    <section class="git-preview hidden section-stack" id="gitPreviewBox">
+        <h3 class="card-title">{{ ui["git.preview"] }}</h3>
+        <p class="surface-note" id="gitPreviewMessage">{{ ui["git.preview_loading"] }}</p>
+        <div class="git-preview-grid" id="gitPreviewGrid"></div>
+    </section>
+    <section class="git-history section-stack">
+        <h3 class="card-title">{{ ui["git.history"] }}</h3>
+        <table class="data-table compact-table">
+            <thead>
+                <tr>
+                    <th>{{ ui["git.history_when"] }}</th>
+                    <th>{{ ui["git.history_action"] }}</th>
+                    <th>{{ ui["git.history_change"] }}</th>
+                    <th>{{ ui["git.local_commit"] }}</th>
+                    <th>{{ ui["backups.actions"] }}</th>
+                </tr>
+            </thead>
+            <tbody id="gitHistoryBody"></tbody>
+        </table>
+    </section>
+    <dl class="info-table compact-table section-stack">
+        <div>
+            <dt>{{ ui["git.status"] }}</dt>
+            <dd><span class="code-pill" id="gitStatusText">{{ ui["common.none"] }}</span></dd>
+        </div>
+        <div>
+            <dt>{{ ui["git.local_commit"] }}</dt>
+            <dd><span class="code-pill" id="gitLocalCommitText">-</span></dd>
+        </div>
+        <div>
+            <dt>{{ ui["git.remote_commit"] }}</dt>
+            <dd><span class="code-pill" id="gitRemoteCommitText">-</span></dd>
+        </div>
+        <div>
+            <dt>{{ ui["git.message"] }}</dt>
+            <dd><span id="gitMessageText">{{ ui["common.none"] }}</span></dd>
+        </div>
+    </dl>
+</section>
+
+<section class="surface startup-section">
+    <div class="surface-header toolbar-spread">
+        <div class="title-block">
+            <p class="section-label">{{ ui["startup.environment"] }}</p>
+            <h2 class="big-section-title">{{ ui["startup.environment"] }}</h2>
+        </div>
+        <div class="toolbar-actions">
+            <button class="btn btn-secondary" id="installDepsBtn" type="button">{{ ui["startup.install_deps"] }}</button>
+            <label class="field grow-field">
+                <span>{{ ui["startup.package_name"] }}</span>
+                <input id="packageInput" type="text">
+            </label>
+            <button class="btn btn-primary" id="installPackageBtn" type="button">{{ ui["startup.install_package"] }}</button>
+            <button class="btn btn-secondary" id="addEnvBtn" type="button">{{ ui["startup.add_variable"] }}</button>
+            <button class="btn btn-primary" id="saveEnvBtn" type="button">{{ ui["startup.save_env"] }}</button>
+        </div>
+    </div>
+    <div class="field-grid section-stack">
+        <label class="field">
+            <span>{{ ui["startup.python_version"] }}</span>
+            <input value="Python {{ settings.python_runtime }}" disabled>
+        </label>
+        <label class="field">
+            <span>{{ ui["startup.venv_path"] }}</span>
+            <input value="{{ workspace_path.replace('workspace', 'venv') }}" disabled>
+        </label>
+    </div>
+    <div class="env-list section-stack" id="envList"></div>
+</section>
+
+<section class="stats-grid">
+    <article class="surface metric-card">
+        <div class="metric-copy">
+            <span class="metric-label">{{ ui["startup.tasks"] }}</span>
+            <strong class="metric-value">{{ ui["startup.tasks"] }}</strong>
+            <span class="metric-note">{{ ui["startup.output"] }}</span>
+        </div>
+        <span class="metric-tile metric-tile-cpu" aria-hidden="true"></span>
+    </article>
+    <article class="surface metric-card">
+        <div class="metric-copy">
+            <span class="metric-label">{{ ui["layout.status"] }}</span>
+            <strong class="metric-value" data-status-field="state_text">{{ ui["status.unknown"] }}</strong>
+            <span class="metric-note">{{ ui["startup.runtime"] }}</span>
+        </div>
+        <span class="metric-tile metric-tile-memory" aria-hidden="true"></span>
+    </article>
+    <article class="surface metric-card">
+        <div class="metric-copy">
+            <span class="metric-label">{{ ui["startup.output"] }}</span>
+            <strong class="metric-value">{{ ui["common.none"] }}</strong>
+            <span class="metric-note">{{ ui["startup.tasks"] }}</span>
+        </div>
+        <span class="metric-tile metric-tile-network" aria-hidden="true"></span>
+    </article>
+</section>
+
+<section class="startup-task-stack">
+    <article class="surface startup-task-card">
+        <div class="surface-header">
+            <div class="title-block">
+                <p class="section-label">{{ ui["startup.tasks"] }}</p>
+                <h2>{{ ui["startup.tasks"] }}</h2>
+            </div>
+        </div>
+        <div class="task-list task-list-wide" id="taskList"></div>
+        <div class="surface-header">
+            <div class="title-block">
+                <p class="section-label">{{ ui["startup.output"] }}</p>
+                <h2>{{ ui["startup.output"] }}</h2>
+            </div>
+        </div>
+        <div class="undo-banner hidden" id="taskUndoBanner" role="status">
+            <div class="undo-banner-copy">
+                <strong>{{ ui["activity.undo_tasks_body"] }}</strong>
+                <span class="undo-banner-timer" id="taskUndoTimer"></span>
+            </div>
+            <button class="btn btn-primary btn-sm" id="taskUndoBtn" type="button">{{ ui["activity.undo_clear"] }}</button>
+        </div>
+        <pre class="terminal-output activity-terminal startup-task-terminal" id="taskOutput">{{ ui["console.empty"] }}</pre>
+        <div class="card-actions card-actions-end terminal-card-actions">
+            <button class="btn btn-secondary btn-sm hidden" type="button" id="restoreTaskBtn">{{ ui["activity.restore"] }}</button>
+            <button class="btn btn-secondary btn-sm" type="button" id="clearStartupOutputBtn">{{ ui["common.clear"] }}</button>
+        </div>
+        <details class="log-snapshots" id="taskSnapshots">
+            <summary>{{ ui["activity.snapshots"] }}</summary>
+            <p class="surface-note">{{ ui["activity.snapshots_tasks_hint"] }}</p>
+            <div class="log-snapshot-list" id="taskSnapshotList">
+                <p class="surface-note">{{ ui["activity.no_snapshots"] }}</p>
+            </div>
+        </details>
+    </article>
+</section>
+{% endblock %}

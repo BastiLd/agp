@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0a0a16" />
+    <title>Paddle Force Classic — BastiLd Mod Hub</title>
+    <meta name="description" content="Paddle Force Classic — BastiLd's remake of the territory-capture pong with power-ups, set in space." />
+    <link rel="stylesheet" href="css/game.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="js/game-boot.js"></script>
+    <script type="module">
+      import { trackEvent } from './js/analytics.js';
+      window.addEventListener('load', () => trackEvent('game_open', 'paddleforce-classic'));
+    </script>
+  </head>
+  <body>
+    <a class="pf-back" href="index.html#games" aria-label="Back to the site">← Back</a>
+
+    <!-- Shown on small portrait screens: the game wants landscape -->
+    <div class="pf-rotate-hint" aria-hidden="true">
+      <span class="pf-rotate-emoji">🔄</span>
+      <p>Bitte Gerät drehen<br /><small>Please rotate your device</small></p>
+    </div>
+
+    <div class="pf-stage" data-pf-stage>
+      <canvas data-pf-canvas width="1280" height="720" role="img" aria-label="Paddle Force game board"></canvas>
+
+      <!-- Scoreboard -->
+      <div class="pf-scoreboard" aria-hidden="true">
+        <span class="pf-score p1" data-pf-score-p1>0</span>
+        <span class="pf-score p2" data-pf-score-p2>0</span>
+      </div>
+
+      <!-- PAUSE tag -->
+      <div class="pf-pause" data-pf-pause hidden>PAUSE</div>
+
+      <!-- ================= START SCREEN ================= -->
+      <div class="pf-start" data-pf-start>
+        <div class="pf-stars" aria-hidden="true"></div>
+        <div class="pf-moon" aria-hidden="true"></div>
+        <div class="pf-mascot" aria-hidden="true">
+          <div class="pf-mascot-emoji">💪</div>
+          <div class="pf-mascot-paddle"></div>
+        </div>
+
+        <div class="pf-menu">
+          <h1 class="pf-title">PADDLE FORCE</h1>
+          <p class="pf-subtitle">Classic — BastiLd's remake</p>
+
+          <div class="pf-seg pf-bestof">
+            <button type="button" class="pf-segbtn" data-pf-bestof="3">BEST OF 3</button>
+            <button type="button" class="pf-segbtn" data-pf-bestof="5">BEST OF 5</button>
+            <button type="button" class="pf-segbtn" data-pf-bestof="7">BEST OF 7</button>
+          </div>
+
+          <div class="pf-powerups" role="group" aria-label="Power-ups">
+            <button type="button" class="pf-pu" data-pf-pu="grow"><span class="pf-pu-ico">⭐</span><span class="pf-pu-lbl">GROW</span></button>
+            <button type="button" class="pf-pu" data-pf-pu="ghost"><span class="pf-pu-ico">⬜</span><span class="pf-pu-lbl">NOCLIP</span></button>
+            <button type="button" class="pf-pu" data-pf-pu="spin"><span class="pf-pu-ico">🌀</span><span class="pf-pu-lbl">SPIN</span></button>
+            <button type="button" class="pf-pu" data-pf-pu="bones"><span class="pf-pu-ico">🦴</span><span class="pf-pu-lbl">BONES</span></button>
+            <button type="button" class="pf-pu" data-pf-pu="sticky"><span class="pf-pu-ico">🟡</span><span class="pf-pu-lbl">STICKY</span></button>
+            <button type="button" class="pf-pu" data-pf-pu="mines"><span class="pf-pu-ico">🔴</span><span class="pf-pu-lbl">MINES</span></button>
+          </div>
+
+          <div class="pf-toggles">
+            <button type="button" class="pf-toggle" data-pf-sound>SOUND</button>
+            <button type="button" class="pf-toggle" data-pf-music>MUSIC</button>
+          </div>
+
+          <div class="pf-seg pf-diff" data-pf-diffrow>
+            <button type="button" class="pf-segbtn" data-pf-diff="easy">EASY</button>
+            <button type="button" class="pf-segbtn" data-pf-diff="medium">MEDIUM</button>
+            <button type="button" class="pf-segbtn" data-pf-diff="hard">HARD</button>
+          </div>
+
+          <div class="pf-players">
+            <div class="pf-pselect">
+              <button type="button" class="pf-pbtn" data-pf-p1="cpu">CPU</button>
+              <button type="button" class="pf-pbtn" data-pf-p1="human">KEYBOARD</button>
+            </div>
+            <span class="pf-vs">VS</span>
+            <div class="pf-pselect">
+              <button type="button" class="pf-pbtn" data-pf-p2="cpu">CPU</button>
+              <button type="button" class="pf-pbtn" data-pf-p2="human">KEYBOARD</button>
+            </div>
+          </div>
+
+          <button type="button" class="pf-start-btn" data-pf-startbtn>START!</button>
+          <p class="pf-controls-hint">
+            P1: W A S D move · C / V rotate &nbsp;•&nbsp; P2: ◄▲▼► move · , / . rotate &nbsp;•&nbsp; Space = pause
+          </p>
+          <p class="pf-presents">BastiLd presents</p>
+        </div>
+      </div>
+
+      <!-- ================= ROUND/MATCH PANEL ================= -->
+      <div class="pf-panel" data-pf-panel hidden>
+        <div class="pf-panel-card">
+          <p class="pf-panel-title" data-pf-panel-title>MATCH OVER</p>
+          <p class="pf-panel-sub" data-pf-panel-sub>PLAYER 1 WINS!</p>
+          <button type="button" class="pf-start-btn pf-rematch" data-pf-rematch>REMATCH</button>
+          <button type="button" class="pf-link" data-pf-home>HOME</button>
+          <div class="pf-totals">
+            <span class="pf-totals-label">TOTAL WINS</span>
+            <div class="pf-totals-row">
+              <span class="p1" data-pf-total-p1>0</span>
+              <span class="p2" data-pf-total-p2>0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= TOUCH CONTROLS ================= -->
+      <div class="pf-touch" data-pf-touch hidden>
+        <div class="pf-pad" data-side="p1">
+          <div class="pf-dpad">
+            <button type="button" class="d-up" data-key="w" aria-label="Up">▲</button>
+            <button type="button" class="d-left" data-key="a" aria-label="Left">◀</button>
+            <button type="button" class="d-right" data-key="d" aria-label="Right">▶</button>
+            <button type="button" class="d-down" data-key="s" aria-label="Down">▼</button>
+          </div>
+          <div class="pf-rot">
+            <button type="button" data-key="c" aria-label="Rotate left">⟲</button>
+            <button type="button" data-key="v" aria-label="Rotate right">⟳</button>
+          </div>
+        </div>
+        <div class="pf-pad" data-side="p2">
+          <div class="pf-dpad">
+            <button type="button" class="d-up" data-key="ArrowUp" aria-label="Up">▲</button>
+            <button type="button" class="d-left" data-key="ArrowLeft" aria-label="Left">◀</button>
+            <button type="button" class="d-right" data-key="ArrowRight" aria-label="Right">▶</button>
+            <button type="button" class="d-down" data-key="ArrowDown" aria-label="Down">▼</button>
+          </div>
+          <div class="pf-rot">
+            <button type="button" data-key="," aria-label="Rotate left">⟲</button>
+            <button type="button" data-key="." aria-label="Rotate right">⟳</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

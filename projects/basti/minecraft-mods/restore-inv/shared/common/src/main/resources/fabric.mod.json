@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "Restore Inventory",
+  "description": "A mod that allows you to save and restore your inventory state",
+  "authors": [
+    "BastiLd"
+  ],
+  "contact": {
+    "homepage": "https://github.com/BastiLd/Restore-Inv",
+    "sources":  "https://github.com/BastiLd/Restore-Inv",
+    "issues":   "https://github.com/BastiLd/Restore-Inv/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/restoreinv/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "de.bastild.restoreinv.RestoreInvMod"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.16.0",
+    "minecraft":    "${mc_range}",
+    "java":         ">=21",
+    "fabric-api":   "*"
+  }
+}

@@ -1,0 +1,1 @@
+$function game:debug/test3 {Opponent:$(Opponent),Team:$(Opponent)}

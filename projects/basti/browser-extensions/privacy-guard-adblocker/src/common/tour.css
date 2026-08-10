@@ -1,0 +1,239 @@
+.pg-tour-active {
+  overflow-x: hidden;
+}
+
+.pg-tour-mascot-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  cursor: pointer;
+}
+
+.pg-tour-mascot-button .mascot {
+  pointer-events: none;
+}
+
+.pg-tour-mascot-button:focus-visible {
+  outline: 3px solid rgba(31, 138, 115, 0.35);
+  outline-offset: 4px;
+  border-radius: 14px;
+}
+
+.pg-tour-menu {
+  position: fixed;
+  z-index: 2147483646;
+  min-width: 172px;
+  border: 1px solid var(--border, #d9e0ea);
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.18);
+  padding: 6px;
+}
+
+.pg-tour-menu button {
+  width: 100%;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text, #15202b);
+  padding: 9px 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pg-tour-menu button:hover,
+.pg-tour-menu button:focus-visible {
+  background: #e5f3ee;
+  outline: 0;
+}
+
+.pg-tour-root {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483645;
+  pointer-events: none;
+}
+
+.pg-tour-spotlight {
+  position: fixed;
+  z-index: 1;
+  border: 2px solid rgba(173, 255, 226, 0.96);
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 9999px rgba(12, 22, 29, 0.48),
+    0 0 28px rgba(31, 138, 115, 0.42);
+  opacity: 0;
+  transform: scale(0.98);
+  transition:
+    left 0.26s ease,
+    top 0.26s ease,
+    width 0.26s ease,
+    height 0.26s ease,
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+.pg-tour-spotlight.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.pg-tour-mascot {
+  position: fixed;
+  z-index: 3;
+  width: 54px;
+  height: 60px;
+  pointer-events: none;
+  filter: drop-shadow(0 18px 24px rgba(15, 23, 42, 0.26));
+  animation: pgTourMascotIdle 3.8s ease-in-out infinite;
+}
+
+.pg-tour-bubble {
+  position: fixed;
+  z-index: 2;
+  width: min(312px, calc(100vw - 28px));
+  border: 1px solid rgba(185, 222, 210, 0.95);
+  border-radius: 12px;
+  background: #ffffff;
+  color: var(--text, #15202b);
+  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.22);
+  padding: 14px;
+  pointer-events: auto;
+  animation: pgTourBubbleIn 0.24s ease both;
+}
+
+.pg-tour-bubble::before {
+  content: "";
+  position: absolute;
+  left: 26px;
+  top: -8px;
+  width: 14px;
+  height: 14px;
+  border-left: 1px solid rgba(185, 222, 210, 0.95);
+  border-top: 1px solid rgba(185, 222, 210, 0.95);
+  background: #ffffff;
+  transform: rotate(45deg);
+}
+
+.pg-tour-eyebrow {
+  display: block;
+  margin-bottom: 5px;
+  color: #176b5b;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.pg-tour-bubble h2 {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.pg-tour-bubble p {
+  margin: 8px 0 0;
+  color: var(--muted, #64748b);
+}
+
+.pg-tour-detail {
+  display: none;
+  margin-top: 10px;
+  border: 1px solid #d9e0ea;
+  border-radius: 8px;
+  background: #f7fbf9;
+  padding: 10px;
+  color: #29453f;
+  font-size: 12px;
+}
+
+.pg-tour-detail.is-open {
+  display: block;
+  animation: pgTourDetailIn 0.18s ease both;
+}
+
+.pg-tour-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 13px;
+}
+
+.pg-tour-actions button {
+  border: 1px solid #d9e0ea;
+  border-radius: 7px;
+  background: #ffffff;
+  color: var(--text, #15202b);
+  padding: 7px 10px;
+  cursor: pointer;
+}
+
+.pg-tour-actions button:hover,
+.pg-tour-actions button:focus-visible {
+  border-color: #176b5b;
+  outline: 0;
+}
+
+.pg-tour-actions .pg-tour-primary {
+  border-color: #176b5b;
+  background: #176b5b;
+  color: #ffffff;
+}
+
+.pg-tour-actions .pg-tour-ghost {
+  margin-left: auto;
+  color: var(--muted, #64748b);
+}
+
+.pg-tour-progress {
+  margin-top: 10px;
+  color: var(--muted, #64748b);
+  font-size: 11px;
+}
+
+@keyframes pgTourMascotIdle {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(2deg);
+  }
+}
+
+@keyframes pgTourBubbleIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pgTourDetailIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pg-tour-spotlight,
+  .pg-tour-mascot,
+  .pg-tour-bubble,
+  .pg-tour-detail {
+    animation: none;
+    transition: none;
+  }
+}

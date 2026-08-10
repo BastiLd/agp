@@ -1,0 +1,215 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  mariadb:
+    image: mariadb:11.4
+    environment:
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+    volumes:
+      - mariadb-data:/var/lib/mysql
+      - ./database/mariadb-init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -u root -p${MARIADB_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  api:
+    build:
+      context: .
+      dockerfile: infrastructure/Dockerfile.node
+      args:
+        SERVICE_DIR: apps/api
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      API_PORT: ${API_PORT}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT_INTERNAL: 5432
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_SSL: false
+      SESSION_SECRET: ${SESSION_SECRET}
+      RUNTIME_TOKEN_SECRET: ${RUNTIME_TOKEN_SECRET}
+      INTERNAL_SERVICE_SECRET: ${INTERNAL_SERVICE_SECRET}
+      DATA_ENCRYPTION_KEY: ${DATA_ENCRYPTION_KEY}
+      MARIADB_HOST: mariadb
+      MARIADB_PORT: 3306
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      SFTP_PUBLIC_HOST: ${SFTP_PUBLIC_HOST}
+      SFTP_PUBLIC_PORT: ${SFTP_PUBLIC_PORT}
+      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL}
+      SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD}
+      HOST_SERVER_DATA_ROOT: ${HOST_SERVER_DATA_ROOT}
+      HOST_BACKUP_ROOT: ${HOST_BACKUP_ROOT}
+      DISCORD_URL: ${DISCORD_URL}
+      SUPPORT_CENTER_URL: ${SUPPORT_CENTER_URL}
+      DEFAULT_BRAND_NAME: ${DEFAULT_BRAND_NAME}
+      DEFAULT_BRAND_FOOTER: ${DEFAULT_BRAND_FOOTER}
+      DEFAULT_BRAND_SUBFOOTER: ${DEFAULT_BRAND_SUBFOOTER}
+      WORKER_BASE_URL: http://worker:${WORKER_PORT}
+    command: ["sh", "-lc", "node src/migrate.mjs && node src/seed.mjs && node src/index.mjs"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - ${HOST_SERVER_DATA_ROOT}:${HOST_SERVER_DATA_ROOT}
+      - ${HOST_BACKUP_ROOT}:${HOST_BACKUP_ROOT}
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:' + process.env.API_PORT + '/healthz').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))\""]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  agent:
+    build:
+      context: .
+      dockerfile: infrastructure/Dockerfile.node
+      args:
+        SERVICE_DIR: apps/agent
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      AGENT_PORT: ${AGENT_PORT}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT_INTERNAL: 5432
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      RUNTIME_TOKEN_SECRET: ${RUNTIME_TOKEN_SECRET}
+      INTERNAL_SERVICE_SECRET: ${INTERNAL_SERVICE_SECRET}
+      HOST_SERVER_DATA_ROOT: ${HOST_SERVER_DATA_ROOT}
+      HOST_BACKUP_ROOT: ${HOST_BACKUP_ROOT}
+    depends_on:
+      api:
+        condition: service_healthy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${HOST_SERVER_DATA_ROOT}:${HOST_SERVER_DATA_ROOT}
+      - ${HOST_BACKUP_ROOT}:${HOST_BACKUP_ROOT}
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:' + process.env.AGENT_PORT + '/healthz').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))\""]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      dockerfile: infrastructure/Dockerfile.node
+      args:
+        SERVICE_DIR: apps/worker
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      WORKER_PORT: ${WORKER_PORT}
+      REDIS_HOST: redis
+      REDIS_PORT_INTERNAL: 6379
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT_INTERNAL: 5432
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      INTERNAL_SERVICE_SECRET: ${INTERNAL_SERVICE_SECRET}
+      AGENT_BASE_URL: http://agent:${AGENT_PORT}
+    depends_on:
+      api:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      agent:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"fetch('http://127.0.0.1:' + process.env.WORKER_PORT + '/healthz').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))\""]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  sftp:
+    build:
+      context: .
+      dockerfile: infrastructure/Dockerfile.node
+      args:
+        SERVICE_DIR: apps/sftp
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      SFTP_PORT: ${SFTP_PORT}
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT_INTERNAL: 5432
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      HOST_SERVER_DATA_ROOT: ${HOST_SERVER_DATA_ROOT}
+      SFTP_HOST_KEY_PATH: /srv/sftp-keys/hostkey.pem
+    depends_on:
+      api:
+        condition: service_healthy
+    volumes:
+      - ${HOST_SERVER_DATA_ROOT}:${HOST_SERVER_DATA_ROOT}
+      - sftp-keys:/srv/sftp-keys
+    healthcheck:
+      test: ["CMD-SHELL", "node -e \"const net=require('net'); const socket=net.connect(process.env.SFTP_PORT, '127.0.0.1'); socket.on('connect',()=>{socket.end();process.exit(0)}); socket.on('error',()=>process.exit(1)); setTimeout(()=>process.exit(1),3000);\""]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: infrastructure/Dockerfile.web
+    ports:
+      - "${APP_PORT:-8080}:8080"
+    depends_on:
+      api:
+        condition: service_healthy
+      agent:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q -O - http://127.0.0.1:8080/healthz >/dev/null || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  redis-data:
+  mariadb-data:
+  sftp-keys:

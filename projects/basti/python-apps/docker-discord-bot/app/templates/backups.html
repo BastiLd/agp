@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block page_body %}
+<section class="surface table-card">
+    <div class="surface-header toolbar-spread">
+        <div class="title-block">
+            <p class="section-label">{{ ui["nav.backups"] }}</p>
+            <h1>{{ ui["backups.heading"] }}</h1>
+        </div>
+        <div class="toolbar-actions">
+            <label class="checkbox-field">
+                <input id="restoreKeepUserDataInput" type="checkbox" checked>
+                <span>{{ ui["backups.restore_keep_user_data"] }}</span>
+            </label>
+            <button class="btn btn-primary" id="createBackupBtn" type="button">{{ ui["backups.create"] }}</button>
+        </div>
+    </div>
+    <p class="surface-note">{{ ui["backups.restore_help"] }}</p>
+    <div class="table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>{{ ui["backups.name"] }}</th>
+                    <th>{{ ui["files.size"] }}</th>
+                    <th>{{ ui["backups.created"] }}</th>
+                    <th>{{ ui["backups.checksum"] }}</th>
+                    <th>{{ ui["backups.actions"] }}</th>
+                </tr>
+            </thead>
+            <tbody id="backupTableBody"></tbody>
+        </table>
+    </div>
+</section>
+
+<section class="surface table-card">
+    <div class="surface-header toolbar-spread">
+        <div class="title-block">
+            <p class="section-label">{{ ui["backups.retention"] }}</p>
+            <h2>{{ ui["backups.retention"] }}</h2>
+        </div>
+        <button class="btn btn-primary" id="saveRetentionBtn" type="button">{{ ui["backups.retention_save"] }}</button>
+    </div>
+    <p class="surface-note">{{ ui["backups.retention_help"] }}</p>
+    <div class="field-grid section-stack">
+        <label class="checkbox-field">
+            <input id="retentionEnabledInput" type="checkbox">
+            <span>{{ ui["backups.retention_enabled"] }}</span>
+        </label>
+        <label class="field">
+            <span>{{ ui["backups.retention_mode"] }}</span>
+            <select id="retentionModeInput">
+                <option value="30d">{{ ui["backups.retention_mode_30d"] }}</option>
+                <option value="6m">{{ ui["backups.retention_mode_6m"] }}</option>
+                <option value="10m">{{ ui["backups.retention_mode_10m"] }}</option>
+                <option value="1y">{{ ui["backups.retention_mode_1y"] }}</option>
+                <option value="custom">{{ ui["backups.retention_mode_custom"] }}</option>
+            </select>
+        </label>
+        <label class="field" id="retentionCustomField">
+            <span>{{ ui["backups.retention_custom_label"] }}</span>
+            <input id="retentionCustomInput" type="number" min="1" max="3650" value="30">
+        </label>
+    </div>
+</section>
+{% endblock %}

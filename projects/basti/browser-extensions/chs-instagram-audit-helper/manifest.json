@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "CHS Instagram Audit Helper",
+  "version": "2.0.0",
+  "description": "Zeigt Metadaten (Datum, Likes, Kommentare, Views) dauerhaft direkt auf Instagram-Profilkacheln an.",
+  "permissions": ["storage"],
+  "host_permissions": ["https://www.instagram.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.instagram.com/*"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["styles.css"],
+      "matches": ["https://www.instagram.com/*"]
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+# Set colors to Green/Yellow
+data modify storage minecraft:global DisplayColors.main set value "dark_green"
+data modify storage minecraft:global DisplayColors.time set value "yellow"
+tellraw @a [{"text":"[Timer]","color":"gold"},{"text":" Color scheme set to Green/Yellow.","color":"dark_green"}]

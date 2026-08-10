@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0a0a16" />
+    <title>Mod Editor — BastiLd Mod Hub</title>
+    <meta name="robots" content="noindex" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script type="module" src="js/modEditor.js"></script>
+  </head>
+  <body class="mod-editor-page">
+    <header class="editor-topbar">
+      <a class="btn btn-ghost" href="index.html#admin" data-i18n="editorBack">← Dashboard</a>
+      <h1 data-i18n="editorTitle">Mod Editor</h1>
+      <span class="muted" data-editor-user></span>
+    </header>
+
+    <main class="editor-main">
+      <!-- Sign-in (shown when there is no admin session) -->
+      <section class="editor-login" data-editor-login hidden>
+        <p class="section-lead" data-i18n="adminLoginLead">Sign in to manage comments and view stats.</p>
+        <form class="comment-form admin-login-form" data-editor-login-form novalidate>
+          <div class="field">
+            <label for="ed-email" data-i18n="adminEmail">Email</label>
+            <input id="ed-email" name="email" type="email" autocomplete="username" required />
+          </div>
+          <div class="field">
+            <label for="ed-password" data-i18n="adminPassword">Password</label>
+            <input id="ed-password" name="password" type="password" autocomplete="current-password" required />
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary" data-i18n="adminSignIn">Sign in</button>
+            <span class="form-msg" data-editor-login-msg role="status"></span>
+          </div>
+        </form>
+      </section>
+
+      <!-- Mod list -->
+      <section class="editor-list" data-editor-list hidden>
+        <h2 data-i18n="editorPickMod">Choose a mod to edit</h2>
+        <div class="editor-mod-list" data-editor-mods></div>
+      </section>
+
+      <!-- Editor -->
+      <section class="editor-work" data-editor-work hidden>
+        <div class="editor-toolbar">
+          <button type="button" class="btn btn-ghost" data-editor-back-list data-i18n="editorBackToList">← All mods</button>
+          <div class="editor-toolbar-right">
+            <button type="button" class="btn btn-ghost" data-editor-reset data-i18n="editorReset">Reset layout</button>
+            <button type="button" class="btn btn-primary" data-editor-save data-i18n="editorSave">Save</button>
+            <span class="form-msg" data-editor-msg role="status"></span>
+          </div>
+        </div>
+
+        <div class="editor-columns">
+          <!-- Left: content + layout controls -->
+          <div class="editor-controls">
+            <h3 data-i18n="editorContent">Content</h3>
+            <form class="comment-form editor-fields" data-editor-fields novalidate>
+              <div class="field">
+                <label for="ed-name" data-i18n="modFormName">Name</label>
+                <input id="ed-name" name="name" type="text" maxlength="80" />
+              </div>
+              <div class="field">
+                <label for="ed-sum-en" data-i18n="modFormSumEn">Summary (EN)</label>
+                <textarea id="ed-sum-en" name="summary_en" rows="2" maxlength="300"></textarea>
+              </div>
+              <div class="field">
+                <label for="ed-sum-de" data-i18n="modFormSumDe">Summary (DE)</label>
+                <textarea id="ed-sum-de" name="summary_de" rows="2" maxlength="300"></textarea>
+              </div>
+              <div class="mod-form-row">
+                <div class="field">
+                  <label for="ed-icon" data-i18n="editorIconUrl">Icon URL</label>
+                  <input id="ed-icon" name="icon_url" type="url" />
+                </div>
+                <div class="field">
+                  <label for="ed-sort" data-i18n="modFormSort">Sort</label>
+                  <input id="ed-sort" name="sort" type="number" value="0" />
+                </div>
+              </div>
+              <div class="mod-form-row">
+                <div class="field">
+                  <label for="ed-mr-url" data-i18n="editorModrinthUrl">Modrinth URL</label>
+                  <input id="ed-mr-url" name="modrinth_url" type="url" />
+                </div>
+                <div class="field">
+                  <label for="ed-gh-url" data-i18n="editorGithubUrl">GitHub URL</label>
+                  <input id="ed-gh-url" name="github_url" type="url" />
+                </div>
+              </div>
+              <label class="editor-check">
+                <input type="checkbox" name="visible" />
+                <span data-i18n="editorVisible">Visible on the site</span>
+              </label>
+            </form>
+
+            <h3 data-i18n="editorLayout">Layout</h3>
+            <div class="editor-mode" role="group">
+              <button type="button" class="btn btn-ghost active" data-editor-mode="grid" data-i18n="editorModeGrid">Grid (order)</button>
+              <button type="button" class="btn btn-ghost" data-editor-mode="free" data-i18n="editorModeFree">Free (drag)</button>
+            </div>
+            <p class="muted" data-editor-mode-hint data-i18n="editorGridHint">
+              Drag the blocks (or use ↑ ↓) to change their order. Toggle visibility and alignment per block.
+            </p>
+            <div class="editor-blocks" data-editor-blocks></div>
+
+            <div class="field editor-height" data-editor-height-wrap hidden>
+              <label for="ed-height" data-i18n="editorCardHeight">Card height (px)</label>
+              <input id="ed-height" type="number" min="140" max="700" step="10" value="280" />
+            </div>
+          </div>
+
+          <!-- Right: live preview -->
+          <div class="editor-preview-wrap">
+            <h3 data-i18n="editorPreview">Live preview</h3>
+            <div class="editor-preview" data-editor-preview></div>
+            <p class="muted" data-i18n="editorFreeDragHint" data-editor-drag-hint hidden>
+              Drag blocks directly on the preview. Width per block is set below.
+            </p>
+            <div class="editor-widths" data-editor-widths hidden></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

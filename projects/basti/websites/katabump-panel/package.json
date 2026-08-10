@@ -1,0 +1,26 @@
+{
+  "name": "katabump-control-panel",
+  "private": true,
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=20 <26"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @katabump/web",
+    "dev": "concurrently -n api,agent,worker,sftp,web -c cyan,magenta,yellow,green,blue \"npm run dev -w @katabump/api\" \"npm run dev -w @katabump/agent\" \"npm run dev -w @katabump/worker\" \"npm run dev -w @katabump/sftp\" \"npm run dev -w @katabump/web\"",
+    "dev:local": "node scripts/dev-local.mjs",
+    "dev:infra": "docker compose -f compose.local.yaml up -d",
+    "dev:infra:down": "docker compose -f compose.local.yaml down",
+    "dev:setup": "npm run migrate && npm run seed",
+    "migrate": "npm run migrate -w @katabump/api",
+    "seed": "npm run seed -w @katabump/api",
+    "test": "node tests/verify.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

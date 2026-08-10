@@ -1,0 +1,264 @@
+{% extends "base.html" %}
+
+{% block page_body %}
+<section class="settings-grid">
+    <article class="kb-card">
+        <h1 class="card-title">SFTP Details</h1>
+        <div class="field-grid field-grid-single">
+            <label class="field">
+                <span>Server Address</span>
+                <input type="text" value="sftp://{{ server_address }}" readonly>
+            </label>
+            <label class="field">
+                <span>Username</span>
+                <input type="text" value="{{ panel_meta.server_id }}" readonly>
+            </label>
+        </div>
+        <div class="settings-callout-row">
+            <div class="settings-callout">
+                <span class="settings-callout-line" aria-hidden="true"></span>
+                <p>Your SFTP password is the same as the password you use to access this panel.</p>
+            </div>
+            <a class="btn btn-secondary" href="sftp://{{ server_address }}">Launch SFTP</a>
+        </div>
+    </article>
+
+    <article class="kb-card">
+        <h2 class="card-title">Change Server Details</h2>
+        <div class="field-grid field-grid-single">
+            <label class="field">
+                <span>{{ ui["settings.server_name"] }}</span>
+                <input id="panelNameInput" type="text" value="{{ panel_meta.display_name }}">
+            </label>
+            <label class="field">
+                <span>{{ ui["settings.description"] }}</span>
+                <textarea id="panelDescriptionInput" rows="6">{{ panel_meta.description }}</textarea>
+            </label>
+            <label class="field field-medium">
+                <span>{{ ui["settings.language"] }}</span>
+                <select id="localeSelect">
+                    <option value="en" {% if locale == 'en' %}selected{% endif %}>English</option>
+                    <option value="de" {% if locale == 'de' %}selected{% endif %}>Deutsch</option>
+                </select>
+            </label>
+        </div>
+        <div class="card-actions card-actions-end">
+            <button class="btn btn-primary" id="savePanelBtn" type="button">{{ ui["settings.save"] }}</button>
+        </div>
+    </article>
+
+    <article class="kb-card" id="securityCard">
+        <h2 class="card-title">{{ ui["security.heading"] }}</h2>
+        <p class="surface-note">{{ ui["security.help"] }}</p>
+        <dl class="info-table compact-table">
+            <div>
+                <dt>{{ ui["git.status"] }}</dt>
+                <dd><span id="securityStatusText">{{ ui["common.none"] }}</span></dd>
+            </div>
+        </dl>
+        <div class="field-grid field-grid-single">
+            <label class="field">
+                <span>{{ ui["security.username"] }}</span>
+                <input id="securityUsernameInput" type="text" autocomplete="username">
+            </label>
+            <label class="field">
+                <span>{{ ui["security.password"] }}</span>
+                <input id="securityPasswordInput" type="password" autocomplete="new-password">
+            </label>
+            <label class="field">
+                <span>{{ ui["security.password_confirm"] }}</span>
+                <input id="securityPasswordConfirmInput" type="password" autocomplete="new-password">
+            </label>
+        </div>
+        <div class="card-actions card-actions-end">
+            <button class="btn btn-outline-danger" id="disableSecurityBtn" type="button">{{ ui["security.disable"] }}</button>
+            <button class="btn btn-primary" id="saveSecurityBtn" type="button">{{ ui["security.save"] }}</button>
+        </div>
+    </article>
+
+    <article class="kb-card">
+        <h2 class="card-title">Debug Information</h2>
+        <dl class="info-table compact-table">
+            <div>
+                <dt>Node</dt>
+                <dd><span class="code-pill">GRA-N47 - Gratuit</span></dd>
+            </div>
+            <div>
+                <dt>{{ ui["settings.server_id"] }}</dt>
+                <dd><span class="code-pill">{{ panel_meta.server_id }}</span></dd>
+            </div>
+            <div>
+                <dt>{{ ui["settings.timezone"] }}</dt>
+                <dd><span class="code-pill">{{ timezone }}</span></dd>
+            </div>
+            <div>
+                <dt>Runtime</dt>
+                <dd><span class="code-pill">{{ runtime_version }}</span></dd>
+            </div>
+            <div>
+                <dt>{{ ui["settings.status"] }}</dt>
+                <dd><span class="code-pill" data-status-field="state_text">{{ ui["status.unknown"] }}</span></dd>
+            </div>
+        </dl>
+    </article>
+
+    <article class="kb-card">
+        <h2 class="card-title">{{ ui["app_update.heading"] }}</h2>
+        <dl class="info-table compact-table">
+            <div>
+                <dt>{{ ui["app_update.image"] }}</dt>
+                <dd><span class="code-pill" id="appUpdateImage">ghcr.io/bastild/docker-discord-bot</span></dd>
+            </div>
+            <div>
+                <dt>{{ ui["app_update.current_tag"] }}</dt>
+                <dd><span class="code-pill" id="appUpdateCurrentTag">-</span></dd>
+            </div>
+            <div>
+                <dt>{{ ui["app_update.latest_tag"] }}</dt>
+                <dd><span class="code-pill" id="appUpdateLatestTag">-</span></dd>
+            </div>
+            <div>
+                <dt>{{ ui["git.status"] }}</dt>
+                <dd><span id="appUpdateMessage">{{ ui["common.none"] }}</span></dd>
+            </div>
+        </dl>
+        <p class="surface-note">{{ ui["app_update.help"] }}</p>
+        <details class="release-notes-wrap hidden" id="appUpdateReleaseWrap">
+            <summary>{{ ui["app_update.release_notes"] }}</summary>
+            <pre class="release-notes" id="appUpdateReleaseNotes"></pre>
+            <a class="btn btn-secondary" id="appUpdateReleaseLink" href="#" target="_blank" rel="noreferrer">{{ ui["app_update.release_open"] }}</a>
+        </details>
+        <div class="card-actions card-actions-end">
+            <button class="btn btn-secondary" id="checkAppUpdateBtn" type="button">{{ ui["app_update.check"] }}</button>
+        </div>
+    </article>
+
+    <article class="kb-card kb-card-wide">
+        <h2 class="card-title">{{ ui["git.heading"] }}</h2>
+        <div class="git-form-grid">
+            <label class="field">
+                <span>{{ ui["git.repo_url"] }}</span>
+                <input id="gitRepoInput" type="url" placeholder="https://github.com/user/repo">
+            </label>
+            <label class="field">
+                <span>{{ ui["git.branch"] }}</span>
+                <input id="gitBranchInput" type="text" placeholder="main">
+            </label>
+            <label class="checkbox-field">
+                <input id="gitAutoUpdateInput" type="checkbox">
+                <span>{{ ui["git.auto_update"] }}</span>
+            </label>
+            <label class="checkbox-field">
+                <input id="gitInstallDepsInput" type="checkbox">
+                <span>{{ ui["git.install_deps"] }}</span>
+            </label>
+            <label class="checkbox-field">
+                <input id="gitRestartInput" type="checkbox">
+                <span>{{ ui["git.restart_after_update"] }}</span>
+            </label>
+            <label class="checkbox-field">
+                <input id="gitKeepUserDataInput" type="checkbox">
+                <span>{{ ui["git.keep_user_data"] }}</span>
+            </label>
+        </div>
+        <div class="git-protected-grid">
+            <fieldset class="kb-fieldset" id="gitProtectedSection">
+                <legend>{{ ui["git.protected_paths"] }}</legend>
+                <p class="surface-note">{{ ui["git.protected_paths_help"] }}</p>
+                <div class="git-protected-list" id="gitProtectedList">
+                    <p class="surface-note" id="gitProtectedEmpty">{{ ui["git.protected_paths_empty"] }}</p>
+                </div>
+                <div class="card-actions card-actions-end">
+                    <button class="btn btn-secondary btn-sm" id="refreshProtectedBtn" type="button">{{ ui["git.protected_refresh"] }}</button>
+                </div>
+            </fieldset>
+            <fieldset class="kb-fieldset" id="gitExtraPatternSection">
+                <legend>{{ ui["git.protected_extra"] }}</legend>
+                <p class="surface-note">{{ ui["git.protected_extra_help"] }}</p>
+                <div class="extra-pattern-row">
+                    <input id="gitExtraPatternInput" type="text" placeholder="{{ ui['git.protected_extra_placeholder'] }}">
+                    <button class="btn btn-primary btn-sm" id="addExtraPatternBtn" type="button">{{ ui["git.protected_add"] }}</button>
+                </div>
+                <ul class="extra-pattern-list" id="gitExtraPatternList"></ul>
+            </fieldset>
+        </div>
+        <dl class="info-table compact-table">
+            <div>
+                <dt>{{ ui["git.status"] }}</dt>
+                <dd><span class="code-pill" id="gitStatusText">{{ ui["common.none"] }}</span></dd>
+            </div>
+            <div>
+                <dt>{{ ui["git.local_commit"] }}</dt>
+                <dd><span class="code-pill" id="gitLocalCommitText">-</span></dd>
+            </div>
+            <div>
+                <dt>{{ ui["git.remote_commit"] }}</dt>
+                <dd><span class="code-pill" id="gitRemoteCommitText">-</span></dd>
+            </div>
+            <div>
+                <dt>{{ ui["git.message"] }}</dt>
+                <dd><span id="gitMessageText">{{ ui["common.none"] }}</span></dd>
+            </div>
+        </dl>
+        <div class="card-actions card-actions-end">
+            <button class="btn btn-secondary" id="saveGitBtn" type="button">{{ ui["common.save"] }}</button>
+            <button class="btn btn-secondary" id="checkGitBtn" type="button">{{ ui["git.check"] }}</button>
+            <button class="btn btn-secondary" id="previewGitBtn" type="button">{{ ui["git.preview"] }}</button>
+            <button class="btn btn-secondary" id="importGitBtn" type="button">{{ ui["git.import"] }}</button>
+            <button class="btn btn-primary" id="updateGitBtn" type="button">{{ ui["git.update"] }}</button>
+        </div>
+        <section class="git-preview hidden" id="gitPreviewBox">
+            <h3 class="card-title">{{ ui["git.preview"] }}</h3>
+            <p class="surface-note" id="gitPreviewMessage">{{ ui["git.preview_loading"] }}</p>
+            <div class="git-preview-grid" id="gitPreviewGrid"></div>
+        </section>
+        <section class="git-history">
+            <h3 class="card-title">{{ ui["git.history"] }}</h3>
+            <div class="table-wrap">
+                <table class="data-table compact-table">
+                    <thead>
+                        <tr>
+                            <th>{{ ui["git.history_when"] }}</th>
+                            <th>{{ ui["git.history_action"] }}</th>
+                            <th>{{ ui["git.history_change"] }}</th>
+                            <th>{{ ui["git.local_commit"] }}</th>
+                            <th>{{ ui["backups.actions"] }}</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gitHistoryBody"></tbody>
+                </table>
+            </div>
+        </section>
+        <section class="git-checkout">
+            <h3 class="card-title">{{ ui["git.checkout"] }}</h3>
+            <p class="surface-note">{{ ui["git.checkout_help"] }}</p>
+            <div class="git-checkout-row">
+                <label class="field grow-field">
+                    <span>{{ ui["git.checkout_input"] }}</span>
+                    <input id="gitCheckoutInput" type="text" placeholder="https://github.com/&lt;user&gt;/&lt;repo&gt;/commit/&lt;sha&gt;">
+                </label>
+                <label class="field">
+                    <span>{{ ui["git.checkout_recent"] }}</span>
+                    <select id="gitCheckoutSelect"><option value="">--</option></select>
+                </label>
+                <label class="checkbox-field">
+                    <input id="gitCheckoutKeepInput" type="checkbox" checked>
+                    <span>{{ ui["git.checkout_keep_user_data"] }}</span>
+                </label>
+                <button class="btn btn-primary" id="gitCheckoutBtn" type="button">{{ ui["git.checkout_run"] }}</button>
+            </div>
+        </section>
+    </article>
+
+    <article class="kb-card settings-reinstall">
+        <h2 class="card-title">Reinstall Server</h2>
+        <p class="surface-note">
+            Reinstalling your server will stop it, and then re-run the installation script that initially set it up.
+            Some files may be deleted or modified during this process, please back up your data before continuing.
+        </p>
+        <div class="card-actions card-actions-end">
+            <button class="btn btn-outline-danger" type="button" disabled>Reinstall Server</button>
+        </div>
+    </article>
+</section>
+{% endblock %}

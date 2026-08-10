@@ -1,0 +1,1 @@
+$summon text_display ~$(mobx) ~$(interactiony) ~0.05 {background:1,Tags:[$(Team)_mob_egg,"show_mob_count_in_wave","$(Team)","$(mob)"],text:[{"bold":true,"text":""},{"score":{"name":"$(Team)TeamWave$(wave)","objective":"$(mob)"}}]}
