@@ -1,0 +1,245 @@
+[
+  {
+    "id": "de-klipphausen-jogger-2024",
+    "land": "Deutschland",
+    "title": "Der Unfallfahrer, der keiner war",
+    "subtitle": "Eine Witwe, ein Handwerker und ein Auto ohne Kennzeichen",
+    "file": "Mordprozess um den toten Jogger von Klipphausen",
+    "place": "Klipphausen-Ullendorf, Landkreis Meißen, Sachsen",
+    "date": "27. September 2024",
+    "year": 2024,
+    "court": "Landgericht Dresden",
+    "difficulty": 2,
+    "perpCount": 1,
+    "teaser": "Ein Jogger stirbt am helllichten Morgen auf seiner gewohnten Runde – die Polizei sucht zunächst einen unbekannten Unfallfahrer. Was sie findet, führt direkt ins eigene Wohnzimmer.",
+    "tags": ["Sachsen", "2024", "Fahrerflucht-Täuschung", "Erbmord", "Auto ohne Kennzeichen"],
+    "victim": {
+      "name": "Peter B. (76)",
+      "dossier": "Peter B. war Rechtsanwalt und Insolvenzverwalter mit eigener Kanzlei in Dresden. Gebürtig aus Heidelberg, hatte er sich in Sachsen beruflich etabliert und begleitete über Jahrzehnte Firmenpleiten und Sanierungsverfahren – ein Beruf, der Anerkennung, aber auch Konflikte mit sich bringt, wenn Gläubiger oder ehemalige Geschäftsführer mit seinen Entscheidungen haderten. Kollegen beschrieben ihn als diszipliniert, korrekt und zurückhaltend. 2022 heiratete er in zweiter Ehe Ramona B., mit der er in einem gepflegten Haus im beschaulichen Klipphausen bei Meißen lebte. Peter B. war sportlich ambitioniert: Fast täglich drehte er vor der Arbeit eine rund fünf Kilometer lange Laufrunde durch die Feldflur seines Wohnorts, bei fast jedem Wetter, meist zur gleichen frühen Uhrzeit. Finanziell galt das Paar als wohlhabend, unter anderem durch Immobilien- und Kapitalvermögen. Nachbarn kannten ihn als freundlichen, aber wortkargen Mann, der wenig über sein Berufsleben sprach. Für Handwerksarbeiten am Haus beschäftigte das Ehepaar über Jahre denselben Handwerker, der zugleich als eine Art Hausmeister fungierte. Kurz vor seinem Tod hatte Peter B. diesen Handwerker wegen mangelhaft ausgeführter Arbeiten auf Schadenersatz verklagt – ein Rechtsstreit, der später im Prozess eine Rolle spielen sollte.",
+      "lastDay": "Am Morgen des 27. September 2024 verließ Peter B. wie gewohnt kurz vor 7:30 Uhr sein Haus in Ullendorf, um seine tägliche Laufrunde zwischen Riemersdorfer Weg und der Straße Zur Niedermühle zu drehen. Eine Joggerin begegnete ihm dort rund zehn Minuten vor der Tat, ohne etwas Ungewöhnliches zu bemerken. Gegen 7:30 Uhr wurde er auf dem Kobitzscher Weg von einem Fahrzeug von hinten erfasst. Kurz darauf fand eine andere Joggerin ihn regungslos am Wegesrand; jede Hilfe kam zu spät. Der Wagen, der ihn erfasst hatte, war zu diesem Zeitpunkt bereits verschwunden. Die Polizei sicherte Spuren an der Unfallstelle und ging zunächst von einer klassischen Fahrerflucht aus – einem Unfall, bei dem ein unbekannter Fahrer floh, ohne zu helfen."
+    },
+    "intro": [
+      "Am Morgen des 27. September 2024 meldet die Polizeidirektion Dresden einen tödlichen Verkehrsunfall im Klipphausener Ortsteil Ullendorf: Ein 76 Jahre alter Jogger sei von einem Fahrzeug erfasst worden, der Fahrer habe die Unfallstelle verlassen. Der Verkehrsunfalldienst sichert Spuren, die Beamten bitten öffentlich um Hinweise zu einem beschädigten Fahrzeug. Es liest sich wie einer von vielen Fällen von Fahrerflucht, wie es sie in Sachsen jedes Jahr zu Dutzenden gibt.",
+      "Schon in den ersten Stunden wächst die Verwunderung der Ermittler: Das Fahrzeug, das den Jogger erfasst hat, trägt kein amtliches Kennzeichen – für einen gewöhnlichen Verkehrsunfall höchst untypisch. Als die Polizei den Wagen zurückverfolgt, führt die Spur nicht zu einem unbekannten Unfallfahrer, sondern direkt ins nähere Umfeld des Toten: zu seiner Ehefrau, mit der er sein Haus in Ullendorf teilte, und zu einem langjährigen Handwerker der Familie.",
+      "Binnen weniger Tage nimmt die Polizei sowohl die Witwe als auch einen 77-jährigen Handwerker fest, der seit Jahren als eine Art Hausmeister für das Ehepaar gearbeitet hatte. Aus dem vermeintlichen Unfall wird ein Mordverdacht: Die Staatsanwaltschaft wirft der Frau vor, ihren Mann aus Habgier heimtückisch getötet zu haben, um an sein Erbe zu gelangen. Vor Gericht bestreitet sie jede Beteiligung an der Tat – und belastet ausgerechnet den Mitangeklagten, der wiederum sie belastet."
+    ],
+    "suspects": [
+      { "id": "ramona", "name": "Ramona B.", "init": "R", "role": "Die Ehefrau des Opfers",
+        "bio": "Heiratete Peter B. 2022 und lebte mit ihm in Ullendorf. Nach Angaben ihres Verteidigers selbst vermögend durch Immobilien, Aktien und Beteiligungen sowie von ihrem Mann großzügig versorgt. Die Anklage sieht in ihr die treibende Kraft: Sie habe das Tatfahrzeug in Auftrag gegeben und ihren Mann gezielt angefahren, um an sein Erbe zu gelangen. Sie bestreitet jede Beteiligung." },
+      { "id": "claus", "name": "Claus T.", "init": "C", "role": "Der Hausmeister der Familie",
+        "bio": "Seit Jahren als Handwerker und Hausmeister für das Ehepaar tätig. Soll im Auftrag von Ramona B. das spätere Tatfahrzeug besorgt und nach der Tat in eine Werkstatt gebracht haben. Laut Gegendarstellung der Mitangeklagten hatte er ein eigenes Motiv: Peter B. hatte ihn kurz zuvor wegen mangelhafter Arbeit auf Schadenersatz verklagt." },
+      { "id": "schwester", "name": "Die Schwester des Opfers (Rolle)", "init": "S", "role": "Die Schwester des Opfers",
+        "bio": "Als nächste Blutsverwandte hätte sie Anspruch auf einen Teil des Nachlasses, sollte die Witwe für erbunwürdig erklärt werden. Sie tritt im Prozess als Nebenklägerin auf und fordert eine harte Verurteilung. Ein eigenes finanzielles Interesse am Ausgang des Verfahrens lässt sich nicht von der Hand weisen, ein Tatbezug wurde ihr jedoch nie nachgewiesen." },
+      { "id": "schuldner", "name": "Ein ehemaliger Insolvenzschuldner (Rolle)", "init": "E", "role": "Ehemaliger Schuldner aus einem Insolvenzverfahren",
+        "bio": "Als Insolvenzverwalter entschied Peter B. beruflich über Firmenpleiten und damit über Existenzen. Solche Verfahren hinterlassen regelmäßig verbitterte Gläubiger und ehemalige Geschäftsführer, die dem Verwalter persönlich die Schuld an ihrem finanziellen Ruin geben. Ob ein früherer Schuldner aus einem seiner Verfahren einen Groll gegen ihn hegte, wurde geprüft, aber nicht erhärtet." },
+      { "id": "sozius", "name": "Der Kanzleipartner (Rolle)", "init": "K", "role": "Der Kanzleipartner des Opfers",
+        "bio": "Führte gemeinsam mit Peter B. die Kanzlei in Dresden und war über dessen Vermögensverhältnisse und Mandate genau informiert. Beim Tod eines Sozius stehen oft Kanzleianteile, laufende Mandate und interne Absprachen zur Neuverteilung an. Konkrete Verdachtsmomente gegen ihn ergaben die Ermittlungen nicht, dennoch gehörte er zum Kreis der befragten Personen." },
+      { "id": "unbekannt", "name": "Unbekannter Fahrer (Rolle)", "init": "U", "role": "Unbekannter, flüchtiger Autofahrer",
+        "bio": "Die erste Arbeitshypothese der Polizei: Ein x-beliebiger Autofahrer erfasst beim Abbiegen versehentlich den Jogger und flüchtet aus Panik von der Unfallstelle. Diese Annahme prägte die ersten Ermittlungstage, den Zeugenaufruf und die frühe Berichterstattung – bis die Spur des kennzeichenlosen Fahrzeugs die Ermittler auf eine ganz andere Fährte brachte." }
+    ],
+    "truth": { "taeter": ["ramona"], "helfer": ["claus"] },
+    "policeTrack": [
+      { "after": 1, "focus": "Unbekannter Unfallfahrer", "note": "Die Polizei geht von einer Fahrerflucht aus und bittet öffentlich um Hinweise zum Unfallfahrzeug." },
+      { "after": 4, "focus": "Das Fahrzeug ohne Kennzeichen", "note": "Die fehlende Zulassung lenkt den Verdacht weg von einem gewöhnlichen Verkehrsunfall." },
+      { "after": 6, "focus": "Ehefrau und Hausmeister", "note": "Beide werden binnen Tagen festgenommen, nachdem sie sich in Widersprüchen verstrickt haben." }
+    ],
+    "clues": [
+      {
+        "cat": "tatort", "label": "Fundort", "title": "Ein Jogger auf dem Kobitzscher Weg",
+        "text": "Am Morgen des 27. September 2024 wird ein 76-jähriger Mann leblos auf dem Kobitzscher Weg im Klipphausener Ortsteil Ullendorf gefunden. Nach ersten Erkenntnissen der Polizeidirektion Dresden wurde der Jogger zwischen dem Riemersdorfer Weg und der Straße Zur Niedermühle von einem Fahrzeug erfasst und tödlich verletzt; der Fahrer entfernte sich von der Unfallstelle. Der Unfall soll sich gegen 7:30 Uhr ereignet haben. Der Verkehrsunfalldienst sichert Spuren am Fundort und leitet die Ermittlungen zunächst als Unfallflucht. In einer Medieninformation bittet die Polizei die Öffentlichkeit um Hinweise: Wer hat das Unfallfahrzeug oder dessen Fahrer gesehen? Wer kann Angaben zu einem beschädigten Auto machen, das mit dem Vorfall in Verbindung stehen könnte? Zu diesem frühen Zeitpunkt gibt es keinerlei Hinweis auf ein Gewaltverbrechen – alles deutet auf einen tragischen, aber gewöhnlichen Straßenverkehrsunfall mit anschließender Flucht des Fahrers hin.",
+        "src": "Polizeidirektion Dresden, Medieninformation Nr. 558|24, 27.09.2024",
+        "url": "https://www.medienservice.sachsen.de/medien/news/1080111"
+      },
+      {
+        "cat": "zeuge", "label": "Zeuginnen auf der Laufstrecke", "title": "Zwei Joggerinnen, zehn Minuten Abstand",
+        "text": "Peter B. lief seine rund fünf Kilometer lange Runde fast täglich zur gleichen frühen Uhrzeit – eine Gewohnheit, die jeder in seinem Umfeld kannte. Am Tattag begegnet ihm eine Joggerin etwa zehn Minuten vor dem tödlichen Zusammenstoß auf seiner gewohnten Strecke; ihr fällt nichts Auffälliges auf, kein fremdes Fahrzeug, keine verdächtige Person am Wegesrand. Kurz darauf ist es eine andere Joggerin, die den regungslosen Mann am Rand des Kobitzscher Wegs entdeckt und Rettungskräfte alarmiert – für Peter B. kommt jede Hilfe zu spät. Beide Frauen werden im späteren Prozess als Zeuginnen gehört, um den exakten Tatzeitraum einzugrenzen. Dass eine der beiden so kurz vor der Tat nichts Ungewöhnliches bemerkt hat, spricht dafür, dass der oder die Täter gezielt auf den kurzen Moment gewartet haben müssen, in dem Peter B. allein auf dem abgelegenen Feldweg unterwegs war.",
+        "src": "Radio Dresden, Prozessbericht vom 02.06.2025",
+        "url": "https://www.radiodresden.de/beitrag/ehemann-beim-joggen-ueberrollt-witwe-bestreitet-mord-von-klipphausen-868314/"
+      },
+      {
+        "cat": "forensik", "label": "Spurenlage am Fahrzeug", "title": "Ein SUV ohne amtliches Kennzeichen",
+        "text": "Die Rekonstruktion der Anklage zeichnet ein Bild, das nicht zu einer gewöhnlichen Fahrerflucht passt: Der Wagen, mit dem Peter B. erfasst wurde, ein silberner Mercedes-SUV, trug kein amtliches Kennzeichen. Nach Überzeugung der Staatsanwaltschaft fuhr die Fahrerin ihn gezielt mit Tempo 30 bis 40 von hinten in die Beine. Durch den Aufprall wurde der Läufer auf die Motorhaube geschleudert und fiel auf die Straßenböschung. Die Fahrerin setzte danach über seinen Körper zurück, bis der Wagen im Straßengraben hängen blieb. Diese Spurenlage – gezielte Annäherung von hinten, kein Ausweichmanöver, kein Bremsversuch, ein zweites Überrollen beim Zurücksetzen – lässt sich kaum mit einem unachtsamen Fahrfehler erklären. Ein Fahrzeug ohne Zulassung, offenbar eigens für diese Fahrt genutzt, deutet auf Planung statt auf einen spontanen Unfall hin.",
+        "src": "Radio Dresden, Prozessbericht vom 02.06.2025",
+        "url": "https://www.radiodresden.de/beitrag/ehemann-beim-joggen-ueberrollt-witwe-bestreitet-mord-von-klipphausen-868314/"
+      },
+      {
+        "cat": "dokument", "label": "Kaufbeleg des Tatfahrzeugs", "title": "15.000 Euro für ein Auto ohne Zulassung",
+        "text": "Die Ermittler stoßen auf einen Kaufvorgang, der kurz vor der Tat liegt: Für 15.000 Euro wird ein Fahrzeug erworben, das nie auf einen der Beteiligten zugelassen wird. Nach den Feststellungen der Staatsanwaltschaft besorgte der 77-jährige Mitangeklagte Claus T. den Wagen im Auftrag von Ramona B. Am Tattag übergab er ihr das Fahrzeug – wenige Stunden später war Peter B. tot. Dass ein Auto eigens angeschafft, nie regulär angemeldet und nur wenige Tage genutzt wurde, passt nicht zum Bild eines zufälligen Unfallfahrzeugs. Für Ermittler ist ein gekauftes, unauffälliges Fahrzeug ohne Papierspur ein klassisches Mittel, um eine Tat vorzubereiten, ohne den eigenen Namen mit ihr in Verbindung zu bringen. Die Rechnung über den Kaufpreis wird zu einem der zentralen Beweisstücke der Anklage.",
+        "src": "Radio Dresden, Prozessbericht vom 02.06.2025",
+        "url": "https://www.radiodresden.de/beitrag/ehemann-beim-joggen-ueberrollt-witwe-bestreitet-mord-von-klipphausen-868314/"
+      },
+      {
+        "cat": "verhoer", "label": "Widersprüche binnen Tagen", "title": "Festnahme nach wenigen Tagen",
+        "text": "Was zunächst nach Fahrerflucht aussieht, entwickelt sich rasant zu einem Mordverdacht. Als die Polizei das Unfallfahrzeug sicherstellt, gerät die Ehefrau des Toten in den Fokus. Nur einen Tag nach der Tat wird sie festgenommen. Der zweite Beschuldigte, der als Hausmeister für das Paar tätige Claus T., setzt sich zunächst ab und wird erst am 2. Oktober 2024 im Ostseebad Koserow in Mecklenburg-Vorpommern gefasst – aufgrund eines bestehenden Haftbefehls. Beide, so heißt es aus Ermittlerkreisen, hätten sich in ihren ersten Aussagen in Widersprüche verstrickt. Der Umstand, dass der zweite Verdächtige sich rund eine Woche lang mehrere hundert Kilometer entfernt aufhielt, während gegen ihn bereits ermittelt wurde, wirft die Frage auf, wer von beiden welchen Anteil an der Tat hatte – und wer vor wem mehr zu verbergen hatte.",
+        "src": "t-online.de, 04.10.2024",
+        "url": "https://www.t-online.de/region/dresden/id_100503408/klipphausen-bei-meissen-toter-jogger-polizei-nimmt-mann-fest.html"
+      },
+      {
+        "cat": "motiv", "label": "Anklageschrift", "title": "„Um an dessen Erbe zu gelangen“",
+        "text": "In der Anklage benennt die Staatsanwaltschaft das Motiv unmissverständlich: Ramona B. habe den Tod ihres Ehegatten herbeiführen wollen, um an dessen Erbe zu gelangen, und werde deshalb beschuldigt, einen Menschen aus Habgier heimtückisch getötet zu haben. Das Paar hatte 2022 geheiratet. Nach der Version der Anklage plante die Angeklagte die Tat gezielt und stellte dem Mitangeklagten für seine Mithilfe eine Bezahlung in Aussicht. Die Schwester des Opfers, die im Verfahren als Nebenklägerin auftritt, geht noch einen Schritt weiter: Sie fordert, Ramona B. solle bei einer Verurteilung als erbunwürdig erklärt werden und beim Nachlass leer ausgehen. Das Erbe des vermögenden Insolvenzverwalters steht damit im Zentrum der Anklage – doch die Verteidigung wird genau dieses Motiv später bestreiten.",
+        "quote": "„wollte den Tod ihres Ehegatten herbeiführen, um an dessen Erbe zu gelangen“",
+        "src": "Radio Dresden, Prozessbericht vom 02.06.2025",
+        "url": "https://www.radiodresden.de/beitrag/ehemann-beim-joggen-ueberrollt-witwe-bestreitet-mord-von-klipphausen-868314/"
+      },
+      {
+        "cat": "alibi", "label": "Verteidigungsstrategie", "title": "„Weder am Tatort noch mit Motiv“",
+        "text": "Vor Gericht schweigt Ramona B. zur Tat selbst, lässt aber über ihren Verteidiger Andrej Klein eine eigene Version verbreiten: Sie sei zur Tatzeit weder am Tatort gewesen noch habe sie den Wagen gefahren, und ein Motiv, ihren Mann zu töten, habe ohnehin nicht bestanden – sie sei durch eigene Immobilien, Aktien und Beteiligungen sowie durch ihren Mann selbst finanziell großzügig abgesichert gewesen. Stattdessen richtet die Verteidigung den Verdacht auf den Mitangeklagten: Claus T. habe den Tod von Peter B. selbst gewollt, weil dieser ihn kurz zuvor wegen mangelhafter Handwerksleistungen auf Schadenersatz verklagt hatte. Die Aussagen des Mitangeklagten gegenüber den Ermittlern seien offenkundig widersprüchlich. Zwei gegensätzliche Versionen stehen sich damit gegenüber – und beide Angeklagten zeigen mit dem Finger auf die jeweils andere Person.",
+        "quote": "„offenkundig widersprüchlich“",
+        "src": "Radio Dresden, Prozessbericht vom 02.06.2025",
+        "url": "https://www.radiodresden.de/beitrag/ehemann-beim-joggen-ueberrollt-witwe-bestreitet-mord-von-klipphausen-868314/"
+      },
+      {
+        "cat": "forensik", "label": "Der Werkstatttermin", "title": "Ein Reparaturtermin von vor der Tat",
+        "text": "Ein Detail sticht aus den Ermittlungsakten heraus: Claus T. soll das Tatfahrzeug nach dem Unfall in eine Dresdner Werkstatt gebracht haben – abgeschleppt mit einem Abschleppfahrzeug, das er ebenfalls organisiert hatte. Den Reparaturtermin hatte er nach Erkenntnissen der Ermittler bereits vorab vereinbart und dabei einen Schaden vorne rechts angekündigt, obwohl die Tat zu diesem Zeitpunkt noch nicht begangen war. Für seine Unterstützung erhielt er zunächst 15.000 Euro für Kauf und Vorbereitung sowie weitere 5.000 Euro als Lohn für seine Mithilfe. Ein Werkstatttermin, der die spätere Beschädigung bereits vorwegnimmt, lässt sich kaum als Zufall erklären – er deutet auf eine detaillierte Planung hin, die deutlich vor dem Morgen des 27. September 2024 begonnen haben muss.",
+        "src": "Die Sachsen News, Urteilsbericht vom 13.05.2026",
+        "url": "https://www.diesachsen.de/justiz/mord-an-jogger-lebenslange-haft-fuer-frau-und-komplize-3135192"
+      },
+      {
+        "cat": "dokument", "label": "Geldübergabe", "title": "5.000 Euro im Abschleppwagen",
+        "text": "Die Finanzspur führt die Ermittler direkt zum zweiten Angeklagten: Für die Beschaffung des Tatfahrzeugs und weitere Vorbereitungskosten erhielt Claus T. zunächst 15.000 Euro von Ramona B. Bei seiner Festnahme am 2. Oktober 2024 im Ostseebad Koserow werden im dazugehörigen Abschleppfahrzeug weitere 5.000 Euro in bar gefunden – sein Lohn für die Mithilfe an der Tat. Eine Geldsumme dieser Größenordnung, kurz nach der Tat in bar mitgeführt, lässt sich schwer mit der Behauptung vereinbaren, er habe von den wahren Hintergründen nichts gewusst oder gar ohne Auftrag gehandelt. Die Geldflüsse zwischen den beiden Angeklagten werden im Prozess zu einem der stärksten Indizien dafür, dass es eine gemeinsame Absprache gab – auch wenn beide Seiten sich gegenseitig die Hauptschuld zuschieben.",
+        "src": "Die Sachsen News, Urteilsbericht vom 13.05.2026",
+        "url": "https://www.diesachsen.de/justiz/mord-an-jogger-lebenslange-haft-fuer-frau-und-komplize-3135192"
+      },
+      {
+        "cat": "prozess", "label": "Urteilsverkündung", "title": "Heimtücke und Habgier",
+        "text": "Am 13. Mai 2026 verkündet das Landgericht Dresden das Urteil: lebenslange Haft für Ramona B. und für Claus T. Die Richter sehen es als erwiesen an, dass die Witwe ihren Mann tötete, um an das Erbe zu gelangen, und dass sie dabei bewusst dessen Arg- und Wehrlosigkeit ausnutzte, als sie ihn von hinten anfuhr – das Mordmerkmal der Heimtücke. Da das Vermögen des Opfers Dreh- und Angelpunkt der Tat gewesen sei, stellt das Gericht zugleich Habgier fest. Ramona B. sei der Motor und die entscheidende Initiatorin gewesen, so der Vorsitzende Richter, doch ohne den Tatbeitrag von Claus T. – der das Fahrzeug organisierte und nach der Tat verschwinden ließ – wäre die Tat nicht durchführbar gewesen. Das Urteil ist noch nicht rechtskräftig.",
+        "quote": "„Es ginge nicht viel mehr“",
+        "src": "web.de/1&1 (dpa), Urteilsbericht vom 13.05.2026",
+        "url": "https://home.1und1.de/magazine/panorama/verbrechen-vermisste/erbe-motiv-lebenslange-haft-ehefrau-komplizen-42267410"
+      }
+    ],
+    "links": [
+      { "t": "Polizeidirektion Dresden: Tödlicher Verkehrsunfall – Zeugenaufruf nach Unfallflucht", "u": "https://www.medienservice.sachsen.de/medien/news/1080111", "kind": "artikel" },
+      { "t": "t-online: Frau des Opfers sitzt in U-Haft – Polizei nimmt weitere Person fest", "u": "https://www.t-online.de/region/dresden/id_100503408/klipphausen-bei-meissen-toter-jogger-polizei-nimmt-mann-fest.html", "kind": "artikel" },
+      { "t": "Radio Dresden: Ehemann beim Joggen überrollt – Witwe bestreitet Mord von Klipphausen", "u": "https://www.radiodresden.de/beitrag/ehemann-beim-joggen-ueberrollt-witwe-bestreitet-mord-von-klipphausen-868314/", "kind": "artikel" },
+      { "t": "Die Sachsen News: Mord an Jogger – Lebenslange Haft für Frau und Komplize", "u": "https://www.diesachsen.de/justiz/mord-an-jogger-lebenslange-haft-fuer-frau-und-komplize-3135192", "kind": "artikel" },
+      { "t": "web.de/1&1: Erbe als Motiv – Lebenslange Haft für Ehefrau und Komplizen", "u": "https://home.1und1.de/magazine/panorama/verbrechen-vermisste/erbe-motiv-lebenslange-haft-ehefrau-komplizen-42267410", "kind": "artikel" }
+    ],
+    "solution": {
+      "who": "Ramona B. (53), die Ehefrau",
+      "text": "Was am Morgen des 27. September 2024 wie eine gewöhnliche Fahrerflucht aussieht, entpuppt sich als von langer Hand geplanter Mord. Nach Überzeugung des Landgerichts Dresden fuhr Ramona B. ihren Ehemann Peter B. gezielt mit einem eigens dafür gekauften, nicht zugelassenen Mercedes-SUV an, während er seine gewohnte Laufrunde drehte. Sie ließ ihn zweimal von dem Wagen erfassen und nahm seinen Tod bewusst in Kauf, um an sein beträchtliches Erbe zu gelangen. Möglich wurde die Tat durch die Mithilfe von Claus T., dem langjährigen Hausmeister des Paares: Er besorgte das Fahrzeug, übergab es ihr am Tattag und ließ es danach spurlos in einer Werkstatt verschwinden – gegen Bezahlung von insgesamt 20.000 Euro. Aufgeflogen ist der Plan nur, weil das gekaufte Auto ohne Kennzeichen unterwegs war und die Ermittler es zurückverfolgen konnten; ohne diesen Fehler wäre der Fall wohl tatsächlich als ungeklärte Fahrerflucht in den Akten gelandet. Vor Gericht bestritt Ramona B. jede Beteiligung und beschuldigte ihrerseits den Mitangeklagten. Das Landgericht Dresden folgte dieser Version nicht und verurteilte beide wegen Mordes aus Heimtücke und Habgier zu lebenslanger Haft. Das Urteil ist, auch wegen der wechselseitigen Schuldzuweisungen der Angeklagten, noch nicht rechtskräftig.",
+      "quote": "„Es ginge nicht viel mehr“",
+      "verdict": "Landgericht Dresden, Urteil vom 13. Mai 2026, lebenslange Freiheitsstrafe für beide Angeklagte wegen Mordes (Heimtücke, Habgier)",
+      "status": "nicht rechtskräftig"
+    }
+  },
+  {
+    "id": "de-tino-werner-2003",
+    "land": "Deutschland",
+    "title": "Der Nachbar, der schwieg",
+    "subtitle": "22 Jahre ungeklärt – bis ein neuer DNA-Massentest 120 Kontaktpersonen prüfte",
+    "file": "Cold-Case-Verfahren Tino Werner",
+    "place": "Bad Driburg, Kreis Höxter, Nordrhein-Westfalen",
+    "date": "12. November 2003",
+    "year": 2003,
+    "court": "Landgericht Paderborn",
+    "difficulty": 3,
+    "perpCount": 1,
+    "teaser": "Ein junger Kellner wird gefesselt in seiner Wohnung gefunden, sein Auto taucht Tage später weit außerhalb der Stadt wieder auf. 22 Jahre führt die Suche ins Leere – bis ein Speicheltest bei 120 Männern die entscheidende Spur liefert.",
+    "tags": ["Nordrhein-Westfalen", "2003", "Cold Case", "DNA-Reihenuntersuchung", "Raubmord"],
+    "victim": {
+      "name": "Tino Werner (29)",
+      "dossier": "Tino Werner arbeitete als Kellner in Bad Driburg, einem Kurort in Ostwestfalen-Lippe, und lebte dort in einer eigenen Wohnung. Er war offen schwul und nach Schilderungen aus seinem Umfeld ein geselliger, kontaktfreudiger junger Mann mit einem festen Kreis an Freunden und Bekannten. Sein Beruf brachte es mit sich, dass er viele Menschen im Ort kannte und von vielen gekannt wurde – Gäste, Kollegen, Nachbarn. Er führte ein geregeltes Berufsleben: Am Tag nach seinem Tod wurde er zur Arbeit erwartet, und in seinem Bekanntenkreis wusste niemand von Reiseplänen oder einer geplanten Abwesenheit. Zu seiner Familie, insbesondere zu seinem Vater und seiner Schwester, hielt er engen Kontakt; beide traten Jahrzehnte später als Nebenkläger in dem Prozess auf, der seinen Tod aufklären sollte. Nachbarn beschrieben ihn als unauffällig und freundlich. Zu dem Mann, der später als sein Mörder verurteilt wurde – ein damaliger Nachbar, der gelegentlich als Handwerker arbeitete – soll er nach den Feststellungen des Gerichts kaum Kontakt gehabt haben. Sein gewaltsamer Tod im Alter von 29 Jahren beendete ein Leben, das nach allem, was bekannt ist, unauffällig und fest in seinem unmittelbaren Umfeld verankert war.",
+      "lastDay": "Wann genau Tino Werner starb, lässt sich im Nachhinein nicht mehr exakt bestimmen. Sicher ist: Er wurde am 12. November 2003 tot in seiner eigenen Wohnung in Bad Driburg gefunden, gefesselt und mit dem durchtrennten Kabel eines Staubsaugers stranguliert. Es gab keine Spuren eines gewaltsamen Eindringens – vieles spricht dafür, dass er den Täter selbst hereinließ. Sein Auto, das gewöhnlich vor dem Haus stand, fehlte zunächst; es wurde erst Tage später auf einem abgelegenen öffentlichen Parkplatz außerhalb des Ortes entdeckt. Aus seinem Bekanntenkreis war niemandem etwas von Reiseplänen bekannt, und am Tag nach seinem Tod wurde er regulär zur Arbeit im Restaurant erwartet. Portemonnaie, Mobiltelefon und eine Webcam fehlten – Gegenstände, die offenbar im Zusammenhang mit der Tat entwendet wurden."
+    },
+    "intro": [
+      "Am 12. November 2003 wird der 29 Jahre alte Kellner Tino Werner gefesselt und erdrosselt in seiner Wohnung in Bad Driburg gefunden – stranguliert mit dem durchtrennten Kabel seines eigenen Staubsaugers. Einbruchsspuren gibt es keine, offenbar hat er den Täter selbst hereingelassen. Sein Auto ist zunächst spurlos verschwunden und taucht erst Tage später weit außerhalb des Ortes auf einem öffentlichen Parkplatz wieder auf.",
+      "Die Ermittler von 2003 konzentrieren sich schnell auf eine Spur: Weil keine Einbruchsspuren vorliegen und der junge Mann offen schwul lebte, vermutet die Polizei zunächst eine Tat aus dem persönlichen Umfeld – eine „Tat unter Schwulen“, wie es intern heißt. Eine erste, groß angelegte DNA-Reihenuntersuchung in den Jahren 2003 und 2004 bringt trotz zahlreicher Hinweise und Speichelproben keinen verwertbaren Treffer, und auch ein psychisch auffälliger Mann, der sich später meldet, führt die Ermittler mit seinen Angaben zeitweise in die Irre.",
+      "Der Fall wird zu einem der ungelösten Cold Cases Nordrhein-Westfalens – über zwei Jahrzehnte lang bleibt er in den Akten liegen. Erst 2025 werden die alten Spuren vom Tatort und vom Leichnam mit moderner Technik neu ausgewertet und ein weiterer Massentest mit Speichelproben von 120 bekannten Kontaktpersonen des Opfers angesetzt. Die Spur, die er liefert, führt nicht in die vermutete Szene, sondern zu einem Mann, mit dem Tino Werner nach allem, was bekannt ist, kaum etwas zu tun gehabt haben soll: seinem damaligen Nachbarn."
+    ],
+    "suspects": [
+      { "id": "michael", "name": "Michael L.", "init": "M", "role": "Der damalige Nachbar",
+        "bio": "Wohnte 2003 in unmittelbarer Nachbarschaft von Tino Werner und arbeitete als Handwerker. Hatte nach eigener späterer Aussage kaum Kontakt zum Opfer. Steckte zur Tatzeit nachweislich in finanziellen Schwierigkeiten. 2025 gerät er durch einen erneuten DNA-Massentest ins Visier der Cold-Case-Einheit – seine Spuren finden sich sowohl am Opfer als auch in dessen verschwundenem Auto." },
+      { "id": "kontakt", "name": "Ein Kontakt aus dem Bekanntenkreis (Rolle)", "init": "K", "role": "Kontakt aus dem Bekanntenkreis",
+        "bio": "Da Tino Werner offen schwul lebte und keine Einbruchsspuren gefunden wurden, richtete sich der erste Verdacht der Polizei 2003 auf sein persönliches und soziales Umfeld. Männer aus seinem Bekannten- und Kontaktkreis wurden vernommen und im Rahmen der DNA-Reihenuntersuchung getestet; ein konkreter Tatverdacht ließ sich damals gegen keinen von ihnen erhärten." },
+      { "id": "hinweisgeber", "name": "Der psychisch auffällige Hinweisgeber (Rolle)", "init": "P", "role": "Psychisch auffälliger Hinweisgeber",
+        "bio": "Meldete sich im Lauf der jahrelangen Ermittlungen bei der Polizei und lenkte die Cold-Case-Ermittler mit seinen Angaben zeitweise auf eine falsche Spur. Seine Aussagen erwiesen sich später als nicht belastbar. Der Fall zeigt, wie sehr unzuverlässige Hinweise eine Ermittlung über Jahre in eine Sackgasse führen können." },
+      { "id": "kollege", "name": "Ein Arbeitskollege aus dem Restaurant (Rolle)", "init": "A", "role": "Arbeitskollege aus dem Restaurant",
+        "bio": "Als Kellner hatte Tino Werner täglich mit Kollegen und Gästen zu tun, auch mit Bargeld in seiner Kellnerbörse. Streitigkeiten um Geld oder Dienstpläne im Kollegenkreis gehörten zu den Ansatzpunkten, die die Ermittler in den ersten Jahren prüften, ohne dass sich daraus ein konkreter Tatverdacht ergab." },
+      { "id": "vermieter", "name": "Der Vermieter des Hauses (Rolle)", "init": "V", "role": "Der Vermieter des Hauses",
+        "bio": "Als Eigentümer des Wohnhauses hatte er Zugang zu Schlüsseln und kannte die Gewohnheiten seines Mieters genau. Finanzielle Streitpunkte rund um Miete oder Nebenkosten sind ein klassisches Motiv in Fällen, in denen das Opfer den Täter offenbar selbst in die Wohnung gelassen hat. Auch ihn befragte die Polizei im Zuge der Ermittlungen." }
+    ],
+    "truth": { "taeter": ["michael"], "helfer": [] },
+    "policeTrack": [
+      { "after": 1, "focus": "Das persönliche Umfeld / „Tat unter Schwulen“", "note": "Ohne Einbruchsspuren vermutet die Polizei 2003 einen Täter aus dem nahen sozialen Umfeld des Opfers." },
+      { "after": 4, "focus": "Ein unzuverlässiger Hinweisgeber", "note": "Ein psychisch auffälliger Mann lenkt die Ermittlungen zeitweise in eine Sackgasse." },
+      { "after": 6, "focus": "Ermittlungsstillstand", "note": "Trotz Reihenuntersuchung bleibt der Fall über zwei Jahrzehnte ungelöst, bis 2025 ein neuer DNA-Massentest angesetzt wird." }
+    ],
+    "clues": [
+      {
+        "cat": "tatort", "label": "Fundort", "title": "Gefesselt in der eigenen Wohnung",
+        "text": "Am 12. November 2003 wird der 29-jährige Kellner Tino Werner tot in seiner Wohnung in Bad Driburg gefunden. Die Obduktion ergibt: Er wurde gefesselt und mit dem durchtrennten Kabel eines Staubsaugers stranguliert. Einbruchsspuren gibt es keine – die Tür weist keine Beschädigung auf, kein Fenster wurde aufgehebelt. Für die Ermittler bedeutet das: Der Täter muss von Tino Werner selbst in die Wohnung gelassen worden sein, was auf eine Person aus seinem näheren Bekannten- oder Kontaktkreis hindeutet. Eine zufällige, gewaltsame Tat eines Unbekannten erscheint dadurch von Anfang an unwahrscheinlich. Diese Spurenlage prägt die gesamte spätere Ermittlungsrichtung – und führt die Polizei 2003 zunächst tief in das persönliche Umfeld des Opfers, ohne dass sich daraus ein Name herauskristallisiert.",
+        "src": "Radio Hochstift, Urteilsbericht vom 20.05.2026",
+        "url": "https://www.radiohochstift.de/nachrichten/paderborn-hoexter/lebenslange-haft-fuer-59-jaehrigen-wegen-mordes-an-bad-driburger-tino-werner.html"
+      },
+      {
+        "cat": "forensik", "label": "Erste DNA-Reihenuntersuchung", "title": "Speichelproben ohne Treffer",
+        "text": "Noch im Jahr des Mordes und im Folgejahr führt die Polizei eine erste DNA-Reihenuntersuchung im Umfeld des Opfers durch – ein aufwendiges Verfahren, bei dem zahlreiche Männer aus Bad Driburg und Umgebung um eine freiwillige Speichelprobe gebeten werden. Trotz des Aufwands bringt die Untersuchung 2003 und 2004 keinen Treffer: Die am Tatort und am Leichnam gesicherten Spuren lassen sich keiner der getesteten Personen zuordnen. Die Ermittlungen geraten ins Stocken. Ohne moderne Auswertungsmethoden, wie sie erst zwei Jahrzehnte später zur Verfügung stehen, bleibt die entscheidende Spur zunächst unlesbar. Der Fall wird nach und nach zu den Akten gelegt, ohne dass ein Verdächtiger angeklagt werden kann – ein sogenannter Cold Case.",
+        "src": "ad-hoc-news.de (dpa), 05.11.2025",
+        "url": "https://www.ad-hoc-news.de/unterhaltung/kultur/rund-22-jahre-lang-liefen-die-ermittlungen-in-einem-mordfall-in-bad/68325290"
+      },
+      {
+        "cat": "zeuge", "label": "Das verschwundene Auto", "title": "Ein Wagen taucht Tage später wieder auf",
+        "text": "Tino Werners Auto, das gewöhnlich vor seinem Wohnhaus stand, ist nach der Tat zunächst spurlos verschwunden. Erst mehrere Tage später wird es auf einem öffentlichen Parkplatz weiter außerhalb von Bad Driburg entdeckt – ordentlich abgestellt, unauffällig. Für die Ermittler ergibt sich daraus eine nachvollziehbare Theorie: Wer auch immer das Fahrzeug dorthin gebracht hat, wollte den Eindruck erwecken, Tino Werner sei verreist, um die Entdeckung der Leiche und den Beginn der Ermittlungen hinauszuzögern. Diese Inszenierung spricht gegen eine Spontantat und für einen Täter, der nach der Tat kühl und überlegt handelte. Wer das Auto gefahren hat, bleibt zu diesem Zeitpunkt jedoch offen.",
+        "src": "SCHWULISSIMO.de, Urteilsbericht vom 21.05.2026",
+        "url": "https://schwulissimo.de/neuigkeiten/urteil-nach-23-jahren-mord-schwulem-kellner-nrw"
+      },
+      {
+        "cat": "motiv", "label": "Erste Ermittlungshypothese", "title": "Verdacht im persönlichen Umfeld",
+        "text": "Weil keine Einbruchsspuren vorliegen und Tino Werner offen schwul lebte, richtet sich der Anfangsverdacht der Polizei 2003 auf sein persönliches Umfeld: Man vermutet eine Tat unter Schwulen – ein Verbrechen im Kontext einer Beziehung, eines Flirts oder eines privaten Konflikts innerhalb seines Bekanntenkreises. Diese Hypothese bestimmt jahrelang die Ermittlungsrichtung und die Auswahl der für die Reihenuntersuchung angefragten Männer. Erst der Prozess mehr als zwei Jahrzehnte später zeigt, wie sehr diese frühe Festlegung in die Irre führte: Weder ein homophob motiviertes Tatmotiv noch eine nähere Beziehung zwischen Täter und Opfer lassen sich am Ende nachweisen. Tatsächlich hatten Täter und Opfer nach den Feststellungen des Gerichts kaum persönlichen Kontakt.",
+        "src": "ad-hoc-news.de (dpa), 05.11.2025",
+        "url": "https://www.ad-hoc-news.de/unterhaltung/kultur/rund-22-jahre-lang-liefen-die-ermittlungen-in-einem-mordfall-in-bad/68325290"
+      },
+      {
+        "cat": "zeuge", "label": "Eine irreführende Spur", "title": "Ein unzuverlässiger Hinweisgeber",
+        "text": "Im Lauf der jahrelangen, ergebnislosen Ermittlungen meldet sich ein psychisch auffälliger Mann bei der Polizei und macht Angaben zu dem Fall. Seine Hinweise binden für einige Zeit Ermittlungskapazitäten der ohnehin dünn besetzten Cold-Case-Ermittlungen, erweisen sich am Ende aber als nicht belastbar und führen nicht zum eigentlichen Täter. Solche Fehlspuren sind in lange zurückliegenden, öffentlich bekannten Fällen keine Seltenheit: Je länger ein Mord ungeklärt bleibt und je mehr mediale Aufmerksamkeit er über die Jahre erhält, desto mehr vermeintliche Hinweise – manche gut gemeint, manche verwirrt, wenige böswillig – erreichen die Ermittler und müssen einzeln geprüft und wieder verworfen werden, ehe die eigentlich entscheidende Spur überhaupt in den Blick geraten kann.",
+        "src": "Neue Westfälische (nw.de), Prozessbericht vom 30.03.2026",
+        "url": "https://www.nw.de/lokal/kreis_hoexter/bad_driburg/24301938_Mordfall-Tino-Werner-aus-Bad-Driburg-Psychisch-Kranker-fuehrt-Polizei-in-die-Irre.html"
+      },
+      {
+        "cat": "digital", "label": "Raubgut", "title": "Portemonnaie, Handy und Webcam fehlen",
+        "text": "Neben der Inszenierung mit dem Auto fällt den Ermittlern ein weiteres Detail auf: Aus Tino Werners Wohnung fehlen sein Portemonnaie mit rund 100 bis 150 Euro Bargeld aus seiner Kellnerbörse, sein Mobiltelefon und eine Webcam. Diese Gegenstände tauchen nie wieder auf. Für die Ermittler ist das ein wichtiges Indiz: Es spricht gegen ein rein zwischenmenschliches Motiv wie Eifersucht oder einen eskalierten Streit und für ein Element von Bereicherung. Handy und Webcam wären grundsätzlich auch digital nachverfolgbar gewesen, doch im Jahr 2003 fehlten den Ermittlern die technischen Mittel, um Geräte dieser Art zeitnah zurückzuverfolgen – ein Umstand, der die Aufklärung zusätzlich erschwerte.",
+        "src": "ad-hoc-news.de (dpa), 05.11.2025",
+        "url": "https://www.ad-hoc-news.de/unterhaltung/kultur/rund-22-jahre-lang-liefen-die-ermittlungen-in-einem-mordfall-in-bad/68325290"
+      },
+      {
+        "cat": "forensik", "label": "Der Cold-Case-Durchbruch", "title": "120 Speichelproben, ein Treffer",
+        "text": "Anfang 2025 nimmt sich eine Cold-Case-Einheit des jahrzehntealten Falls erneut an. Die damals gesicherten Spuren vom Tatort und vom Leichnam werden mit modernen wissenschaftlichen Methoden neu ausgewertet, die 2003 noch nicht zur Verfügung standen. Parallel dazu läuft eine weitere Massenuntersuchung: 120 bekannte Kontaktpersonen des Opfers werden erneut um eine Speichelprobe gebeten. Diesmal führt eine konkrete Spur zu einem Treffer – zu einem heute 58 Jahre alten Mann. Nach mehr als zwei Jahrzehnten ohne greifbaren Verdächtigen ist das der entscheidende Wendepunkt der Ermittlungen: Aus einem der 120 getesteten Kontakte wird binnen weniger Monate ein Angeklagter vor dem Landgericht Paderborn.",
+        "src": "Radio Hochstift, Urteilsbericht vom 20.05.2026",
+        "url": "https://www.radiohochstift.de/nachrichten/paderborn-hoexter/lebenslange-haft-fuer-59-jaehrigen-wegen-mordes-an-bad-driburger-tino-werner.html"
+      },
+      {
+        "cat": "forensik", "label": "Doppelter DNA-Fund", "title": "Spuren am Opfer und im Auto",
+        "text": "Die entscheidenden Spuren finden sich an zwei Stellen: am Körper des Opfers und im Fahrzeug, das Tage nach der Tat weit außerhalb von Bad Driburg auftauchte. Beide DNA-Spuren lassen sich derselben Person zuordnen – dem damaligen Nachbarn. Nach den Feststellungen des Gerichts hatten die beiden Männer kaum persönlichen Kontakt; eine harmlose Erklärung für die Spuren, etwa ein zufälliger Kontakt oder eine Leihgabe des Wagens, erscheint der Kammer deshalb unrealistisch. Die Kombination aus Spuren am Körper und im Fluchtfahrzeug verknüpft eine Person gleich zweifach mit der Tat: einmal mit dem eigentlichen Angriff, einmal mit der anschließenden Vertuschung.",
+        "src": "SCHWULISSIMO.de, Urteilsbericht vom 21.05.2026",
+        "url": "https://schwulissimo.de/neuigkeiten/urteil-nach-23-jahren-mord-schwulem-kellner-nrw"
+      },
+      {
+        "cat": "verhoer", "label": "Die Koffer-Lüge", "title": "„Er wollte doch verreisen“",
+        "text": "Mit dem DNA-Treffer konfrontiert, muss sich der Verdächtige an seine eigene Aussage von 2003 messen lassen: Damals hatte er der Polizei erzählt, er habe gesehen, wie Tino Werner mit einem Koffer habe verreisen wollen. Diese Version zerbricht im Prozess: Das Opfer wurde am Folgetag zur Arbeit erwartet, und niemand in seinem Bekanntenkreis wusste von Reiseplänen. Hinzu kommt die Aussage seiner damaligen Partnerin: Sie will nach der Tat auffällig viele kleine Geldscheine in seinem Portemonnaie gesehen haben – zu einer Zeit, in der der Handwerker nach Erkenntnissen der Ermittler in finanziellen Schwierigkeiten steckte. Eine Verurteilung wegen Totschlags schließt die Kammer aus, da weder Opfer noch Angeklagter als jähzornig galten – die Tat wirkt geplant, nicht impulsiv.",
+        "src": "SCHWULISSIMO.de, Urteilsbericht vom 21.05.2026",
+        "url": "https://schwulissimo.de/neuigkeiten/urteil-nach-23-jahren-mord-schwulem-kellner-nrw"
+      },
+      {
+        "cat": "prozess", "label": "Urteilsverkündung", "title": "Lebenslang wegen Habgier – nicht wegen Hass",
+        "text": "Am 20. Mai 2026 verurteilt das Landgericht Paderborn den heute 58-Jährigen wegen Mordes zu lebenslanger Haft. Das Gericht stellt klar: Ein homophob motiviertes Tatmotiv, wie es die Ermittler 2003 zunächst vermutet hatten, ließ sich nicht nachweisen. Ausschlaggebend war stattdessen Habgier – der Raub von Bargeld, Handy und Webcam sowie die finanzielle Notlage des Angeklagten zur Tatzeit. Totschlag schloss die Kammer aus, da weder Opfer noch Angeklagter als jähzornig galten. Für die Familie, die den Prozess als Nebenkläger begleitete, bedeutet das Urteil ein Ende der jahrzehntelangen Ungewissheit. Die Schwester des Opfers, Brigitte Rehermann, sagte dem WDR, die Vernehmungen und Beweise der vergangenen Monate hätten nach 22 Jahren alles wieder hochkommen lassen. Die Verteidigung kündigte umgehend Revision zum Bundesgerichtshof an.",
+        "quote": "„Wir hatten 22 Jahre Zeit bis zu diesem Tag, aber durch die ganzen Vernehmungen und Beweise ist alles wieder hochgekommen.“",
+        "src": "SCHWULISSIMO.de, Urteilsbericht vom 21.05.2026 (Zitat gegenüber dem WDR)",
+        "url": "https://schwulissimo.de/neuigkeiten/urteil-nach-23-jahren-mord-schwulem-kellner-nrw"
+      }
+    ],
+    "links": [
+      { "t": "SCHWULISSIMO: Urteil nach 23 Jahren – Lebenslange Haft für Mörder von Tino Werner", "u": "https://schwulissimo.de/neuigkeiten/urteil-nach-23-jahren-mord-schwulem-kellner-nrw", "kind": "artikel" },
+      { "t": "Radio Hochstift: Lebenslange Haft für 58-Jährigen wegen Mordes an Bad Driburger Tino Werner", "u": "https://www.radiohochstift.de/nachrichten/paderborn-hoexter/lebenslange-haft-fuer-59-jaehrigen-wegen-mordes-an-bad-driburger-tino-werner.html", "kind": "artikel" },
+      { "t": "ad-hoc-news.de (dpa): Schwulenhass? Prozess nach Mord an Kellner vor 22 Jahren", "u": "https://www.ad-hoc-news.de/unterhaltung/kultur/rund-22-jahre-lang-liefen-die-ermittlungen-in-einem-mordfall-in-bad/68325290", "kind": "artikel" },
+      { "t": "Radio Hochstift: Anwälte des Verurteilten legen Revision ein", "u": "https://www.radiohochstift.de/nachrichten/paderborn-hoexter/urteil-im-fall-tino-werner-aus-bad-driburg-anwaelte-des-verurteilten-legen-revision-ein.html", "kind": "artikel" },
+      { "t": "Neue Westfälische: Psychisch Kranker führt Polizei in die Irre", "u": "https://www.nw.de/lokal/kreis_hoexter/bad_driburg/24301938_Mordfall-Tino-Werner-aus-Bad-Driburg-Psychisch-Kranker-fuehrt-Polizei-in-die-Irre.html", "kind": "artikel" }
+    ],
+    "solution": {
+      "who": "Michael L. (58), der Nachbar",
+      "text": "Über 22 Jahre lang gilt der Mord an Tino Werner als unaufklärbar. Die Ermittler von 2003 vermuten einen Täter aus dem persönlichen Umfeld des offen schwul lebenden Kellners, können aber trotz einer ersten DNA-Reihenuntersuchung niemanden konkret belasten. Erst eine erneute Auswertung der alten Spuren mit moderner Technik und ein zweiter Massentest mit Speichelproben von 120 bekannten Kontaktpersonen bringen Anfang 2025 den Durchbruch: Die entscheidende Spur führt zu einem damaligen Nachbarn, der zur Tatzeit finanzielle Probleme hatte. DNA dieses Mannes findet sich sowohl am Körper des Opfers als auch im Fahrzeug, das er nach der Tat weit außerhalb des Ortes abstellte, um ein Verreisen vorzutäuschen. Vor der Polizei hatte er 2003 behauptet, Werner mit einem Koffer weggehen gesehen zu haben – eine Geschichte, die sich als Lüge erweist. Das Landgericht Paderborn verurteilt den heute 58-Jährigen wegen Mordes aus Habgier zu lebenslanger Haft. Ausdrücklich stellt das Gericht klar, dass sich das ursprünglich vermutete homophobe Tatmotiv nicht bestätigt hat: Es ging um Bargeld, ein Mobiltelefon und eine Webcam, nicht um Hass. Die Verteidigung kündigte Revision beim Bundesgerichtshof an, sodass der Fall trotz des Urteils weiterhin nicht vollständig abgeschlossen ist.",
+      "verdict": "Landgericht Paderborn, Urteil vom 20. Mai 2026, lebenslange Freiheitsstrafe wegen Mordes aus Habgier; Revision von der Verteidigung angekündigt",
+      "status": "nicht rechtskräftig"
+    }
+  }
+]

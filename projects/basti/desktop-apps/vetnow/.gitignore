@@ -1,0 +1,37 @@
+# Abhängigkeiten
+node_modules/
+
+# Build-Ausgaben
+web/dist/
+web/dist-demo/
+web/dist-ssr/
+web/dev-dist/
+
+# Studio-Laufzeit
+studio/data/
+
+# Avocado at Law
+avocado/web/dist/
+avocado/mobile/.expo/
+
+# Expo
+mobile/.expo/
+mobile/.expo-shared/
+mobile/dist/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Logs & OS
+npm-debug.log*
+yarn-error.log
+*.log
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/

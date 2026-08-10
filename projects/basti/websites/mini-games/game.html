@@ -1,0 +1,311 @@
+<!-- Datei: puzzle.html -->
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CHS Villach — HTML Puzzle (Rotation)</title>
+<style>
+  :root{
+    --bg:#f6f7fb;
+    --card:#ffffff;
+    --accent:#4a90e2;
+    --muted:#9aa3b2;
+    --shadow: 0 10px 30px rgba(18,25,40,0.06);
+    --tile-size:120px;
+  }
+  html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+  body{
+    background:linear-gradient(180deg,var(--bg),#ffffff 60%);
+    display:flex;align-items:center;justify-content:center;padding:40px;
+    color:#102027;
+  }
+
+  .card{
+    width: min(760px,92vw);
+    background:var(--card);
+    border-radius:12px;
+    box-shadow:var(--shadow);
+    padding:22px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    align-items:center;
+  }
+
+  header{
+    width:100%;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .title{
+    display:flex;flex-direction:column;
+  }
+  .title h1{font-size:20px;margin:0 0 4px 0;}
+  .title p{margin:0;color:var(--muted);font-size:13px;}
+
+  .controls{display:flex;gap:10px;align-items:center;}
+  button{
+    background:var(--accent);
+    color:white;border:0;padding:9px 14px;border-radius:8px;font-weight:600;cursor:pointer;
+    box-shadow:0 6px 14px rgba(74,144,226,0.16);
+  }
+  button.secondary{
+    background:transparent;color:var(--accent);border:1px solid rgba(74,144,226,0.15);box-shadow:none;
+  }
+  button:active{transform:translateY(1px);}
+
+  /* Puzzle grid */
+  .puzzle-wrap{
+    width:100%;
+    max-width:520px;
+    display:flex;
+    align-items:center;justify-content:center;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(3, var(--tile-size));
+    gap:10px;
+    padding:12px;
+    background:linear-gradient(#fff, #fbfdff);
+    border-radius:10px;
+    box-shadow: 0 6px 18px rgba(15,30,50,0.04) inset;
+    border:1px solid rgba(15,30,50,0.04);
+  }
+
+  .tile{
+    width:var(--tile-size);height:var(--tile-size);
+    background:linear-gradient(180deg,#ffffff,#fafcff);
+    border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    font-family: "Courier New", monospace;
+    font-size:13px;
+    color:#14202b;
+    user-select:none;
+    cursor:pointer;
+    box-shadow: 0 6px 18px rgba(12,22,40,0.06);
+    transition: transform 420ms cubic-bezier(.2,.9,.24,1), box-shadow 180ms, filter 180ms;
+    transform-origin:center center;
+  }
+
+  .tile:hover{
+    transform: translateY(-6px) scale(1.01);
+    filter:brightness(1.02);
+    box-shadow: 0 18px 36px rgba(12,22,40,0.08);
+  }
+
+  /* when tile is correctly oriented: gentle glow */
+  .tile.solved{
+    outline: 3px solid rgba(74,144,226,0.12);
+    animation: pulse 1.2s ease-in-out infinite;
+    box-shadow: 0 10px 30px rgba(12,22,40,0.08);
+  }
+  @keyframes pulse{
+    0%{ transform: scale(1) translateY(0); }
+    50%{ transform: scale(1.01) translateY(-3px); }
+    100%{ transform: scale(1) translateY(0); }
+  }
+
+  /* Footer with small instructions */
+  .footer{
+    width:100%;
+    display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:13px;
+    margin-top:6px;
+  }
+
+  /* Success overlay */
+  .overlay{
+    position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+    background:rgba(8,12,20,0.25);backdrop-filter:blur(4px);
+    visibility:hidden;opacity:0;transition:opacity .25s, visibility .25s;
+  }
+  .overlay.show{visibility:visible;opacity:1;}
+  .modal{
+    background:white;padding:28px;border-radius:12px;box-shadow:0 20px 60px rgba(10,18,30,0.25);text-align:center;
+    max-width:420px;
+  }
+  .modal h2{margin:0 0 8px 0;}
+  .modal p{margin:0 0 16px 0;color:var(--muted);}
+  .modal .cta{display:flex;gap:8px;justify-content:center;}
+
+  /* responsive */
+  @media (max-width:560px){
+    :root{ --tile-size:90px; }
+    .card{padding:16px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="card" role="application" aria-label="HTML Puzzle">
+  <header>
+    <div class="title">
+      <h1>CHS Villach — HTML Puzzle</h1>
+      <p>Rotate each tile until the HTML snippet reads correctly.</p>
+    </div>
+
+    <div class="controls" aria-hidden="false">
+      <button id="shuffleBtn" class="secondary" title="Shuffle">Shuffle</button>
+      <button id="resetBtn" class="secondary" title="Reset">Reset</button>
+      <button id="verifyBtn">Verify</button>
+    </div>
+  </header>
+
+  <div class="puzzle-wrap">
+    <div class="grid" id="grid" aria-live="polite"></div>
+  </div>
+
+  <div class="footer">
+    <div>Tip: Click a tile to rotate it 90°</div>
+    <div style="color:var(--muted)">Made for CHS Villach — Medienzweig</div>
+  </div>
+</div>
+
+<!-- Success Overlay -->
+<div id="overlay" class="overlay" role="dialog" aria-modal="true">
+  <div class="modal" role="document">
+    <h2>✅ Well done!</h2>
+    <p>Das Puzzle ist vollständig korrekt ausgerichtet — willkommen beim Tag der offenen Tür!</p>
+    <div class="cta">
+      <button id="closeOverlay">Close</button>
+      <button id="playAgain" class="secondary">Play Again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Puzzle data (3x3). Each tile has the text and its target rotation (0).
+  // The content is intentionally short HTML-snippets to keep it readable.
+  const pieces = [
+    "<!DOCTYPE html>",
+    "<html>",
+    "<head>",
+    "<title>CHS Villach</title>",
+    "</head>",
+    "<body>",
+    "<h1>Willkommen</h1>",
+    "<p>Open Day</p>",
+    "</body></html>"
+  ];
+
+  const grid = document.getElementById('grid');
+  const overlay = document.getElementById('overlay');
+  const verifyBtn = document.getElementById('verifyBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const shuffleBtn = document.getElementById('shuffleBtn');
+  const closeOverlay = document.getElementById('closeOverlay');
+  const playAgain = document.getElementById('playAgain');
+
+  // create tiles DOM
+  function createTiles(){
+    grid.innerHTML = '';
+    // Create elements
+    pieces.forEach((text, i) => {
+      const div = document.createElement('div');
+      div.className = 'tile';
+      div.dataset.index = i;
+      // store current angle in data-angle
+      div.dataset.angle = '0';
+      div.innerHTML = `<div style="padding:8px;text-align:center;line-height:1.1;">${text}</div>`;
+      grid.appendChild(div);
+    });
+  }
+
+  createTiles();
+
+  // helper: get tile elements array
+  function tilesArray(){ return Array.from(document.querySelectorAll('.tile')); }
+
+  // Randomize starting rotation
+  function shuffleInitial(){
+    tilesArray().forEach(tile => {
+      const choices = [0,90,180,270];
+      // pick random angle (but ensure at least one rotated)
+      const angle = choices[Math.floor(Math.random()*choices.length)];
+      tile.dataset.angle = String(angle);
+      tile.style.transform = `rotate(${angle}deg)`;
+      tile.classList.remove('solved');
+    });
+    // ensure not already solved
+    if (tilesArray().every(t => t.dataset.angle === '0')){
+      const t = tilesArray()[Math.floor(Math.random()*tilesArray().length)];
+      t.dataset.angle = '90';
+      t.style.transform = 'rotate(90deg)';
+    }
+  }
+
+  // Reset to solved state (all 0)
+  function resetSolved(){
+    tilesArray().forEach(tile => {
+      tile.dataset.angle = '0';
+      tile.style.transform = 'rotate(0deg)';
+      tile.classList.add('solved');
+      // remove solved glow after a short time
+      setTimeout(()=> tile.classList.remove('solved'), 800);
+    });
+  }
+
+  // Rotate tile on click (adds 90deg)
+  grid.addEventListener('click', (e) => {
+    const t = e.target.closest('.tile');
+    if (!t) return;
+    let angle = (parseInt(t.dataset.angle) + 90) % 360;
+    t.dataset.angle = String(angle);
+    // animate rotation smoothly using CSS transition (already set)
+    t.style.transform = `rotate(${angle}deg)`;
+    // Snap feedback: if aligned (0) add solved class for subtle animation
+    if (angle === 0){
+      t.classList.add('solved');
+      setTimeout(()=> t.classList.remove('solved'), 1100);
+    }
+  });
+
+  // Check if solved
+  function isSolved(){
+    return tilesArray().every(t => parseInt(t.dataset.angle) % 360 === 0);
+  }
+
+  // Verify button action
+  verifyBtn.addEventListener('click', () => {
+    if (isSolved()){
+      showOverlay();
+    } else {
+      // small feedback: pulse incorrectly placed tiles
+      tilesArray().forEach(t => {
+        if (parseInt(t.dataset.angle) % 360 !== 0){
+          t.animate([
+            { transform: t.style.transform + ' translateY(0)' },
+            { transform: t.style.transform + ' translateY(-6px)' },
+            { transform: t.style.transform + ' translateY(0)' }
+          ], { duration: 350, easing:'cubic-bezier(.2,.9,.24,1)' });
+        }
+      });
+    }
+  });
+
+  function showOverlay(){ overlay.classList.add('show'); }
+  function hideOverlay(){ overlay.classList.remove('show'); }
+
+  closeOverlay.addEventListener('click', hideOverlay);
+  playAgain.addEventListener('click', () => { hideOverlay(); shuffleInitial(); });
+
+  // Reset and Shuffle
+  resetBtn.addEventListener('click', () => { resetSolved(); });
+  shuffleBtn.addEventListener('click', () => { shuffleInitial(); });
+
+  // Keyboard accessibility: space on tile rotates
+  document.addEventListener('keydown', (ev) => {
+    if (ev.key === 'r' || ev.key === 'R') shuffleInitial();
+    if (ev.key === 'Enter') verifyBtn.click();
+  });
+
+  // initialize
+  shuffleInitial();
+
+  // small entrance animation
+  document.querySelector('.card').animate([
+    { transform: 'translateY(12px)', opacity: 0 },
+    { transform: 'translateY(0)', opacity: 1 }
+  ], { duration: 420, easing:'cubic-bezier(.2,.9,.24,1)' });
+</script>
+</body>
+</html>

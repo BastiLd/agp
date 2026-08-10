@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>AutoCapture</title>
+  <link rel="stylesheet" href="../shared/theme.css">
+  <link rel="stylesheet" href="popup.css">
+  <script src="../shared/theme.js"></script>
+</head>
+<body>
+    <div class="header">
+      <div style="display: flex; align-items: center; gap: 15px; flex: 1;">
+        <img src="../icons/icon128.png" alt="Icon">
+        <h2 id="titleText">AutoCapture</h2>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <a href="../history/history.html" target="_blank" title="History" style="filter: grayscale(1); opacity: 0.6;"><img src="../icons/icon128.png" style="width: 16px; height: 16px; filter: none;"></a>
+        <a href="../options/options.html" target="_blank" title="Options" style="filter: grayscale(1); opacity: 0.6;"><img src="../icons/icon128.png" style="width: 16px; height: 16px; filter: none;"></a>
+      </div>
+    </div>
+
+  <div class="content">
+    <div class="settings-group">
+      <div class="setting-item">
+        <span id="recursiveLabel">Recursive Crawl</span>
+        <input type="checkbox" id="recursiveCheck">
+      </div>
+      <div class="setting-item">
+        <span id="limitLabel">Max Pages</span>
+        <input type="number" id="limitInput" value="10" min="1" max="1000">
+      </div>
+    </div>
+
+    <div class="settings-group" style="margin-top: 10px;">
+      <a href="digi-popup.html" style="display: block; text-align: center; text-decoration: none; padding: 12px; background: var(--app-surface-soft); border: 1px solid var(--border); border-radius: 4px; font-weight: 600; color: var(--app-text); transition: background 0.2s;">
+        📚 Digi4School Modus
+      </a>
+    </div>
+
+    <button id="startBtn">
+      <span id="startBtnText">Start Capture</span>
+    </button>
+    <button id="stopBtn" disabled>
+      <span id="stopBtnText">Stop</span>
+    </button>
+    
+    <div class="status-container">
+      <div id="status">Ready.</div>
+      <div id="dots" class="dots-container">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div id="progressInfo" class="progress-info"></div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

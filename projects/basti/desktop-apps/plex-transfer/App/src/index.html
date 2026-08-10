@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: https://image.tmdb.org;">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plex Transfer</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div id="app" class="theme-dunkel">
+      <div class="app-backdrop" aria-hidden="true"></div>
+
+      <main id="workflowPicker" class="workflow-picker">
+        <section class="picker-shell">
+          <div class="picker-side">
+            <span class="picker-mark">PT</span>
+            <div>
+              <span class="picker-kicker">Plex Transfer</span>
+              <h1>Startdeck</h1>
+            </div>
+            <div class="picker-signal">
+              <span>Config</span>
+              <strong>Plex bereit</strong>
+            </div>
+          </div>
+          <div class="picker-actions">
+            <button class="picker-card transfer" data-workflow="transfer">
+              <span class="picker-number">01</span>
+              <span><strong>Übertragen</strong><small>NAS Transfer</small></span>
+              <span class="picker-arrow">↗</span>
+            </button>
+            <button class="picker-card rename" data-workflow="rename">
+              <span class="picker-number">02</span>
+              <span><strong>Umbenennen</strong><small>Plex Namen</small></span>
+              <span class="picker-arrow">Aa</span>
+            </button>
+            <button class="picker-card combo" data-workflow="combo">
+              <span class="picker-number">03</span>
+              <span><strong>Umbenennen + Übertragen</strong><small>Plex Name + NAS Transfer</small></span>
+              <span class="picker-arrow">✓</span>
+            </button>
+          </div>
+        </section>
+      </main>
+
+      <header class="topbar hidden">
+        <div class="brand-block">
+          <div class="brand-mark">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          </div>
+          <div>
+            <h1>Plex Transfer</h1>
+            <p id="subtitle">Lokaler Plex-/NAS-Kopierworkflow mit Robocopy</p>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button id="workflowBackButton">Workflow wechseln</button>
+          <button id="settingsButton" class="icon-button" title="Einstellungen" aria-label="Einstellungen">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </button>
+          <span id="statusBadge" class="status-badge">Bereit</span>
+        </div>
+      </header>
+
+      <main id="mainView" class="layout hidden">
+        <section class="workspace">
+          <section class="hero-panel">
+            <div>
+              <span class="eyebrow">Transfer-Zentrale</span>
+              <h2>Medien auswählen, prüfen und sauber nach Plex kopieren.</h2>
+            </div>
+            <div class="quick-actions">
+              <button id="movieButton" class="primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+                Film auswählen
+              </button>
+              <button id="seriesButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect><polyline points="17 2 12 7 7 2"></polyline></svg>
+                Serie auswählen
+              </button>
+              <button id="multiButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="12" y1="18" x2="12" y2="12"></line><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+                Mehrere Dateien/Ordner
+              </button>
+              <button id="startButton" class="primary strong">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                Kopiervorgang starten
+              </button>
+              <button id="cancelButton" class="danger hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                Abbrechen
+              </button>
+              <button id="plexButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                Plex Refresh
+              </button>
+              <button id="logsButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                Logs öffnen
+              </button>
+            </div>
+          </section>
+
+          <section class="panel jobs-panel">
+            <div class="panel-heading split">
+              <div>
+                <h2>Warteschlange</h2>
+                <p id="jobMeta">0 Jobs in der Liste</p>
+              </div>
+              <div class="queue-tools">
+                <input id="jobSearchInput" type="search" placeholder="Jobs suchen">
+                <span id="jobStatusLine">0 wartend | 0 läuft | 0 Fehler</span>
+              </div>
+            </div>
+
+            <div id="dropZone" class="drop-zone">
+              <div class="drop-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              </div>
+              <div>
+                <strong>Dateien oder Ordner hier ablegen</strong>
+                <span>Datei = Film, Ordner = Serie. Episoden werden automatisch erkannt.</span>
+              </div>
+            </div>
+
+            <div class="job-actions">
+              <button id="moveUpButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+                Nach oben
+              </button>
+              <button id="moveDownButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
+                Nach unten
+              </button>
+              <button id="removeButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                Entfernen
+              </button>
+              <button id="selectJobsButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                Auswahl bearbeiten
+              </button>
+              <button id="formatButton" class="hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"></path><path d="M7 12h10"></path><path d="M10 17h4"></path></svg>
+                Formate wählen
+              </button>
+              <button id="retryButton">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                Fehler erneut
+              </button>
+              <button id="clearButton" class="danger">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                Alle entfernen
+              </button>
+            </div>
+
+            <div class="table-shell">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Typ</th>
+                    <th>Quelle</th>
+                    <th>Ziel</th>
+                    <th>Größe</th>
+                    <th>Status</th>
+                    <th>Fortschritt</th>
+                  </tr>
+                </thead>
+                <tbody id="jobsBody"></tbody>
+              </table>
+              <div id="emptyJobs" class="empty-state">
+                <strong>Noch keine Jobs</strong>
+                <span>Füge Medien über die Buttons hinzu oder ziehe sie in die Drop-Zone.</span>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel log-panel">
+            <div class="panel-heading split">
+              <div>
+                <h2>Laufendes Log</h2>
+                <p>Robocopy-Ausgabe, Warnungen und Systemmeldungen.</p>
+              </div>
+              <div class="log-actions">
+                <button id="copyLogsButton">Logs kopieren</button>
+                <button id="saveLogsButton">Als TXT speichern</button>
+                <label class="check-label"><input id="errorsOnlyToggle" type="checkbox"> Nur Fehler</label>
+              </div>
+            </div>
+            <pre id="logBox" class="log-box"></pre>
+          </section>
+        </section>
+
+        <aside class="side-rail">
+          <section class="panel status-panel">
+            <div class="panel-heading">
+              <h2>Status</h2>
+              <p id="statusDetail">Wartet auf neue Jobs.</p>
+            </div>
+
+            <div class="eta-box">
+              <strong id="etaTitle">Geschätzte Dauer: nicht verfügbar</strong>
+              <span id="etaDetail">Füge zuerst Jobs hinzu.</span>
+              <button id="speedButton">Geschwindigkeit testen</button>
+            </div>
+
+            <div id="activeRows" class="active-rows"></div>
+
+            <div class="mascot-area">
+              <div id="plexieMascot" class="mascot idle">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="-12 -12 124 124" width="112" height="112" aria-hidden="true">
+                  <circle cx="50" cy="55" r="45" class="speed-ring speed-ring-outer" />
+                  <circle cx="50" cy="55" r="35" class="speed-ring speed-ring-inner" />
+                  <path d="M50 2 L58 19 L42 19 Z" class="speed-pointer" />
+                  <path d="M13 82 C24 101 77 101 88 82" class="speed-trail" />
+                  <g class="robot-shell">
+                    <!-- Robot Base -->
+                    <rect x="25" y="40" width="50" height="40" rx="10" fill="currentColor" class="robot-body" />
+                    <!-- Robot Head (Screen) -->
+                    <rect x="30" y="45" width="40" height="20" rx="5" fill="#12212f" class="robot-screen" />
+                    <!-- Eyes -->
+                    <g class="robot-eye-group left-eye-group">
+                      <circle cx="40" cy="55" r="4" fill="#22c7b8" class="robot-eye left-eye" />
+                    </g>
+                    <g class="robot-eye-group right-eye-group">
+                      <circle cx="60" cy="55" r="4" fill="#22c7b8" class="robot-eye right-eye" />
+                    </g>
+                    <!-- Antenna -->
+                    <line x1="50" y1="40" x2="50" y2="25" stroke="currentColor" stroke-width="3" class="robot-antenna" />
+                    <circle cx="50" cy="20" r="5" fill="#3b82f6" class="robot-antenna-bulb" />
+                  </g>
+                  <!-- Floating Shadow -->
+                  <ellipse cx="50" cy="95" rx="20" ry="3" fill="rgba(0,0,0,0.2)" class="robot-shadow" />
+                  <!-- Zzz (for sleeping state) -->
+                  <text x="75" y="30" font-size="16" fill="#9eb0c1" class="robot-zzz hidden">Z</text>
+                  <text x="85" y="20" font-size="12" fill="#9eb0c1" class="robot-zzz hidden">z</text>
+                </svg>
+              </div>
+            </div>
+
+            <div class="progress-block">
+              <div class="row-heading">
+                <span>Gesamtfortschritt</span>
+                <span id="overallProgressText">0% abgeschlossen</span>
+              </div>
+              <div class="progress-track"><div id="overallProgress" class="progress-fill"></div></div>
+            </div>
+
+            <div class="metric-list">
+              <div>
+                <span>Zusammenfassung</span>
+                <strong id="summary">Noch keine Kopiervorgänge gestartet.</strong>
+              </div>
+              <div>
+                <span>Letzte Aktion</span>
+                <strong id="lastAction">Keine letzte Aktion.</strong>
+              </div>
+              <div>
+                <span>Transfer</span>
+                <strong id="transferSize">Offene Transfers: -</strong>
+              </div>
+              <div>
+                <span>Zielspeicher</span>
+                <strong id="targetSpace">-</strong>
+              </div>
+            </div>
+          </section>
+        </aside>
+      </main>
+
+      <main id="renameView" class="tool-view hidden">
+        <section class="tool-grid">
+          <section class="panel tool-panel">
+            <div class="panel-heading split">
+              <div>
+                <span class="eyebrow">Umbenennen</span>
+                <h2>Plex-Namensvorschau</h2>
+                <p>Dateien und Ordner werden erst nach deiner Bestätigung geändert.</p>
+              </div>
+              <div class="pick-group">
+                <button id="renamePickButton" class="primary">Dateien wählen</button>
+                <button id="renameFolderButton">Ordner wählen</button>
+              </div>
+            </div>
+            <div class="tool-options">
+              <label>Typ
+                <select id="renameTypeInput">
+                  <option value="auto">Automatisch</option>
+                  <option value="Film">Film</option>
+                  <option value="Serie">Serie</option>
+                </select>
+              </label>
+              <label>Ordnerstruktur
+                <select id="renameStructureInput">
+                  <option value="plex">Plex-Struktur anlegen</option>
+                  <option value="none">Nur Namen ändern</option>
+                </select>
+              </label>
+              <label>Serienname optional<input id="renameShowInput" type="text" placeholder="Leer = aus Ordner/Datei erkennen"></label>
+              <label>Filmjahr optional<input id="renameYearInput" type="text" inputmode="numeric" placeholder="Leer erlaubt"></label>
+              <label class="check-card"><input id="renameRefreshInput" type="checkbox"> Nach Umbenennen Plex aktualisieren</label>
+            </div>
+            <div class="tool-actions">
+              <button id="renameSearchButton">TMDb Suche</button>
+              <button id="renameAutoSearchButton">Serie automatisch zuordnen</button>
+              <button id="renamePreviewButton">Vorschau aktualisieren</button>
+              <button id="renameStartButton" class="primary strong">Umbenennen starten</button>
+              <button id="renameClearButton" class="danger">Leeren</button>
+            </div>
+            <div id="renamePreviewList" class="preview-list"></div>
+          </section>
+        </section>
+      </main>
+
+      <main id="comboView" class="tool-view hidden">
+        <section class="tool-grid">
+          <section class="panel tool-panel">
+            <div class="panel-heading split">
+              <div>
+                <span class="eyebrow">Umbenennen + Übertragen</span>
+                <h2>Erst umbenennen, dann übertragen</h2>
+                <p>Die Vorschau zeigt die lokale Umbenennung vor dem Transfer.</p>
+              </div>
+              <div class="pick-group">
+                <button id="comboPickButton" class="primary">Dateien wählen</button>
+                <button id="comboFolderButton">Ordner wählen</button>
+              </div>
+            </div>
+            <div class="tool-options">
+              <label>Typ
+                <select id="comboTypeInput">
+                  <option value="auto">Automatisch</option>
+                  <option value="Film">Film</option>
+                  <option value="Serie">Serie</option>
+                </select>
+              </label>
+              <label>Ordnerstruktur
+                <select id="comboStructureInput">
+                  <option value="plex">Plex-Struktur anlegen</option>
+                  <option value="none">Nur Namen ändern</option>
+                </select>
+              </label>
+              <label>Serienname optional<input id="comboShowInput" type="text" placeholder="Leer = aus Ordner/Datei erkennen"></label>
+              <label>Filmjahr optional<input id="comboYearInput" type="text" inputmode="numeric" placeholder="Leer erlaubt"></label>
+              <label class="check-card"><input id="comboRefreshInput" type="checkbox"> Nach Umbenennen und Übertragen Plex aktualisieren</label>
+            </div>
+            <div class="tool-actions">
+              <button id="comboSearchButton">TMDb Suche</button>
+              <button id="comboAutoSearchButton">Serie automatisch zuordnen</button>
+              <button id="comboPreviewButton">Vorschau aktualisieren</button>
+              <button id="comboStartButton" class="primary strong">Umbenennen und übertragen</button>
+              <button id="comboClearButton" class="danger">Leeren</button>
+            </div>
+            <div id="comboPreviewList" class="preview-list"></div>
+            <div id="comboTransferPreview" class="combo-transfer-preview"></div>
+          </section>
+        </section>
+      </main>
+
+      <main id="settingsView" class="settings-view hidden">
+        <section class="settings-head">
+          <div>
+            <span class="eyebrow">Konfiguration</span>
+            <h2>Einstellungen</h2>
+            <p>Änderungen gelten erst nach dem Speichern.</p>
+          </div>
+          <div class="settings-actions">
+            <button id="cancelSettingsButton">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              Zurück
+            </button>
+            <button id="saveSettingsButton" class="primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+              Einstellungen speichern
+            </button>
+          </div>
+        </section>
+
+        <section class="settings-grid">
+          <label>Filme-Zielpfad<input id="moviesRootInput" type="text"></label>
+          <label>Serien-Zielpfad<input id="seriesRootInput" type="text"></label>
+          <label>Plex URL<input id="plexUrlInput" type="text"></label>
+          <label>Plex Token<input id="plexTokenInput" type="password"></label>
+          <label>Movies Section ID<input id="moviesSectionInput" type="text"></label>
+          <label>Series Section ID<input id="seriesSectionInput" type="text"></label>
+          <label class="check-card"><input id="parallelInput" type="checkbox"> Parallel kopieren (max. 2 Jobs)</label>
+          <label class="check-card"><input id="autoRefreshInput" type="checkbox"> Nach Transfer Plex-Refresh auslösen</label>
+          <label class="check-card"><input id="renameRefreshSettingsInput" type="checkbox"> Nach Umbenennen Plex-Refresh auslösen</label>
+          <label class="check-card"><input id="comboRefreshSettingsInput" type="checkbox"> Nach Umbenennen und Übertragen Plex-Refresh auslösen</label>
+          <label>Umbenennen-Ordnerstruktur
+            <select id="renameStructureSettingsInput">
+              <option value="plex">Plex-Struktur anlegen</option>
+              <option value="none">Nur Namen ändern</option>
+            </select>
+          </label>
+          <label>TMDb Token oder API-Key<input id="tmdbTokenInput" type="password" placeholder="Read Access Token oder API-Key eintragen"></label>
+          <label>TMDb Sprache<input id="tmdbLanguageInput" type="text" placeholder="de-DE"></label>
+          <label>TMDb Region<input id="tmdbRegionInput" type="text" placeholder="DE"></label>
+          <label class="check-card metadata-card">
+            <span>TMDb Metadaten</span>
+            <button id="tmdbTestButton" type="button">Verbindung testen</button>
+            <small id="tmdbStatusText">This product uses the TMDB API but is not endorsed or certified by TMDB.</small>
+          </label>
+          <label class="check-card"><input id="rememberInput" type="checkbox"> Offene Jobs beim Start wiederherstellen</label>
+          <label>Theme
+            <select id="themeInput">
+              <option value="hell">Hell</option>
+              <option value="dunkel">Dunkel</option>
+            </select>
+          </label>
+        </section>
+      </main>
+    </div>
+
+    <div id="modalHost" class="modal-host hidden"></div>
+    <div id="contextMenu" class="context-menu hidden"></div>
+    <div id="toastHost" class="toast-host"></div>
+    <script src="renderer.js"></script>
+  </body>
+</html>

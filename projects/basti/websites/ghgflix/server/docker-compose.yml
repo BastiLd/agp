@@ -1,0 +1,72 @@
+# ============================================================================
+# GHGFlix Server für ZimaOS — einfach kopieren & einfügen!
+# ZimaOS: App Store → oben rechts "+" → "Install a customized app" →
+#         "Import" → diese Datei einfügen → Install (nichts anpassen nötig).
+#         Danach: http://<zimaboard-ip>:8484 öffnen.
+#
+# MEHRERE PLATTEN: Das GESAMTE ZimaOS-Dateisystem wird read-only unter /host
+# eingebunden. So findest du in der Weboberfläche (Einstellungen → Bibliotheken)
+# JEDE Platte und JEDEN Ordner — egal, wo ZimaOS sie einhängt (/DATA, /media,
+# Netzwerkfreigaben, …). Kein Raten von Pfaden mehr. "Automatisch erkennen"
+# durchsucht das Ganze und schlägt Film-/Serienordner vor.
+#
+# WICHTIG: In ZimaOS KEINE Volume-Zeile leer lassen (leere "Source" führt zu
+# "field Source must not be empty").
+# ============================================================================
+services:
+  ghgflix:
+    image: ghcr.io/bastild/ghgflix-server:latest
+    # Kein fertiges Image? Dann stattdessen direkt von GitHub bauen (Zeile
+    # oben auskommentieren, diese aktivieren):
+    # build: https://github.com/BastiLd/GHGFLIX.git#main:server
+    container_name: ghgflix
+    restart: unless-stopped
+    ports:
+      - "8484:8484"
+    volumes:
+      # Gesamtes ZimaOS read-only -> im Ordner-Browser findest du ALLES.
+      - /:/host:ro
+      # Datenbank + Bild-Cache (schreibbar, echter Host-Pfad):
+      - /DATA/AppData/ghgflix/data:/data
+    environment:
+      # TMDb-Key für Poster/Beschreibungen (kann auch später in der
+      # Web-Oberfläche → Einstellungen gesetzt werden):
+      TMDB_API_KEY: ""
+      TMDB_LANG: "de-DE"
+      # Optionales Login-Passwort (empfohlen, sobald der Server per Domain
+      # oder Tailscale von außen erreichbar ist; leer = kein Login):
+      GHGFLIX_PASSWORD: ""
+      # Bibliothek automatisch neu scannen (Sekunden):
+      SCAN_INTERVAL_SEC: "1800"
+      # Max. gleichzeitige Video-Umwandlungen (Schutz für schwache NAS-CPUs;
+      # weitere Geräte bekommen dann kurz "bitte warten"):
+      TRANSCODE_MAX: "3"
+      # Seek-genaues Transcoding (behebt Ton/Bild-Versatz nach Spulen).
+      # Nur auf sehr schwachen Boards auf "off" stellen:
+      TRANSCODE_ACCURATE_SEEK: "on"
+      # ── Vorschaubilder auf der Zeitleiste ────────────────────────────────
+      # Beim Abspielen wird im Hintergrund EIN Bilderstreifen für den ganzen
+      # Film erzeugt (wie bei Plex). Danach erscheint die Vorschau beim
+      # Drüberfahren sofort — auch am Handy und am Fernseher.
+      # "off" schaltet das ab (dann Einzelbilder auf Anfrage):
+      TRICKPLAY: "on"
+      # Abstand zwischen zwei Vorschaubildern in Sekunden (kleiner = feiner,
+      # aber größere Datei und längere Erzeugung):
+      TRICKPLAY_INTERVAL: "10"
+      # Breite eines Vorschaubildes in Pixeln:
+      TRICKPLAY_WIDTH: "240"
+      # Obergrenze für den Einzelbild-Zwischenspeicher in Megabyte:
+      THUMB_CACHE_MB: "512"
+      # Gleichzeitige ffmpeg-Aufrufe für Vorschaubilder (schwache NAS: 1):
+      THUMB_CONCURRENCY: "2"
+      # Dateien unter dieser Größe (MB) gelten als Reste/Werbeschnipsel und
+      # werden nicht in die Bibliothek aufgenommen:
+      MIN_VIDEO_MB: "1"
+      # Optional: Supabase-Sync (BRAUCHT den Service-Role-Key, nicht den
+      # anon-Key). Am einfachsten über die Web-Einstellungen setzen
+      # (Einstellungen → Konto & Sync → "Server-Sync mit Supabase"):
+      SUPABASE_URL: ""
+      SUPABASE_SERVICE_KEY: ""
+      # Optional: nur Profile EINES Supabase-Kontos syncen (Auth-User-ID) —
+      # nur nötig, wenn sich mehrere Konten ein Supabase-Projekt teilen:
+      SUPABASE_USER_ID: ""

@@ -1,0 +1,48 @@
+# Kartenbot Web — Backend fuer die Website.
+#
+# Starten (aus dem Projekt-Wurzelverzeichnis, nicht aus web/):
+#   docker compose -f web/docker-compose.yml up -d --build
+#
+# Danach in WebHafen eine Website anlegen und als API-Ziel eintragen:
+#   <IP-des-Servers>:8090
+# Dann laufen Oberflaeche und Backend unter einer Adresse.
+services:
+  kartenbot-web:
+    # Wird aus dem Quellcode gebaut - so funktioniert es auch in Portainer,
+    # wenn der Stack als "Repository" aus GitHub angelegt wird.
+    # Alternative ohne Bauen (fertiges Abbild aus der GitHub-Registry):
+    #   image: ghcr.io/bastild/kartenbot-web:latest
+    # Dann die drei build-Zeilen darunter auskommentieren.
+    build:
+      context: ..
+      dockerfile: web/Dockerfile
+    container_name: kartenbot-web
+    restart: unless-stopped
+    ports:
+      # Nur im lokalen Netz veroeffentlichen. Nach aussen geht ausschliesslich
+      # der Port von WebHafen - dieser hier nicht.
+      - "8090:8090"
+    environment:
+      WEB_PASSWORD: ${WEB_PASSWORD:?Bitte WEB_PASSWORD in web/.env setzen}
+      WEB_SESSION_SECRET: ${WEB_SESSION_SECRET:-}
+      BOT_TOKEN: ${BOT_TOKEN:-}
+      DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID:-}
+      DISCORD_CLIENT_SECRET: ${DISCORD_CLIENT_SECRET:-}
+      WEB_OWNER_DISCORD_ID: ${WEB_OWNER_DISCORD_ID:-965593518745731152}
+      WEB_TRUSTED_LAN: ${WEB_TRUSTED_LAN:-127.0.0.0/8,::1/128,192.168.0.0/16,10.0.0.0/8,172.16.0.0/12}
+      WEB_TRUSTED_VPN: ${WEB_TRUSTED_VPN:-100.64.0.0/10,fd7a:115c:a1e0::/48}
+      WEB_TZ: ${WEB_TZ:-Europe/Vienna}
+      OLLAMA_URL: ${OLLAMA_URL:-http://192.168.68.10:11434}
+    volumes:
+      # Der GANZE Arbeitsordner des Bots wird eingebunden, nicht einzelne
+      # Dateien. Grund: SQLite legt neben kartenbot.db noch -wal und -shm an
+      # und loescht sie wieder, sobald die Datenbank sauber geschlossen wird.
+      # Waeren die einzeln eingebunden, wuerde Docker beim naechsten Start
+      # VERZEICHNISSE mit diesen Namen anlegen - und die Datenbank waere kaputt.
+      #
+      # KARTENBOT_DIR zeigt auf den Ordner, in dem bot.py und kartenbot.db
+      # liegen. Ohne Angabe wird der uebergeordnete Ordner genommen (passt,
+      # wenn web/ direkt im Bot-Ordner liegt).
+      # Auf ZimaOS z. B.:
+      #   KARTENBOT_DIR=/DATA/AppData/homelab-discord-bot-manager/config/servers/local-d2a651fa/workspace
+      - ${KARTENBOT_DIR:-..}:/data

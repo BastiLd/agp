@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>AutoCapture - Digi4School</title>
+  <link rel="stylesheet" href="../shared/theme.css">
+  <link rel="stylesheet" href="popup.css">
+  <script src="../shared/theme.js"></script>
+  <style>
+    .back-btn {
+      color: var(--app-muted);
+      text-decoration: none;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .back-btn:hover {
+      color: var(--app-text);
+    }
+  </style>
+</head>
+<body>
+    <div class="header">
+      <div style="display: flex; align-items: center; gap: 10px; flex: 1;">
+        <a href="popup.html" class="back-btn" title="Zurück">◀</a>
+        <img src="../icons/icon128.png" alt="Icon" style="width:24px; height:24px;">
+        <h2 id="titleText">Digi4School Modus</h2>
+      </div>
+    </div>
+
+  <div class="content">
+    <div class="settings-group">
+      <div class="setting-item">
+        <span>Start Page</span>
+        <input type="number" id="digiStartPage" value="1" min="1">
+      </div>
+      <div class="setting-item">
+        <span>End Page</span>
+        <input type="number" id="digiEndPage" value="10" min="1">
+      </div>
+    </div>
+
+    <button id="startBtn">
+      <span id="startBtnText">Capture Starten</span>
+    </button>
+    <button id="stopBtn" disabled>
+      <span id="stopBtnText">Stopp</span>
+    </button>
+    
+    <div class="status-container">
+      <div id="status">Bereit.</div>
+      <div id="dots" class="dots-container">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+      <div id="progressInfo" class="progress-info"></div>
+    </div>
+  </div>
+
+  <script src="digi-popup.js"></script>
+</body>
+</html>

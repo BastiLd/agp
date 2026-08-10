@@ -1,0 +1,357 @@
+<!-- Datei: wordsearch.html -->
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CHS Villach — Word Search (HTML/CSS Begriffe)</title>
+<style>
+  :root{
+    --bg: #f4f7fb;
+    --card:#fff;
+    --accent:#3b82f6;
+    --accent-2:#60a5fa;
+    --muted:#6b7280;
+    --success:#16a34a;
+    --tile:44px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+    font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:linear-gradient(180deg,var(--bg),#fff);
+    color:#0f172a;padding:28px;
+  }
+
+  .card{
+    width:min(820px,96vw);
+    background:var(--card);
+    border-radius:12px;padding:20px;
+    box-shadow: 0 18px 40px rgba(12,20,40,0.06);
+    display:grid;grid-template-columns: 1fr 240px;gap:18px;
+  }
+
+  .header{
+    grid-column:1/3;display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:4px;
+  }
+  .header h1{margin:0;font-size:18px}
+  .header p{margin:0;color:var(--muted);font-size:13px;}
+
+  /* Board */
+  .board-wrap{
+    display:flex;align-items:center;justify-content:center;padding:12px 8px;
+  }
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(10, var(--tile));
+    grid-auto-rows: var(--tile);
+    gap:6px;
+    background: linear-gradient(180deg,#fff,#fbfdff);
+    padding:14px;border-radius:10px;border:1px solid rgba(10,15,30,0.04);
+  }
+  .cell{
+    background:#fcfdff;border-radius:6px;border:1px solid rgba(12,18,30,0.04);
+    display:flex;align-items:center;justify-content:center;font-weight:600;color:#081126;
+    user-select:none;cursor:pointer;font-size:14px;transition: transform .14s, background .18s, box-shadow .18s;
+  }
+  .cell:hover{ transform: translateY(-4px); box-shadow: 0 8px 18px rgba(6,12,30,0.06); }
+  .cell.selected{ background: linear-gradient(90deg,var(--accent),var(--accent-2)); color:white; transform: scale(1.04); }
+  .cell.found{ background: linear-gradient(90deg, rgba(22,163,74,0.95), rgba(34,197,94,0.9)); color:white; border: none; }
+
+  /* word list side */
+  .sidebar{
+    padding:12px;border-radius:10px;background:linear-gradient(180deg,#fbfcff,#ffffff);
+    border:1px solid rgba(10,15,30,0.04);
+  }
+  .sidebar h3{margin:0 0 8px 0}
+  .words ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+  .words li{padding:6px 8px;border-radius:8px;background:rgba(6,10,20,0.02);color:#0b1220;font-weight:600;}
+  .words li.found{text-decoration:line-through;color:var(--muted);background: rgba(6,10,20,0.03);}
+
+  /* bottom controls */
+  .controls{grid-column:1/3;display:flex;justify-content:space-between;align-items:center;margin-top:8px;color:var(--muted)}
+  .btn{padding:8px 12px;border-radius:8px;border:0;background:var(--accent);color:white;font-weight:700;cursor:pointer}
+  .btn.secondary{background:transparent;border:1px solid rgba(59,130,246,0.14);color:var(--accent)}
+
+  /* success toast */
+  .toast{
+    position:fixed;right:18px;bottom:18px;background:var(--success);color:white;padding:12px 16px;border-radius:10px;
+    box-shadow:0 12px 28px rgba(6,10,20,0.18);opacity:0;transform:translateY(12px);transition:opacity .23s, transform .23s;
+  }
+  .toast.show{opacity:1;transform:translateY(0);}
+
+  @media (max-width:860px){
+    .card{grid-template-columns:1fr; padding:14px;}
+    .sidebar{order:2}
+    .header{grid-column:1/2}
+  }
+</style>
+</head>
+<body>
+
+<div class="card" role="application" aria-label="HTML Wortsuche">
+  <div class="header">
+    <div>
+      <h1>CHS Villach — Word Search</h1>
+      <p>Find HTML/CSS terms by selecting adjacent tiles (drag or click).</p>
+    </div>
+    <div>
+      <small style="color:var(--muted)">Tip: Drag across letters or click sequentially.</small>
+    </div>
+  </div>
+
+  <div class="board-wrap">
+    <div id="grid" class="grid" aria-live="polite"></div>
+  </div>
+
+  <aside class="sidebar" aria-label="Words to find">
+    <h3>Words to find</h3>
+    <div class="words"><ul id="wordList"></ul></div>
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button id="shuffleBtn" class="btn secondary">Shuffle</button>
+      <button id="resetBtn" class="btn secondary">Reset</button>
+      <button id="checkBtn" class="btn">Verify</button>
+    </div>
+  </aside>
+
+  <div class="controls">
+    <div id="status">Found <strong id="foundCount">0</strong> / <span id="totalWords">0</span></div>
+    <div style="color:var(--muted)">Designed for CHS Villach — Medienzweig</div>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="alert">All words found — Great job!</div>
+
+<script>
+/* Improved Word Search
+   - place words horizontally (left->right) randomly
+   - allow selection by dragging or clicking contiguous neighbors (8 directions)
+   - smooth animations + found state
+*/
+
+const WORDS = ["DIV","PADDING","SELECTOR","MARGIN","GRID","FLEX","COLOR"];
+const SIZE = 10;
+
+const gridElem = document.getElementById('grid');
+const wordListElem = document.getElementById('wordList');
+const foundCountEl = document.getElementById('foundCount');
+const totalWordsEl = document.getElementById('totalWords');
+const toast = document.getElementById('toast');
+const shuffleBtn = document.getElementById('shuffleBtn');
+const resetBtn = document.getElementById('resetBtn');
+const checkBtn = document.getElementById('checkBtn');
+
+let grid = []; // 2D array of letters
+let cellElems = []; // flat array of cell DOMs
+let wordsState = {}; // word->found boolean
+let selecting = false;
+let selection = []; // array of {r,c,el,letter}
+let foundTotal = 0;
+
+totalWordsEl.textContent = WORDS.length;
+
+function createEmptyGrid(){
+  grid = Array.from({length:SIZE}, () => Array.from({length:SIZE}, ()=>''));
+}
+
+function placeWords(){
+  WORDS.forEach(w => {
+    const word = w.toUpperCase();
+    let placed=false;
+    let attempts=0;
+    while(!placed && attempts < 400){
+      attempts++;
+      // horizontal placement (could be extended to other directions)
+      const row = Math.floor(Math.random()*SIZE);
+      const start = Math.floor(Math.random()*(SIZE - word.length + 1));
+      let ok=true;
+      for(let i=0;i<word.length;i++){
+        const current = grid[row][start+i];
+        if(current !== '' && current !== word[i]) { ok=false; break; }
+      }
+      if(!ok) continue;
+      for(let i=0;i<word.length;i++) grid[row][start+i] = word[i];
+      placed=true;
+    }
+    if(!placed){
+      console.warn('failed to place', w);
+    }
+  });
+}
+
+function fillRandom(){
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  for(let r=0;r<SIZE;r++){
+    for(let c=0;c<SIZE;c++){
+      if(!grid[r][c] || grid[r][c]===''){
+        grid[r][c] = letters[Math.floor(Math.random()*letters.length)];
+      }
+    }
+  }
+}
+
+function buildDOM(){
+  gridElem.innerHTML='';
+  cellElems = [];
+  for(let r=0;r<SIZE;r++){
+    for(let c=0;c<SIZE;c++){
+      const cell = document.createElement('div');
+      cell.className='cell';
+      cell.dataset.r = r;
+      cell.dataset.c = c;
+      cell.textContent = grid[r][c];
+      gridElem.appendChild(cell);
+      cellElems.push(cell);
+    }
+  }
+  // word list DOM
+  wordListElem.innerHTML='';
+  WORDS.forEach(w => {
+    const li = document.createElement('li');
+    li.textContent = w;
+    li.id = 'word-' + w;
+    wordListElem.appendChild(li);
+    wordsState[w] = false;
+  });
+  foundTotal = 0;
+  foundCountEl.textContent = foundTotal;
+}
+
+function neighbors(prev, cur){
+  // check cur is one of 8-neighbors of prev
+  return Math.max(Math.abs(prev.r - cur.r), Math.abs(prev.c - cur.c)) === 1 ||
+         (prev.r===cur.r && prev.c===cur.c+1) || (prev.r===cur.r && prev.c===cur.c-1);
+}
+
+function isNeighbor(prev, cur){
+  const dr = Math.abs(prev.r - cur.r);
+  const dc = Math.abs(prev.c - cur.c);
+  return (dr <= 1 && dc <= 1) && !(dr===0 && dc===0);
+}
+
+function startSelection(cell){
+  selecting = true;
+  selection = [];
+  addToSelection(cell);
+}
+
+function addToSelection(cell){
+  const r = parseInt(cell.dataset.r,10);
+  const c = parseInt(cell.dataset.c,10);
+  // prevent duplicates
+  if(selection.some(s=>s.r===r && s.c===c)) return;
+  if(selection.length===0 || isNeighbor(selection[selection.length-1], {r,c})){
+    selection.push({r,c,el:cell,letter:cell.textContent});
+    cell.classList.add('selected');
+  }
+}
+
+function cancelSelection(){
+  selection.forEach(s => s.el.classList.remove('selected'));
+  selection = [];
+  selecting = false;
+}
+
+function finishSelection(){
+  if(selection.length===0) return;
+  const formed = selection.map(s=>s.letter).join('');
+  // also check reverse (right->left if that were allowed)
+  const formedRev = formed.split('').reverse().join('');
+  // check against words
+  for(const w of WORDS){
+    if(!wordsState[w] && (formed === w || formedRev === w)){
+      // mark found
+      selection.forEach(s => {
+        s.el.classList.remove('selected');
+        s.el.classList.add('found');
+      });
+      const li = document.getElementById('word-' + w);
+      if(li) li.classList.add('found');
+      wordsState[w] = true;
+      foundTotal++;
+      foundCountEl.textContent = foundTotal;
+      showToast(`${w} gefunden!`);
+      break;
+    }
+  }
+  // clear selection visuals (if not found)
+  selection.forEach(s => s.el.classList.remove('selected'));
+  selection = [];
+  selecting = false;
+
+  if(foundTotal === WORDS.length){
+    // success
+    showToast('🎉 Alle Wörter gefunden!');
+  }
+}
+
+function showToast(text){
+  toast.textContent = text;
+  toast.classList.add('show');
+  setTimeout(()=> toast.classList.remove('show'), 2200);
+}
+
+// Pointer handling: support mouse and touch with pointer events
+let pointerDown = false;
+gridElem.addEventListener('pointerdown', (ev) => {
+  if(ev.pointerType === 'mouse' && ev.button !== 0) return;
+  const cell = ev.target.closest('.cell');
+  if(!cell) return;
+  pointerDown = true;
+  startSelection(cell);
+  ev.target.setPointerCapture?.(ev.pointerId);
+});
+gridElem.addEventListener('pointermove', (ev) => {
+  if(!pointerDown) return;
+  const cell = ev.target.closest('.cell');
+  if(!cell) return;
+  addToSelection(cell);
+});
+document.addEventListener('pointerup', (ev) => {
+  if(pointerDown){
+    pointerDown = false;
+    finishSelection();
+  }
+});
+
+// Click (for users who want to click sequentially)
+gridElem.addEventListener('click', (ev) => {
+  const cell = ev.target.closest('.cell');
+  if(!cell) return;
+  if(!selecting){
+    startSelection(cell);
+    // if user clicks single cell and it's entire word (1-letter word), finish
+    finishSelection();
+  } else {
+    addToSelection(cell);
+    finishSelection();
+  }
+});
+
+// Buttons
+shuffleBtn.addEventListener('click', init);
+resetBtn.addEventListener('click', () => {
+  // clear found states and re-render same grid
+  cellElems.forEach(c => c.classList.remove('found','selected'));
+  Object.keys(wordsState).forEach(w=>wordsState[w]=false);
+  document.querySelectorAll('#wordList li').forEach(li=>li.classList.remove('found'));
+  foundTotal = 0; foundCountEl.textContent = foundTotal;
+});
+checkBtn.addEventListener('click', () => {
+  if(foundTotal === WORDS.length) showToast('🎉 All words found!');
+  else showToast(`Found ${foundTotal}/${WORDS.length}`);
+});
+
+// Initialize puzzle
+function init(){
+  createEmptyGrid();
+  placeWords();
+  fillRandom();
+  buildDOM();
+}
+init();
+</script>
+</body>
+</html>

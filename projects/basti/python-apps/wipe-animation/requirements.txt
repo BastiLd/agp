@@ -1,0 +1,6 @@
+# Pflicht
+pillow>=10.0
+numpy>=1.24
+
+# Optional: nur fuer MP4-/MOV-Export (liefert ffmpeg mit)
+imageio-ffmpeg>=0.4.9

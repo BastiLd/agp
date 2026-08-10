@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Social Media &amp; Mathematik · Interaktive Präsentation</title>
+<meta name="description" content="Interaktive Mathematik-Präsentation zu Social Media: Engagement-Rate, Netzwerke & Graphen und exponentielles Wachstum – mit Live-Rechnern und 3D-Netzwerk." />
+<meta name="color-scheme" content="dark light" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+<!-- ════════════════ BÜHNE / DECK ════════════════ -->
+<main id="deck" aria-live="polite">
+
+  <!-- 0 · TITEL -->
+  <section class="slide title-slide" data-section="0" data-title="Titel">
+    <div class="orn orn-tl"></div><div class="orn orn-tr"></div>
+    <div class="orn orn-bl"></div><div class="orn orn-br"></div>
+    <div class="title-inner">
+      <p class="kicker reveal">Aufgabensammlung · Mathematik</p>
+      <h1 class="big-title">
+        <span class="reveal" style="--d:.1s">Social&nbsp;Media</span>
+        <span class="amp reveal" style="--d:.25s">&amp;</span>
+        <span class="reveal" style="--d:.4s">Mathematik</span>
+      </h1>
+      <div class="rule reveal" style="--d:.55s"></div>
+      <div class="chapters reveal" style="--d:.7s">
+        <span class="chip"><b>1</b> Engagement-Rate</span>
+        <span class="chip"><b>2</b> Netzwerke &amp; Graphen</span>
+        <span class="chip"><b>3</b> Exponentielles Wachstum</span>
+      </div>
+      <p class="hint reveal" style="--d:.9s">mit den Pfeiltasten blättern · Werte selbst verändern · live zuschauen</p>
+    </div>
+  </section>
+
+  <!-- 1 · ER EINFÜHRUNG -->
+  <section class="slide" data-section="1" data-title="Engagement-Rate">
+    <header class="slide-head">
+      <span class="sec-tag">Punkt 1</span>
+      <h2>Engagement-Rate</h2>
+    </header>
+    <div class="cols-2">
+      <div class="card reveal">
+        <h3>Was ist das?</h3>
+        <ul class="bullets">
+          <li>Kennzahl: <b>wie stark</b> Nutzer mit einem Beitrag interagieren</li>
+          <li>Interaktionen = <b>Likes</b> + <b>Kommentare</b> + <b>Shares</b></li>
+          <li>Bezug: ein <b>einzelner Beitrag</b> oder ein <b>ganzes Profil</b></li>
+        </ul>
+      </div>
+      <div class="card reveal" style="--d:.15s">
+        <h3>Warum wichtig?</h3>
+        <ul class="bullets">
+          <li>Hohe ER = <b>relevanter Content</b> + aktive Community</li>
+          <li>Beim Influencer-Marketing <b>wichtiger als die Follower-Zahl</b></li>
+          <li>Vergleicht Beiträge &amp; Kampagnen fair miteinander</li>
+        </ul>
+      </div>
+    </div>
+    <p class="teaser reveal" style="--d:.3s">Grundidee:
+      <span class="frac"><span class="frac-n">Likes + Kommentare + Shares</span><span class="frac-d">Follower</span></span>
+      × 100 &nbsp;=&nbsp; ER in %.
+      <br /><b>Am genauesten:</b> die <b>gewichtete ER</b> (Likes ×2, Kommentare ×5, Shares ×10).
+    </p>
+  </section>
+
+  <!-- 2 · ER FORMELN -->
+  <section class="slide" data-section="1" data-title="ER · Formeln">
+    <header class="slide-head">
+      <span class="sec-tag">Punkt 1 · Mathematik</span>
+      <h2>Die Formeln</h2>
+    </header>
+    <div class="formula-grid">
+      <div class="card reveal">
+        <h3>Einfach</h3>
+        <p class="formula">ER =
+          <span class="frac"><span class="frac-n">Likes + Kommentare + Shares</span><span class="frac-d">Follower</span></span> × 100</p>
+        <p class="card-note">Pro Beitrag genauer mit <i>Reichweite</i> statt Follower.</p>
+      </div>
+      <div class="card reveal" style="--d:.1s">
+        <h3>Getrennt (je Interaktion)</h3>
+        <p class="formula sm">Like-ER =
+          <span class="frac"><span class="frac-n">Likes</span><span class="frac-d">Reichweite</span></span> × 100</p>
+        <p class="card-note">… ebenso Kommentar-ER und Share-ER.</p>
+      </div>
+      <div class="card card-best reveal" style="--d:.2s">
+        <h3>Gewichtet <span class="tag-best">genaueste Methode</span></h3>
+        <p class="formula sm">ER<sub>gew</sub> =
+          <span class="frac"><span class="frac-n">Like-ER·2 + Kommentar-ER·5 + Share-ER·10</span><span class="frac-d">3</span></span></p>
+        <p class="card-note">Shares zählen am meisten (×10), dann Kommentare (×5), dann Likes (×2). <b>Diese Methode nutzt der Rechner.</b></p>
+      </div>
+    </div>
+    <div class="cols-2 tight">
+      <div class="card reveal" style="--d:.25s">
+        <h3>Richtwerte (Instagram, TikTok &amp; Co.)</h3>
+        <table class="mini">
+          <tr><td><span class="dot z-bad"></span> &lt; 1 %</td><td>schwach</td></tr>
+          <tr><td><span class="dot z-mid"></span> 1 – 3 %</td><td>durchschnittlich</td></tr>
+          <tr><td><span class="dot z-good"></span> 3 – 6 %</td><td>gut</td></tr>
+          <tr><td><span class="dot z-top"></span> &gt; 6 %</td><td>sehr gut / stark</td></tr>
+        </table>
+      </div>
+      <div class="card reveal" style="--d:.35s">
+        <h3>Plattform-Unterschiede</h3>
+        <ul class="bullets">
+          <li><b>TikTok:</b> oft höher – 5–10 % oder mehr</li>
+          <li><b>Instagram:</b> ca. 2–5 % ist typisch gut</li>
+          <li><b>Facebook:</b> meist niedriger – 1–2 %</li>
+          <li>Kleine Accounts haben oft <b>höhere</b> ER</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · ER SIMULATOR -->
+  <section class="slide sim-slide" data-section="1" data-title="ER · Simulator">
+    <header class="slide-head">
+      <span class="sec-tag">Punkt 1 · Live-Rechner</span>
+      <h2>Engagement-Rate-Rechner</h2>
+    </header>
+    <button class="fs-btn" type="button">⛶ Vollbild</button>
+    <div class="sim">
+      <!-- Steuerung -->
+      <div class="sim-controls">
+        <div class="method-toggle">
+          <button data-method="simple" type="button">Einfach</button>
+          <button data-method="weighted" type="button" class="active">Gewichtet</button>
+          <button data-method="avg" type="button">Durchschnitt</button>
+        </div>
+        <div id="er-single">
+          <div class="ctl">
+            <label>Likes <output id="er-likes-out">120</output></label>
+            <input type="range" id="er-likes" min="0" max="5000" step="10" value="120" />
+          </div>
+          <div class="ctl">
+            <label>Kommentare <output id="er-komm-out">30</output></label>
+            <input type="range" id="er-komm" min="0" max="2000" step="5" value="30" />
+          </div>
+          <div class="ctl">
+            <label>Shares <output id="er-share-out">50</output></label>
+            <input type="range" id="er-share" min="0" max="2000" step="5" value="50" />
+          </div>
+          <div class="ctl">
+            <label>Follower / Reichweite <output id="er-foll-out">2.000</output></label>
+            <input type="range" id="er-foll" min="100" max="50000" step="100" value="2000" />
+          </div>
+          <div class="presets">
+            <span>Beispiele:</span>
+            <button data-er="120,30,50,2000">Aufgabe 1</button>
+            <button data-er="500,40,60,5000">Influencer A</button>
+            <button data-er="300,20,30,2000">Influencer B</button>
+          </div>
+          <p class="task-note">📱 <b>Aufgabe 7:</b> Nimm einen echten Post – von deinem oder dem CHS-Instagram-Profil – und trag die echten Zahlen ein.</p>
+        </div>
+        <div id="er-avg" hidden>
+          <p class="avg-intro">Engagement-Rates mehrerer Beiträge (in %):</p>
+          <div id="er-avg-list"></div>
+          <div class="avg-btns">
+            <button id="er-avg-add" type="button">+ Beitrag</button>
+            <button id="er-avg-del" type="button" class="ghost">– Beitrag</button>
+          </div>
+          <p class="card-note">Durchschnittliche ER = Summe der Einzel-ER ÷ Anzahl der Beiträge.</p>
+        </div>
+      </div>
+      <!-- Live-Anzeige -->
+      <div class="sim-view">
+        <div class="gauge-wrap">
+          <div id="er-gauge"></div>
+          <div class="gauge-read">
+            <div class="er-head" id="er-head">Gewichtete ER <span class="tag-best">genaueste Methode</span></div>
+            <div class="big-num" id="er-value">14,83<span>%</span></div>
+            <div class="badge" id="er-rating">sehr gut</div>
+            <div class="er-sub" id="er-subline">Einfache ER: <b>10,0 %</b></div>
+          </div>
+        </div>
+        <table class="data-table" id="er-table"></table>
+        <div class="chart-toggle">
+          <button class="active" data-chart="weight">Gewichtung</button>
+          <button data-chart="platform">Plattform</button>
+          <button data-chart="curve">ER / Follower</button>
+          <button data-chart="all">Alle</button>
+        </div>
+        <div id="er-chart" class="chart-box"></div>
+        <p class="chart-cap" id="er-chart-cap"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · ER PRAXIS -->
+  <section class="slide" data-section="1" data-title="ER · Praxis">
+    <header class="slide-head">
+      <span class="sec-tag">Punkt 1 · Im echten Leben</span>
+      <h2>Wozu braucht man das?</h2>
+    </header>
+    <div class="cols-3">
+      <div class="card reveal">
+        <h3>💼 Berufe</h3>
+        <ul class="bullets">
+          <li>Social-Media-Manager</li>
+          <li>Influencer-Marketing-Manager</li>
+          <li>Marketing- &amp; Daten-Analyst</li>
+          <li>Agenturen planen Budgets nach ER</li>
+        </ul>
+        <p class="card-note">≈ 35–50 Tsd. € / Jahr (Social-Media-Manager)</p>
+      </div>
+      <div class="card reveal" style="--d:.12s">
+        <h3>⚖️ Recht</h3>
+        <ul class="bullets">
+          <li>Werbung muss gekennzeichnet sein: <b>#Anzeige / #Werbung</b></li>
+          <li>Gekaufte Likes / Fake-Engagement → unlauterer Wettbewerb (UWG)</li>
+          <li>Verträge knüpfen Honorar oft an echte ER</li>
+        </ul>
+      </div>
+      <div class="card reveal" style="--d:.24s">
+        <h3>🌍 Alltag</h3>
+        <ul class="bullets">
+          <li>Marken zahlen nach <b>ER statt Followerzahl</b></li>
+          <li>Ein Micro-Influencer kann <b>wertvoller</b> sein</li>
+          <li>Du erkennst, welche Posts wirklich „ziehen“</li>
+        </ul>
+      </div>
+    </div>
+    <div class="fallbeispiel reveal" style="--d:.3s">
+      <span class="fb-tag">Fallbeispiel</span>
+      <p>⚖️ <b>Cathy Hummels (2019–2021):</b> Das Gericht entschied – ein Post muss nur dann als Werbung gekennzeichnet werden, wenn es dafür eine Gegenleistung gab. · 💶 Grobe Faustregel für Honorare: rund <b>1 % der Followerzahl</b> als €-Preis pro Post.</p>
+      <p class="fb-law"><b>Gesetz:</b> UWG (Gesetz gegen den unlauteren Wettbewerb), § 5a Abs. 6 UWG a.&nbsp;F. (Kennzeichnung kommerzieller Kommunikation; heute § 5a Abs. 4 / § 5b Abs. 4 UWG). — BGH, Urteil v. 9.9.2021, Az. I&nbsp;ZR&nbsp;90/20.</p>
+    </div>
+  </section>
+
+  <!-- 5 · GRAPH EINFÜHRUNG -->
+  <section class="slide" data-section="2" data-title="Graphen">
+    <header class="slide-head">
+      <span class="sec-tag">Punkt 2</span>
+      <h2>Netzwerke &amp; Graphen</h2>
+    </header>
+    <div class="cols-2">
+      <div class="card reveal">
+        <h3>Die Bausteine</h3>
+        <ul class="bullets">
+          <li><b>Knoten (Nodes)</b> = Personen</li>
+          <li><b>Kanten (Edges)</b> = Verbindungen (Freundschaft / Follows)</li>
+          <li><b>Grad</b> = Anzahl der Verbindungen einer Person</li>
+        </ul>
+      </div>
+      <div class="card reveal" style="--d:.15s">
+        <h3>Warum so wichtig?</h3>
+        <ul class="bullets compact">
+          <li>Wie sich <b>Informationen verbreiten</b></li>
+          <li><b>Influencer</b> erkennen (Position &gt; Kontaktzahl)</li>
+          <li><b>Communities / Cluster</b> finden</li>
+          <li>Empfehlungen: „Freunde von Freunden“</li>
+          <li>Fake-News-Wege &amp; Netzwerk-Stabilität</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · GRAPH SIMULATOR -->
+  <section class="slide sim-slide" data-section="2" data-title="Graph · Simulator">
+    <header class="slide-head">
+      <span class="sec-tag">Punkt 2 · Live-Netzwerk</span>
+      <h2>Das Netzwerk erkunden</h2>
+    </header>
+    <button class="fs-btn" type="button">⛶ Vollbild</button>
+    <div class="sim graph-sim">
+      <div class="sim-controls graph-stage">
+        <svg id="net-svg" viewBox="0 0 520 420" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="graph-btns">
+          <button id="net-connect">Verbindung ±</button>
+          <button id="net-addnode">+ Person</button>
+          <button id="net-benemma">Ben–Emma</button>
+          <button id="net-reset" class="ghost">Zurücksetzen</button>
+        </div>
+        <div class="graph-path-ctl">
+          <span>Weg von</span>
+          <select id="net-from"></select>
+          <span>nach</span>
+          <select id="net-to"></select>
+          <button id="net-path">berechnen</button>
+        </div>
+        <p class="graph-tip" id="net-tip">Tipp: Knoten ziehen · Kante anklicken = entfernen</p>
+      </div>
+      <div class="sim-view">
+        <div class="stat-row">
+          <div class="stat"><span id="net-nodes">6</span><label>Knoten</label></div>
+          <div class="stat"><span id="net-edges">6</span><label>Kanten</label></div>
+          <div class="stat"><span id="net-avg">2,00</span><label>Ø Grad</label></div>
+        </div>
+        <p class="formula sm tiny">Ø Grad =
+          <span class="frac"><span class="frac-n">2 · Kanten</span><span class="frac-d">Knoten</span></span>
+          = <span id="net-avg-calc">2·6 / 6 = 2,00</span></p>
+        <table class="data-table" id="net-table"></table>
+        <p class="chart-cap" id="net-path-cap">„Influencer“ = höchster Grad. Weg-Button zeigt den kürzesten Pfad.</p>
+      </div>
+    </div>
+    <button id="net-3d" type="button" class="btn3d">🧊 Netzwerk in 3D erleben</button>
+  </section>
+
+  <!-- 7 · GRAPH PRAXIS -->
+  <section class="slide" data-section="2" data-title="Graph · Praxis">
+    <header class="slide-head">
+      <span class="sec-tag">Punkt 2 · Im echten Leben</span>
+      <h2>Wozu braucht man das?</h2>
+    </header>
+    <div class="cols-3">
+      <div class="card reveal">
+        <h3>💼 Berufe</h3>
+        <ul class="bullets">
+          <li>Data Scientist</li>
+          <li>Netzwerk-Analyst</li>
+          <li>Entwickler von Empfehlungs-Systemen</li>
+          <li>Betrugs-/Bot-Erkennung</li>
+        </ul>
+        <p class="card-note">≈ 55–75 Tsd. € / Jahr (Data Scientist)</p>
+      </div>
+      <div class="card reveal" style="--d:.12s">
+        <h3>⚖️ Recht</h3>
+        <ul class="bullets">
+          <li>Verbindungsdaten = <b>personenbezogen</b> → DSGVO</li>
+          <li>Aufdecken von <b>Fake-/Bot-Netzwerken</b></li>
+          <li>Plattform-Macht &amp; Kartellrecht</li>
+        </ul>
+      </div>
+      <div class="card reveal" style="--d:.24s">
+        <h3>🌍 Alltag</h3>
+        <ul class="bullets">
+          <li>„Freunde, die du kennen könntest“</li>
+          <li>Google-Suche (<b>PageRank</b>)</li>
+          <li>Kontaktnachverfolgung in der Pandemie</li>
+        </ul>
+      </div>
+    </div>
+    <div class="fallbeispiel reveal" style="--d:.3s">
+      <span class="fb-tag">Fallbeispiel</span>
+      <p>🔒 <b>Cambridge Analytica (2018):</b> Daten aus den Facebook-Freundesnetzwerken von Millionen Nutzern wurden für politische Werbung missbraucht – eine weltweite Datenschutz-Debatte. · 🤖 Bot-Netze fallen durch auffällige Verbindungsmuster auf.</p>
+      <p class="fb-law"><b>Gesetz:</b> UK Data Protection Act 1998 → ICO-Bußgeld 500.000&nbsp;£ (2018); US FTC Act, Section&nbsp;5 → 5&nbsp;Mrd.&nbsp;$ Vergleich (2019). Heute in der EU: DSGVO (VO&nbsp;(EU)&nbsp;2016/679), Art.&nbsp;5 &amp; Art.&nbsp;6 (Rechtmäßigkeit der Datenverarbeitung).</p>
+    </div>
+  </section>
+
+  <!-- 8 · EXP EINFÜHRUNG -->
+  <section class="slide" data-section="3" data-title="Exponentiell">
+    <header class="slide-head">
+      <span class="sec-tag">Punkt 3</span>
+      <h2>Exponentielle Verbreitung</h2>
+    </header>
+    <div class="cols-2">
+      <div class="card reveal">
+        <h3>✅ Chancen</h3>
+        <ul class="bullets">
+          <li>Sehr <b>schnelle</b> Information</li>
+          <li><b>Große Reichweite</b> in kurzer Zeit</li>
+          <li>Kreative Inhalte können „durchstarten“</li>
+        </ul>
+      </div>
+      <div class="card reveal" style="--d:.15s">
+        <h3>⚠️ Risiken</h3>
+        <ul class="bullets">
+          <li>Fake News verbreiten sich genauso schnell</li>
+          <li>Shitstorms können eskalieren</li>
+          <li>Meinungen verzerrt → Filterblasen</li>
+        </ul>
+      </div>
+    </div>
+    <p class="teaser reveal" style="--d:.3s">Ein virales Video geht oft über <b>wenige zentrale Personen</b> schlagartig durchs ganze Netz.</p>
+  </section>
+
+  <!-- 9 · EXP FORMEL -->
+  <section class="slide" data-section="3" data-title="Exp · Formel">
+    <header class="slide-head">
+      <span class="sec-tag">Punkt 3 · Mathematik</span>
+      <h2>Die Wachstumsformel</h2>
+    </header>
+    <div class="formula-hero reveal">
+      <p class="formula xl bigformula">N(t)&nbsp;=&nbsp;N<sub>0</sub>&nbsp;·&nbsp;<span class="growvar"><span class="va">a</span></span><sup>t</sup></p>
+      <p class="formula-cap"><b>a</b> ist der <b>Wachstumsfaktor</b> – mit dem jede Runde multipliziert wird.</p>
+    </div>
+    <div class="cols-2 tight">
+      <div class="card reveal" style="--d:.15s">
+        <h3>Was bedeutet was?</h3>
+        <ul class="bullets">
+          <li><b>N<sub>0</sub></b> = Startanzahl (zu Beginn)</li>
+          <li><b>a</b> = Wachstumsfaktor (pro Runde)</li>
+          <li><b>t</b> = Anzahl der Runden / Zeit</li>
+          <li><b>N(t)</b> = erreichte Personen</li>
+        </ul>
+      </div>
+      <div class="card reveal" style="--d:.28s">
+        <h3>Linear vs. exponentiell</h3>
+        <ul class="bullets">
+          <li>Linear: jede Runde <b>+ gleich viel</b></li>
+          <li>Exponentiell: jede Runde <b>× gleich viel</b></li>
+          <li>Exponentiell überholt linear <b>extrem schnell</b></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 · EXP SIMULATOR -->
+  <section class="slide sim-slide" data-section="3" data-title="Exp · Simulator">
+    <header class="slide-head">
+      <span class="sec-tag">Punkt 3 · Live-Simulation</span>
+      <h2>Wachstums-Simulator</h2>
+    </header>
+    <button class="fs-btn" type="button">⛶ Vollbild</button>
+    <div class="sim">
+      <div class="sim-controls">
+        <div class="ctl">
+          <label><span>N<sub>0</sub> · Startanzahl</span> <output id="ex-n0-out">100</output></label>
+          <input type="range" id="ex-n0" min="1" max="1000" step="1" value="100" />
+        </div>
+        <div class="ctl">
+          <label>a · Wachstumsfaktor <output id="ex-a-out">3,0</output></label>
+          <input type="range" id="ex-a" min="1" max="6" step="0.1" value="3" />
+        </div>
+        <div class="ctl">
+          <label>t · Runden <output id="ex-t-out">4</output></label>
+          <input type="range" id="ex-t" min="1" max="10" step="1" value="4" />
+        </div>
+        <label class="switch"><input type="checkbox" id="ex-linear" /> lineares Wachstum vergleichen</label>
+        <label class="switch"><input type="checkbox" id="ex-cmp" /> zweite Kurve vergleichen (Faktor a₂)</label>
+        <div class="ctl" id="ex-a2-ctl" hidden>
+          <label><span>a₂ · Vergleichsfaktor</span> <output id="ex-a2-out">2,0</output></label>
+          <input type="range" id="ex-a2" min="1" max="6" step="0.1" value="2" />
+        </div>
+        <label class="ex-target">Ziel erreichen: <input type="number" id="ex-goal" value="1000000" min="1" step="1000" /> <span id="ex-goal-out"></span></label>
+        <div class="presets">
+          <span>Beispiele:</span>
+          <button data-ex="100,3,4">Aufg. 2</button>
+          <button data-ex="200,5,4">Aufg. 3</button>
+          <button data-ex="150,4,4">Aufg. 4</button>
+          <button data-ex="9.3,2,4">WhatsApp</button>
+          <button data-ex="1,2,6">Moore</button>
+        </div>
+      </div>
+      <div class="sim-view">
+        <div class="exp-read">
+          <div class="big-num" id="ex-value">8.100</div>
+          <div class="badge ghost" id="ex-formula">100 · 3⁴</div>
+        </div>
+        <div id="ex-legend" class="legend"></div>
+        <div id="ex-chart" class="chart-box tall"></div>
+        <table class="data-table" id="ex-table"></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 · EXP PRAXIS -->
+  <section class="slide" data-section="3" data-title="Exp · Praxis">
+    <header class="slide-head">
+      <span class="sec-tag">Punkt 3 · Im echten Leben</span>
+      <h2>Wozu braucht man das?</h2>
+    </header>
+    <div class="cols-3">
+      <div class="card reveal">
+        <h3>💼 Berufe</h3>
+        <ul class="bullets">
+          <li>Epidemiologe / Virologe</li>
+          <li>Growth Hacker / Online-Marketing</li>
+          <li>Finanzanalyst (Zinseszins)</li>
+          <li>Datenanalyst</li>
+        </ul>
+        <p class="card-note">≈ 45–60 Tsd. € / Jahr (Datenanalyst)</p>
+      </div>
+      <div class="card reveal" style="--d:.12s">
+        <h3>⚖️ Recht</h3>
+        <ul class="bullets">
+          <li>NetzDG: Plattformen müssen reagieren</li>
+          <li>Haftung für virale Falschinformationen</li>
+          <li>Löschpflichten bei rasanter Verbreitung</li>
+        </ul>
+      </div>
+      <div class="card reveal" style="--d:.24s">
+        <h3>🌍 Alltag</h3>
+        <ul class="bullets">
+          <li>COVID-Fallzahlen-Kurven</li>
+          <li>Moore’s Law (Computer-Chips)</li>
+          <li>Zinseszins beim Sparen</li>
+          <li>Virales Marketing</li>
+        </ul>
+      </div>
+    </div>
+    <div class="fallbeispiel reveal" style="--d:.3s">
+      <span class="fb-tag">Fallbeispiel</span>
+      <p>📜 <b>NetzDG (seit 2017):</b> Bußgelder bis <b>50 Mio. €</b> für Plattformen, die strafbare, viral verbreitete Inhalte nicht rechtzeitig löschen. · 🦠 Zu Beginn der Corona-Pandemie verdoppelten sich die Fallzahlen teils alle 2–3 Tage.</p>
+      <p class="fb-law"><b>Gesetz:</b> Netzwerkdurchsetzungsgesetz (NetzDG), § 4 (Bußgelder bis 50&nbsp;Mio.&nbsp;€) &amp; § 3 (Löschpflichten) – galt 2017–2024. Heute: EU Digital Services Act (VO&nbsp;(EU)&nbsp;2022/2065), Art.&nbsp;74, &amp; Digitale-Dienste-Gesetz (DDG).</p>
+    </div>
+  </section>
+
+  <!-- 12 · ABSCHLUSS -->
+  <section class="slide title-slide" data-section="0" data-title="Ende">
+    <div class="orn orn-tl"></div><div class="orn orn-tr"></div>
+    <div class="orn orn-bl"></div><div class="orn orn-br"></div>
+    <div class="title-inner">
+      <p class="kicker reveal">Fazit</p>
+      <h1 class="big-title end reveal" style="--d:.15s">Mathematik steckt<br />überall in Social Media</h1>
+      <div class="rule reveal" style="--d:.3s"></div>
+      <div class="chapters reveal" style="--d:.45s">
+        <span class="chip">Engagement-Rate · Prozentrechnung</span>
+        <span class="chip">Graphen · Netzwerke</span>
+        <span class="chip">Exponential-Funktionen</span>
+      </div>
+      <p class="hint big reveal" style="--d:.65s">Danke fürs Zuhören!</p>
+    </div>
+  </section>
+
+  <!-- 13 · QUELLEN -->
+  <section class="slide quellen-slide" data-section="0" data-title="Quellen">
+    <header class="slide-head">
+      <span class="sec-tag">Anhang</span>
+      <h2>Quellen</h2>
+    </header>
+    <div class="quellen">
+      <div class="q-col reveal">
+        <h3>Arbeitsblatt &amp; Formeln</h3>
+        <ul>
+          <li>Aufgabensammlung „Social Media und Mathematik“ — Original-Arbeitsblatt (Grundlage aller Aufgaben &amp; Beispiele).</li>
+          <li>DIM – Deutsches Institut für Marketing: <b>Engagement-Rate (3 Formeln)</b> · <a href="https://www.marketinginstitut.biz/online-marketing/engagement-rate/" target="_blank" rel="noopener">marketinginstitut.biz/online-marketing/engagement-rate</a></li>
+          <li>Richtwerte &amp; Plattform-Werte: MS Copilot (laut Arbeitsblatt).</li>
+          <li>BIFIE – Aufgaben zu exponentiellem Wachstum (WhatsApp, Computerchips).</li>
+        </ul>
+      </div>
+      <div class="q-col reveal" style="--d:.1s">
+        <h3>Recht (geprüft, Stand 2026)</h3>
+        <ul>
+          <li><b>UWG</b> § 5a / § 5b – Werbekennzeichnung · <a href="https://dejure.org/gesetze/UWG/5a.html" target="_blank" rel="noopener">dejure.org/gesetze/UWG/5a</a></li>
+          <li><b>BGH</b>, Urteil v. 9.9.2021, Az. I ZR 90/20 (Cathy Hummels) · <a href="https://www.bundesgerichtshof.de/SharedDocs/Pressemitteilungen/DE/2021/2021170.html" target="_blank" rel="noopener">bundesgerichtshof.de</a></li>
+          <li><b>DSGVO</b> (VO (EU) 2016/679), Art. 5 &amp; 6 · <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng" target="_blank" rel="noopener">eur-lex.europa.eu</a></li>
+          <li><b>UK Data Protection Act 1998</b>; ICO-Bußgeld 500.000 £ (2018) · <a href="https://en.wikipedia.org/wiki/Data_Protection_Act_1998" target="_blank" rel="noopener">en.wikipedia.org</a></li>
+          <li><b>NetzDG</b> § 3/§ 4 → heute <b>DSA</b> (VO (EU) 2022/2065) &amp; <b>DDG</b> · <a href="https://de.wikipedia.org/wiki/Netzwerkdurchsetzungsgesetz" target="_blank" rel="noopener">de.wikipedia.org/Netzwerkdurchsetzungsgesetz</a></li>
+        </ul>
+      </div>
+      <div class="q-col reveal" style="--d:.2s">
+        <h3>Daten &amp; Beispiele</h3>
+        <ul>
+          <li>WhatsApp-Nutzerzahlen · <a href="https://de.statista.com/statistik/daten/studie/285230/umfrage/aktive-nutzer-von-whatsapp-weltweit/" target="_blank" rel="noopener">statista.com</a></li>
+          <li>Influencer-Preis pro Post · <a href="https://de.statista.com/statistik/daten/studie/719031/umfrage/durchschnittspreis-pro-post-von-influencern-auf-instagram-nach-followerzahl/" target="_blank" rel="noopener">statista.com</a></li>
+          <li>Mooresches Gesetz (G. Moore, 1965) · <a href="https://www.intel.com/content/www/us/en/history/virtual-vault/articles/moores-law.html" target="_blank" rel="noopener">intel.com</a></li>
+          <li>PageRank (Brin &amp; Page, 1998, Stanford) · <a href="http://infolab.stanford.edu/pub/papers/google.pdf" target="_blank" rel="noopener">infolab.stanford.edu</a></li>
+          <li>COVID-Verdopplungszeit · <a href="https://www.rki.de/DE/Themen/Infektionskrankheiten/Infektionskrankheiten-A-Z/C/COVID-19/Projekte_RKI/Nowcasting.html" target="_blank" rel="noopener">rki.de</a></li>
+          <li>Gehaltsspannen (Richtwerte) · <a href="https://www.stepstone.de/gehalt/Data-Scientist.html" target="_blank" rel="noopener">stepstone.de/gehalt</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="quellen-note">Alle Rechts-Angaben wurden recherchiert und gegen offizielle Quellen geprüft (Stand 2026). Gehälter &amp; die „1 %-Faustregel“ sind Richtwerte.</p>
+  </section>
+
+</main>
+
+<!-- ════════════════ NAVIGATION ════════════════ -->
+<nav id="nav">
+  <div class="nav-side"><button id="settings-btn" title="Einstellungen">⚙</button><button id="edit-btn" title="Bearbeiten / Editor">✏️</button><button id="overview-btn" title="Übersicht (O)">☰</button></div>
+  <div class="nav-center">
+    <button id="prev" aria-label="Zurück">❮</button>
+    <div id="dots"></div>
+    <button id="next" aria-label="Weiter">❯</button>
+  </div>
+  <div class="nav-side right"><span id="counter"><span id="cur">1</span> / <span id="total">13</span></span></div>
+</nav>
+<div id="overview" hidden></div>
+<div id="settings" hidden></div>
+<div id="themeshop" hidden></div>
+<div id="editor" hidden></div>
+
+<!-- 3D-Netzwerk-Ansicht -->
+<div id="net3d" hidden>
+  <canvas id="net3d-canvas"></canvas>
+  <div id="net3d-settings" hidden></div>
+  <div id="net3d-studio" hidden></div>
+  <div id="net3d-info" hidden></div>
+  <div class="net3d-bar">
+    <span class="net3d-title" id="net3d-hint">Netzwerk in 3D · ziehen = drehen · Shift/Rechtsklick = verschieben · Rad = zoomen · Strg+F = Flug-Modus (WASD) · R = zurücksetzen</span>
+    <span class="net3d-actions">
+      <button id="net3d-spin" type="button">⏸ Drehung</button>
+      <button id="net3d-fly" type="button">✈ Flug</button>
+      <button id="net3d-theme" type="button">☀ Hell</button>
+      <button id="net3d-studio-btn" type="button">🌐 Netzwerk</button>
+      <button id="net3d-settings-btn" type="button">⚙ Einstellungen</button>
+      <button id="net3d-info-btn" type="button" title="Hilfe / Erklärungen">ℹ Info</button>
+      <button id="net3d-reset" type="button">⟲ Ansicht</button>
+      <button id="net3d-close" type="button">✕ Schließen</button>
+    </span>
+  </div>
+</div>
+
+<script src="lib/three.min.js"></script>
+<script src="net3d-three.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

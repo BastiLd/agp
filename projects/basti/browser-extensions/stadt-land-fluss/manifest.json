@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Stadt Land Fluss Auto-Fill",
+  "version": "1.0.0",
+  "description": "Füllt automatisch alle Kategorien bei stadtlandfluss.cool aus",
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": [
+    "*://*.stadtlandfluss.cool/*",
+    "*://stadtlandfluss.cool/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.stadtlandfluss.cool/*",
+        "*://stadtlandfluss.cool/*"
+      ],
+      "js": ["content.js"],
+      "css": ["panel.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

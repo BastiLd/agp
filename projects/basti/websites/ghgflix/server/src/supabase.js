@@ -1,0 +1,264 @@
+// Optional Supabase sync (each direction can be toggled separately in the
+// web UI → Einstellungen). Talks to PostgREST directly with fetch — needs the
+// SERVICE-ROLE key because the server acts for all profiles (RLS bypass).
+import { openDb, settingOr, getSetting } from "./db.js";
+
+const url = () => (settingOr("supabase_url", "SUPABASE_URL", "") || "").replace(/\/$/, "");
+const key = () => settingOr("supabase_key", "SUPABASE_SERVICE_KEY", "");
+// Optional: limit the pull to ONE Supabase account's profiles (S-010). With a
+// service-role key RLS is bypassed, so without this filter a project shared by
+// several accounts would leak foreign profiles into this server.
+const userId = () => settingOr("supabase_user_id", "SUPABASE_USER_ID", "");
+
+export const supabaseConfigured = () => !!(url() && key());
+export const pushEnabled = () => supabaseConfigured() && getSetting("supabase_push") !== "off";
+export const pullEnabled = () => supabaseConfigured() && getSetting("supabase_pull") !== "off";
+
+// Sync status for the UI (SRV-014/S-005): surfaced via GET /api/settings so the
+// web settings page can show "verbunden / Fehler seit …" instead of the error
+// being visible only in the Docker logs.
+const status = { lastSyncAt: 0, lastPushed: 0, lastPulled: 0, lastError: null, lastErrorAt: 0 };
+export function supabaseStatus() {
+  return { configured: supabaseConfigured(), ...status };
+}
+
+async function rest(path, { method = "GET", body, params } = {}) {
+  const u = new URL(`${url()}/rest/v1/${path}`);
+  for (const [a, b] of Object.entries(params ?? {})) u.searchParams.set(a, b);
+  const res = await fetch(u, {
+    method,
+    headers: {
+      apikey: key(),
+      Authorization: `Bearer ${key()}`,
+      "Content-Type": "application/json",
+      Prefer: method === "POST" ? "resolution=merge-duplicates,return=minimal" : "return=representation",
+    },
+    body: body ? JSON.stringify(body) : undefined,
+    signal: AbortSignal.timeout(20000),
+  });
+  if (!res.ok) throw new Error(`supabase ${method} ${path}: ${res.status} ${await res.text().catch(() => "")}`);
+  return res.status === 204 ? null : res.json();
+}
+
+/** Local profile for a Supabase profile row — created on demand, linked by id. */
+function localProfileFor(db, sb) {
+  const existing = db.prepare("SELECT id FROM profiles WHERE supabase_id = ?").get(sb.id);
+  if (existing) return existing.id;
+  const byName = db.prepare("SELECT id, supabase_id FROM profiles WHERE name = ?").get(sb.name);
+  if (byName && !byName.supabase_id) {
+    db.prepare("UPDATE profiles SET supabase_id = ? WHERE id = ?").run(sb.id, byName.id);
+    return byName.id;
+  }
+  const info = db
+    .prepare("INSERT INTO profiles (name, avatar, supabase_id, created_at) VALUES (?,?,?,?)")
+    .run(sb.name, sb.avatar ?? null, sb.id, Date.now());
+  return Number(info.lastInsertRowid);
+}
+
+/** TMDb coordinates for a local progress row (needed as the sync key). */
+function tmdbCoords(db, mediaType, refId) {
+  if (mediaType === "movie") {
+    const m = db.prepare("SELECT tmdb_id FROM movies WHERE id = ?").get(refId);
+    return m?.tmdb_id ? { tmdb_id: m.tmdb_id, season: -1, episode: -1 } : null;
+  }
+  const e = db
+    .prepare("SELECT s.tmdb_id, e.season, e.episode FROM episodes e JOIN shows s ON s.id=e.show_id WHERE e.id = ?")
+    .get(refId);
+  return e?.tmdb_id ? { tmdb_id: e.tmdb_id, season: e.season, episode: e.episode } : null;
+}
+
+/** Pull remote progress → local (last-write-wins; unknown media → pending). */
+export async function pullFromSupabase() {
+  if (!pullEnabled()) return { pulled: 0 };
+  const db = openDb();
+  const profileParams = { select: "*" };
+  if (userId()) profileParams.user_id = `eq.${userId()}`; // S-010
+  const profiles = await rest("profiles", { params: profileParams });
+  const since = parseInt(getSetting("supabase_last_pull") ?? "0", 10);
+  let pulled = 0;
+  for (const sb of profiles) {
+    const pid = localProfileFor(db, sb);
+    const rows = await rest("watch_progress", {
+      params: { select: "*", profile_id: `eq.${sb.id}`, updated_at: `gt.${since}` },
+    });
+    for (const r of rows) {
+      db.prepare(
+        `INSERT INTO pending_progress (profile_id, media_type, tmdb_id, season, episode, position, duration, watched, updated_at)
+         VALUES (?,?,?,?,?,?,?,?,?)
+         ON CONFLICT(profile_id, media_type, tmdb_id, season, episode) DO UPDATE SET
+           position=excluded.position, duration=excluded.duration, watched=excluded.watched, updated_at=excluded.updated_at
+         WHERE excluded.updated_at > pending_progress.updated_at`,
+      ).run(pid, r.media_type, r.tmdb_id, r.season, r.episode, r.position_sec, r.duration_sec, r.watched ? 1 : 0, r.updated_at);
+      pulled++;
+    }
+  }
+  // pending → progress for everything we can resolve right away
+  const { applyPendingProgress } = await import("./scanner.js");
+  applyPendingProgress(db);
+  db.prepare("INSERT INTO settings (key, value) VALUES ('supabase_last_pull', ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").run(String(Date.now()));
+  status.lastSyncAt = Date.now();
+  status.lastPulled = pulled;
+  status.lastError = null;
+  return { pulled };
+}
+
+/**
+ * Favoriten ("Meine Liste") in beide Richtungen abgleichen. Die Tabelle
+ * watch_favorites gehört zum Schema v2 — fehlt sie noch (altes Schema), wird
+ * der Schritt still übersprungen statt den ganzen Abgleich scheitern zu lassen.
+ */
+async function syncFavorites(db) {
+  const profiles = db.prepare("SELECT id, supabase_id FROM profiles WHERE supabase_id IS NOT NULL").all();
+  if (!profiles.length) return;
+  for (const p of profiles) {
+    // hoch: lokale Favoriten in TMDb-Koordinaten
+    const rows = db
+      .prepare(
+        `SELECT f.media_type, f.added_at, COALESCE(m.tmdb_id, s.tmdb_id) tmdb_id
+         FROM favorites f
+         LEFT JOIN movies m ON f.media_type='movie' AND m.id=f.ref_id
+         LEFT JOIN shows  s ON f.media_type='show'  AND s.id=f.ref_id
+         WHERE f.profile_id=? AND COALESCE(m.tmdb_id, s.tmdb_id) IS NOT NULL`,
+      )
+      .all(p.id)
+      .map((r) => ({
+        profile_id: p.supabase_id,
+        media_type: r.media_type,
+        tmdb_id: r.tmdb_id,
+        added_at: r.added_at ?? 0,
+        removed: false,
+        updated_at: r.added_at ?? 0,
+      }));
+    try {
+      if (rows.length) {
+        await rest("watch_favorites?on_conflict=profile_id,media_type,tmdb_id", { method: "POST", body: rows });
+      }
+      // runter: was in der Cloud steht, aber hier fehlt
+      const remote = await rest("watch_favorites", {
+        params: { select: "*", profile_id: `eq.${p.supabase_id}`, removed: "eq.false" },
+      });
+      for (const r of remote ?? []) {
+        const refId =
+          r.media_type === "movie"
+            ? db.prepare("SELECT id FROM movies WHERE tmdb_id=?").get(r.tmdb_id)?.id
+            : db.prepare("SELECT id FROM shows WHERE tmdb_id=?").get(r.tmdb_id)?.id;
+        if (!refId) continue;
+        db.prepare(
+          "INSERT OR IGNORE INTO favorites (profile_id, media_type, ref_id, added_at) VALUES (?,?,?,?)",
+        ).run(p.id, r.media_type, refId, r.added_at || Date.now());
+      }
+    } catch (e) {
+      if (/watch_favorites/.test(String(e)) && /(does not exist|PGRST205|404)/.test(String(e))) {
+        console.warn("[supabase] Tabelle watch_favorites fehlt — bitte supabase/schema.sql erneut ausführen");
+        return;
+      }
+      throw e;
+    }
+  }
+}
+
+/**
+ * Sicherstellen, dass mindestens EIN lokales Profil mit der Cloud verknüpft ist.
+ *
+ * Ohne das sendet der Server nie etwas: gesendet werden nur Profile mit
+ * `supabase_id`, und die wird bisher ausschließlich beim Herunterladen gesetzt.
+ * Wer also (wie im Normalfall) nur über die Weboberfläche schaut, hatte
+ * dauerhaft „0 gesendet".
+ */
+async function ensureLinkedProfile(db) {
+  const linked = db.prepare("SELECT COUNT(*) c FROM profiles WHERE supabase_id IS NOT NULL").get().c;
+  if (linked > 0) return;
+  const params = { select: "id,name" };
+  if (userId()) params.user_id = `eq.${userId()}`;
+  const remote = await rest("profiles", { params });
+  if (!remote?.length) {
+    console.warn("[supabase] Kein Cloud-Profil vorhanden — in der App einmal anmelden und ein Profil anlegen");
+    return;
+  }
+  // Namensgleiches lokales Profil bevorzugen, sonst das erste lokale nehmen
+  const local =
+    db.prepare("SELECT id FROM profiles WHERE lower(name) = lower(?)").get(remote[0].name) ??
+    db.prepare("SELECT id FROM profiles ORDER BY id LIMIT 1").get();
+  if (!local) return;
+  db.prepare("UPDATE profiles SET supabase_id = ? WHERE id = ?").run(remote[0].id, local.id);
+  console.log(`[supabase] Lokales Profil ${local.id} mit Cloud-Profil „${remote[0].name}" verknüpft`);
+}
+
+/** Push local progress changed since the last push (only linked profiles). */
+export async function pushToSupabase() {
+  if (!pushEnabled()) return { pushed: 0 };
+  const db = openDb();
+  await ensureLinkedProfile(db);
+  const since = parseInt(getSetting("supabase_last_push") ?? "0", 10);
+  const rows = db
+    .prepare(
+      `SELECT pr.*, p.supabase_id FROM progress pr JOIN profiles p ON p.id = pr.profile_id
+       WHERE pr.updated_at > ? AND p.supabase_id IS NOT NULL`,
+    )
+    .all(since);
+  const payload = [];
+  for (const r of rows) {
+    const c = tmdbCoords(db, r.media_type, r.ref_id);
+    if (!c) continue;
+    payload.push({
+      profile_id: r.supabase_id,
+      media_type: r.media_type,
+      tmdb_id: c.tmdb_id,
+      season: c.season,
+      episode: c.episode,
+      position_sec: r.position,
+      duration_sec: r.duration,
+      watched: !!r.watched,
+      updated_at: r.updated_at,
+    });
+  }
+  if (payload.length > 0) {
+    // in Häppchen, damit sehr große Bibliotheken nicht an Größenlimits scheitern
+    for (let i = 0; i < payload.length; i += 500) {
+      await rest("watch_progress?on_conflict=profile_id,media_type,tmdb_id,season,episode", {
+        method: "POST",
+        body: payload.slice(i, i + 500),
+      });
+    }
+  }
+  await syncFavorites(db);
+  db.prepare("INSERT INTO settings (key, value) VALUES ('supabase_last_push', ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value").run(String(Date.now()));
+  status.lastSyncAt = Date.now();
+  status.lastPushed = payload.length;
+  status.lastError = null;
+  return { pushed: payload.length };
+}
+
+/** Full one-time import (ignores the "since" cursor). */
+export async function importFromSupabase() {
+  if (!supabaseConfigured()) throw new Error("Supabase ist nicht konfiguriert (URL + Service-Key in den Einstellungen)");
+  const db = openDb();
+  db.prepare("INSERT INTO settings (key, value) VALUES ('supabase_last_pull', '0') ON CONFLICT(key) DO UPDATE SET value='0'").run();
+  const wasPull = getSetting("supabase_pull");
+  try {
+    if (wasPull === "off") db.prepare("UPDATE settings SET value='on' WHERE key='supabase_pull'").run();
+    return await pullFromSupabase();
+  } finally {
+    if (wasPull === "off") db.prepare("UPDATE settings SET value='off' WHERE key='supabase_pull'").run();
+  }
+}
+
+/** Background loop: pull + push on an interval while enabled. */
+export function startSupabaseLoop() {
+  const tick = async () => {
+    try {
+      if (pullEnabled()) await pullFromSupabase();
+      if (pushEnabled()) await pushToSupabase();
+      status.lastError = null;
+      status.lastErrorAt = 0;
+    } catch (e) {
+      if (!status.lastError) status.lastErrorAt = Date.now(); // "Fehler seit …"
+      status.lastError = String(e).slice(0, 300);
+      console.error("[supabase]", status.lastError);
+    }
+  };
+  // first tick shortly after boot so freshly configured servers sync without
+  // waiting a full interval (S-003), then every 60 s
+  setTimeout(tick, 5_000).unref();
+  setInterval(tick, 60_000).unref();
+}

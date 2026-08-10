@@ -1,0 +1,77 @@
+:root {
+  color-scheme: light;
+  --app-bg: #f3f6fa;
+  --app-surface: #ffffff;
+  --app-surface-soft: #f8fafc;
+  --app-elevated: #ffffff;
+  --app-header: #263238;
+  --app-header-text: #ffffff;
+  --app-text: #263238;
+  --app-muted: #6b7785;
+  --app-subtle: #8a96a3;
+  --app-border: #dfe5ec;
+  --app-border-soft: #edf1f5;
+  --app-accent: #2196f3;
+  --app-accent-hover: #1976d2;
+  --app-danger: #d93025;
+  --app-danger-soft: #ffe7e5;
+  --app-success: #168a43;
+  --app-shadow: rgba(15, 23, 42, 0.12);
+  --app-focus: rgba(33, 150, 243, 0.28);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --app-bg: #0b1020;
+  --app-surface: #151b2e;
+  --app-surface-soft: #1d253a;
+  --app-elevated: #202940;
+  --app-header: #111827;
+  --app-header-text: #f8fafc;
+  --app-text: #edf2f7;
+  --app-muted: #a8b3c3;
+  --app-subtle: #8390a3;
+  --app-border: #2d374d;
+  --app-border-soft: #253047;
+  --app-accent: #5eb1ff;
+  --app-accent-hover: #86c5ff;
+  --app-danger: #ff7066;
+  --app-danger-soft: #3a1d25;
+  --app-success: #66d38f;
+  --app-shadow: rgba(0, 0, 0, 0.38);
+  --app-focus: rgba(94, 177, 255, 0.34);
+}
+
+html {
+  background: var(--app-bg);
+}
+
+body {
+  background: var(--app-bg);
+  color: var(--app-text);
+}
+
+input,
+select,
+button {
+  color-scheme: inherit;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  background: var(--app-elevated);
+  color: var(--app-text);
+  border-color: var(--app-border);
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  outline: 3px solid var(--app-focus);
+  outline-offset: 1px;
+}
+
+a {
+  color: var(--app-accent);
+}

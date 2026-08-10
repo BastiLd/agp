@@ -1,0 +1,369 @@
+        /* --- Allgemeines Styling --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            scroll-behavior: smooth;
+                   }
+
+
+                   /* Links */
+        .mailto {
+            color: coral;
+            font-weight: bold;
+        }
+
+
+
+    
+        /* Tisch-Tennis */
+
+        .tisch-tennis- {
+            margin: 23rem;
+            margin-left: 7rem;
+            margin-right: 7rem;
+        }
+
+        /* --- NAV (Zentriert mit Flexbox) --- */
+    nav {
+        /* Damit nav die volle Breite einnimmt und die Zentrierung funktioniert */
+        width: 100%;
+        background-color: #232222;
+        position: fixed;
+        top: 0;
+        z-index: 1000;
+        opacity: 89%;
+        }
+
+    ul {
+        /* Alle float-Anweisungen entfernen! */
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+
+        /* DIESER TEIL ZENTRIERT DIE LINKS: */
+        display: flex;
+        justify-content: center;
+        /* Zentriert die Listenelemente im Container */
+        width: 100%;
+        }
+
+    ul li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+    text-decoration: none;
+        }
+
+    ul li a:hover:not(.active) {
+        background-color: #555;
+        }
+
+    .active {
+        background-color: #2477D1;
+        opacity: 79%;
+        }
+
+        /* --- Studiow ---*/
+
+        .studiow-header h1{
+        height: 100vw;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(180deg, #1a1a1a 0%, #000000 100%);
+        font-family: 'Bungee', cursive;
+        font-size: 6.465vw;
+        text-align: center;
+        color: #2477D1;
+        }
+
+
+
+        /* --- Titel Area --- */
+        header {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(180deg, #1a1a1a 0%, #000000 100%);
+            }
+
+        h1 {
+            font-family: 'Bungee', cursive;
+            font-size: 8vw;
+            text-align: center;
+            color: #2477D1;
+
+            /* --- Text 3D Effekt mit Schatten --- */
+
+            text-shadow:
+                0 0 15px rgba(84, 177, 222, 0.5),
+                2px 2px 0 #094A91,
+                4px 4px 0 #7EBCFC;
+            }
+
+           .content-section {
+            max-width: 800px;
+            margin: 100px auto;
+            padding: 40px;
+            text-align: center;
+           }
+
+           .content-section h2 {
+            font-family: 'Trebuchet MS';
+            color: #5ab2de;
+            margin-bottom: 20px;
+            font-size: 3.678rem;
+            text-align: center;
+           }
+
+           .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.5;
+           }
+
+           /* Links Styling */
+           .links-container a {
+            display: inline-block;
+            background-color: #5ab2de;
+            color: #1a1a1a;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-size: 1rem;
+            border-radius: 100px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            margin: 0 2px;
+            margin-top: 2px;
+            margin-bottom: 4px;
+           }
+
+           .links-container a:hover {
+            background-color: #fff;
+            transform: scale(1.05);
+           }
+
+
+                      /* --- Styling für den neuen Custom Button (Aktualisiert) --- */
+
+            /* Link-Container */
+        .custom-link-button {
+        text-decoration: none;
+        display: block; 
+        width: 250px; /* Breite des Buttons */
+        margin: 40px auto; 
+        /* Animation für den Zoom beim Hover */
+        transition: transform 0.3s ease-out; 
+        }
+
+        /* Hover: Zoom-Effekt auf dem Link-Container */
+        .custom-link-button:hover {
+        transform: scale(1.05); 
+        }
+
+        /* Container für den Button selbst */
+        .custom-button {
+        /* Die äußere Form und Ecken */
+        border-radius: 20px; 
+        overflow: hidden;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3); /* Etwas stärkerer Schatten */
+        cursor: pointer;
+        position: relative; /* Wichtig für die Positionierung der Ebenen, falls nötig */
+        }
+
+        /* Oberer Bereich (ca. 1/4 der Höhe) */
+        .button-top {
+        height: 60px; 
+        background-color: #1a1a1a; /* Startfarbe: Schwarz/Dunkel */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 0;
+        transition: background-color 0.3s ease-in-out; /* Übergang für den Farbaustausch */
+        }
+
+        /* Unterer Bereich (ca. 3/4 der Höhe) */
+        .button-bottom {
+        height: 120px; 
+        background-color: #3b5998; /* Startfarbe: Dunkelblau */
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        box-sizing: border-box;
+        transition: background-color 0.3s ease-in-out; /* Übergang für den Farbaustausch */
+        }
+
+        /* Styling für das Icon/Bild im oberen Bereich */
+        .button-icon {
+        width: 60px; 
+        height: 40px;
+        object-fit: contain;
+        filter: brightness(100%); 
+        }
+
+        /* Styling für den Erklärungstext */
+        .button-description {
+        font-size: 0.9em;
+        text-align: center;
+        margin: 0;
+        line-height: 1.4;
+        color: #fff; /* Text auf dem Dunkelblau ist weiß */
+        transition: color 0.3s ease-in-out;
+        }
+
+        /* --- Hover-Effekte: Farben tauschen --- */
+
+        .custom-link-button:hover .button-top {
+        background-color: #3b5998; /* Oben wird Dunkelblau */
+        }
+
+        .custom-link-button:hover .button-bottom {
+        background-color: #1a1a1a; /* Unten wird Schwarz/Dunkel */
+        }
+
+        .custom-link-button:hover .button-bottom .button-description {
+        color: #ffffff; /* Stellt sicher, dass der Text im Schwarz/Dunkel weiß bleibt */
+        }
+
+
+
+
+
+
+
+
+
+
+
+        /* --- KACHELN --- */
+        /* Der Haupt-Container: Richtet die Kacheln per Flexbox nebeneinander aus */
+    .tile-container {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+        /* Die Box der einzelnen Kachel */
+    .tile-card {
+        position: relative;
+        width: 250px;
+    }
+        /* Versteckt die Checkbox, da wir sie nicht sehen, sondern nur als Klick-Logik nutzen */
+
+    .tile-checkbox {
+        display: none;
+    }
+        /* --- 2. DESIGN & HOVER DER KACHEL --- */
+
+    .tile-content {
+        display: block;
+        background-color: #232222; /* Dunkles Anthrazit passend zu deiner Navigation */
+        color: #f0f0f0;            /* Macht die normale Beschreibung hell lesbar */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Dunklerer, weicherer Schatten */
+        cursor: pointer;           /* Ändert den Zeiger zu der typischen Klick-Hand */
+        transition: transform 0.3s ease, box-shadow 0.3s ease;/* Macht die Bewegung flüssig */       
+    }
+
+    /* Setzt den Titel der Kachel auf dein charakteristisches Webseiten-Blau */
+    .tile-content h3 {
+        color: #2477D1;
+        margin-top: 0;
+        margin-bottom: 10px;
+    }
+
+
+        /* Hover-Effekt: Bewegt die Kachel leicht nach oben */
+    .tile-content:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.6); /* Verstärkt den Schatten beim Abheben */
+    }
+
+
+        /* --- 3. DAS SCHWEBENDE MENÜ (MODAL-BOX) --- */
+    .tile-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.7); /* Etwas dunkler für mehr Fokus */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+        /* Die weiße Infobox in der Mitte des Bildschirms */
+    .menu-inner {
+        background-color: #232222; /* Dunkles Schwarz-Grau wie deine Navigationsleiste */
+        color: #f0f0f0;            /* Macht den Text wieder strahlend hell lesbar */
+        padding: 30px;
+        border-radius: 12px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Stärkerer Schatten für den 3D-Effekt */
+        text-align: center;
+    }
+
+    /* Überschrift im Menü farblich an dein Blau anpassen */
+    .menu-inner h4 {
+        color: #2477D1;            /* Das markante Blau deiner Webseite */
+        margin-top: 0;
+        font-size: 1.5rem;
+    }
+
+        /* --- 4. DIE KLICK-LOGIK (Checkbox-Hack) --- */
+
+        /* Wenn die Checkbox aktiv (:checked) ist, suche das nachfolgende (~ ) Menü */
+    
+    .tile-checkbox:checked ~ .tile-menu {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+
+        /* --- 5. BUTTONS IM MENÜ --- */
+
+    .close-btn {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 8px 16px;
+        background-color: #e74c3c;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        /* Der Bereich für deine optionalen Links */
+    .menu-buttons {
+        margin-top: 15px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+        /* Style für die verlinkten Buttons */
+    .btn {
+        padding: 8px 16px;
+        background-color: #2477D1; /* Dein exaktes Webseiten-Blau statt dem Standard-Blau */
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        transition: background-color 0.2s ease;
+    }
+
+    /* Kleiner Bonus: Button-Hover-Effekt */
+    .btn:hover {
+        background-color: #1a5ca3; /* Dunkleres Blau beim Drüberfahren */
+    }

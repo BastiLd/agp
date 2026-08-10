@@ -1,0 +1,35 @@
+__pycache__/
+*.pyc
+.pycache_tmp/
+.env
+.env.*
+!website/.env.example
+env.env
+bot_token.txt
+token.txt
+.venv/
+venv/
+node_modules/
+.npm-cache/
+.patches/
+.git-repair-temp/
+.tmp/
+deploy/
+release/
+backups/
+.vscode/*
+!.vscode/settings.json
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+bot.log
+gcm-diagnose.log
+kampf log *.txt
+*.rar
+*.zip
+Neuer Ordner/
+
+# Grosse Binaer-/Arbeitsdateien (nicht im Repo tracken)
+MISSIONEN.pdf
+*.xlsx

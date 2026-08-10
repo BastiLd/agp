@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AGP — Alle Gruppen und Projekte</title>
+<meta name="description" content="Projektsammlung von Basti und Mijo — Websites, Apps, Bots und Browser-Erweiterungen.">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%234a90d9'/><rect x='6' y='6' width='9' height='9' rx='2' fill='white'/><rect x='17' y='6' width='9' height='9' rx='2' fill='white' opacity='.7'/><rect x='6' y='17' width='9' height='9' rx='2' fill='white' opacity='.7'/><rect x='17' y='17' width='9' height='9' rx='2' fill='white' opacity='.45'/></svg>">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="kopf">
+  <div class="person-schalter" id="personSchalter" role="group" aria-label="Person auswählen">
+    <button class="person-seite links" type="button" data-person="basti" aria-pressed="true">
+      <span class="person-name">Basti</span>
+    </button>
+    <button class="person-seite rechts" type="button" data-person="mijo" aria-pressed="false">
+      <span class="person-name">Mijo</span>
+    </button>
+    <div class="schieber" id="schieber" role="slider" tabindex="0"
+         aria-label="Zwischen Basti und Mijo umschalten"
+         aria-valuemin="0" aria-valuemax="1" aria-valuenow="0" aria-valuetext="Basti">
+      <span class="schieber-name" id="schieberName">Basti</span>
+    </div>
+  </div>
+  <p class="untertitel" id="untertitel">Alle Gruppen und Projekte</p>
+</header>
+
+<nav class="werkzeugleiste" aria-label="Ansicht">
+  <div class="suche-feld">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/></svg>
+    <input type="search" id="suche" placeholder="Projekt suchen …" aria-label="Projekte durchsuchen" autocomplete="off">
+  </div>
+  <div class="groessen-schalter" role="radiogroup" aria-label="Kachelgröße">
+    <button type="button" data-groesse="klein"  role="radio" aria-checked="false" title="Kleine Symbole">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="4" height="4" rx="1"/><rect x="10" y="3" width="4" height="4" rx="1"/><rect x="17" y="3" width="4" height="4" rx="1"/><rect x="3" y="10" width="4" height="4" rx="1"/><rect x="10" y="10" width="4" height="4" rx="1"/><rect x="17" y="10" width="4" height="4" rx="1"/><rect x="3" y="17" width="4" height="4" rx="1"/><rect x="10" y="17" width="4" height="4" rx="1"/><rect x="17" y="17" width="4" height="4" rx="1"/></svg>
+      <span class="nur-vorlesen">Klein</span>
+    </button>
+    <button type="button" data-groesse="mittel" role="radio" aria-checked="true" title="Mittelgroße Symbole">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+      <span class="nur-vorlesen">Mittel</span>
+    </button>
+    <button type="button" data-groesse="gross"  role="radio" aria-checked="false" title="Große Symbole">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="8.5" height="8.5" rx="2"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="15" width="7" height="6" rx="1.5"/><rect x="14" y="13" width="7" height="8" rx="1.5"/></svg>
+      <span class="nur-vorlesen">Groß</span>
+    </button>
+    <button type="button" data-groesse="liste"  role="radio" aria-checked="false" title="Liste">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="4" height="4" rx="1"/><rect x="3" y="10" width="4" height="4" rx="1"/><rect x="3" y="16" width="4" height="4" rx="1"/><path d="M10 6h11M10 12h11M10 18h11"/></svg>
+      <span class="nur-vorlesen">Liste</span>
+    </button>
+  </div>
+</nav>
+
+<main id="inhalt" aria-live="polite">
+  <p class="laden">Projekte werden geladen …</p>
+</main>
+
+<footer class="fuss">
+  <p>© <span id="jahr">2026</span> Bastian Klaus &amp; Mijo Mörtl</p>
+  <button type="button" id="privatLink" class="privat-link">privat</button>
+</footer>
+
+<div class="overlay" id="detailOverlay" hidden>
+  <div class="overlay-hintergrund" data-schliessen></div>
+  <article class="detail" role="dialog" aria-modal="true" aria-labelledby="detailTitel">
+    <button type="button" class="detail-zu" data-schliessen aria-label="Schließen">&times;</button>
+    <div class="detail-inhalt" id="detailInhalt"></div>
+  </article>
+</div>
+
+<div class="overlay" id="passwortOverlay" hidden>
+  <div class="overlay-hintergrund" data-schliessen></div>
+  <form class="passwort-box" id="passwortForm" role="dialog" aria-modal="true" aria-labelledby="passwortTitel">
+    <button type="button" class="detail-zu" data-schliessen aria-label="Schließen">&times;</button>
+    <h2 id="passwortTitel">Privater Bereich</h2>
+    <p class="passwort-hinweis">Die Projektdaten sind verschlüsselt. Ohne das richtige Passwort lassen sie sich nicht entschlüsseln.</p>
+    <label class="nur-vorlesen" for="passwortEingabe">Passwort</label>
+    <input type="password" id="passwortEingabe" placeholder="Passwort" autocomplete="off" required>
+    <p class="passwort-fehler" id="passwortFehler" role="alert" hidden></p>
+    <button type="submit" class="knopf haupt">Entsperren</button>
+  </form>
+</div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

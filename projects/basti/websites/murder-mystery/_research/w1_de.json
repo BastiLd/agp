@@ -1,0 +1,921 @@
+[
+  {
+    "id": "de-luebcke-2019",
+    "land": "Deutschland",
+    "famous": true,
+    "title": "Nacht auf der Terrasse",
+    "subtitle": "Der Mord an einem Regierungspräsidenten",
+    "file": "OLG Frankfurt am Main · Az. 5-2 StE 1/20-6a-3/20",
+    "place": "Wolfhagen-Istha, Nordhessen",
+    "date": "1./2. Juni 2019",
+    "year": 2019,
+    "court": "Oberlandesgericht Frankfurt am Main",
+    "difficulty": 4,
+    "duration": "lang",
+    "perpCount": 1,
+    "teaser": "Ein CDU-Politiker wird auf seiner eigenen Terrasse erschossen. Die Ermittler tappen wochenlang im Dunkeln – bis eine Spur an der Kleidung des Opfers alles verändert.",
+    "tags": ["Kassel", "Juni 2019", "Schusswaffe", "Rechtsextremismus"],
+    "victim": {
+      "name": "Walter Lübcke (65)",
+      "dossier": "Walter Lübcke war Regierungspräsident des Bezirks Kassel und seit Jahrzehnten CDU-Mitglied. Der studierte Diplom-Agraringenieur hatte sich in der hessischen Kommunal- und Landespolitik einen Ruf als bodenständiger, direkter Verwaltungsfachmann erarbeitet. Kollegen beschrieben ihn als pflichtbewusst und diskussionsfreudig – jemanden, der auch bei unbequemen Themen persönlich vor Ort Rede und Antwort stand. Genau das tat er im Oktober 2015 bei einer Bürgerversammlung zu einer geplanten Flüchtlingsunterkunft in Lohfelden: Auf aggressive Zwischenrufe reagierte er mit dem Satz, wer die Werte des Grundgesetzes nicht teile, könne das Land jederzeit verlassen. Der Auftritt wurde gefilmt, landete im Internet und machte ihn binnen Stunden zur Zielscheibe einer bundesweiten Hasskampagne der extremen Rechten. Es folgten jahrelange Drohungen, auf die Lübcke nach außen gelassen reagierte, ohne von seiner Haltung abzurücken. Privat lebte er mit seiner Frau in einem Ortsteil von Wolfhagen, in unmittelbarer Nähe wohnten Sohn, Schwiegertochter und Enkelkinder. Am Abend seines Todes feierte das Dorf die traditionelle Weizenkirmes, nur wenige Meter von seinem Grundstück entfernt. Lübcke, der sich zeitlebens als überzeugter Anhänger des Rechtsstaats verstand, wusste um die Gefahr, die von der Hetze gegen ihn ausging – ein besonderer Personenschutz bestand zum Tatzeitpunkt dennoch nicht.",
+      "lastDay": "Am Abend des 1. Juni 2019 ist in Istha Weizenkirmes, das jährliche Dorffest nur rund 100 Meter von Lübckes Wohnhaus entfernt. Musik und Stimmen liegen über der Straße. Walter Lübcke verbringt den Abend zu Hause, seine Frau, seine Schwiegertochter und ein Enkelkind schlafen bereits im Haus. Gegen 23.30 Uhr tritt er auf die Terrasse hinaus. Ein Schuss fällt – im Lärm des Dorffestes bemerkt ihn niemand. Erst gegen 0.30 Uhr, in der Nacht zum 2. Juni, wird Lübcke von einem Angehörigen leblos auf der Terrasse gefunden. Rettungsdienst und Polizei werden alarmiert. In der Kreisklinik Wolfhagen stellen Ärzte rund zwei Stunden nach dem Auffinden den Tod fest: eine Schussverletzung am Kopf. Noch in derselben Nacht sichert die Kriminalpolizei die Terrasse und das nähere Umfeld des Hauses. Was zunächst wie eine unfassbare Einzeltat wirkt, wird in den folgenden Tagen zu einem der größten Kriminalfälle der bundesdeutschen Geschichte."
+    },
+    "intro": [
+      "In der Nacht zum 2. Juni 2019 finden Angehörige den hessischen Regierungspräsidenten Walter Lübcke leblos auf der Terrasse seines Wohnhauses in Wolfhagen-Istha. Die Untersuchung ergibt schnell: Er wurde aus nächster Nähe in den Kopf geschossen. Ein politischer Mord, mitten in Deutschland, an einem amtierenden Verwaltungsspitzenbeamten – ein Vorgang, für den es in der Nachkriegsgeschichte kaum Vergleichbares gibt.",
+      "Die Ermittler wissen zunächst wenig. Bei der ersten Pressekonferenz betont die Polizei, man ermittle „in alle Richtungen' und wolle nicht spekulieren – obwohl Lübckes flüchtlingsfreundliche Äußerungen von 2015 sofort wieder im Netz kursieren und eine neue Welle des Hasses auslösen. Ein Motiv liegt für viele Beobachter nahe, doch Beweise fehlen zunächst vollständig.",
+      "Dann gerät die Ermittlung zusätzlich ins Wanken: Ein Mann wird in einer spektakulären SEK-Aktion auf einer Nordseefähre festgenommen – ein vermeintlicher Durchbruch, der sich als Irrtum entpuppt. Erst eine unscheinbare Spur an Lübckes eigener Kleidung bringt schließlich die entscheidende Wende und führt die Ermittler zu einem Mann, der seinen Nachbarn und Kollegen jahrelang völlig unauffällig erschienen war."
+    ],
+    "suspects": [
+      {
+        "id": "stephan-e",
+        "name": "Stephan E.",
+        "init": "S",
+        "role": "Nachbar aus der rechtsextremen Szene",
+        "bio": "E. lebte nur wenige Kilometer von Lübcke entfernt und war den Behörden seit Jahrzehnten als gewaltbereiter Rechtsextremist bekannt, mit Vorstrafen wegen Messer- und Sprengstoffdelikten. Er hatte Lübckes Auftritt 2015 live miterlebt und ihm seinen Fremdenhass fortan öffentlich entgegengebracht. Was für ihn spricht: Er war zunächst gar nicht im engeren Fokus der Ermittler. Was gegen ihn spricht: seine Vorgeschichte, sein Wohnort in Tatortnähe und – wie sich zeigen sollte – eine Spur an der Kleidung des Opfers."
+      },
+      {
+        "id": "markus-h",
+        "name": "Markus H.",
+        "init": "M",
+        "role": "Freund und Weggefährte",
+        "bio": "Markus H. kannte E. seit Jahren aus der rechten Szene und übte mit ihm gemeinsam auf einem Schießstand. Er besaß im Gegensatz zu E. legal eine Waffe. Die Bundesanwaltschaft warf ihm vor, an Planung und Tatausführung beteiligt gewesen zu sein. Was für ihn spricht: Am Tatort fanden sich keinerlei Spuren von ihm. Was gegen ihn spricht: seine enge Verbindung zu E. und dessen wechselnde Anschuldigungen gegen ihn."
+      },
+      {
+        "id": "elmar-j",
+        "name": "Elmar J.",
+        "init": "E",
+        "role": "Mutmaßlicher Waffenlieferant",
+        "bio": "Der aus Nordrhein-Westfalen stammende Bekannte soll E. die spätere Tatwaffe verkauft haben. Er wurde am selben Tag wie Markus H. festgenommen, sein Verfahren aber vom Hauptprozess abgetrennt. Was für ihn spricht: Es gibt keine Hinweise, dass er von den konkreten Plänen wusste. Was gegen ihn spricht: der direkte Weg der Waffe von ihm zum späteren Täter."
+      },
+      {
+        "id": "ersthelfer",
+        "name": "Der Ersthelfer vom Tatabend",
+        "init": "?",
+        "role": "Nachbar, der Spuren beseitigte",
+        "bio": "Ein Mann aus der Nachbarschaft war in der Tatnacht einer der Ersten am Haus und wischte Blutspuren von der Terrasse – er wollte der Familie den Anblick ersparen. Eine Woche später nimmt ihn ein SEK-Kommando auf einer Nordseefähre fest, weil Ermittler vermuten, er habe bewusst Spuren vernichtet. Was gegen ihn spricht: sein Verhalten direkt nach der Tat. Was für ihn spricht: Nach stundenlanger Vernehmung wird er freigelassen – mit dem Mord hat er nichts zu tun."
+      },
+      {
+        "id": "unbekannter-mittaeter",
+        "name": "Ein weiterer Rechtsextremist aus E.s Umfeld",
+        "init": "?",
+        "role": "Mutmaßlicher Mitwisser",
+        "bio": "Gegen zwei weitere Männer aus der rechten Szene, die E. nahestanden, wird zeitweise wegen möglicher Tatbeteiligung ermittelt. Sie sollen an der Vorbereitung beteiligt oder beim Schuss anwesend gewesen sein. Was für sie spricht: Die Verfahren gegen sie werden mangels Beweisen eingestellt. Was gegen sie spricht: ihre nachweisliche Nähe zu E. und zur militanten rechten Szene in Nordhessen."
+      },
+      {
+        "id": "kagida-anhaenger",
+        "name": "Ein Wortführer der Bürgerversammlung 2015",
+        "init": "?",
+        "role": "Aktiv in der lokalen Kagida-Szene",
+        "bio": "Bei der Bürgerversammlung 2015 hetzten mehrere Wortführer der islamfeindlichen Kagida-Bewegung offen gegen Lübcke. Einige davon werden in den ersten Ermittlungswochen überprüft, da die Polizei zunächst „in alle Richtungen' ermittelt. Was für sie spricht: Es gibt keinerlei forensische Verbindung zum Tatort. Was gegen sie spricht: die unmittelbare Nähe zur Hasskampagne, die 2015 begann."
+      }
+    ],
+    "truth": { "taeter": ["stephan-e"], "helfer": [] },
+    "policeTrack": [
+      { "after": 1, "focus": "Ermittlungen in alle Richtungen", "note": "Bei der ersten Pressekonferenz erklärt die Polizei, es gebe noch keine Hinweise auf ein politisches Motiv – man wolle nicht spekulieren." },
+      { "after": 4, "focus": "Der Ersthelfer vom Tatabend", "note": "Ein SEK-Team nimmt einen Mann auf einer Nordseefähre fest, der am Tatort Spuren beseitigt haben soll. Er wird stundenlang verhört." },
+      { "after": 7, "focus": "Stephan E.", "note": "Eine DNA-Spur an Lübckes Kleidung führt die Ermittler zu einem einschlägig bekannten Rechtsextremisten aus der Nachbarschaft." },
+      { "after": 10, "focus": "Markus H. als möglicher Schütze", "note": "E. widerruft sein Geständnis und behauptet, sein Freund Markus H. habe abgedrückt." },
+      { "after": 11, "focus": "Zurück zu Stephan E. allein", "note": "Am Tatort finden sich keine Spuren von Markus H. – das Gericht hält die Anschuldigung für unglaubwürdig." }
+    ],
+    "clues": [
+      {
+        "cat": "tatort",
+        "label": "Fundort Terrasse",
+        "title": "Ein Schuss im Kirmestrubel",
+        "text": "Walter Lübcke wird gegen 0.30 Uhr in der Nacht zum 2. Juni 2019 leblos auf der Terrasse seines Wohnhauses in Wolfhagen-Istha gefunden. Der Schuss muss demnach gegen 23.30 Uhr gefallen sein, während im Ort nur wenige Meter entfernt die traditionelle Weizenkirmes gefeiert wurde – Musik und Stimmen könnten den Knall übertönt haben. Im Haus schliefen zu diesem Zeitpunkt Lübckes Frau, seine Schwiegertochter und ein Enkelkind, ohne etwas zu bemerken. Einbruchspuren finden die Ermittler keine: Der Täter muss sich unbemerkt dem Grundstück genähert haben. Die Kriminalpolizei sichert in der Nacht die Terrasse und das nähere Umfeld, kann aber zunächst keine verwertbaren Spuren am Tatort selbst feststellen. Die entscheidende Frage lautet: Kannte der Schütze das Haus – oder war es Zufall, dass er ausgerechnet in dieser Nacht kam?",
+        "src": "hessenschau.de – Chronik des Mordfalls",
+        "url": "https://www.hessenschau.de/gesellschaft/der-mord-an-walter-luebcke---eine-chronik-v3,mordfall-luebcke-chronik-100.html"
+      },
+      {
+        "cat": "forensik",
+        "label": "Rechtsmedizinischer Befund",
+        "title": "Kopfschuss aus kürzester Distanz",
+        "text": "Die Untersuchung ergibt: Walter Lübcke wurde mit einem Trommelrevolver aus unmittelbarer Nähe einmal in den Kopf geschossen. Anzeichen für einen Kampf oder eine Abwehrreaktion finden sich keine – alles deutet darauf hin, dass Lübcke den Angriff nicht kommen sah. Nach späterer gerichtlicher Bewertung nutzte der Täter gezielt die Arglosigkeit und die daraus folgende Wehrlosigkeit seines Opfers aus, näherte sich ihm an, während dieser sich in Sicherheit wähnte, und schoss aus kurzer Distanz. Diese Vorgehensweise erfüllt später ein zentrales Mordmerkmal: Heimtücke. Die verwendete Waffe, ein Rossi-Revolver Kaliber .38 Special, war illegal im Besitz des Schützen. Für die Ermittler ist klar: Es handelt sich nicht um einen Raubüberfall oder eine zufällige Konfrontation, sondern um eine gezielte, vorbereitete Tat.",
+        "src": "Bundesgerichtshof – Pressemitteilung Nr. 127/2022",
+        "url": "https://www.bundesgerichtshof.de/SharedDocs/Pressemitteilungen/DE/2022/2022127.html"
+      },
+      {
+        "cat": "dokument",
+        "label": "Erste Pressekonferenz",
+        "title": "„Wir ermitteln in alle Richtungen'",
+        "text": "Nur einen Tag nach dem Fund der Leiche tritt die Polizei erstmals vor die Presse. Auf die Frage, ob ein Zusammenhang mit Lübckes flüchtlingspolitischen Äußerungen aus dem Jahr 2015 bestehe, antworten die Ermittler ausweichend: Man dürfe nicht spekulieren, aber es gebe bislang keine konkreten Hinweise darauf. Gleichzeitig verbreitet sich im Netz erneut das Video von Lübckes Auftritt bei der Bürgerversammlung in Lohfelden, begleitet von einer neuen Welle rechtsextremer Hasskommentare. Die vage Formulierung der Polizei lässt Raum für zahlreiche Theorien – von einem politischen Anschlag bis zu einer rein privaten Beziehungstat. Für die öffentliche Debatte wird genau diese Unsicherheit zum Politikum: Kritiker werfen den Behörden später vor, den naheliegenden rechtsextremen Hintergrund zu lange nicht ernst genug genommen zu haben.",
+        "src": "hessenschau.de – Chronik des Mordfalls",
+        "url": "https://www.hessenschau.de/gesellschaft/der-mord-an-walter-luebcke---eine-chronik-v3,mordfall-luebcke-chronik-100.html"
+      },
+      {
+        "cat": "zeuge",
+        "label": "Festnahme auf hoher See",
+        "title": "SEK-Einsatz auf der Nordseefähre",
+        "text": "Am 8. Juni 2019, sechs Tage nach der Tat, werden zwei Nordseefähren evakuiert: Ein Spezialeinsatzkommando nimmt einen Mann fest, der in der Tatnacht als einer der Ersten am Haus war und dort offenbar Blutspuren auf der Terrasse wegwischte. Die Ermittler vermuten zunächst, er habe absichtlich Spuren beseitigt, um einen Täter zu decken oder selbst als Täter Beweise zu vernichten. Der Mann wird nach Nordhessen gebracht und stundenlang vernommen. Am Ende stellt sich heraus: Er wollte lediglich der Familie den grausamen Anblick ersparen und hat mit der eigentlichen Tat nichts zu tun. Der spektakuläre Einsatz zeigt, unter welchem Druck die Ermittler zu diesem Zeitpunkt stehen – und wie leicht sich Ermittlungen zu einem hochsensiblen Fall in eine falsche Richtung entwickeln können.",
+        "src": "hessenschau.de – Chronik des Mordfalls",
+        "url": "https://www.hessenschau.de/gesellschaft/der-mord-an-walter-luebcke---eine-chronik-v3,mordfall-luebcke-chronik-100.html"
+      },
+      {
+        "cat": "motiv",
+        "label": "Die Bürgerversammlung 2015",
+        "title": "„Dann kann er das Land verlassen'",
+        "text": "Am 14. Oktober 2015 informiert Walter Lübcke bei einer Bürgerversammlung in Lohfelden über eine geplante Flüchtlingsunterkunft. Aus dem Publikum, in dem auch spätere Tatverdächtige sitzen, wird er wiederholt provoziert. Lübcke antwortet: Wer die Werte des Grundgesetzes nicht teile, könne das Land jederzeit verlassen. Noch am selben Abend verbreitet ein Zuhörer ein Video des Auftritts im Internet, es folgt eine Welle rechtsextremen Hasses. Lübcke erhält in den folgenden Jahren zahlreiche Morddrohungen; die AfD postet sein Bild mit einer feindseligen Bildunterschrift, auch prominente Rechtsaußen-Stimmen beteiligen sich an der Hetze. Nach späterer Überzeugung der Bundesanwaltschaft fasst genau in dieser Zeit einer der Zuhörer den Entschluss, Lübcke für seine Haltung zu bestrafen.",
+        "quote": "Und wer diese Werte nicht vertritt, der kann dieses Land verlassen, wenn er nicht einverstanden ist. Das ist die Freiheit eines jeden Deutschen.",
+        "src": "hessenschau.de – Chronik des Mordfalls",
+        "url": "https://www.hessenschau.de/gesellschaft/der-mord-an-walter-luebcke---eine-chronik-v3,mordfall-luebcke-chronik-100.html"
+      },
+      {
+        "cat": "digital",
+        "label": "Video geht viral",
+        "title": "Ein Handyvideo entfacht den Hass",
+        "text": "Das Video von Lübckes Auftritt 2015 wird binnen Stunden zehntausendfach geteilt und kommentiert. In den Kommentarspalten sammeln sich offene Gewaltfantasien gegen den Politiker. Jahre später stellt sich heraus, dass einer der späteren Tatverdächtigen unter dem Pseudonym „Game Over' in einschlägigen Foren selbst massiv gegen Geflüchtete und gegen Lübcke gehetzt hatte – ein digitales Muster, das die Ermittler erst nach der Festnahme des Hauptverdächtigen vollständig rekonstruieren können. Die Auswertung alter Online-Aktivitäten wird zu einem wichtigen Baustein der Beweisführung: Sie zeigt eine über Jahre gewachsene, zunehmend radikalisierte Hassgesinnung, die sich nicht spontan, sondern über einen langen Zeitraum aufgebaut hat – ein Umstand, der später bei der Bewertung der Schuldschwere eine Rolle spielt.",
+        "src": "hessenschau.de – Chronik des Mordfalls",
+        "url": "https://www.hessenschau.de/gesellschaft/der-mord-an-walter-luebcke---eine-chronik-v3,mordfall-luebcke-chronik-100.html"
+      },
+      {
+        "cat": "forensik",
+        "label": "DNA an der Kleidung",
+        "title": "Die Spur, die zwei Wochen brauchte",
+        "text": "Zwei Wochen nach der Tat liefert die Spurensicherung den entscheidenden Durchbruch: An der Kleidung des Toten sichergestellte DNA lässt sich einem Mann zuordnen, der den Behörden bereits einschlägig als gewaltbereiter Rechtsextremist bekannt ist. Am 15. Juni 2019 nimmt die Polizei den 45-jährigen Stephan E. in seinem Haus in Kassel-Forstfeld fest. Nach Ermittlerangaben hatte sich E. in seinem privaten und beruflichen Umfeld völlig unauffällig verhalten – Nachbarn und Kollegen zeigen sich fassungslos. Die Bundesanwaltschaft übernimmt umgehend die weiteren Ermittlungen. Die DNA-Spur allein beweist noch keine Täterschaft, doch in Kombination mit E.s bekannter Vorgeschichte und seiner Nähe zum Tatort verdichtet sich der Verdacht innerhalb weniger Stunden zur Gewissheit.",
+        "src": "hessenschau.de – Chronik des Mordfalls",
+        "url": "https://www.hessenschau.de/gesellschaft/der-mord-an-walter-luebcke---eine-chronik-v3,mordfall-luebcke-chronik-100.html"
+      },
+      {
+        "cat": "verhoer",
+        "label": "Erstes Geständnis",
+        "title": "„Ich habe allein gehandelt'",
+        "text": "Zehn Tage nach seiner Festnahme, am 25. Juni 2019, legt Stephan E. ein erstes Geständnis ab: Er habe Walter Lübcke allein getötet, seit der Bürgerversammlung 2015 mit dem Gedanken gespielt. Zudem räumt er ein, unter dem Pseudonym „Game Over' im Internet Hasskommentare verbreitet zu haben. Wenige Tage später führt er die Ermittler zu einem Waffendepot auf dem Gelände seines Arbeitgebers, wo fünf Waffen versteckt sind, darunter die mutmaßliche Tatwaffe, eine Pumpgun und eine Maschinenpistole. Für die Ermittler wirkt der Fall damit gelöst – ein Eindruck, der sich als voreilig erweisen soll. Nur wenige Monate später wird E. dieses erste Geständnis komplett widerrufen und eine völlig neue Version der Tatnacht präsentieren.",
+        "src": "hessenschau.de – Chronik des Mordfalls",
+        "url": "https://www.hessenschau.de/gesellschaft/der-mord-an-walter-luebcke---eine-chronik-v3,mordfall-luebcke-chronik-100.html"
+      },
+      {
+        "cat": "dokument",
+        "label": "Das Waffendepot",
+        "title": "Fünf Waffen im Erdversteck",
+        "text": "Ende Juni 2019 führt Stephan E. die Ermittler zu einem sorgfältig angelegten Waffenversteck auf dem Gelände seines Arbeitgebers. Dort finden Beamte fünf Waffen, darunter den Revolver, der als Tatwaffe gilt, außerdem eine Pumpgun und eine vollautomatische Maschinenpistole – Waffen, die weit über den Bedarf eines gelegentlichen Sportschützen hinausgehen. Bei der Auswertung des Fundorts stellt sich heraus, dass E. jahrelang systematisch Zugang zu Kriegswaffen hatte, ohne dass dies den Behörden aufgefallen wäre. Parallel werden am 27. Juni 2019 zwei weitere Männer festgenommen: ein mutmaßlicher Waffenlieferant und ein langjähriger Freund aus der rechten Szene, der als möglicher Vermittler zwischen beiden gilt. Der Fall wächst sich zu einem Verfahren mit mehreren Angeklagten aus.",
+        "src": "hessenschau.de – Chronik des Mordfalls",
+        "url": "https://www.hessenschau.de/gesellschaft/der-mord-an-walter-luebcke---eine-chronik-v3,mordfall-luebcke-chronik-100.html"
+      },
+      {
+        "cat": "verhoer",
+        "label": "Der Widerruf",
+        "title": "Plötzlich ein Komplize",
+        "text": "Im Januar 2020 wechselt Stephan E. seinen Anwalt und widerruft sein ursprüngliches Geständnis vollständig. Die neue Version: Er sei gemeinsam mit seinem Freund Markus H. zu Lübckes Haus gefahren, „um ihm eine Abreibung zu verpassen'. Der Schuss habe sich dabei versehentlich gelöst – abgegeben habe ihn jedoch nicht er selbst, sondern Markus H. Diese Aussage stellt die Ermittlungen auf den Kopf: Plötzlich steht ein zweiter Mann im Zentrum des Verdachts, der bislang nur wegen eines Waffendelikts belangt werden sollte. Die Bundesanwaltschaft erhebt im April 2020 Anklage gegen beide Männer – gegen E. wegen Mordes, gegen H. wegen Beihilfe zum Mord. Vor Gericht wird E. seine Version der Ereignisse noch mehrfach ändern.",
+        "src": "hessenschau.de – Chronik des Mordfalls",
+        "url": "https://www.hessenschau.de/gesellschaft/der-mord-an-walter-luebcke---eine-chronik-v3,mordfall-luebcke-chronik-100.html"
+      },
+      {
+        "cat": "alibi",
+        "label": "Spurenlose Tatortnähe",
+        "title": "Keine Spur von Markus H.",
+        "text": "Trotz E.s Anschuldigung finden die Ermittler am Tatort keinerlei forensische Hinweise, die auf die Anwesenheit von Markus H. hindeuten – keine DNA, keine Schuhabdrücke, nichts. Auch die Auswertung von Mobilfunk- und Bewegungsdaten liefert dem Oberlandesgericht später keinen tragfähigen Beleg dafür, dass H. am Tatort war oder E. bei der Tatausführung unterstützte. Die eigene Aussage E.s zu Markus H.s angeblicher Beteiligung erweist sich zudem als „derart wechselhaft und widersprüchlich', dass das Gericht ihr in diesem Punkt keinen Glauben schenkt. Für die Familie Lübcke bleibt diese Volte einer der bittersten Aspekte des gesamten Verfahrens: Sie ist überzeugt, dass H. eine zentralere Rolle spielte, als am Ende gerichtlich festgestellt wird.",
+        "src": "LTO – BGH verwirft Revisionen im Lübcke-Prozess",
+        "url": "https://www.lto.de/recht/nachrichten/n/bgh-3str35921-revision-mord-an-walter-luebcke-stephan-e-markus-h-beihilfe"
+      },
+      {
+        "cat": "prozess",
+        "label": "Der Angriff auf Ahmed I.",
+        "title": "Die zweite Anklage",
+        "text": "Neben dem Mord an Lübcke wird Stephan E. ein weiterer Vorwurf gemacht: Im Januar 2016 war ein irakischer Asylbewerber, der in einer nahegelegenen Flüchtlingsunterkunft lebte, von hinten mit einem Messer niedergestochen und schwer verletzt worden. Erst nach E.s Festnahme wegen des Lübcke-Mordes finden Ermittler in seinem Haus ein Klappmesser mit DNA-Spuren des Opfers – ein möglicher Zusammenhang mit E.s offen gezeigtem Fremdenhass liegt nahe. Vor Gericht kann E. jedoch eine Kaufquittung für das Messer vorlegen, die auf ein Datum nach dem Messerangriff datiert ist. Das Gericht sieht daher keinen sicheren Beweis, dass es sich um die Tatwaffe handelt, und spricht E. in diesem Punkt frei – ein Ausgang, der zeigt, wie unterschiedlich die Beweislage in ein und demselben Verfahren ausfallen kann.",
+        "src": "LTO – BGH verwirft Revisionen im Lübcke-Prozess",
+        "url": "https://www.lto.de/recht/nachrichten/n/bgh-3str35921-revision-mord-an-walter-luebcke-stephan-e-markus-h-beihilfe"
+      },
+      {
+        "cat": "prozess",
+        "label": "Drei Versionen vor Gericht",
+        "title": "Ein geleaktes Video sorgt für Eklat",
+        "text": "Im Lauf des Prozesses vor dem OLG Frankfurt liefert Stephan E. insgesamt drei unterschiedliche Versionen seines Geständnisses. Für zusätzlichen Wirbel sorgt ein Vernehmungsvideo aus dem Ermittlungsverfahren, das mitten im laufenden Prozess an ein Fernsehformat geleakt und veröffentlicht wird – ein Vorgang, der zu kontroversen Diskussionen auch innerhalb des Gerichtssaals führt. Vier Verteidiger, die E. im Laufe des Verfahrens vertreten hatten, werden nach seiner Entbindung von der Schweigepflicht selbst als Zeugen vernommen; gegen einen von ihnen leitet die Staatsanwaltschaft zeitweise ein eigenes Verfahren wegen des Verdachts der Anstiftung zu einer Falschbeschuldigung ein. Am Ende bleibt für das Gericht nur eine tragfähige Version übrig: dass E. allein handelte.",
+        "src": "LTO – BGH verwirft Revisionen im Lübcke-Prozess",
+        "url": "https://www.lto.de/recht/nachrichten/n/bgh-3str35921-revision-mord-an-walter-luebcke-stephan-e-markus-h-beihilfe"
+      },
+      {
+        "cat": "prozess",
+        "label": "Urteil und Revision",
+        "title": "Lebenslang – und ein bestätigtes Urteil",
+        "text": "Am 28. Januar 2021 verurteilt das Oberlandesgericht Frankfurt Stephan E. wegen Mordes zu lebenslanger Freiheitsstrafe und stellt die besondere Schwere der Schuld fest – eine Entlassung nach 15 Jahren ist damit praktisch ausgeschlossen. Die Anordnung der Sicherungsverwahrung bleibt vorbehalten. Markus H. wird vom Vorwurf der Beihilfe zum Mord freigesprochen, aber wegen unerlaubten Waffenbesitzes zu einer Bewährungsstrafe verurteilt. Gegen das Urteil legen sämtliche Verfahrensbeteiligten Revision ein – die Angeklagten, die Bundesanwaltschaft, die Nebenkläger. Am 25. August 2022 verwirft der Bundesgerichtshof alle sechs Revisionen. Das Urteil ist damit in vollem Umfang rechtskräftig.",
+        "quote": "Das Mittel der politischen Auseinandersetzung ist das Wort, nicht die Gewalt.",
+        "src": "LTO – BGH verwirft Revisionen im Lübcke-Prozess",
+        "url": "https://www.lto.de/recht/nachrichten/n/bgh-3str35921-revision-mord-an-walter-luebcke-stephan-e-markus-h-beihilfe"
+      }
+    ],
+    "docs": [
+      {
+        "type": "polizeibericht",
+        "title": "Polizeilicher Erstbericht",
+        "authority": "Polizeidirektion Nordhessen — Kriminaldauerdienst",
+        "ref": "Tgb.-Nr. ████/19",
+        "date": "02.06.2019, ca. 02:50 Uhr",
+        "fields": [["Einsatzort", "Wolfhagen-Istha, Wohnanwesen Fam. L., Terrassenbereich"], ["Meldungseingang", "02.06.2019, ca. 00:35 Uhr"], ["Sachbearbeiter", "KHK ███████, KDD Nordhessen"]],
+        "body": [
+          "Am 02.06.2019, gegen 00.35 Uhr, ging bei der Einsatzleitstelle die Meldung ein, eine männliche Person sei auf der Terrasse eines Wohnanwesens in Wolfhagen-Istha leblos aufgefunden worden. Rettungsdienst und Streifenwagenbesatzung wurden umgehend entsandt.",
+          "Vor Ort bestätigte sich der Verdacht auf ein Gewaltverbrechen. Reanimationsmaßnahmen blieben ohne Erfolg; der Tod des Betroffenen wurde gegen 02.30 Uhr in der Kreisklinik Wolfhagen festgestellt. Die Kriminalpolizei übernahm die Tatortarbeit, das Landeskriminalamt wurde verständigt.",
+          "Erste Absuchen des Grundstücks und der näheren Umgebung verliefen ohne Ergebnis. Zeitgleich fand im Ort die jährliche Weizenkirmes statt; mögliche akustische Wahrnehmungen von Anwohnern werden gesondert erhoben."
+        ],
+        "stamp": "VERTRAULICH — ERMITTLUNGSSACHE",
+        "afterClue": 1
+      },
+      {
+        "type": "obduktion",
+        "title": "Rechtsmedizinischer Befund (Auszug)",
+        "authority": "Institut für Rechtsmedizin",
+        "ref": "Gz. ████/19",
+        "date": "Juni 2019",
+        "fields": [["Verstorbener", "Walter L., 65 Jahre"], ["Auftraggeber", "Generalstaatsanwaltschaft Frankfurt am Main"], ["Befund", "Schussverletzung Kopf, kurze Distanz"]],
+        "body": [
+          "Die äußere und innere Leichenschau ergibt eine Schussverletzung im Kopfbereich, verursacht durch ein Projektil mittleren Kalibers. Die Schussabgabe erfolgte nach kriminaltechnischer Einschätzung aus sehr kurzer Distanz.",
+          "Anhaltspunkte für eine Abwehr- oder Fluchtreaktion des Betroffenen finden sich nicht. Auffindesituation und fehlende Hinweise auf ein Gerangel deuten darauf hin, dass der Schuss unerwartet und ohne vorherige Konfrontation abgegeben wurde.",
+          "Der Tod trat nach den Feststellungen unmittelbar oder binnen kurzer Zeit nach der Schussabgabe ein."
+        ],
+        "afterClue": 2
+      },
+      {
+        "type": "vernehmung",
+        "title": "Beschuldigtenvernehmung (Auszug)",
+        "authority": "Generalbundesanwalt beim Bundesgerichtshof",
+        "ref": "Vernehmung Beschuldigter, Bl. ███ d.A.",
+        "date": "25.06.2019",
+        "fields": [["Beschuldigter", "Stephan E., 45 Jahre"], ["Ort", "Vernehmungsraum GBA"], ["Verteidigung", "anwesend"]],
+        "body": [
+          "Der Beschuldigte gibt nach vorheriger Belehrung an, die Tat allein begangen zu haben. Er schildert, seit der Bürgerversammlung im Oktober 2015 mit dem Gedanken gespielt zu haben, gegen den Geschädigten vorzugehen.",
+          "Zum eigentlichen Tatablauf macht er zum jetzigen Zeitpunkt nur eingeschränkte Angaben. Er räumt ein, unter einem Pseudonym in einschlägigen Internetforen aktiv gewesen zu sein.",
+          "Weitere Vernehmungen sind vorgesehen, insbesondere zur Herkunft der Tatwaffe und zu möglichen weiteren Beteiligten."
+        ],
+        "afterClue": 8
+      },
+      {
+        "type": "gerichtsprotokoll",
+        "title": "Urteilsauszug",
+        "authority": "Oberlandesgericht Frankfurt am Main, 5. Strafsenat",
+        "ref": "Az. 5-2 StE 1/20-6a-3/20",
+        "date": "28.01.2021",
+        "fields": [["Angeklagter", "Stephan E."], ["Schuldspruch", "Mord"], ["Strafmaß", "Lebenslange Freiheitsstrafe, besondere Schwere der Schuld"]],
+        "body": [
+          "Der Angeklagte E. wird des Mordes an Walter L. schuldig gesprochen. Das Gericht sieht die Mordmerkmale der Heimtücke und der niedrigen Beweggründe als erwiesen an.",
+          "Der Angeklagte handelte aus einer rechtsradikalen, rassistischen Gesinnung heraus. Die besondere Schwere der Schuld wird festgestellt; die Anordnung der Sicherungsverwahrung bleibt vorbehalten.",
+          "Der Mitangeklagte H. wird vom Vorwurf der Beihilfe zum Mord freigesprochen und lediglich wegen eines Verstoßes gegen das Waffengesetz zu einer Bewährungsstrafe verurteilt."
+        ],
+        "stamp": "RECHTSKRÄFTIG SEIT 25.08.2022",
+        "afterClue": 14
+      }
+    ],
+    "pdfs": [
+      { "t": "BGH-Urteil 3 StR 359/21 vom 25.08.2022 (Volltext)", "u": "https://www.bundesgerichtshof.de/SharedDocs/Entscheidungen/DE/Strafsenate/3_StS/2021/3_StR_359-21.pdf?__blob=publicationFile&v=1" },
+      { "t": "BGH-Urteil 3 StR 359/21 – Anlage (Volltext)", "u": "https://www.bundesgerichtshof.de/SharedDocs/Entscheidungen/DE/Strafsenate/3_StS/2021/3_StR_359-21A.pdf?__blob=publicationFile&v=1" }
+    ],
+    "links": [
+      { "t": "Urteil im Lübcke-Prozess: Lebenslange Haftstrafe für Stephan Ernst", "u": "https://www.hessenschau.de/panorama/urteil-im-luebcke-prozess-lebenslange-haftstrafe-fuer-stephan-ernst,urteil-stephan-ernst-100.html", "kind": "artikel" },
+      { "t": "Der Mord an Walter Lübcke – eine Chronik", "u": "https://www.hessenschau.de/gesellschaft/der-mord-an-walter-luebcke---eine-chronik-v3,mordfall-luebcke-chronik-100.html", "kind": "artikel" },
+      { "t": "BGH verwirft Revisionen: Mordverurteilung und Freisprüche bestätigt", "u": "https://www.lto.de/recht/nachrichten/n/bgh-3str35921-revision-mord-an-walter-luebcke-stephan-e-markus-h-beihilfe", "kind": "artikel" },
+      { "t": "BGH-Pressemitteilung Nr. 127/2022", "u": "https://www.bundesgerichtshof.de/SharedDocs/Pressemitteilungen/DE/2022/2022127.html", "kind": "urteil" }
+    ],
+    "solution": {
+      "who": "Stephan E. (45)",
+      "text": "Zwei Wochen nach der Tat führt eine DNA-Spur an Walter Lübckes Kleidung die Ermittler zu Stephan E., einem 45-jährigen Mann aus der Nachbarschaft mit langer rechtsextremer Vorgeschichte. E. gesteht zunächst, allein gehandelt zu haben, widerruft dann und beschuldigt seinen Freund Markus H., den tödlichen Schuss abgegeben zu haben. Vor Gericht liefert er mehrere widersprüchliche Versionen. Das Oberlandesgericht Frankfurt glaubt ihm in diesem Punkt nicht: Am Tatort finden sich keinerlei Spuren von Markus H., während E.s eigene Darstellungen derart wechselhaft und widersprüchlich sind, dass der Senat erhebliche Zweifel daran hegt. Am 28. Januar 2021 wird E. wegen Mordes zu lebenslanger Haft verurteilt, das Gericht stellt zudem die besondere Schwere der Schuld fest – eine Entlassung nach 15 Jahren ist damit praktisch ausgeschlossen. Markus H. wird vom Vorwurf der Beihilfe zum Mord freigesprochen, aber wegen unerlaubten Waffenbesitzes zu einer Bewährungsstrafe verurteilt. Ausschlaggebend für die Verurteilung E.s sind neben der DNA-Spur vor allem sein eigenes erstes Geständnis und die Tatsache, dass sich keine zweite Person am Tatort nachweisen lässt. Am 25. August 2022 bestätigt der Bundesgerichtshof sämtliche Urteilspunkte und verwirft alle sechs eingelegten Revisionen – auch die der Familie Lübcke, die von einer Mittäterschaft Markus H.s überzeugt bleibt. Das Urteil ist damit rechtskräftig.",
+      "quote": "Er nutzte die Arglosigkeit sowie die darauf beruhende Wehrlosigkeit seines Tatopfers aus, indem er sich an den sich in scheinbarer Sicherheit wähnenden und sich keines Angriffs versehenden Dr. Lübcke anschlich und aus kurzer Distanz einmal auf dessen Kopf schoss.",
+      "verdict": "OLG Frankfurt am Main, 28. Januar 2021 – lebenslange Freiheitsstrafe, besondere Schwere der Schuld; BGH bestätigt am 25. August 2022",
+      "status": "rechtskräftig seit 25. August 2022"
+    }
+  },
+  {
+    "id": "de-kusel-2022",
+    "land": "Deutschland",
+    "famous": true,
+    "title": "Der letzte Funkspruch",
+    "subtitle": "Der Polizistenmord von Kusel",
+    "file": "Landgericht Kaiserslautern · Az. 4 Ks 6035 Js 2146/22",
+    "place": "Kreisstraße 22 bei Kusel, Rheinland-Pfalz",
+    "date": "31. Januar 2022",
+    "year": 2022,
+    "court": "Landgericht Kaiserslautern",
+    "difficulty": 2,
+    "duration": "mittel",
+    "perpCount": 1,
+    "teaser": "Eine Routinekontrolle auf einer einsamen Landstraße endet mit zwei toten Polizisten und einem Funkspruch, der mitten im Satz abbricht. Wer schoss – und warum?",
+    "tags": ["Kusel", "Januar 2022", "Schusswaffen", "Wilderei"],
+    "victim": {
+      "name": "Yasmin B. (24) & Alexander K. (29)",
+      "dossier": "Yasmin B. war 24 Jahre alt und befand sich noch in der Ausbildung zur Polizeikommissarin – sie durchlief zum Tatzeitpunkt einen praktischen Einsatzabschnitt bei der Polizeiinspektion Kusel. Alexander K., fünf Jahre älter, war bereits Polizeikommissar und ihr erfahrener Streifenpartner in jener Nacht. Beide gehörten zu einer von drei Streifen, die im Landkreis Kusel wegen einer Serie von Einbrüchen verstärkt unterwegs waren – eine Routineaufgabe, wie sie im ländlichen Rheinland-Pfalz zum Alltag der Polizei gehört. Kolleginnen und Kollegen beschrieben das Duo als zuverlässig und pflichtbewusst; nächtliche Streifenfahrten waren für beide Routine, auch wenn Yasmin B. sich als Anwärterin noch in der Lernphase befand. Ausgerüstet mit schusssicheren Westen und einem zivilen Streifenwagen kontrollierten sie in den frühen Morgenstunden verdächtige Fahrzeuge auf einsamen Landstraßen – eine von unzähligen Kontrollen, wie sie in dieser Nacht im gesamten Landkreis stattfanden. Dass ausgerechnet dieser Halt zur Katastrophe werden würde, war durch nichts vorgezeichnet: Er sollte nach Aktenlage eine gewöhnliche Fahrzeugkontrolle werden, wie sie beide schon oft durchgeführt hatten.",
+      "lastDay": "In der Nacht zum 31. Januar 2022 sind drei Streifen der Polizeiinspektion Kusel wegen einer Einbruchsserie verstärkt im Einsatz. Gegen 4.19 Uhr hält das Duo einen Kleintransporter auf der Kreisstraße 22 zwischen Mayweilerhof und Ulmet an, in dem zwei Männer sitzen. Während Alexander K. mit den Insassen spricht, wirft Yasmin B. einen Blick in den Laderaum und funkt der Leitstelle: Der Kofferraum sei voller toter Wildtiere. Rund 45 Sekunden später fällt der erste Schuss – aus nächster Nähe, gegen Yasmin B. Sekunden danach ein zweiter, abgebrochener Funkspruch von Alexander K.: „Die schießen! Kommt schnell! Wir sind zwischen Ulmet und –' Dann bricht die Verbindung ab. Als um 4.32 Uhr Verstärkung eintrifft, sind beide Beamten tot. Die Täter sind bereits mit dem Kleintransporter geflüchtet."
+    },
+    "intro": [
+      "In einer der letzten Nächte des Januar 2022 endet eine Routinekontrolle auf einer einsamen Landstraße bei Kusel in einer Katastrophe: Zwei Polizeibeamte, die einen verdächtigen Kleintransporter angehalten haben, werden erschossen. Der letzte Funkspruch – „Die schießen! Kommt schnell!' – bricht mitten im Satz ab. Als Kollegen eintreffen, ist jede Hilfe zu spät.",
+      "Von den Tätern fehlt zunächst jede Spur. Die Polizei spricht öffentlich von „mehreren bewaffneten Tätern' und startet eine der größten Fahndungsaktionen in der jüngeren Geschichte von Rheinland-Pfalz. Ganze Landstriche werden abgeriegelt, Hubschrauber kreisen über den Wäldern der Westpfalz – während niemand weiß, wie viele Menschen eigentlich gesucht werden.",
+      "Noch am selben Tag ändert ein am Tatort liegen gelassener Ausweis alles: Die Ermittler haben plötzlich einen Namen. Doch damit beginnt erst die eigentliche Frage dieses Falls – wer von den beiden Männern im Wagen tatsächlich abgedrückt hat, und warum eine nächtliche Verkehrskontrolle zwei Menschen das Leben kosten sollte."
+    ],
+    "suspects": [
+      {
+        "id": "andreas-s",
+        "name": "Andreas S.",
+        "init": "A",
+        "role": "Wilderer aus dem Saarland",
+        "bio": "Der zum Tatzeitpunkt 38-jährige gelernte Bäcker war seit der Insolvenz seiner Bäckerei 2020 arbeitslos und finanzierte sich unter anderem durch illegalen Wildfleisch-Handel. Der Polizei war er durch eine frühere Fahrerflucht und als Waffenbesitzer bekannt; seine Waffenerlaubnis war ihm 2020 entzogen worden. Was für ihn spricht: Er schwieg zunächst vollständig zur Tat. Was gegen ihn spricht: sein Ausweis, gefunden direkt am Tatort."
+      },
+      {
+        "id": "florian-v",
+        "name": "Florian V.",
+        "init": "F",
+        "role": "Begleiter in der Tatnacht",
+        "bio": "Der 32-Jährige war arbeitslos, half Andreas S. seit Monaten gegen Bezahlung beim Verstecken und Abtransportieren erlegter Tiere und saß in der Tatnacht als Beifahrer im Wagen. Was für ihn spricht: Nach eigener Aussage flüchtete er sich in einen Straßengraben, als die Schüsse fielen, und will selbst nicht geschossen haben. Was gegen ihn spricht: Er war die ganze Zeit anwesend und rief nach der Tat die Ehefrau des Haupttäters an."
+      },
+      {
+        "id": "ehefrau",
+        "name": "Die Ehefrau des Hauptverdächtigen",
+        "init": "?",
+        "role": "Besaß legal Zugriff auf die Waffen",
+        "bio": "Sie besaß im Gegensatz zu ihrem Mann noch eine gültige Waffenbesitzkarte und bewahrte dessen Waffenarsenal – elf Langwaffen, fünf Kurzwaffen, eine Armbrust – offiziell in eigenem Namen auf. Ermittler prüften, ob sie wusste, dass sie ihm damit weiterhin Zugriff verschaffte. Was für sie spricht: Sie war in der Tatnacht nicht am Ort des Geschehens. Was gegen sie spricht: die fortgesetzte Bereitstellung der Waffen trotz entzogener Erlaubnis ihres Mannes."
+      },
+      {
+        "id": "wildhaendler",
+        "name": "Ein Wildfleisch-Abnehmer aus der Region",
+        "init": "?",
+        "role": "Geschäftspartner im illegalen Handel",
+        "bio": "Andreas S. soll zwischen September 2021 und Januar 2022 rund 40.000 Euro mit dem Verkauf von illegal erlegtem Wild verdient haben – Geld, das über mehrere Abnehmer in der Region floss. Was für ihn spricht: Käufer von Wildfleisch sind nicht automatisch in eine Gewalttat verwickelt. Was gegen ihn spricht: die finanzielle Nähe zum Haupttäter und dessen wachsende Verzweiflung."
+      },
+      {
+        "id": "unbekannter-dritter",
+        "name": "Ein bislang unbekannter Dritter",
+        "init": "?",
+        "role": "Vermuteter weiterer Beteiligter",
+        "bio": "In den ersten Stunden nach der Tat geht die Polizei laut eigener Aussage von „mehreren bewaffneten Tätern' aus – die genaue Zahl ist unklar. Was für die Theorie spricht: Die Wucht und Kaltblütigkeit der Tat lässt manche Ermittler zunächst an mehr als zwei Beteiligte denken. Was dagegen spricht: Am Ende werden nur zwei Männer festgenommen, beide geständig zur Anwesenheit."
+      },
+      {
+        "id": "landbesitzer",
+        "name": "Ein Grundstückseigentümer aus dem Kuseler Land",
+        "init": "?",
+        "role": "Hatte Andreas S. angezeigt",
+        "bio": "Mehrere Landbesitzer in der Region hatten Andreas S. in der Vergangenheit beim Wildern erwischt und angezeigt; einige berichten später von Drohungen, die er gegen sie ausstieß. Was für sie spricht: Sie handelten aus eigenem Interesse gegen Wilderei, nicht aus einem Verdacht zur Tatnacht heraus. Was gegen sie spricht (aus Ermittlersicht anfangs): ihre bekannten Konflikte mit dem späteren Haupttäter."
+      }
+    ],
+    "truth": { "taeter": ["andreas-s"], "helfer": [] },
+    "policeTrack": [
+      { "after": 1, "focus": "Zusammenhang mit der Einbruchsserie?", "note": "Die Streife ist eigentlich wegen einer Serie von Einbrüchen im Landkreis unterwegs – zunächst ist unklar, ob die Kontrolle damit zusammenhängt." },
+      { "after": 2, "focus": "Mehrere bewaffnete Täter", "note": "Eine Polizeisprecherin erklärt öffentlich: „Wir gehen von mehreren bewaffneten Tätern aus.' Die genaue Zahl der Gesuchten bleibt unklar." },
+      { "after": 4, "focus": "Andreas S.", "note": "Ein am Tatort gefundener Ausweis führt zu einer Öffentlichkeitsfahndung nach einem 38-Jährigen aus dem Saarland." },
+      { "after": 5, "focus": "Zwei Verdächtige, unklare Rollen", "note": "Beide festgenommenen Männer werden zunächst wegen Mordes verdächtigt – wer von beiden schoss, ist offen." },
+      { "after": 6, "focus": "Andreas S. allein als Schütze", "note": "Die Aussage seines Begleiters entlastet diesen vom Mordvorwurf – die Anklage konzentriert sich fortan auf Andreas S. allein." }
+    ],
+    "clues": [
+      {
+        "cat": "tatort",
+        "label": "Die Kontrollstelle",
+        "title": "4.19 Uhr auf der Kreisstraße 22",
+        "text": "In der Nacht zum 31. Januar 2022 patrouillieren drei Streifenwagen der Polizeiinspektion Kusel wegen einer Serie von Einbrüchen im Landkreis. Gegen 4.19 Uhr hält eine der Streifen auf der einsamen Kreisstraße 22 zwischen Mayweilerhof und Ulmet einen weißen Kleintransporter an, in dem zwei Männer sitzen. Die Gegend ist dünn besiedelt, Wald und Felder säumen die Straße, um diese Uhrzeit ist kein weiterer Verkehr unterwegs. Während der männliche Beamte mit den Insassen an der Fahrerseite spricht, geht die 24-jährige Beamtin um das Fahrzeug herum und öffnet die Hecktür. Was sie dort sieht, meldet sie sofort über Funk an die Leitstelle: Der gesamte Kofferraum sei voller toter Wildtiere. Es ist die letzte vollständige Nachricht, die von diesem Kontrollpunkt aus abgesetzt wird.",
+        "src": "Wikipedia – 2022 Kusel shooting",
+        "url": "https://en.wikipedia.org/wiki/2022_Kusel_shooting"
+      },
+      {
+        "cat": "digital",
+        "label": "Der abgebrochene Funkspruch",
+        "title": "„Die schießen! Kommt schnell!'",
+        "text": "Rund 45 Sekunden nach der ersten Funkmeldung über die toten Wildtiere im Laderaum fällt der erste Schuss. Kurz darauf setzt der männliche Beamte einen zweiten Funkspruch ab, der mitten im Satz abbricht: „Die schießen! Kommt schnell! Wir sind zwischen Ulmet und –' Weitere Schüsse sind im Hintergrund zu hören, dann Stille. Die Leitstelle alarmiert sofort alle verfügbaren Kräfte, kann aber selbst nicht mehr feststellen, was auf der Kreisstraße tatsächlich geschieht. Erst als um 4.32 Uhr die ersten Kollegen eintreffen, wird das volle Ausmaß der Tat sichtbar: Beide Beamten liegen leblos auf der Fahrbahn, der Kleintransporter mit den Tätern ist verschwunden. Der abgebrochene Funkspruch wird später zu einem der eindringlichsten Beweismittel des gesamten Verfahrens.",
+        "src": "Wikipedia – 2022 Kusel shooting",
+        "url": "https://en.wikipedia.org/wiki/2022_Kusel_shooting"
+      },
+      {
+        "cat": "forensik",
+        "label": "Die Rekonstruktion",
+        "title": "Erst wehrlos gemacht, dann erschossen",
+        "text": "Die spätere gerichtliche Rekonstruktion der Tatnacht zeichnet ein präzises, erschütterndes Bild: Die 24-jährige Beamtin wird durch einen Schrotschuss aus nächster Nähe kampfunfähig gemacht. Ihr Kollege liefert sich daraufhin ein Feuergefecht mit dem Fahrer, feuert dabei 15 Schüsse aus seiner Dienstwaffe ab, trifft in der Dunkelheit aber nur das Fahrzeug. Der Angreifer schießt zweimal auf ihn – mit Schrotflinte und Jagdgewehr – und gibt schließlich, als der Beamte bereits am Boden liegt, aus kurzer Distanz die tödlichen Kopfschüsse ab. Bei der anschließenden Suche nach seinen Ausweispapieren bemerkt der Täter, dass die Beamtin noch lebt, und tötet auch sie mit einem weiteren Schuss. Erst diese Rekonstruktion macht klar: Es war keine spontane Panikreaktion, sondern ein methodisches, mehrphasiges Vorgehen.",
+        "src": "Wikipedia – 2022 Kusel shooting",
+        "url": "https://en.wikipedia.org/wiki/2022_Kusel_shooting"
+      },
+      {
+        "cat": "dokument",
+        "label": "Der liegen gelassene Ausweis",
+        "title": "Der Fehler in der Dunkelheit",
+        "text": "Bei der Absuche des Tatorts finden Ermittler Führerschein und Personalausweis eines 38-jährigen Mannes aus dem saarländischen Spiesen-Elversberg – offenbar in der Hektik der Flucht verloren. Noch am selben Nachmittag gibt die Polizei eine Öffentlichkeitsfahndung nach Andreas S. heraus und bittet um Hinweise aus der Bevölkerung. Der Mann ist den Behörden kein Unbekannter: Er fiel bereits durch eine Fahrerflucht auf und besaß zeitweise eine Waffenbesitzkarte. Parallel läuft die Fahndung nach einem möglichen zweiten Täter auf Hochtouren – noch ist unklar, wie viele Personen tatsächlich am Tatort waren und welche Rolle jede von ihnen spielte. Innerhalb weniger Stunden verdichten sich die Hinweise auf einen Aufenthaltsort im benachbarten Saarland.",
+        "src": "Wikipedia – 2022 Kusel shooting",
+        "url": "https://en.wikipedia.org/wiki/2022_Kusel_shooting"
+      },
+      {
+        "cat": "zeuge",
+        "label": "Festnahme in Sulzbach/Saar",
+        "title": "Zwei Männer, kein Widerstand",
+        "text": "Noch am Abend des Tattags nehmen Beamte in einer Straße in Sulzbach/Saar sowohl den gesuchten Andreas S. als auch einen 32-jährigen Begleiter fest. Beide leisten keinen Widerstand. Bei der Durchsuchung zweier Objekte stellen die Ermittler mehrere Schusswaffen sicher, außerdem einen Pkw mit Einschusslöchern. Die Staatsanwaltschaft geht zu diesem Zeitpunkt davon aus, dass beide Festgenommenen an den tödlichen Schüssen beteiligt gewesen sein könnten – gegen beide wird zunächst wegen Mordes ermittelt. Andreas S. macht von seinem Schweigerecht Gebrauch und äußert sich zunächst nicht zur Sache. Sein Begleiter Florian V. gilt der Polizei bislang nur wegen Betrugsdelikten als bekannt und ist bereit, umfassend auszusagen.",
+        "src": "Wikipedia – 2022 Kusel shooting",
+        "url": "https://en.wikipedia.org/wiki/2022_Kusel_shooting"
+      },
+      {
+        "cat": "verhoer",
+        "label": "Die Aussage des Beifahrers",
+        "title": "„Ich habe nicht geschossen'",
+        "text": "Wochen nach der Festnahme macht Florian V. eine umfassende Aussage: Als die Polizistin nach seinem Jagdschein fragte, habe er vorgegeben, ihn im Fahrzeug zu holen – stattdessen habe Andreas S. die Schrotflinte aus dem Wagen geholt und sofort auf die Beamtin geschossen, kurz darauf auf ihren Kollegen. Er selbst habe sich in einen Straßengraben geflüchtet. Nach der Tat habe Andreas S. ihn angewiesen, seine Papiere zu suchen, sonst werde er ihn auch erschießen. Diese Aussage entlastet Florian V. vom Mordvorwurf erheblich – die Anklage wegen Mordes gegen ihn wird später fallengelassen. Vor Gericht bleibt jedoch die Frage im Raum, ob seine Version wirklich der vollen Wahrheit entspricht oder auch sein eigenes Verhalten in ein milderes Licht rückt.",
+        "src": "taz.de – Nach Polizistenmorden von Kusel",
+        "url": "https://taz.de/Nach-Polizistenmorden-von-Kusel/!5948842/"
+      },
+      {
+        "cat": "forensik",
+        "label": "Nachgeladen vor jedem Schuss",
+        "title": "Die Waffenspuren am Tatort",
+        "text": "Die kriminaltechnische Auswertung der sichergestellten Waffen und Hülsen bestätigt Florian V.s Version in zentralen Punkten: Die Schussabgaben stammen von einer Schrotflinte und einem Jagdgewehr, die beide im Fahrzeug von Andreas S. mitgeführt wurden. Die Spurenlage zeigt, dass der Schütze zwischen den einzelnen Schüssen jeweils nachlud – ein Vorgehen, das gegen eine einzige panische Kurzschlussreaktion und für ein zumindest in Teilen kontrolliertes Handeln spricht. An Florian V.s Aufenthaltsort im Straßengraben finden sich dagegen keine Spuren, die auf eine eigene Schussabgabe durch ihn hindeuten. Diese forensischen Details werden im Prozess zum entscheidenden Baustein, um die Rollen der beiden Männer in der Tatnacht klar voneinander zu trennen.",
+        "src": "Wikipedia – 2022 Kusel shooting",
+        "url": "https://en.wikipedia.org/wiki/2022_Kusel_shooting"
+      },
+      {
+        "cat": "motiv",
+        "label": "2,4 Millionen Euro Schulden",
+        "title": "Der Preis der Wilderei",
+        "text": "Nach der Insolvenz seiner Bäckerei 2020 ist Andreas S. hoch verschuldet – rund 2,4 Millionen Euro, wie die Ermittlungen später ergeben. Seit 2021 bezieht er Arbeitslosenunterstützung, die er durch systematischen, gewerbsmäßigen Wildfleisch-Handel aufbessert: Zwischen September 2021 und Januar 2022 soll er auf diese Weise rund 40.000 Euro verdient haben, durch das illegale Erlegen hunderter Tiere auf fremdem Grund. Mehrere Landbesitzer hatten ihn deswegen bereits angezeigt, manche berichten von Drohungen. Die Staatsanwaltschaft geht davon aus, dass genau diese Verzweiflung über die drohende Aufdeckung seiner Wilderei-Geschäfte das Motiv für die tödlichen Schüsse war: Eine Kontrolle mit Blick in den beladenen Kofferraum hätte seine Existenzgrundlage endgültig zerstört.",
+        "quote": "Die Tat habe „Hinrichtungscharakter' gehabt.",
+        "src": "beck-aktuell – Urteil gegen zweifachen Polizistenmörder rechtskräftig",
+        "url": "https://www.beck-aktuell.de/heute-im-recht/rechtsprechung/bgh-urteil-gegen-zweifachen-polizistenmoerder-von-kusel-ist-rechtskraeftig-2023-07-21"
+      },
+      {
+        "cat": "prozess",
+        "label": "Das psychiatrische Gutachten",
+        "title": "„Züge, wie man sie bei Psychopathen findet'",
+        "text": "Im Prozess vor dem Landgericht Kaiserslautern stellt ein psychiatrischer Sachverständiger sein Gutachten zu Andreas S. vor: Er attestiert ihm bestimmte Persönlichkeitszüge, wie man sie mitunter bei Psychopathen finde – darunter kalte Gleichgültigkeit und ein deutlich überhöhtes Selbstvertrauen in die eigenen Fähigkeiten. Zur Sprache kommt im Verfahren auch die Rolle seiner Ehefrau: Sie besaß im Gegensatz zu ihm eine gültige Waffenbesitzkarte und bewahrte sein umfangreiches Waffenarsenal – elf Langwaffen, fünf Kurzwaffen, eine Armbrust, teils mit Namensgravur – offiziell in ihrem Namen auf, nachdem ihm die eigene Erlaubnis entzogen worden war. Gegen sie wird zwar ermittelt, eine Anklage wegen Beteiligung an der Tat selbst erhebt die Staatsanwaltschaft jedoch nicht.",
+        "src": "Wikipedia – 2022 Kusel shooting",
+        "url": "https://en.wikipedia.org/wiki/2022_Kusel_shooting"
+      },
+      {
+        "cat": "prozess",
+        "label": "Das Urteil",
+        "title": "Lebenslang, rechtskräftig",
+        "text": "Am 30. November 2022 verurteilt das Landgericht Kaiserslautern Andreas S. wegen Mordes in zwei Fällen zu lebenslanger Gesamtfreiheitsstrafe und stellt die besondere Schwere der Schuld fest – eine Entlassung nach 15 Jahren ist damit ausgeschlossen. Florian V. wird lediglich der Mittäterschaft bei der gewerbsmäßigen Jagdwilderei schuldig gesprochen; von einer Strafe sieht das Gericht ab, weil seine frühe und umfassende Aussage als „erhebliche strafmildernde und wesentliche Aufklärungshilfe' gewertet wird. Andreas S. legt gegen das Urteil Revision ein. Der Bundesgerichtshof prüft den Fall und findet keinen Rechtsfehler zulasten des Angeklagten – am 21. Juli 2023 wird die Revision verworfen. Das Urteil ist damit endgültig rechtskräftig.",
+        "quote": "erhebliche strafmildernde und wesentliche Aufklärungshilfe",
+        "src": "taz.de – Nach Polizistenmorden von Kusel",
+        "url": "https://taz.de/Nach-Polizistenmorden-von-Kusel/!5948842/"
+      }
+    ],
+    "docs": [
+      {
+        "type": "polizeibericht",
+        "title": "Funkmeldung der Einsatzzentrale",
+        "authority": "Polizeipräsidium Westpfalz — Führungs- und Lagezentrum",
+        "ref": "FEZ-Vorgang ████/22",
+        "date": "31.01.2022, 04:32 Uhr",
+        "fields": [["Einsatzort", "Kreisstraße 22, zw. Mayweilerhof u. Ulmet"], ["Meldung", "Zwei Polizeibeamte nach Schusswaffengebrauch nicht ansprechbar"], ["Einsatzleiter", "███████"]],
+        "body": [
+          "04:19 Uhr: Streife meldet Kontrolle eines Kleintransporters, zwei Insassen, K 22 zwischen Mayweilerhof und Ulmet.",
+          "04:20 Uhr: Funkkontakt abgebrochen. Letzte übermittelte Wortmeldung deutet auf Waffengebrauch hin.",
+          "04:32 Uhr: Eintreffen der ersten Verstärkungskräfte. Beide eingesetzten Beamten werden leblos aufgefunden. Großfahndung eingeleitet."
+        ],
+        "stamp": "EILT SEHR — SOFORTFAHNDUNG",
+        "afterClue": 1
+      },
+      {
+        "type": "obduktion",
+        "title": "Rechtsmedizinisches Gutachten (Auszug)",
+        "authority": "Institut für Rechtsmedizin",
+        "ref": "Gz. ████-22",
+        "date": "Februar 2022",
+        "fields": [["Betroffene", "2 Leichname, männl. 29 J. / weibl. 24 J."], ["Todesursache", "Schussverletzungen Kopf, mehrfach"], ["Gutachter", "Prof. Dr. ███████"]],
+        "body": [
+          "Bei beiden Verstorbenen finden sich jeweils mehrere Schussverletzungen im Kopfbereich, davon mindestens je eine aus unmittelbarer Nähe.",
+          "Der rekonstruierte Ablauf spricht dafür, dass beide Beamten zunächst durch Schüsse kampfunfähig gemacht wurden, bevor die tödlichen Schüsse aus kurzer Distanz erfolgten.",
+          "Eine der beiden Personen wies Verletzungsmuster auf, die auf einen zeitlichen Abstand zwischen erster Verwundung und finalem Schuss hindeuten."
+        ],
+        "afterClue": 3
+      },
+      {
+        "type": "vernehmung",
+        "title": "Vernehmungsprotokoll Florian V. (Auszug)",
+        "authority": "Kriminalpolizeiinspektion Kaiserslautern",
+        "ref": "Vernehmung Beschuldigter, Bl. ███ d.A.",
+        "date": "Februar 2022",
+        "fields": [["Vernommener", "Florian V., 32 Jahre"], ["Vernehmungsbeamte", "KHK ███████, KOK ███████"], ["Belehrung", "erfolgt"]],
+        "body": [
+          "Der Beschuldigte schildert den Ablauf der Kontrolle aus seiner Sicht. Er habe auf Aufforderung vorgegeben, seinen Jagdschein aus dem Fahrzeug zu holen.",
+          "Zur eigentlichen Schussabgabe erklärt er, sich in einen angrenzenden Graben begeben zu haben, sobald die Schüsse gefallen seien. Er bestreitet, selbst geschossen zu haben.",
+          "Im weiteren Verlauf der Vernehmung räumt er die gemeinsame gewerbsmäßige Jagdwilderei umfassend ein."
+        ],
+        "afterClue": 6
+      },
+      {
+        "type": "gerichtsprotokoll",
+        "title": "Urteilsauszug Landgericht Kaiserslautern",
+        "authority": "Landgericht Kaiserslautern — 4. Große Strafkammer",
+        "ref": "Az. 4 Ks 6035 Js 2146/22",
+        "date": "30.11.2022",
+        "fields": [["Angeklagter", "Andreas S., 39 Jahre"], ["Schuldspruch", "Mord in zwei Fällen"], ["Strafmaß", "Lebenslange Gesamtfreiheitsstrafe, besondere Schwere der Schuld"]],
+        "body": [
+          "Der Angeklagte S. wird des Mordes in zwei Fällen schuldig gesprochen. Die besondere Schwere der Schuld wird festgestellt.",
+          "Der Mitangeklagte V. wird der Mittäterschaft bei der gewerbsmäßigen Jagdwilderei schuldig gesprochen; von Strafe wird abgesehen.",
+          "Das Urteil ist nach Verwerfung der Revision durch den Bundesgerichtshof rechtskräftig."
+        ],
+        "stamp": "RECHTSKRÄFTIG",
+        "afterClue": 10
+      }
+    ],
+    "pdfs": [
+      { "t": "BGH-Beschluss 4 StR 117/23 vom 18.07.2023 (Volltext)", "u": "https://www.bundesgerichtshof.de/SharedDocs/Entscheidungen/DE/Strafsenate/4_StS/2023/4_StR_117-23.pdf?__blob=publicationFile&v=1" }
+    ],
+    "links": [
+      { "t": "2022 Kusel shooting (Wikipedia, englisch, sehr detailliert)", "u": "https://en.wikipedia.org/wiki/2022_Kusel_shooting", "kind": "artikel" },
+      { "t": "Nach Polizistenmorden von Kusel: Hafturteil ist rechtskräftig", "u": "https://taz.de/Nach-Polizistenmorden-von-Kusel/!5948842/", "kind": "artikel" },
+      { "t": "Urteil gegen zweifachen Polizistenmörder von Kusel ist rechtskräftig", "u": "https://www.beck-aktuell.de/heute-im-recht/rechtsprechung/bgh-urteil-gegen-zweifachen-polizistenmoerder-von-kusel-ist-rechtskraeftig-2023-07-21", "kind": "artikel" },
+      { "t": "BGH-Pressemitteilung Nr. 122/2023", "u": "https://www.bundesgerichtshof.de/SharedDocs/Pressemitteilungen/DE/2023/2023122.html", "kind": "urteil" }
+    ],
+    "solution": {
+      "who": "Andreas S. (39)",
+      "text": "Noch am Tag der Tat liefert ein am Tatort verlorener Ausweis den entscheidenden Hinweis: Er führt zu Andreas S., einem 38-jährigen ehemaligen Bäcker aus dem saarländischen Spiesen-Elversberg, der nach der Insolvenz seiner Bäckerei mit illegalem Wildfleisch-Handel Geld verdiente. Noch am selben Abend werden er und sein 32-jähriger Begleiter Florian V. in Sulzbach/Saar festgenommen. Zunächst ermittelt die Staatsanwaltschaft gegen beide wegen Mordes, da unklar bleibt, wer tatsächlich geschossen hat. Erst eine spätere, umfassende Aussage von Florian V. bringt Klarheit: Danach holte Andreas S. während der Kontrolle eine Schrotflinte aus dem Fahrzeug, schoss zunächst auf die Polizeianwärterin und dann auf ihren Kollegen, der noch das Feuer erwiderte, bevor er aus nächster Nähe erschossen wurde. Als sich zeigte, dass die schwer verletzte Beamtin noch lebte, tötete Andreas S. sie mit einem weiteren Schuss. Motiv war laut Gericht die Angst, wegen jahrelanger gewerbsmäßiger Jagdwilderei aufzufliegen. Am 30. November 2022 verurteilt das Landgericht Kaiserslautern Andreas S. wegen Mordes in zwei Fällen zu lebenslanger Haft und stellt die besondere Schwere der Schuld fest. Florian V. wird lediglich der Mittäterschaft bei der gewerbsmäßigen Wilderei schuldig gesprochen, aufgrund seiner frühen und umfassenden Aussage aber ohne Strafe belassen. Der Bundesgerichtshof verwirft im Juli 2023 die Revision – das Urteil gegen Andreas S. ist seither rechtskräftig.",
+      "quote": "Die Tat habe „Hinrichtungscharakter' gehabt.",
+      "verdict": "Landgericht Kaiserslautern, 30. November 2022 – lebenslange Gesamtfreiheitsstrafe, besondere Schwere der Schuld; BGH bestätigt am 18. Juli 2023",
+      "status": "rechtskräftig seit 21. Juli 2023"
+    }
+  },
+  {
+    "id": "de-loesche-2018",
+    "land": "Deutschland",
+    "famous": false,
+    "title": "Die letzte Mitfahrgelegenheit",
+    "subtitle": "Der Mord an einer Anhalterin auf der Autobahn",
+    "file": "Landgericht Bayreuth · Urteil v. 18.09.2019",
+    "place": "Rastplatz Schkeuditz b. Leipzig / Oberfranken",
+    "date": "14. Juni 2018",
+    "year": 2018,
+    "court": "Landgericht Bayreuth",
+    "difficulty": 3,
+    "duration": "mittel",
+    "perpCount": 1,
+    "teaser": "Eine Studentin will per Anhalter zum Geburtstag ihres Vaters. Sie steigt in einen Lkw – und beginnt eine Fahrt, die erst 1600 Kilometer weiter, in Nordspanien, endet.",
+    "tags": ["Leipzig", "Juni 2018", "Fernverkehr", "Anhalterin"],
+    "victim": {
+      "name": "Sophia Lösche (28)",
+      "dossier": "Sophia Lösche wuchs als Tochter eines evangelischen Pfarrers im oberfränkischen Pommelsbrunn auf und zog später mit der Familie zurück nach Amberg. Schon als Schülerin engagierte sie sich gegen Rechtsextremismus, unter anderem als Schülersprecherin für das Programm „Schule ohne Rassismus'. Nach dem Abitur studierte sie zunächst Germanistik in Bamberg, wo sie sich jahrelang in der Studierendenvertretung engagierte und 2014 für die SPD in den Stadtrat kandidierte. Ab 2016 reiste sie mehrfach nach Lesbos, um dort mit einer Hilfsgruppe geflüchtete Menschen zu unterstützen. Zuletzt lebte sie in Leipzig, wo sie ihren Master in Germanistik fortsetzte. Freunde und Familie beschrieben sie als politisch engagiert, hilfsbereit und unerschrocken – jemanden, die sich konsequent gegen Ausgrenzung und für Menschlichkeit einsetzte. Das Trampen war für Sophia Lösche nichts Ungewöhnliches: Sie war eine erfahrene und umsichtige Anhalterin, die den Weg zwischen Leipzig und ihrer Heimat Amberg schon häufig auf diese Weise zurückgelegt hatte, meist ohne Zwischenfälle. Am 14. Juni 2018 wollte sie auf diesem vertrauten Weg zum Geburtstag ihres Vaters reisen.",
+      "lastDay": "Am Morgen des 14. Juni 2018 fährt Sophia Lösche mit der S-Bahn von Leipzig zur Autobahnraststätte Schkeuditz, um von dort per Anhalter Richtung Amberg zu trampen. Gegen 17.55 Uhr spricht sie ein Lkw-Fahrer an, der sie zuvor aus seinem Führerhaus beobachtet hatte. Nach kurzem Gespräch steigt sie ein, der Lastwagen fährt um 18.16 Uhr los. Gegen 19.44 Uhr schreibt sie einer Freundin und einem Freund über einen Messenger, sie tramp gerade „mit Bob, einem marokkanischen Trucker' – gefolgt von vier schockierten Smileys. Wenig später legt der Lkw einen kurzen Stopp an einem Autohof ein, beide trinken Kaffee. Um 19.47 Uhr ist ihr Handy zum letzten Mal aktiv. Danach bleibt es aus. Ihre Familie erstattet am Folgetag Vermisstenanzeige – doch die Ermittler reagieren zunächst zögerlich."
+    },
+    "intro": [
+      "Am 14. Juni 2018 will die 28-jährige Studentin Sophia Lösche von Leipzig zum Geburtstag ihres Vaters nach Amberg trampen. Sie steigt an einer Autobahnraststätte bei Schkeuditz in den Lkw eines Fernfahrers. Danach verliert sich ihre Spur – bis ihre Leiche eine Woche später mehr als 1600 Kilometer entfernt in Nordspanien gefunden wird.",
+      "Die Polizei behandelt den Fall zunächst tagelang nur als gewöhnliche Vermisstenmeldung, ein Video von der Raststätte wird erst mit Verzögerung ausgewertet. Es ist am Ende die eigene Familie, die auf eigene Faust zu ermitteln beginnt: Sie wertet Kontaktdaten aus, telefoniert mit der Spedition und ermittelt den Namen des Fahrers – schneller, als es die zuständigen Behörden schaffen.",
+      "Als der Fahrer schließlich in Südspanien festgenommen wird, beginnt erst die eigentliche Aufklärungsarbeit: Wann genau starb Sophia Lösche – noch am ersten Rastplatz in Oberfranken, oder erst Tage später in Frankreich? Und war ein Sexualdelikt im Spiel, wie die Anklage zunächst vermutet? Die Antworten liegen tief in GPS-Daten, Videoaufnahmen und widersprüchlichen Gutachten verborgen."
+    ],
+    "suspects": [
+      {
+        "id": "boujemaa-l",
+        "name": "Boujemaa L.",
+        "init": "B",
+        "role": "Marokkanischer Fernfahrer",
+        "bio": "Der 41-jährige Lkw-Fahrer nahm Sophia Lösche an der Raststätte Schkeuditz mit – auf dem Weg zu einer Ladestelle im mittelfränkischen Lauf, von wo aus er weiter über Frankreich und Spanien nach Marokko fahren sollte. Was für ihn spricht: Er bestreitet vor Gericht den Vorwurf des Mordes und spricht stattdessen von einer „Auseinandersetzung'. Was gegen ihn spricht: Er war die letzte Person, mit der Sophia Lösche gesehen wurde – und ihre Leiche fand sich später entlang seiner Fahrtroute."
+      },
+      {
+        "id": "anderer-trucker",
+        "name": "Ein weiterer Lkw-Fahrer von der Raststätte Schkeuditz",
+        "init": "?",
+        "role": "War zur gleichen Zeit vor Ort",
+        "bio": "Die Überwachungskamera der Tankstelle zeigt mehrere Lastwagen, die zur fraglichen Zeit auf dem Rastplatz standen. Was für ihn spricht: Er taucht nicht auf dem entscheidenden Video auf, das Sophias Einstieg zeigt. Was gegen ihn spricht: In der Anfangsphase der Ermittlungen ist zunächst völlig unklar, welcher der zahlreichen Fahrer am Rastplatz überhaupt relevant ist."
+      },
+      {
+        "id": "der-freund",
+        "name": "Der Freund, dem sie zuletzt schrieb",
+        "init": "?",
+        "role": "Letzter digitaler Kontakt",
+        "bio": "Er erhielt um 19.44 Uhr Sophias letzte Nachricht und wird in den ersten Tagen zur Aufklärung ihrer letzten Stunden befragt. Was für ihn spricht: Die Nachricht selbst beschreibt eindeutig eine andere Person – den Trucker – als Sophias Begleitung. Was gegen ihn spricht: nichts Konkretes; er gehört lediglich zum engeren digitalen Umfeld, das die Ermittler routinemäßig prüfen."
+      },
+      {
+        "id": "kollege-spanien",
+        "name": "Der Kollege in Spanien, der die Zugmaschine tauschen sollte",
+        "init": "?",
+        "role": "Letzter geplanter Kontakt der Fahrt",
+        "bio": "Boujemaa L. war unterwegs zu einem Treffen mit einem Kollegen nahe Carboneros in Südspanien, um dort die Zugmaschine zu wechseln. Was für ihn spricht: Das Treffen fand nie statt, da Boujemaa L. vorher festgenommen wurde. Was gegen ihn spricht: Er kannte die geplante Route und den Zeitplan der Fahrt genau."
+      },
+      {
+        "id": "spediteur",
+        "name": "Ein Verantwortlicher der Spedition",
+        "init": "?",
+        "role": "Kannte Route und Ladeplan",
+        "bio": "Die Spedition, für die Boujemaa L. fuhr, hatte ihm den Auftrag erteilt, Maschinenzubehör quer durch Europa nach Marokko zu transportieren. Was für sie spricht: Es gibt keinerlei Hinweis auf eine Beteiligung an der Tat selbst. Was gegen sie spricht: Mitarbeitende der Spedition kannten als Erste die vollständige Route – ein wichtiger Faktor für die Frage, wo genau die Tat geschah."
+      }
+    ],
+    "truth": { "taeter": ["boujemaa-l"], "helfer": [] },
+    "policeTrack": [
+      { "after": 1, "focus": "Vermisstenfall, kein Verdacht auf Verbrechen", "note": "Die Polizei behandelt den Fall zunächst nur als Vermisstenanzeige – trotz der Bitte der Familie, das Video der Raststätte zu prüfen, geschieht tagelang nichts." },
+      { "after": 3, "focus": "Unklare Zuständigkeit", "note": "Bayern und Sachsen benötigen vier Tage, um zu klären, welche Behörde für die Ermittlungen zuständig ist." },
+      { "after": 4, "focus": "Die Familie ermittelt selbst", "note": "Da die Polizei nicht reagiert, wertet die Familie eigenständig Kontaktdaten und Speditionsangaben aus." },
+      { "after": 6, "focus": "Sexualdelikt als Motiv?", "note": "Die Staatsanwaltschaft vermutet zunächst die Verdeckung einer Sexualstraftat als Mordmerkmal – die Rechtsmedizin findet dafür jedoch keine Belege." },
+      { "after": 8, "focus": "Boujemaa L. im Fokus", "note": "Nach der Festnahme in Südspanien und der Auslieferung steht der Fernfahrer im Zentrum der Ermittlungen – doch der genaue Tatort bleibt zwischen Deutschland und Frankreich umstritten." }
+    ],
+    "clues": [
+      {
+        "cat": "tatort",
+        "label": "Die Raststätte Schkeuditz",
+        "title": "Zustieg um 18.16 Uhr",
+        "text": "Ein Überwachungsvideo der Tankstelle an der Autobahnraststätte Schkeuditz bei Leipzig zeigt die Szene, die später zur Schlüsselsequenz des gesamten Falls wird: Gegen 17.55 Uhr spricht ein Lkw-Fahrer Sophia Lösche an, nachdem er sie zuvor aus seinem Führerhaus beobachtet hatte. Er geht zunächst in die Tankstelle, kommt wenige Minuten später erneut auf sie zu. Nach einem kurzen Gespräch steigt sie in seinen Lkw, der um 18.16 Uhr losfährt. Zu diesem Zeitpunkt gibt es keinerlei Anzeichen für eine Gefahr – Sophia Lösche ist eine erfahrene Anhalterin, der Vorgang wirkt auf dem Video wie unzählige andere Mitnahmen zuvor. Erst später wird auffallen, dass der Fahrer bereits am Vortag Fotos fremder Frauen an derselben Raststätte gemacht hatte.",
+        "src": "onetz.de – Sophia Lösche: Anklage lautet auf Mord",
+        "url": "https://www.onetz.de/deutschland-welt/amberg/sophia-loesche-anklage-lautet-mord-id2640367.html"
+      },
+      {
+        "cat": "digital",
+        "label": "Die letzte Nachricht",
+        "title": "Vier schockierte Smileys",
+        "text": "Um 19.44 Uhr schreibt Sophia Lösche über einen Messenger-Dienst an eine Freundin und einen Freund, sie tramp gerade „mit Bob, einem marokkanischen Trucker, von Leipzig nach Nürnberg' – gefolgt von vier Smileys mit geschockten Gesichtern. Der Ton wirkt eher ironisch-erstaunt als ängstlich, ein typischer Nachrichtenaustausch unter Freunden während einer Anhalterfahrt. Wenig später, um 19.47 Uhr, hält der Lkw an einem Autohof, wo beide gemeinsam einen Kaffee trinken. Kurz danach geht ihr Handy zum letzten Mal online – dann bleibt es aus. Für die Ermittler wird diese Nachricht später zum wichtigsten digitalen Fixpunkt: Sie beweist zweifelsfrei, mit wem und auf welcher Strecke sich Sophia Lösche zu diesem Zeitpunkt befand.",
+        "quote": "gerade mit Bob, einem marokkanischen Trucker, von Leipzig nach Nürnberg",
+        "src": "Wikipedia – Sophia Lösche",
+        "url": "https://de.wikipedia.org/wiki/Sophia_L%C3%B6sche"
+      },
+      {
+        "cat": "dokument",
+        "label": "Die GPS-Spur",
+        "title": "Zwei Stunden Stillstand",
+        "text": "Die spätere Auswertung der GPS-Daten des Lkw fördert eine auffällige Unregelmäßigkeit zutage: Gegen 21.03 Uhr hält der Lastwagen am Rastplatz Sperbes in Oberfranken – für über zwei Stunden. Der eigentliche Zielort, eine Logistikfirma im mittelfränkischen Lauf, liegt zu diesem Zeitpunkt nur noch wenige Kilometer entfernt. Ein derart langer, unerklärter Stopp so kurz vor dem Fahrtziel passt nicht zu einer regulären Lieferfahrt und lässt sich durch keinen der üblichen Gründe – Pause, Stau, Ladevorgang – erklären. Für die Ermittler wird dieser Rastplatz zu einem der zentralen Verdachtsorte des gesamten Verfahrens: Möglicherweise geschah hier die entscheidende Tat, mitten in der Nacht, fernab jeder Beobachtung.",
+        "src": "onetz.de – Sophia Lösche: Anklage lautet auf Mord",
+        "url": "https://www.onetz.de/deutschland-welt/amberg/sophia-loesche-anklage-lautet-mord-id2640367.html"
+      },
+      {
+        "cat": "zeuge",
+        "label": "Die Überwachungskamera in Lauf",
+        "title": "Weiße Hose, keine sichtbaren Flecken",
+        "text": "Gegen 0.30 Uhr erreicht der Lkw schließlich sein eigentliches Ziel, eine Logistikfirma in Lauf an der Pegnitz, und wird dort planmäßig beladen. Die Überwachungskamera des Firmengeländes zeichnet die Ankunft auf: Der Fahrer trägt eine weiße Hose – dieselbe, die er schon beim Zustieg von Sophia Lösche trug. Sichtbare Blutflecken sind darauf nicht zu erkennen, obwohl der Fahrer später selbst von einer blutigen Auseinandersetzung berichten wird. Am folgenden Morgen entsteht zudem ein Foto von ihm vor seinem Lkw auf demselben Gelände – der Vorhang der Fahrerkabine ist dabei nicht zugezogen, obwohl sich darin nach seiner eigenen späteren Aussage wenige Stunden zuvor ein blutiges Geschehen abgespielt haben soll.",
+        "src": "Wikipedia – Sophia Lösche",
+        "url": "https://de.wikipedia.org/wiki/Sophia_L%C3%B6sche"
+      },
+      {
+        "cat": "forensik",
+        "label": "Das spanische Gutachten",
+        "title": "Todeszeitpunkt: 16. oder 17. Juni?",
+        "text": "Eine Woche nach dem Verschwinden wird Sophia Lösches Leiche in Nordspanien gefunden und dort zunächst von spanischen Rechtsmedizinerinnen untersucht. Ihr Gutachten datiert den Todeszeitpunkt auf den 16. oder 17. Juni – also mehrere Tage nach dem Zustieg in den Lkw am 14. Juni. Das würde bedeuten, dass Sophia Lösche den ersten Angriff überlebt haben könnte und erst Tage später, möglicherweise während eines langen Zwischenstopps in Frankreich, endgültig zu Tode kam. Für die Ermittler eröffnet dieser Befund eine erschütternde Möglichkeit: dass entscheidende Zeit verstrich, in der ein Eingreifen theoretisch noch möglich gewesen wäre – wäre der Fall von Beginn an als Verbrechen und nicht nur als Vermisstenfall behandelt worden.",
+        "src": "Wikipedia – Sophia Lösche",
+        "url": "https://de.wikipedia.org/wiki/Sophia_L%C3%B6sche"
+      },
+      {
+        "cat": "forensik",
+        "label": "Das deutsche Gegengutachten",
+        "title": "Widerspruch aus Erlangen",
+        "text": "Rund zwei Monate nach dem spanischen Erstbefund legt ein deutscher Gerichtsmediziner ein zweites Gutachten vor – mit einem abweichenden Ergebnis. Er datiert den Todeszeitpunkt bereits auf den 14. Juni, den Tag des Zustiegs, und geht zudem davon aus, dass die am Leichnam gefundenen Fesselungsspuren erst nach dem Todeseintritt entstanden. Die beiden Gutachten widersprechen sich damit fundamental in der Frage, ob Sophia Lösche noch tagelang lebte oder bereits in der ersten Nacht starb. Vor Gericht wird diese Diskrepanz zu einem zentralen Streitpunkt: Welchem Gutachten folgt die Kammer – und was bedeutet das für die rechtliche Bewertung der Tat als einheitliches oder mehrstufiges Geschehen?",
+        "src": "Wikipedia – Sophia Lösche",
+        "url": "https://de.wikipedia.org/wiki/Sophia_L%C3%B6sche"
+      },
+      {
+        "cat": "tatort",
+        "label": "Der Fundort in Nordspanien",
+        "title": "1600 Kilometer, dann Feuer",
+        "text": "Nach eigenen späteren Angaben transportiert der Fahrer die Leiche über mehr als 1600 Kilometer quer durch Europa, bevor er sie am frühen Morgen des 18. Juni nahe einer Tankstelle bei Asparrena in Nordspanien ablegt. Er fährt zunächst weiter, kehrt dann aber offenbar noch einmal zurück, übergießt die Leiche mit Benzin und setzt sie in Brand, um Spuren zu vernichten. Erst am 21. Juni finden Mitarbeitende der nahegelegenen Tankstelle die sterblichen Überreste. Die schiere Distanz zwischen Tatverdacht in Deutschland und Fundort in Spanien erschwert die Ermittlungen erheblich – deutsche und spanische Behörden müssen ihre Arbeit über Ländergrenzen hinweg koordinieren, während der mutmaßliche Täter längst auf dem Weg in Richtung Marokko ist.",
+        "src": "onetz.de – Sophia Lösche: Anklage lautet auf Mord",
+        "url": "https://www.onetz.de/deutschland-welt/amberg/sophia-loesche-anklage-lautet-mord-id2640367.html"
+      },
+      {
+        "cat": "zeuge",
+        "label": "Die Ermittlungen der Familie",
+        "title": "Schneller als die Polizei",
+        "text": "Weil die Polizei zunächst zögerlich reagiert, beginnt Sophia Lösches Familie eine eigene, digitale Suchaktion. Am vierten Tag nach dem Verschwinden gelingt es dem Bruder, über Speditionskontakte den Namen des Lkw-Fahrers zu ermitteln und ihn sogar telefonisch in Spanien zu erreichen – er behauptet, sie planmäßig an einer Autobahnausfahrt aussteigen lassen zu haben. Die Familie leitet ihre Erkenntnisse an die Behörden weiter, eine Interpol-Fahndung läuft an. Am 19. Juni wird der Fahrer nahe Carboneros in Südandalusien festgenommen – nur noch rund drei Autostunden von der Straße von Gibraltar entfernt, wo er mit der Fähre nach Marokko übersetzen wollte. Ohne die private Suchaktion der Familie, so viele Beobachter später, hätte er es möglicherweise geschafft.",
+        "src": "onetz.de – Sophia Lösche: Anklage lautet auf Mord",
+        "url": "https://www.onetz.de/deutschland-welt/amberg/sophia-loesche-anklage-lautet-mord-id2640367.html"
+      },
+      {
+        "cat": "verhoer",
+        "label": "Die Aussage des Angeklagten",
+        "title": "Der Radmutternschlüssel",
+        "text": "Im August 2019 im Auslieferungsgewahrsam befragt und später vor dem Landgericht Bayreuth aussagend, schildert Boujemaa L. eine „Auseinandersetzung': Sophia Lösche habe seinen sexuellen Annäherungsversuch am Rastplatz Sperbes klar zurückgewiesen, daraufhin habe er sie mit einem rund 40 Zentimeter langen Radmutternschlüssel mehrfach auf den Kopf geschlagen. Diesen ersten Angriff hätte sie nach medizinischer Einschätzung überlebt. Nach eigener Aussage habe er den Lkw verlassen, um zu überlegen, was zu tun sei, und sei nach 10 bis 20 Minuten zurückgekehrt, um erneut zuzuschlagen. Ein Sexualdelikt selbst – ursprünglich von der Anklage als Mordmerkmal vermutet – lässt sich vor Gericht letztlich nicht nachweisen.",
+        "src": "Wikipedia – Sophia Lösche",
+        "url": "https://de.wikipedia.org/wiki/Sophia_L%C3%B6sche"
+      },
+      {
+        "cat": "prozess",
+        "label": "Das Urteil",
+        "title": "Lebenslang wegen Mordes",
+        "text": "Am 18. September 2019 verurteilt das Landgericht Bayreuth Boujemaa L. wegen Mordes in Tatmehrheit mit gefährlicher Körperverletzung zu lebenslanger Freiheitsstrafe. Das Gericht sieht das Mordmerkmal der Verdeckungsabsicht als erwiesen an: Die eigentliche Tötung habe dazu gedient, die vorangegangene schwere Körperverletzung zu vertuschen und zu verhindern, dass Sophia Lösche ihn anzeigt. In der Beweiswürdigung folgt die Kammer im Wesentlichen der Einlassung des Angeklagten und dem deutschen Rechtsmedizin-Gutachten, nicht der abweichenden spanischen Erstbegutachtung. Die Familie kritisiert nach dem Urteil weiterhin die aus ihrer Sicht zu späte Reaktion der Polizei in den ersten Tagen nach dem Verschwinden.",
+        "src": "Wikipedia – Sophia Lösche",
+        "url": "https://de.wikipedia.org/wiki/Sophia_L%C3%B6sche"
+      }
+    ],
+    "docs": [
+      {
+        "type": "polizeibericht",
+        "title": "Vermisstenanzeige",
+        "authority": "Polizeiinspektion Amberg",
+        "ref": "Vorgang ████/18",
+        "date": "15.06.2018",
+        "fields": [["Vermisste Person", "Sophia L., 28 Jahre, Studentin"], ["Letzter bekannter Aufenthalt", "Raststätte Schkeuditz b. Leipzig"], ["Sachbearbeiter", "POK ███████"]],
+        "body": [
+          "Die Erziehungsberechtigten zeigen das Verschwinden ihrer volljährigen Tochter an. Letzter bekannter Aufenthaltsort: Autobahnraststätte Schkeuditz.",
+          "Die Vermisste sei erfahrene Anhalterin und melde sich zuverlässig; das Ausbleiben jeglichen Kontakts sei untypisch.",
+          "Zuständigkeitsprüfung zwischen den Polizeibehörden Sachsen und Bayern eingeleitet."
+        ],
+        "afterClue": 1
+      },
+      {
+        "type": "obduktion",
+        "title": "Rechtsmedizinisches Gutachten (Streitpunkt Todeszeitpunkt)",
+        "authority": "Rechtsmedizin Erlangen",
+        "ref": "Gz. ████/18",
+        "date": "August 2019",
+        "fields": [["Auftraggeber", "Staatsanwaltschaft Bayreuth"], ["Art", "Zweitbegutachtung nach spanischem Erstbefund"], ["Gutachter", "Dr. ███████"]],
+        "body": [
+          "Die kriminaltechnische Zweitbegutachtung erfolgt nach Vorliegen des spanischen Erstbefundes mit abweichendem Ergebnis zum Todeszeitpunkt.",
+          "Die hiesige Begutachtung stützt sich auf Verwesungsgrad, Fesselungsspuren und die zeitliche Einordnung der sichergestellten Gegenstände.",
+          "Eine zweifelsfreie Übereinstimmung beider Gutachten war nicht herzustellen; die Kammer würdigt beide Befunde im Rahmen der Hauptverhandlung."
+        ],
+        "afterClue": 6
+      },
+      {
+        "type": "vernehmung",
+        "title": "Beschuldigtenvernehmung Boujemaa L. (Auszug)",
+        "authority": "Kriminalpolizei Bayreuth",
+        "ref": "Vernehmung, Bl. ███ d.A.",
+        "date": "2018/2019",
+        "fields": [["Beschuldigter", "Boujemaa L., 41 Jahre"], ["Sprache", "per Dolmetscher"], ["Verteidigung", "anwesend"]],
+        "body": [
+          "Der Beschuldigte schildert eine tätliche Auseinandersetzung, in deren Verlauf er die Geschädigte mit einem Werkzeug aus dem Führerhaus schlug.",
+          "Ein Sexualdelikt bestreitet er. Zur Frage des genauen Tatorts und -zeitpunkts macht er wechselnde Angaben.",
+          "Die weitere Fahrt nach Spanien und die Ablage der Leiche räumt er im Wesentlichen ein."
+        ],
+        "afterClue": 9
+      },
+      {
+        "type": "gerichtsprotokoll",
+        "title": "Urteilsauszug Landgericht Bayreuth",
+        "authority": "Landgericht Bayreuth — Schwurgericht",
+        "ref": "Urteil v. 18.09.2019",
+        "date": "18.09.2019",
+        "fields": [["Angeklagter", "Boujemaa L., 41 Jahre"], ["Schuldspruch", "Mord in Tatmehrheit mit gefährlicher Körperverletzung"], ["Strafmaß", "Lebenslange Freiheitsstrafe"]],
+        "body": [
+          "Der Angeklagte L. wird wegen Mordes in Tatmehrheit mit gefährlicher Körperverletzung schuldig gesprochen.",
+          "Das Gericht sieht das Mordmerkmal der Verdeckungsabsicht als erwiesen an: Die Tötung diente der Verdeckung der vorangegangenen Körperverletzung.",
+          "Verhängt wird eine lebenslange Freiheitsstrafe."
+        ],
+        "stamp": "RECHTSKRÄFTIG",
+        "afterClue": 10
+      }
+    ],
+    "pdfs": [],
+    "links": [
+      { "t": "Sophia Lösche: Anklage lautet auf Mord", "u": "https://www.onetz.de/deutschland-welt/amberg/sophia-loesche-anklage-lautet-mord-id2640367.html", "kind": "artikel" },
+      { "t": "Sophia Lösche (Wikipedia, sehr ausführlich)", "u": "https://de.wikipedia.org/wiki/Sophia_L%C3%B6sche", "kind": "artikel" },
+      { "t": "Murder of Sophia Lösche (Wikipedia, englisch)", "u": "https://en.wikipedia.org/wiki/Murder_of_Sophia_L%C3%B6sche", "kind": "artikel" }
+    ],
+    "solution": {
+      "who": "Boujemaa L. (41)",
+      "text": "Fünf Tage nach Sophia Lösches Verschwinden gelingt es zunächst ihrer eigenen Familie, den Namen des Lkw-Fahrers zu ermitteln, der sie mitgenommen hatte. Die spanische Guardia Civil nimmt Boujemaa L. wenige Stunden später nahe Carboneros in Südandalusien fest – nur rund drei Autostunden vor der Fähre nach Marokko. In seinem Fahrzeug transportierte er die Leiche der Studentin über 1600 Kilometer quer durch Europa, bevor er sie in Nordspanien ablegte, mit Benzin übergoss und anzündete. Vor dem Landgericht Bayreuth gibt er an, es sei zu einer „Auseinandersetzung' gekommen: Er habe Sophia Lösche zunächst mit einem 40 Zentimeter langen Radmutternschlüssel niedergeschlagen, nachdem sie einen sexuellen Annäherungsversuch zurückgewiesen habe – diesen ersten Angriff hätte sie überlebt. Nach zehn bis zwanzig Minuten sei er zum Lkw zurückgekehrt und habe erneut zugeschlagen, um zu verhindern, dass sie ihn anzeigt. Ein Sexualdelikt selbst lässt sich vor Gericht nicht nachweisen. Uneinig sind sich deutsche und spanische Gutachter bis zuletzt über den genauen Todeszeitpunkt und -ort. Das Gericht folgt am Ende weitgehend der Einlassung des Angeklagten und der deutschen Rechtsmedizin: Es wertet die Tat als Mord aus Verdeckungsabsicht, begangen um die vorangegangene schwere Körperverletzung zu vertuschen. Am 18. September 2019 verurteilt das Landgericht Bayreuth Boujemaa L. zu lebenslanger Freiheitsstrafe wegen Mordes in Tatmehrheit mit gefährlicher Körperverletzung.",
+      "quote": "Sophia Lösche habe den Übergriff „klar und deutlich' zurückgewiesen.",
+      "verdict": "Landgericht Bayreuth, 18. September 2019 – lebenslange Freiheitsstrafe wegen Mordes in Tatmehrheit mit gefährlicher Körperverletzung",
+      "status": "rechtskräftig"
+    }
+  },
+  {
+    "id": "de-mirco-2010",
+    "land": "Deutschland",
+    "famous": false,
+    "title": "Das Fahrrad im Feld",
+    "subtitle": "Der Mord an einem zehnjährigen Jungen",
+    "file": "Landgericht Krefeld · Urteil v. 29.09.2011",
+    "place": "Grefrath, Nordrhein-Westfalen",
+    "date": "3. September 2010",
+    "year": 2010,
+    "court": "Landgericht Krefeld",
+    "difficulty": 1,
+    "duration": "kurz",
+    "perpCount": 1,
+    "teaser": "Ein Zehnjähriger radelt nach Hause und kommt nie an. Fünf Monate und eine der größten Suchaktionen Deutschlands später führt eine unscheinbare Handydaten-Spur zum Täter.",
+    "tags": ["Grefrath", "September 2010", "DNA-Spuren", "Vermisstenfall"],
+    "victim": {
+      "name": "Mirco (10)",
+      "dossier": "Mirco war zehn Jahre alt und wohnte mit seiner Familie in Grefrath am Niederrhein, einer kleinen Gemeinde im Kreis Viersen. Er besuchte die Grundschule und verbrachte seine Freizeit, wie viele Kinder seines Alters, am liebsten draußen mit dem Fahrrad – zum Skatepark im Nachbarort Oedt fuhr er regelmäßig, oft allein oder mit Freunden aus der Nachbarschaft. Nach Angaben von Angehörigen und Bekannten war er ein aufgeweckter, fröhlicher Junge, der in seinem Heimatort gut vernetzt und bekannt war. Seine Eltern beschrieben ihn später öffentlich als geliebtes Kind, dessen Verschwinden ihr Leben von einem Tag auf den anderen veränderte. Grefrath und das benachbarte Oedt sind ländlich geprägte Orte, in denen Kinder traditionell selbstständig mit dem Fahrrad unterwegs sind, auch am frühen Abend. Der Weg vom Skatepark in Oedt zurück nach Hause war Mirco vertraut, er legte ihn regelmäßig zurück. Dass ausgerechnet dieser gewohnte Heimweg am Abend des 3. September 2010 zur Falle werden würde, konnte niemand ahnen. Die Suche nach ihm sollte in den folgenden Monaten zu einer der größten Fahndungsaktionen der deutschen Kriminalgeschichte werden – mit Hunderten Polizeikräften, Spürhunden, Tauchern und sogar Tornado-Kampfjets der Bundeswehr.",
+      "lastDay": "Am Nachmittag des 3. September 2010 besucht der zehnjährige Mirco mit seinem Fahrrad den rund fünf Kilometer entfernten Skatepark im Ortsteil Oedt. Am frühen Abend macht er sich auf den Heimweg. Gegen 21 Uhr wird er zuletzt gesehen, wie er mit seinem Rad die Johann-Fruhen-Straße in Oedt entlangfährt. Zu Hause kommt er nie an. Als er auch spätabends nicht zurück ist, erstatten seine Eltern Vermisstenanzeige. Noch in der Nacht beginnt die Polizei mit der Suche. Zwei Tage später finden Passanten sein grasgrünes Fahrrad auf einem Feld an der Verbindungsstraße zwischen Grefrath und Oedt – nur rund 500 Meter von seinem Zuhause entfernt. Es wurde offenbar gereinigt, bevor es abgegeben wurde. In den folgenden Tagen und Wochen tauchen weitere Kleidungsstücke von ihm an verschiedenen Orten auf, im November schließlich sein Mobiltelefon in einer Straßenböschung. Von Mirco selbst fehlt zunächst jede Spur."
+    },
+    "intro": [
+      "Am Abend des 3. September 2010 verschwindet der zehnjährige Mirco aus Grefrath spurlos auf dem Heimweg vom Skatepark im Nachbarort. Zwei Tage später finden Passanten sein Fahrrad in einem Feld – gereinigt, aber mit auswertbaren DNA-Spuren. Es beginnt eine der größten Suchaktionen in der deutschen Kriminalgeschichte, mit über tausend Polizeikräften.",
+      "Wochenlang bleibt jede Spur vage. Ein Zeuge will einen dunklen VW Passat in Tatortnähe gesehen haben – Polizei und Öffentlichkeit konzentrieren sich auf dieses Fahrzeug, tausende Halter werden überprüft. Parallel durchkämmen Hundertschaften Wälder und Bäche, Tornado-Jets mit Wärmebildkameras suchen aus der Luft nach dem vermissten Jungen.",
+      "Erst fünf Monate später führt eine unscheinbare Spur zum Ziel: die Auswertung von Mobilfunkdaten, die exakt zu einer rekonstruierten Fahrtroute passt. Sie führt zu einem 45-jährigen Mann, der in seinem Umfeld als völlig unauffällig galt – ein Familienvater mit geregeltem Job, ohne jede Vorstrafe."
+    ],
+    "suspects": [
+      {
+        "id": "olaf-h",
+        "name": "Olaf H.",
+        "init": "O",
+        "role": "Angestellter, Familienvater",
+        "bio": "Der 45-Jährige aus dem Nachbarort Schwalmtal arbeitete in der Controlling-Abteilung eines großen Telekommunikationsanbieters, war verheiratet und Vater. Strafrechtlich war er zuvor nie in Erscheinung getreten, in seinem Umfeld galt er als unauffällig und zuverlässig. Was für ihn spricht: Niemand aus seinem Bekanntenkreis hätte ihm eine solche Tat zugetraut. Was gegen ihn spricht: Handydaten und DNA-Spuren führen eindeutig zu ihm."
+      },
+      {
+        "id": "passat-fahrer",
+        "name": "Der Fahrer eines dunklen VW Passat",
+        "init": "?",
+        "role": "Zeugenbeobachtung nahe dem Fundort",
+        "bio": "Ein Zeuge beobachtete in der Nähe des Fahrradfundorts ein Fahrzeug dieses Typs, ohne sich auf die genaue Farbe festzulegen. Die Polizei überprüft daraufhin tausende Halter entsprechender Fahrzeuge in der Region. Was für die Spur spricht: Sie ist einer der wenigen konkreten Anhaltspunkte in den ersten Wochen. Was gegen sie spricht: Die Beschreibung ist vage und passt auf sehr viele Fahrzeuge und Fahrer."
+      },
+      {
+        "id": "familienmitglied",
+        "name": "Ein Angehöriger aus dem privaten Umfeld von Olaf H.",
+        "init": "?",
+        "role": "Spekulation über Deckung",
+        "bio": "Nach dem Geständnis fragt sich das Gericht kurzzeitig, ob Olaf H. mit seinen wechselnden Tatversionen möglicherweise ein Familienmitglied schützen will. Eine Zeugin – eine frühere Partnerin – kann sich das vorstellen, ohne dafür einen konkreten Anhaltspunkt zu haben. Was für die Theorie spricht: die auffällig vielen, widersprüchlichen Versionen des Angeklagten. Was dagegen spricht: Weder Gericht noch Ermittler finden dafür handfeste Beweise."
+      },
+      {
+        "id": "nachbar",
+        "name": "Ein Nachbar aus der Siedlung",
+        "init": "?",
+        "role": "Routinemäßig überprüft",
+        "bio": "Wie bei Vermisstenfällen üblich, befragt die Sonderkommission systematisch Anwohner aus Mircos Wohnumfeld und dem Bereich um den Fundort des Fahrrads. Was für ihn spricht: Nachbarschaftliche Nähe allein begründet keinen Verdacht. Was gegen ihn spricht (aus Ermittlersicht): die räumliche Nähe zum Tatort und zum letzten gesicherten Aufenthaltsort des Jungen."
+      },
+      {
+        "id": "jugendlicher",
+        "name": "Ein älterer Jugendlicher vom Skatepark",
+        "init": "?",
+        "role": "Zuletzt in Mircos Nähe",
+        "bio": "Mirco hielt sich am Nachmittag seines Verschwindens im Skatepark in Oedt auf, wo sich regelmäßig auch ältere Jugendliche aufhielten. Was für ihn spricht: Es gibt keinerlei forensische Verbindung zu den späteren Fundorten. Was gegen ihn spricht: Er gehörte zu den letzten Personen, die sich in Mircos Nähe aufgehalten haben könnten."
+      }
+    ],
+    "truth": { "taeter": ["olaf-h"], "helfer": [] },
+    "policeTrack": [
+      { "after": 1, "focus": "Unbekannter Täter, riesige Suchaktion", "note": "Über 1000 Beamte, Tornado-Kampfjets mit Wärmebildkameras und Taucher suchen tagelang nach dem Jungen – ohne Ergebnis." },
+      { "after": 2, "focus": "Der Fahrer eines dunklen VW Passat", "note": "Ein Zeuge hat in Tatortnähe ein Fahrzeug dieses Typs gesehen. Die Polizei überprüft tausende Halter in der Region – die Suche gleicht der Nadel im Heuhaufen." },
+      { "after": 3, "focus": "Ein unauffälliger 45-Jähriger", "note": "Handydaten führen zu einem Mann, der in seinem Umfeld als völlig unauffällig gilt – ein Controlling-Angestellter, Familienvater ohne Vorstrafen." },
+      { "after": 5, "focus": "Schützt Olaf H. jemanden?", "note": "Nach dem Geständnis mit zehn widersprüchlichen Varianten fragt sich das Gericht kurzzeitig, ob der Angeklagte ein Familienmitglied decken will – ohne dafür handfeste Belege zu finden." }
+    ],
+    "clues": [
+      {
+        "cat": "tatort",
+        "label": "Das Fahrrad im Feld",
+        "title": "Gereinigt, aber nicht sauber genug",
+        "text": "Zwei Tage nach Mircos Verschwinden finden Passanten sein grasgrünes Fahrrad auf einem Feld an der Verbindungsstraße zwischen Grefrath und Oedt – nur rund 500 Meter von seinem Elternhaus entfernt. Wer auch immer es dort ablegte, hat es zuvor gründlich gesäubert. Doch die Spurensicherung der Kriminalpolizei findet trotzdem zahlreiche DNA-Spuren am Rahmen und an den Griffen. Kurz darauf entdeckt eine weitere Passantin am Parkplatz Hinsbecker Straße in Grefrath Mircos schwarze Sporthose, bringt sie aber erst mit Verzögerung zur Polizei. Bei der anschließenden Durchsuchung des Geländes finden Beamte weitere Kleidungsstücke des Jungen, ebenfalls mit auswertbaren DNA-Spuren. Die Frage, wer diese Gegenstände dort abgelegt hat, wird die Ermittler fünf Monate lang beschäftigen.",
+        "src": "Wikipedia – Fall Mirco",
+        "url": "https://de.wikipedia.org/wiki/Fall_Mirco"
+      },
+      {
+        "cat": "zeuge",
+        "label": "Der dunkle VW Passat",
+        "title": "Tausende Fahrzeuge im Fahndungsraster",
+        "text": "In der Nähe des Fundorts des Fahrrads will ein Zeuge einen VW Passat des Modells B6 beobachtet haben. Auf die genaue Farbe können sich weder der Zeuge noch die Polizei endgültig festlegen. Dennoch wird dieses Fahrzeugmodell zum zentralen Fahndungsansatz der ersten Wochen: Die Polizei überprüft mehrere Tausend ins Fahndungsraster passende Fahrzeuge in der gesamten Region – eine immense Kleinarbeit, die Wochen in Anspruch nimmt und doch kein eindeutiges Ergebnis liefert. Parallel wertet die Polizei bereits Mobiltelefon-Verbindungsdaten aus verschiedenen Funkzellen entlang der mutmaßlichen Täterroute aus – eine zweite, zunächst unscheinbare Ermittlungsspur, die sich später als entscheidend erweisen sollte.",
+        "src": "Wikipedia – Fall Mirco",
+        "url": "https://de.wikipedia.org/wiki/Fall_Mirco"
+      },
+      {
+        "cat": "digital",
+        "label": "Die Handy-Verbindungsdaten",
+        "title": "Eine Fahrtroute, die zu genau passt",
+        "text": "Parallel zur Fahndung nach dem VW Passat läuft eine zweite, weniger öffentlichkeitswirksame Ermittlungsspur: die systematische Auswertung von Mobilfunk-Verbindungsdaten in den Funkzellen entlang der rekonstruierten Fahrtroute des mutmaßlichen Täters. Monatelang gleichen Ermittler Tausende Rufnummern mit den Bewegungsmustern ab, die sich aus Zeugenaussagen und den Fundorten von Fahrrad, Kleidung und Handy ergeben. Ende Januar 2011 stoßen sie auf einen Mobilnummer-Verlauf, der exakt der rekonstruierten Fahrt des Täters entspricht – ein Muster, das sich nicht durch Zufall erklären lässt. Diese eine Nummer führt direkt zu einem 45-jährigen Mann aus dem Nachbarort, der bis dahin in keiner einzigen Zeugenaussage aufgetaucht war.",
+        "src": "Wikipedia – Fall Mirco",
+        "url": "https://de.wikipedia.org/wiki/Fall_Mirco"
+      },
+      {
+        "cat": "dokument",
+        "label": "Die Festnahme in Schwalmtal",
+        "title": "Ein unauffälliger Familienvater",
+        "text": "Am 26. Januar 2011 nimmt die Polizei den 45-jährigen Olaf H. aus Schwalmtal als Tatverdächtigen fest. Nach Angaben der Ermittler hatte sich H., der in der Controlling-Abteilung eines großen Telekommunikationsanbieters arbeitete, in seinem gesamten Umfeld völlig unauffällig verhalten – verheiratet, Vater, ohne jede Vorstrafe. Nachbarn und Kollegen zeigen sich fassungslos, als sein Name öffentlich wird. Kurz nach der Festnahme führt der Mann die Ermittler schließlich zur Leiche des Jungen. Der Fund beendet fünf Monate quälender Ungewissheit für die Familie – und markiert zugleich den Beginn eines Verfahrens, in dem der Geständige noch mehrfach seine eigene Version der Ereignisse ändern wird.",
+        "src": "Wikipedia – Fall Mirco",
+        "url": "https://de.wikipedia.org/wiki/Fall_Mirco"
+      },
+      {
+        "cat": "verhoer",
+        "label": "Zehn Versionen einer Tat",
+        "title": "Das Geständnis mit den vielen Lücken",
+        "text": "Olaf H. gesteht die Tat, liefert im Verlauf der Ermittlungen und des Prozesses jedoch mindestens zehn unterschiedliche, sich in wesentlichen Punkten widersprechende Versionen des Geschehens. Mal spricht er von Frust im Job, mal von Druck durch einen Vorgesetzten, mal bestreitet er einzelne, durch Spuren eindeutig belegte Details. Während des Prozesses lädt das Gericht überraschend zwei frühere Partnerinnen des Angeklagten erneut in den Zeugenstand: Eine von ihnen gibt an, sie könne sich vorstellen, dass er mit seinem wechselhaften Geständnis ein Familienmitglied schützen wolle – allerdings ohne dafür einen konkreten Anhaltspunkt zu haben. Auch der Vorsitzende Richter betont, es gebe keinen belastbaren Hinweis darauf, dass diese Spekulation zutrifft.",
+        "quote": "Ziel der Fahrt war es, sich eines Kindes zu bemächtigen und es sexuell zu missbrauchen.",
+        "src": "Wikipedia – Fall Mirco",
+        "url": "https://de.wikipedia.org/wiki/Fall_Mirco"
+      },
+      {
+        "cat": "prozess",
+        "label": "Das Urteil",
+        "title": "Lebenslang mit besonderer Schwere der Schuld",
+        "text": "Am 29. September 2011 verurteilt das Landgericht Krefeld Olaf H. wegen Mordes zu lebenslanger Freiheitsstrafe und stellt zusätzlich die besondere Schwere der Schuld fest – eine vorzeitige Entlassung ist damit so gut wie ausgeschlossen. Das Gericht hält seine Erklärung, er sei am Tatabend nur ziellos vier Stunden durch die Region gefahren, für nicht glaubhaft: Ziel der nächtlichen Fahrt sei es gewesen, sich eines Kindes zu bemächtigen und es sexuell zu missbrauchen. Ein psychiatrischer Gutachter stuft den zuvor strafrechtlich nicht in Erscheinung getretenen Angeklagten als voll schuldfähig ein und hält es für wahrscheinlich, dass er mit der Tat sadistische Fantasien auslebte. H. legt Revision ein; der Bundesgerichtshof weist sie im April 2012 zurück.",
+        "src": "LTO – Urteil im Fall Mirco: Höchststrafe für den Mörder",
+        "url": "https://www.lto.de/recht/nachrichten/n/urteil-im-fall-mirco-hoechststrafe-fuer-den-moerder"
+      }
+    ],
+    "docs": [
+      {
+        "type": "polizeibericht",
+        "title": "Vermisstenmeldung",
+        "authority": "Kreispolizeibehörde Viersen",
+        "ref": "Tgb.-Nr. ████/10",
+        "date": "03.09.2010, 23:10 Uhr",
+        "fields": [["Vermisste Person", "Mirco, 10 Jahre"], ["Letzter Aufenthaltsort", "Johann-Fruhen-Straße, Oedt"], ["Sachbearbeiter", "KHK ███████"]],
+        "body": [
+          "Die Erziehungsberechtigten zeigen das Vermisstwerden ihres zehnjährigen Sohnes an. Letzter bekannter Aufenthaltsort: Johann-Fruhen-Straße, Oedt, gegen 21:00 Uhr.",
+          "Der Vermisste befand sich mit dem Fahrrad auf dem Heimweg vom Skatepark. Beschreibung von Kind und Fahrrad wird zur Fahndung ausgeschrieben.",
+          "Sonderkommission wird eingerichtet, Suchmaßnahmen mit Unterstützung von Rettungshundestaffeln und Wasserschutzpolizei eingeleitet."
+        ],
+        "afterClue": 1
+      },
+      {
+        "type": "gutachten",
+        "title": "DNA-Spurenbericht (Auszug)",
+        "authority": "Landeskriminalamt Nordrhein-Westfalen",
+        "ref": "Gz. ████/10",
+        "date": "September/Oktober 2010",
+        "fields": [["Asservate", "Fahrrad, Kleidungsstücke"], ["Befund", "DNA-Mischspuren gesichert"], ["Sachbearbeiter", "███████"]],
+        "body": [
+          "An den sichergestellten Asservaten (Fahrrad, Bekleidungsstücke) konnten trotz vorheriger Reinigung verwertbare DNA-Mischspuren gesichert werden.",
+          "Ein Abgleich mit der bundesweiten DNA-Datenbank ergab zum Zeitpunkt der Untersuchung keinen Treffer.",
+          "Die Spuren werden für einen späteren Abgleich mit einem noch zu identifizierenden Tatverdächtigen vorgehalten."
+        ],
+        "afterClue": 3
+      },
+      {
+        "type": "vernehmung",
+        "title": "Geständnisprotokoll (Auszug)",
+        "authority": "Kriminalpolizei Mönchengladbach",
+        "ref": "Vernehmung Beschuldigter, Bl. ███ d.A.",
+        "date": "Ende Januar 2011",
+        "fields": [["Beschuldigter", "Olaf H., 45 Jahre"], ["Geständnis", "ja, in mehreren, widersprüchlichen Versionen"], ["Vernehmungsbeamte", "███████"]],
+        "body": [
+          "Der Beschuldigte räumt nach Festnahme ein, den Vermissten entführt und getötet zu haben, und führt die Beamten zum Auffindeort der Leiche.",
+          "Zu den näheren Umständen der Tat macht er im Verlauf mehrerer Vernehmungen wechselnde, teils widersprüchliche Angaben.",
+          "Eine psychiatrische Begutachtung des Beschuldigten wird veranlasst."
+        ],
+        "stamp": "VERTRAULICH",
+        "afterClue": 5
+      }
+    ],
+    "pdfs": [],
+    "links": [
+      { "t": "Urteil im Fall Mirco: Höchststrafe für den Mörder", "u": "https://www.lto.de/recht/nachrichten/n/urteil-im-fall-mirco-hoechststrafe-fuer-den-moerder", "kind": "artikel" },
+      { "t": "LG Krefeld: Falsches Geständnis im Mirco-Prozess?", "u": "https://www.lto.de/recht/nachrichten/n/lg-krefeld-falsches-gestaendnis-im-mirco-prozess", "kind": "artikel" },
+      { "t": "\"Fall Mirco\": Ein Maulwurf in den Reihen der Polizei", "u": "https://www.lto.de/recht/hintergruende/h/fall-mirco-ein-maulwurf-in-den-reihen-der-polizei", "kind": "artikel" },
+      { "t": "Fall Mirco (Wikipedia, ausführlich mit Quellen)", "u": "https://de.wikipedia.org/wiki/Fall_Mirco", "kind": "artikel" }
+    ],
+    "solution": {
+      "who": "Olaf H. (45)",
+      "text": "Fünf Monate lang bleibt der Täter unbekannt. Erst die systematische Auswertung von Mobilfunk-Verbindungsdaten führt die Ermittler zu einem 45-jährigen Mann aus dem Nachbarort Schwalmtal, dessen Bewegungsmuster exakt zur rekonstruierten Fahrt des Täters passt. Am 26. Januar 2011 nehmen Fahnder Olaf H. fest – einen Controlling-Mitarbeiter eines großen Telekommunikationsunternehmens, verheiratet, Vater, ohne jede Vorstrafe. In seinem Umfeld hatte niemand auch nur den Ansatz eines Verdachts gehabt. Der Mann führt die Ermittler zur Leiche des Jungen und legt ein Geständnis ab – allerdings in mindestens zehn widersprüchlichen Varianten, mal spricht er von Jobfrust, mal von Druck durch einen Vorgesetzten. Ein psychiatrischer Gutachter hält es für wahrscheinlicher, dass er mit der Tat sadistische Fantasien auslebte. Vor Gericht gesteht Olaf H. am ersten Verhandlungstag im Kern die Tat: Entführung, sexueller Missbrauch, Tod durch Erdrosseln. Das Landgericht Krefeld glaubt ihm nicht, dass die stundenlange nächtliche Autofahrt mit dem Jungen einem harmlosen Zweck diente – sie habe vielmehr dazu gedient, sich eines Kindes zu bemächtigen. Am 29. September 2011 verurteilt das Gericht Olaf H. wegen Mordes zu lebenslanger Haft und stellt die besondere Schwere der Schuld fest. Seine Revision weist der Bundesgerichtshof im April 2012 zurück – das Urteil ist seither rechtskräftig.",
+      "quote": "Ziel der Fahrt war es, sich eines Kindes zu bemächtigen und es sexuell zu missbrauchen.",
+      "verdict": "Landgericht Krefeld, 29. September 2011 – lebenslange Freiheitsstrafe, besondere Schwere der Schuld; BGH-Revision verworfen (April 2012)",
+      "status": "rechtskräftig seit April 2012"
+    }
+  }
+]

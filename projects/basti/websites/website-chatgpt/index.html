@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlashLearn — Study Smarter</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>FlashLearn</h1>
+    <nav>
+        <button id="btn-home">Home</button>
+        <button id="btn-create">Create Set</button>
+        <button id="btn-study">Study</button>
+    </nav>
+</header>
+
+<main>
+
+    <!-- HOME SECTION -->
+    <section id="home" class="page">
+        <h2>Your Flashcard Sets</h2>
+        <div id="set-list"></div>
+    </section>
+
+    <!-- CREATE SET SECTION -->
+    <section id="create" class="page hidden">
+        <h2>Create Flashcard Set</h2>
+        <input id="set-title" type="text" placeholder="Set Title">
+
+        <div id="card-creator">
+            <div class="creator-row">
+                <input class="term" placeholder="Term">
+                <input class="definition" placeholder="Definition">
+            </div>
+        </div>
+
+        <button id="add-card">+ Add Card</button>
+        <button id="save-set" class="primary">Save Set</button>
+    </section>
+
+    <!-- STUDY SECTION -->
+    <section id="study" class="page hidden">
+        <h2 id="study-title">Study</h2>
+
+        <div id="flashcard" class="flashcard">
+            <div class="inner">
+                <div class="front">Front</div>
+                <div class="back">Back</div>
+            </div>
+        </div>
+
+        <div class="study-controls">
+            <button id="prev-card">← Prev</button>
+            <button id="flip-card">Flip</button>
+            <button id="next-card">Next →</button>
+        </div>
+    </section>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>

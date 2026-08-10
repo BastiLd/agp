@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000814">
+  <title>Studiow — Warteliste</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="side-button-container">
+    <a class="side-button" href="https://www.bastianklaus.online/index.html" target="_blank" rel="noopener noreferrer">Meine Webseite</a>
+  </div>
+
+  <section class="hero">
+    <div class="glow"></div>
+    <div class="particles"></div>
+    <div class="content">
+      <h1>Lernen neu denken. Audio, Karten, visuell – alles in einem.</h1>
+      <p class="sub">Lade deinen Stoff hoch, wir bauen dir Erklärungen, Fragen, Audio & Karten – perfekt für deinen Lerntyp.</p>
+      
+      <div class="benefits">
+        <div class="benefit-item">
+          <span class="benefit-icon">⚡</span>
+          <span>KI-Erklärungen & Fragen</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-icon">🎧</span>
+          <span>Audio-Drill mit Pausen</span>
+        </div>
+        <div class="benefit-item">
+          <span class="benefit-icon">🃏</span>
+          <span>Karten, Tests, Zuordnen – plus Audio</span>
+        </div>
+      </div>
+
+      <div class="cta-card">
+        <h3>Warteliste beitreten</h3>
+        <p>Sei als Erste:r dabei, wenn wir starten. Hol dir Early Access & Updates.</p>
+        <form id="waitlist-form">
+          <input type="email" id="email" placeholder="E-Mail-Adresse" required />
+          <button type="submit">Warteliste beitreten</button>
+          <p class="success" id="success-message" hidden>Du bist drauf! Wir melden uns zum Start.</p>
+        </form>
+      </div>
+
+      <footer>
+        <a href="#">Datenschutz</a>
+        <a href="#">Impressum</a>
+      </footer>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="main.js"></script>
+</body>
+</html>
+

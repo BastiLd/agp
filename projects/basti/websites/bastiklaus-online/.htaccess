@@ -1,0 +1,30 @@
+#<ledl-security added=2026.05.11 06:13>
+    # add following code BEFORE the ledl-security tag to whitelist IP's
+    # sample code:
+    #      SetEnvIf GEOIP_ADDR ^(213\.145\.228\.150|2nd|3rd|...)$ GEOIP_CHECK=NO
+    #      or
+    #      SetEnvIf GEOIP_COUNTRY_CODE ^(US)$ GEOIP_CHECK=NO
+    <ifmodule mod_rewrite.c>
+        <ifmodule mod_geoip.c>
+            GeoIPEnable On
+            RewriteEngine on
+
+            RewriteCond %{ENV:GEOIP_CHECK} !^NO$
+            RewriteCond %{REQUEST_METHOD} GET
+            RewriteCond %{REQUEST_URI} (wp-comments-post|wp-load|wp-login|xmlrpc)\.php$
+            RewriteCond %{ENV:GEOIP_COUNTRY_CODE} !^(AT|DE|CH|LI|BE|BG|CY|CZ|DK|EE|ES|FI|FR|GB|GR|HR|HU|IE|IT|LT|LU|LV|MT|NL|PL|PT|RO|SE|SI|SK)$
+            RewriteRule .* - [F]
+
+            RewriteCond %{ENV:GEOIP_CHECK} !^NO$
+            RewriteCond %{REQUEST_METHOD} POST
+            RewriteCond %{REQUEST_URI} (administrator/|((page[0-9]+|wp-comments-post|wp-load|wp-login|xmlrpc|exporter)\.php)$)
+            RewriteCond %{ENV:GEOIP_COUNTRY_CODE} !^(AT|DE|CH|LI|BE|BG|CY|CZ|DK|EE|ES|FI|FR|GB|GR|HR|HU|IE|IT|LT|LU|LV|MT|NL|PL|PT|RO|SE|SI|SK)$
+            RewriteRule .* - [F]
+
+            RewriteCond %{ENV:GEOIP_CHECK} !^NO$
+            RewriteCond %{QUERY_STRING} option=com_contact
+            RewriteCond %{ENV:GEOIP_COUNTRY_CODE} !^(AT|DE|CH|LI|BE|BG|CY|CZ|DK|EE|ES|FI|FR|GB|GR|HR|HU|IE|IT|LT|LU|LV|MT|NL|PL|PT|RO|SE|SI|SK)$
+            RewriteRule .* - [F]
+        </ifmodule>
+    </ifmodule>
+#</ledl-security>

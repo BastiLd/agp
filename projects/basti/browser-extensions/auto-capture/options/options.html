@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Options - AutoCapture</title>
+  <link rel="stylesheet" href="../shared/theme.css">
+  <script src="../shared/theme.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--app-bg);
+      margin: 0;
+      color: var(--app-text);
+    }
+    .header {
+      background-color: var(--app-header);
+      color: var(--app-header-text);
+      padding: 10px 40px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .header img {
+      width: 24px;
+      height: 24px;
+      filter: brightness(0) invert(1);
+    }
+    .header h1 {
+      font-size: 18px;
+      margin: 0;
+      font-weight: 500;
+    }
+    .nav {
+      background: var(--app-surface);
+      padding: 10px 40px;
+      border-bottom: 1px solid var(--app-border);
+      display: flex;
+      gap: 20px;
+    }
+    .nav a {
+      text-decoration: none;
+      color: var(--app-muted);
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .nav a.active {
+      color: var(--app-accent);
+      border-bottom: 2px solid var(--app-accent);
+      padding-bottom: 8px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      background: var(--app-surface);
+      padding: 40px;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px var(--app-shadow);
+    }
+    h2 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--app-border-soft);
+      padding-bottom: 10px;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    .option-row {
+      display: flex;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--app-border-soft);
+      align-items: flex-start;
+    }
+    .option-label {
+      width: 200px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .option-control {
+      flex: 1;
+    }
+    .option-desc {
+      font-size: 12px;
+      color: var(--app-subtle);
+      margin-top: 5px;
+    }
+    select, input[type="text"] {
+      padding: 5px;
+      border: 1px solid var(--app-border);
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--app-subtle);
+      margin-top: 40px;
+      padding-bottom: 40px;
+    }
+    .save-status {
+      color: var(--app-success);
+      font-size: 12px;
+      margin-left: 10px;
+      display: none;
+    }
+    .theme-control {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .theme-preview {
+      width: 34px;
+      height: 20px;
+      border: 1px solid var(--app-border);
+      border-radius: 999px;
+      background: linear-gradient(90deg, #f8fafc 0 50%, #151b2e 50% 100%);
+      box-shadow: inset 0 0 0 2px var(--app-surface);
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <img src="../icons/icon128.png" alt="Logo">
+    <h1>AutoCapture</h1>
+  </div>
+  
+  <div class="nav">
+    <a href="#" class="active">Options</a>
+    <a href="../history/history.html">Files</a>
+  </div>
+
+  <div class="container">
+    <h2>Options</h2>
+    
+    <div class="section">
+      <div class="option-row">
+        <div class="option-label">Theme:</div>
+        <div class="option-control">
+          <div class="theme-control">
+            <select id="themeSelect">
+              <option value="system">System</option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+            <span class="theme-preview" aria-hidden="true"></span>
+          </div>
+          <div class="option-desc">Dark mode applies to the popup, options and files history.</div>
+        </div>
+      </div>
+
+      <div class="option-row">
+        <div class="option-label">Image format:</div>
+        <div class="option-control">
+          <select id="imageFormat">
+            <option value="png">png</option>
+            <option value="jpeg">jpeg</option>
+          </select>
+          <div class="option-desc">PNG is lossless. JPEG uses compression and has smaller file sizes.</div>
+        </div>
+      </div>
+
+      <div class="option-row">
+        <div class="option-label">Download Directory:</div>
+        <div class="option-control">
+          <input type="text" id="downloadDir" placeholder="autocapture_screenshots">
+          <div class="option-desc">Subfolder within your Downloads folder.</div>
+        </div>
+      </div>
+
+      <div class="option-row">
+        <div class="option-label">Auto-download:</div>
+        <div class="option-control">
+          <input type="checkbox" id="autoDownload">
+          <div class="option-desc">Automatically download the screenshot as an image instead of opening it in a new window.</div>
+        </div>
+      </div>
+
+      <div class="option-row">
+        <div class="option-label">Default Max Pages:</div>
+        <div class="option-control">
+          <input type="number" id="defaultLimit" value="20" min="1" max="1000">
+          <div class="option-desc">Default limit for capturing subpages.</div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="status" class="save-status">Settings saved.</div>
+  </div>
+
+  <div class="footer">
+    AutoCapture (version 1.2) - Premium Features for Everyone.
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

@@ -1,0 +1,807 @@
+import logging
+import random
+import re
+from typing import Literal, overload
+
+import discord
+
+from botcore.name_utils import escape_display_text, safe_display_name
+from services.battle_types import CardData, DamageValue, MultiHitConfig, MultiHitRollDetails
+
+DamageInput = DamageValue
+MultiHitDetails = MultiHitRollDetails
+
+logger = logging.getLogger(__name__)
+
+
+def _format_attack_label(attack: dict, is_on_cooldown: bool) -> str:
+    """Hängt das Cooldown-Suffix ``{<n>CD}`` an verfügbare Fähigkeiten an (Req. 14).
+
+    Regeln:
+        * Fähigkeit liegt gerade auf Cooldown -> nur der Name (bleibt ausgegraut,
+          kein Rest-Counter, Req. 14.3).
+        * Fähigkeit verfügbar und konfigurierter Cooldown > 0 -> ``"{name} {{n}CD}"``
+          (Req. 14.1/14.4). v2.3.5: geschweifte Klammern statt runder, damit der
+          Cooldown direkt nach dem Schaden klar erkennbar ist.
+        * Cooldown = 0 oder nicht gesetzt -> nur der Name (Req. 14.5).
+    """
+    name = str((attack or {}).get("name") or "")
+    if is_on_cooldown:
+        return name
+    try:
+        cd = int((attack or {}).get("cooldown_turns") or 0)
+    except (TypeError, ValueError):
+        cd = 0
+    if cd > 0:
+        return f"{name} {{{cd}CD}}"
+    return name
+
+
+def render_boss_special_activation(boss_name: str, ability_name: str, effect_text: str) -> str | None:
+    """Rendert die hervorgehobene Boss-Spezial-Aktivierungszeile (Req. 15).
+
+    Format: ``⚡ **{ability_name}** — {effect_text}``.
+
+    Fehlt Name oder Effekt-Text, wird ``None`` zurückgegeben und eine Warnung
+    geloggt (Req. 15.3) – es darf dann keine Meldung gesendet werden.
+    """
+    ability = str(ability_name or "").strip()
+    effect = str(effect_text or "").strip()
+    if not ability or not effect:
+        logger.warning(
+            "Boss special missing fields (boss=%r, ability=%r, effect=%r)",
+            boss_name,
+            ability_name,
+            effect_text,
+        )
+        return None
+    return f"⚡ **{ability}** — {effect}"
+
+
+def _safe_int(value: object, default: int = 0) -> int:
+    if isinstance(value, bool):
+        return int(value)
+    if isinstance(value, int):
+        return value
+    if isinstance(value, float):
+        return int(value)
+    if isinstance(value, str):
+        try:
+            return int(value.strip() or str(default))
+        except ValueError:
+            return default
+    return default
+
+
+def _safe_float(value: object, default: float = 0.0) -> float:
+    if isinstance(value, bool):
+        return float(value)
+    if isinstance(value, (int, float)):
+        return float(value)
+    if isinstance(value, str):
+        try:
+            return float(value.strip() or str(default))
+        except ValueError:
+            return default
+    return default
+
+
+@overload
+def resolve_multi_hit_damage(
+    multi_hit: MultiHitConfig,
+    *,
+    buff_amount: int = 0,
+    attack_multiplier: float = 1.0,
+    force_max: bool = False,
+    guaranteed_hit: bool = False,
+    return_details: Literal[True],
+) -> tuple[int, int, int, MultiHitDetails]: ...
+
+
+@overload
+def resolve_multi_hit_damage(
+    multi_hit: MultiHitConfig,
+    *,
+    buff_amount: int = 0,
+    attack_multiplier: float = 1.0,
+    force_max: bool = False,
+    guaranteed_hit: bool = False,
+    return_details: Literal[False] = False,
+) -> tuple[int, int, int]: ...
+
+
+def resolve_multi_hit_damage(
+    multi_hit: MultiHitConfig,
+    *,
+    buff_amount: int = 0,
+    attack_multiplier: float = 1.0,
+    force_max: bool = False,
+    guaranteed_hit: bool = False,
+    return_details: bool = False,
+):
+    """Resolve multi-hit damage and return (damage, min_possible, max_possible[, details])."""
+    hits = max(0, _safe_int(multi_hit.get("hits", 0)))
+    details: MultiHitDetails = {
+        "hits": hits,
+        "landed_hits": 0,
+        "per_hit_damages": [],
+        "total_before_multiplier": 0,
+        "total_damage": 0,
+    }
+    if hits <= 0:
+        if return_details:
+            return 0, 0, 0, details
+        return 0, 0, 0
+
+    per_hit = multi_hit.get("per_hit_damage", [0, 0])
+    if isinstance(per_hit, list) and len(per_hit) == 2:
+        hit_min = int(per_hit[0])
+        hit_max = int(per_hit[1])
+    else:
+        hit_min = 0
+        hit_max = 0
+    hit_min = max(0, hit_min)
+    hit_max = max(hit_min, hit_max)
+
+    chance = _safe_float(multi_hit.get("hit_chance", 0.0))
+    chance = max(0.0, min(1.0, chance))
+
+    guaranteed_min_per_hit = hit_min
+    if guaranteed_hit and not force_max:
+        try:
+            guaranteed_min_per_hit = max(hit_min, _safe_int(multi_hit.get("guaranteed_min_per_hit", hit_min), hit_min))
+        except Exception:
+            guaranteed_min_per_hit = hit_min
+
+    guaranteed_hits = max(0, min(hits, _safe_int(multi_hit.get("guaranteed_hits", 0))))
+    if force_max or guaranteed_hit:
+        landed = hits
+    else:
+        landed = guaranteed_hits + sum(1 for _ in range(hits - guaranteed_hits) if random.random() < chance)
+
+    total = 0
+    per_hit_damages: list[int] = []
+    if landed > 0:
+        for _ in range(landed):
+            if force_max:
+                rolled = hit_max
+            elif guaranteed_hit:
+                rolled = random.randint(guaranteed_min_per_hit, hit_max)
+            else:
+                rolled = random.randint(hit_min, hit_max)
+            per_hit_damages.append(int(rolled))
+            total += int(rolled)
+        total += int(buff_amount)
+
+    min_possible = 0
+    if force_max:
+        min_possible = hits * hit_min + int(buff_amount)
+    elif guaranteed_hit:
+        min_possible = hits * guaranteed_min_per_hit + int(buff_amount)
+    elif guaranteed_hits > 0:
+        min_possible = guaranteed_hits * hit_min + int(buff_amount)
+
+    max_possible = hits * hit_max + int(buff_amount)
+
+    if attack_multiplier != 1.0:
+        total = int(round(total * attack_multiplier))
+        min_possible = int(round(min_possible * attack_multiplier))
+        max_possible = int(round(max_possible * attack_multiplier))
+
+    final_total = max(0, total)
+    details.update(
+        {
+            "hits": hits,
+            "landed_hits": int(landed),
+            "per_hit_damages": per_hit_damages,
+            "total_before_multiplier": int(sum(per_hit_damages) + (int(buff_amount) if landed > 0 else 0)),
+            "total_damage": int(final_total),
+        }
+    )
+    if return_details:
+        return final_total, max(0, min_possible), max(0, max_possible), details
+    return final_total, max(0, min_possible), max(0, max_possible)
+
+
+def apply_outgoing_attack_modifier(raw_damage: int, *, percent: float = 0.0, flat: int = 0) -> tuple[int, int]:
+    """
+    Apply outgoing attack reduction.
+    Returns (final_damage, overflow_self_damage).
+    """
+    damage = max(0, int(raw_damage))
+    if damage <= 0:
+        return 0, 0
+
+    reduction_pct = max(0.0, min(1.0, float(percent or 0.0)))
+    if reduction_pct > 0:
+        damage = max(0, int(round(damage * (1.0 - reduction_pct))))
+
+    reduction_flat = max(0, int(flat or 0))
+    overflow = 0
+    if reduction_flat > 0:
+        if damage >= reduction_flat:
+            damage -= reduction_flat
+        else:
+            overflow = reduction_flat - damage
+            damage = 0
+
+    return max(0, damage), max(0, overflow)
+
+
+def calculate_damage(attack_damage: DamageInput, buff_amount: int = 0) -> tuple[int, bool, int, int]:
+    """
+    Calculate damage with right-skew distribution.
+    attack_damage: [min, max] list or single value (backwards compatible)
+    buff_amount: additional buff damage
+    Returns: (actual_damage, is_critical, min_damage, max_damage)
+    """
+    if isinstance(attack_damage, list) and len(attack_damage) == 2:
+        min_damage, max_damage = attack_damage
+    else:
+        min_damage = max_damage = attack_damage
+
+    min_damage = _safe_int(min_damage) + int(buff_amount)
+    max_damage = _safe_int(max_damage) + int(buff_amount)
+    min_damage = max(0, min_damage)
+    max_damage = max(0, max_damage)
+    if min_damage > max_damage:
+        min_damage = max_damage
+
+    if max_damage <= 0:
+        return 0, False, min_damage, max_damage
+
+    if max_damage <= 50:
+        critical_chance = 0.12
+    elif max_damage <= 100:
+        critical_chance = 0.08
+    else:
+        critical_chance = 0.05
+
+    if random.random() < critical_chance:
+        actual_damage = max_damage
+        is_critical = True
+    else:
+        damage_range = max_damage - min_damage
+        if damage_range <= 0:
+            actual_damage = min_damage
+        else:
+            skew_factor = random.random() * random.random()
+            actual_damage = min_damage + int(skew_factor * damage_range)
+        is_critical = False
+
+    return actual_damage, is_critical, min_damage, max_damage
+
+
+def create_battle_log_embed():
+    embed = discord.Embed(
+        title="Kampf-Log",
+        description="*Der Kampf beginnt...*",
+        color=0x2F3136,
+    )
+    return embed
+
+
+def _trim_battle_log(text: str, max_len: int = 3800) -> str:
+    if len(text) <= max_len:
+        return text
+    parts = text.split("\n\n**Runde ")
+    if len(parts) <= 1:
+        return text[-max_len:]
+    header = parts[0]
+    rounds = parts[1:]
+    kept = []
+    total_len = len(header)
+    for part in reversed(rounds):
+        segment = "\n\n**Runde " + part
+        if total_len + len(segment) > max_len:
+            break
+        kept.append(segment)
+        total_len += len(segment)
+    trimmed = header + "".join(reversed(kept))
+    return trimmed[-max_len:] if len(trimmed) > max_len else trimmed
+
+
+def _keep_last_rounds(text: str, max_rounds: int | None) -> str:
+    if max_rounds is None:
+        return text
+    max_rounds = max(1, int(max_rounds))
+    parts = text.split("\n\n**Runde ")
+    if len(parts) <= 1:
+        return text
+    header = parts[0]
+    rounds = parts[1:]
+    kept = rounds[-max_rounds:]
+    rebuilt = header + "".join("\n\n**Runde " + part for part in kept)
+    return rebuilt
+
+
+def _display_name(user_obj) -> str:
+    if isinstance(user_obj, str):
+        return escape_display_text(user_obj, fallback="Bot")
+    display_name = getattr(user_obj, "display_name", None)
+    if display_name:
+        return safe_display_name(user_obj, fallback="Bot")
+    mention = getattr(user_obj, "mention", None)
+    if mention:
+        return escape_display_text(mention, fallback="Bot")
+    return "Bot"
+
+
+def _card_display_name(card_name: object) -> str:
+    text = str(card_name or "").strip()
+    if not text:
+        return "Unbekannte Karte"
+    return escape_display_text(text, fallback="Unbekannte Karte")
+
+
+def _owned_card_label(owner_display: str, card_name: object) -> str:
+    owner = str(owner_display or "").strip() or "Bot"
+    return f"{owner}'s {_card_display_name(card_name)}"
+
+
+def _extract_heal_amount_from_effect_events(effect_events: list[str] | None) -> int:
+    if not effect_events:
+        return 0
+    total_heal = 0
+    for event in effect_events:
+        text = str(event or "").strip()
+        if not text:
+            continue
+        lowered = text.lower()
+        if lowered.startswith("ausführung:") or lowered.startswith("regeneration aktiviert:"):
+            continue
+        if not (
+            lowered.startswith("heilung:")
+            or lowered.startswith("heileffekt:")
+            or lowered.startswith("lebensraub:")
+            or lowered.startswith("regeneration heilt")
+            or lowered.startswith("awesome mix:")
+        ):
+            continue
+        for match in re.findall(r"\+(\d+)\s*HP", text, flags=re.IGNORECASE):
+            try:
+                total_heal += int(match)
+            except Exception:
+                continue
+    return max(0, total_heal)
+
+
+def _extract_regen_setup_text(effect_events: list[str] | None) -> str:
+    for event in effect_events or []:
+        text = str(event or "").strip()
+        if not text:
+            continue
+        if text.lower().startswith("regeneration aktiviert:"):
+            return text.rstrip(".")
+    return ""
+
+
+def _extract_action_meta(effect_events: list[str] | None) -> tuple[str, str]:
+    action_type = ""
+    execution = ""
+    for event in effect_events or []:
+        text = str(event or "").strip()
+        if not text:
+            continue
+        lowered = text.lower()
+        if lowered.startswith("aktionstyp:"):
+            action_type = text.split(":", 1)[1].strip().rstrip(".")
+        elif lowered.startswith("ausführung:"):
+            execution = text.split(":", 1)[1].strip().rstrip(".")
+    return action_type, execution
+
+
+def _extract_boost_breakdown(effect_events: list[str] | None) -> tuple[int, int, int]:
+    for event in effect_events or []:
+        text = str(event or "").strip()
+        match = re.search(
+            r"Normal:\s*(\d+)\s*\|\s*durch Verstärkung:\s*(\d+)\s*\(\+(\d+)\)",
+            text,
+            flags=re.IGNORECASE,
+        )
+        if match:
+            return int(match.group(1)), int(match.group(2)), int(match.group(3))
+    return 0, 0, 0
+
+
+def _damage_breakdown_lines(
+    *,
+    actual_damage: int,
+    pre_effect_damage: int,
+    effect_events: list[str] | None,
+) -> list[str]:
+    final_damage = max(0, int(actual_damage or 0))
+    effect_damage = max(0, int(pre_effect_damage or 0))
+    base_damage, boosted_damage, boost_bonus = _extract_boost_breakdown(effect_events)
+    # Bei aktiver Verstärkung den AUSGANGSSCHADEN (vor Schutz-Reduktion) anzeigen:
+    # Grundschaden + Verstärkung. Eine evtl. Schutz-Reduktion erscheint separat in der
+    # "Schutzwirkung: X -> Y"-Zeile, daher hier NICHT den bereits reduzierten Endwert nehmen.
+    if boost_bonus > 0 and base_damage > 0:
+        direct_damage = max(0, int(base_damage))
+    else:
+        direct_damage = final_damage
+    total_damage = max(0, direct_damage + boost_bonus + effect_damage)
+
+    lines: list[str] = []
+    if direct_damage > 0:
+        lines.append(f"Schaden: {direct_damage}")
+    if boost_bonus > 0:
+        lines.append(f"Verstärkung Schaden: {boost_bonus}")
+    if effect_damage > 0:
+        lines.append(f"Verbrennung Schaden: {effect_damage}")
+    if total_damage > 0 and (boost_bonus > 0 or effect_damage > 0):
+        lines.append(f"Zusammen Schaden: {total_damage}")
+    elif not lines and final_damage > 0:
+        lines.append(f"Schaden: {final_damage}")
+    return lines
+
+
+def build_battle_log_entry(
+    attacker_name,
+    defender_name,
+    attack_name,
+    actual_damage,
+    is_critical,
+    attacker_user,
+    defender_user,
+    round_number,
+    defender_remaining_hp,
+    attacker_remaining_hp: int | None = None,
+    pre_effect_damage: int = 0,
+    confusion_applied: bool = False,
+    self_hit_damage: int = 0,
+    attacker_status_icons: str = "",
+    defender_status_icons: str = "",
+    effect_events: list[str] | None = None,
+) -> tuple[str, str]:
+    effective_critical = bool(is_critical and int(actual_damage or 0) > 0)
+    critical_text = "\U0001f4a5 **VOLLTREFFER!**" if effective_critical else ""
+
+    attacker_display = _display_name(attacker_user)
+    defender_display = _display_name(defender_user)
+    if attacker_status_icons:
+        attacker_display = f"{attacker_display}{attacker_status_icons}"
+    if defender_status_icons:
+        defender_display = f"{defender_display}{defender_status_icons}"
+
+    burn_suffix = f" (+{pre_effect_damage} \U0001f525)" if pre_effect_damage and pre_effect_damage > 0 else ""
+    confusion_suffix = " (+Verwirrung)" if confusion_applied else ""
+    self_hit_suffix = f" (Selbsttreffer: {self_hit_damage})" if (self_hit_damage and self_hit_damage > 0) else ""
+    effect_text = ""
+    heal_amount = _extract_heal_amount_from_effect_events(effect_events)
+    regen_setup_text = _extract_regen_setup_text(effect_events)
+    action_type, execution = _extract_action_meta(effect_events)
+    attacker_card_label = _owned_card_label(attacker_display, attacker_name)
+    defender_card_label = _owned_card_label(defender_display, defender_name)
+    attack_display_name = _card_display_name(attack_name)
+    attack_title = f"{attack_display_name} ({action_type})" if action_type else attack_display_name
+    if effect_events:
+        lines = [str(event).strip() for event in effect_events if str(event).strip()]
+        lines = [
+            line
+            for line in lines
+            if not re.search(
+                r"Normal:\s*\d+\s*\|\s*durch Verstärkung:\s*\d+\s*\(\+\d+\)",
+                line,
+                flags=re.IGNORECASE,
+            )
+        ]
+        if lines:
+            effect_text = "\n" + "\n".join(f"- {line}" for line in lines[:8])
+    damage_breakdown = _damage_breakdown_lines(
+        actual_damage=int(actual_damage or 0),
+        pre_effect_damage=int(pre_effect_damage or 0),
+        effect_events=effect_events,
+    )
+    breakdown_text = ""
+    if damage_breakdown:
+        breakdown_text = "\n" + "\n".join(f"- {line}" for line in damage_breakdown)
+
+    if int(actual_damage or 0) == 0 and heal_amount > 0:
+        attack_line = (
+            f"**{attacker_card_label}** \u27a4 **{attack_title}** \u27a4 "
+            f"**+{heal_amount} HP Heilung**"
+        )
+    elif int(actual_damage or 0) == 0 and regen_setup_text:
+        attack_line = (
+            f"**{attacker_card_label}** \u27a4 **{attack_title}** \u27a4 "
+            f"**{regen_setup_text}**"
+        )
+    else:
+        attack_line = (
+            f"**{attacker_card_label}** \u27a4 **{attack_title}** \u27a4 "
+            f"**{actual_damage} Schaden{burn_suffix}{confusion_suffix}{self_hit_suffix}** an "
+            f"**{defender_card_label}**"
+        )
+    hp_display = defender_display
+    hp_value = int(defender_remaining_hp or 0)
+    if int(actual_damage or 0) == 0 and attacker_remaining_hp is not None and (heal_amount > 0 or bool(regen_setup_text)):
+        hp_display = attacker_display
+        hp_value = int(attacker_remaining_hp)
+    new_entry = (
+        f"\n\n**Runde {round_number}:**\n"
+        f"{critical_text}\n"
+        f"{attack_line}"
+        f"{breakdown_text}"
+        f"{effect_text}\n"
+        f"\U0001f6e1\ufe0f {hp_display} hat jetzt noch **{hp_value} Leben**."
+    )
+    if int(actual_damage or 0) == 0 and heal_amount > 0:
+        summary_line = (
+            f"{attacker_card_label} \u27a4 {attack_title} \u27a4 "
+            f"+{heal_amount} HP Heilung"
+        )
+    elif int(actual_damage or 0) == 0 and regen_setup_text:
+        summary_line = (
+            f"{attacker_card_label} \u27a4 {attack_title} \u27a4 "
+            f"{regen_setup_text}"
+        )
+    else:
+        summary_line = (
+            f"{attacker_card_label} \u27a4 {attack_title} \u27a4 "
+            f"{actual_damage} Schaden an {defender_card_label}"
+        )
+    if execution and ("verfehlt" in execution.lower() or "ohne direkten schaden" in execution.lower() or "geheilt" in execution.lower()):
+        summary_line = f"{summary_line} | {execution}"
+    return new_entry, summary_line
+
+
+def update_battle_log(
+    existing_embed,
+    attacker_name,
+    defender_name,
+    attack_name,
+    actual_damage,
+    is_critical,
+    attacker_user,
+    defender_user,
+    round_number,
+    defender_remaining_hp,
+    attacker_remaining_hp: int | None = None,
+    pre_effect_damage: int = 0,
+    confusion_applied: bool = False,
+    self_hit_damage: int = 0,
+    attacker_status_icons: str = "",
+    defender_status_icons: str = "",
+    effect_events: list[str] | None = None,
+    max_rounds: int | None = 4,
+):
+    current_desc = existing_embed.description or "*Der Kampf beginnt...*"
+    new_entry, _ = build_battle_log_entry(
+        attacker_name,
+        defender_name,
+        attack_name,
+        actual_damage,
+        is_critical,
+        attacker_user,
+        defender_user,
+        round_number,
+        defender_remaining_hp,
+        attacker_remaining_hp=attacker_remaining_hp,
+        pre_effect_damage=pre_effect_damage,
+        confusion_applied=confusion_applied,
+        self_hit_damage=self_hit_damage,
+        attacker_status_icons=attacker_status_icons,
+        defender_status_icons=defender_status_icons,
+        effect_events=effect_events,
+    )
+    next_desc = current_desc + new_entry
+    next_desc = _keep_last_rounds(next_desc, max_rounds)
+    existing_embed.description = _trim_battle_log(next_desc)
+    effective_critical = bool(is_critical and int(actual_damage or 0) > 0)
+    existing_embed.color = 0xFF6B6B if effective_critical else 0x4ECDC4
+
+    return existing_embed
+
+
+def create_battle_embed(
+    player1_card: CardData,
+    player2_card: CardData,
+    player1_hp,
+    player2_hp,
+    current_turn,
+    user1,
+    user2,
+    active_effects=None,
+    current_attack_infos: list[str] | None = None,
+    recent_log_lines: list[str] | None = None,
+    highlight_tone: str | None = None,
+    enemy_cooldown_lines: list[str] | None = None,
+):
+    user1_name = _display_name(user1)
+    user2_name = _display_name(user2)
+    user1_mention = user1.mention if user1 else "Bot"
+    user2_mention = user2.mention if user2 else "Bot"
+
+    tone_color_map = {
+        "crit": 0xE74C3C,
+        "heal": 0x2ECC71,
+        "buff": 0xF1C40F,
+        "hit": 0x3498DB,
+    }
+    embed = discord.Embed(
+        title="**1v1 Kampf beginnt!**",
+        description=f"**{user1_mention} vs {user2_mention}**",
+        color=tone_color_map.get(str(highlight_tone or "").strip().lower(), 0x2F3136),
+    )
+
+    current_card = player1_card if current_turn == (user1.id if user1 else 0) else player2_card
+    other_card = player2_card if current_turn == (user1.id if user1 else 0) else player1_card
+
+    embed.set_image(url=current_card["bild"])
+    embed.set_thumbnail(url=other_card["bild"])
+
+    player1_id = user1.id if hasattr(user1, "id") else 0
+    player2_id = user2.id if hasattr(user2, "id") else 0
+    player1_burning = active_effects and any(e["type"] == "burning" for e in active_effects.get(player1_id, []))
+    player2_burning = active_effects and any(e["type"] == "burning" for e in active_effects.get(player2_id, []))
+    player1_confused = active_effects and any(e["type"] == "confusion" for e in active_effects.get(player1_id, []))
+    player2_confused = active_effects and any(e["type"] == "confusion" for e in active_effects.get(player2_id, []))
+    player1_stealth = active_effects and any(e["type"] == "stealth" for e in active_effects.get(player1_id, []))
+    player2_stealth = active_effects and any(e["type"] == "stealth" for e in active_effects.get(player2_id, []))
+    player1_airborne = active_effects and any(e["type"] == "airborne" for e in active_effects.get(player1_id, []))
+    player2_airborne = active_effects and any(e["type"] == "airborne" for e in active_effects.get(player2_id, []))
+
+    if current_turn == (user1.id if user1 else 0):
+        player1_label = (
+            f"**\U0001f7e5 {user1_name}'s Karte"
+            f"{'\U0001f525' if player1_burning else ''}"
+            f"{' \U0001f300' if player1_confused else ''}"
+            f"{' \U0001f977' if player1_stealth else ''}"
+            f"{' \u2708\ufe0f' if player1_airborne else ''}**"
+        )
+        player2_label = (
+            f"\U0001f7e6 {user2_name}'s Karte"
+            f"{'\U0001f525' if player2_burning else ''}"
+            f"{' \U0001f300' if player2_confused else ''}"
+            f"{' \U0001f977' if player2_stealth else ''}"
+            f"{' \u2708\ufe0f' if player2_airborne else ''}"
+        )
+    else:
+        player1_label = (
+            f"\U0001f7e5 {user1_name}'s Karte"
+            f"{'\U0001f525' if player1_burning else ''}"
+            f"{' \U0001f300' if player1_confused else ''}"
+            f"{' \U0001f977' if player1_stealth else ''}"
+            f"{' \u2708\ufe0f' if player1_airborne else ''}"
+        )
+        player2_label = (
+            f"**\U0001f7e6 {user2_name}'s Karte"
+            f"{'\U0001f525' if player2_burning else ''}"
+            f"{' \U0001f300' if player2_confused else ''}"
+            f"{' \U0001f977' if player2_stealth else ''}"
+            f"{' \u2708\ufe0f' if player2_airborne else ''}**"
+        )
+
+    embed.add_field(name=player1_label, value=f"{player1_card['name']}\nHP: {player1_hp}", inline=True)
+    embed.add_field(name=player2_label, value=f"{player2_card['name']}\nHP: {player2_hp}", inline=True)
+    embed.add_field(
+        name="\u2694\ufe0f",
+        value=f"**{user1_mention if current_turn == (user1.id if user1 else 0) else user2_mention} ist an der Reihe**",
+        inline=False,
+    )
+
+    def _effect_status_text(effect_entries: list[dict] | None) -> str:
+        entries = effect_entries or []
+        labels: list[str] = []
+        seen: set[str] = set()
+        for effect in entries:
+            effect_type = str(effect.get("type") or "").strip().lower()
+            if not effect_type or effect_type in seen:
+                continue
+            seen.add(effect_type)
+            duration = int(effect.get("duration", 0) or 0)
+            if effect_type == "burning":
+                labels.append(f"🔥 Brand({duration})" if duration > 0 else "🔥 Brand")
+            elif effect_type == "poison":
+                labels.append(f"☠️ Gift({duration})" if duration > 0 else "☠️ Gift")
+            elif effect_type == "bleeding":
+                labels.append(f"🩸 Blutung({duration})" if duration > 0 else "🩸 Blutung")
+            elif effect_type == "confusion":
+                labels.append(f"🌀 Verwirrt({duration})" if duration > 0 else "🌀 Verwirrt")
+            elif effect_type == "stealth":
+                labels.append("🥷 Tarnung")
+            elif effect_type == "airborne":
+                labels.append("✈️ Flugphase")
+            elif effect_type == "regen":
+                labels.append(f"💚 Regen({duration})" if duration > 0 else "💚 Regen")
+            elif effect_type == "stun":
+                labels.append(f"🛑 Stun({duration})" if duration > 0 else "🛑 Stun")
+        return ", ".join(labels[:4]) if labels else "Keine"
+
+    if active_effects:
+        p1_status = _effect_status_text(active_effects.get(player1_id, []))
+        p2_status = _effect_status_text(active_effects.get(player2_id, []))
+        status_value = f"{user1_name}: {p1_status}\n{user2_name}: {p2_status}"
+        if len(status_value) > 1024:
+            status_value = status_value[:1021] + "..."
+        embed.add_field(name="Status", value=status_value, inline=False)
+
+    if current_attack_infos:
+        info_value = "\n".join(current_attack_infos[:4])
+        if len(info_value) > 1024:
+            info_value = info_value[:1021] + "..."
+        embed.add_field(name="Fähigkeiten", value=info_value, inline=False)
+
+    if enemy_cooldown_lines:
+        cd_value = "\n".join(enemy_cooldown_lines[:6])
+        if len(cd_value) > 1024:
+            cd_value = cd_value[:1021] + "..."
+        embed.add_field(name="🛡️ Gegner-Cooldowns", value=cd_value, inline=False)
+
+    if recent_log_lines:
+        cleaned = [str(line).strip() for line in recent_log_lines if str(line).strip()]
+        if cleaned:
+            preview_value = "\n".join(f"• {line}" for line in cleaned[:2])
+            if len(preview_value) > 1024:
+                preview_value = preview_value[:1021] + "..."
+            embed.add_field(name="Letzte Angriffe", value=preview_value, inline=False)
+
+    return embed
+
+
+STATUS_PRIORITY_MAP = {
+    "green": 0,
+    "orange": 1,
+    "red": 2,
+    "black": 3,
+}
+STATUS_CIRCLE_MAP = {
+    "green": "\U0001f7e2",
+    "orange": "\U0001f7e0",
+    "red": "\U0001f534",
+    "black": "\u26ab",
+}
+
+
+def _presence_to_color(member: discord.Member) -> str:
+    candidates: list[object] = []
+    for attr in ("desktop_status", "mobile_status", "web_status", "status"):
+        try:
+            candidates.append(getattr(member, attr, None))
+        except Exception:
+            continue
+
+    priority = {
+        discord.Status.online: 0,
+        discord.Status.idle: 1,
+        discord.Status.dnd: 2,
+        discord.Status.invisible: 3,
+        discord.Status.offline: 4,
+    }
+    best: discord.Status | None = None
+    best_score: int | None = None
+    for candidate in candidates:
+        status_value: discord.Status | None = None
+        if isinstance(candidate, discord.Status):
+            status_value = candidate
+        elif isinstance(candidate, str) and candidate:
+            try:
+                status_value = discord.Status(candidate)
+            except ValueError:
+                status_value = None
+        if status_value is None:
+            continue
+        score = priority.get(status_value, 4)
+        if best_score is None or score < best_score:
+            best_score = score
+            best = status_value
+    if best is None:
+        raw = getattr(member, "raw_status", None)
+        if isinstance(raw, str) and raw:
+            try:
+                best = discord.Status(raw)
+            except ValueError:
+                best = None
+
+    try:
+        if best == discord.Status.online:
+            return "green"
+        if best == discord.Status.idle:
+            return "orange"
+        if best == discord.Status.dnd:
+            return "red"
+        return "black"
+    except Exception:
+        return "black"
+

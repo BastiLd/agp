@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Tab Close</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="popup-body">
+    <div class="shell popup-shell">
+      <nav class="topbar" aria-label="Navigation">
+        <button class="nav-button active" type="button" data-view-target="startView" data-i18n="navStart"></button>
+        <button class="nav-button" type="button" data-view-target="optionsView" data-i18n="navOptions"></button>
+        <button class="nav-button" type="button" data-view-target="settingsView" data-i18n="navSettings"></button>
+      </nav>
+
+      <section class="view active" id="startView">
+        <div class="hero-panel">
+          <div class="hero-copy">
+            <p class="eyebrow" data-i18n="startTitle"></p>
+            <h1 id="globalHeadline"></h1>
+            <p id="globalDescription"></p>
+          </div>
+          <div class="status-badge" id="globalStatusPill"></div>
+        </div>
+
+        <div class="card site-card">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow" data-i18n="currentSiteLabel"></p>
+              <h2 id="currentSiteValue"></h2>
+            </div>
+            <span class="site-state" id="siteStatusValue"></span>
+          </div>
+          <p class="muted" id="siteStatusLabel"></p>
+          <button class="button full-width" id="siteActionButton" type="button"></button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span class="stat-value" id="closedTabsValue">0</span>
+            <span class="stat-label" data-i18n="blockedTabs"></span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-value" id="closedWindowsValue">0</span>
+            <span class="stat-label" data-i18n="blockedWindows"></span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-value" id="historyValue">0</span>
+            <span class="stat-label" data-i18n="deletedHistoryEntries"></span>
+          </div>
+        </div>
+
+        <button class="button primary-toggle" id="globalActionButton" type="button"></button>
+        <div class="message" id="startMessage" aria-live="polite"></div>
+      </section>
+
+      <section class="view" id="optionsView">
+        <div class="card">
+          <div class="section-heading">
+            <div>
+              <h1 class="section-title" data-i18n="optionsTitle"></h1>
+              <p class="section-copy" data-i18n="optionsCopy"></p>
+            </div>
+          </div>
+
+          <div class="list-stack">
+            <div class="toggle-row">
+              <div>
+                <p class="toggle-title" data-i18n="closeTabs"></p>
+                <p class="toggle-copy" data-i18n="closeTabsCopy"></p>
+              </div>
+              <label class="switch">
+                <input id="closeTabsToggle" type="checkbox">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <p class="toggle-title" data-i18n="closeWindows"></p>
+                <p class="toggle-copy" data-i18n="closeWindowsCopy"></p>
+              </div>
+              <label class="switch">
+                <input id="closeWindowsToggle" type="checkbox">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <p class="toggle-title" data-i18n="blockSameSiteFamily"></p>
+                <p class="toggle-copy" data-i18n="blockSameSiteFamilyCopy"></p>
+              </div>
+              <label class="switch">
+                <input id="blockSameSiteFamilyToggle" type="checkbox">
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="toggle-row">
+              <div>
+                <p class="toggle-title" data-i18n="deleteHistory"></p>
+                <p class="toggle-copy" data-i18n="deleteHistoryCopy"></p>
+              </div>
+              <label class="switch">
+                <input id="deleteHistoryToggle" type="checkbox">
+                <span class="slider"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="settingsView">
+        <div class="card">
+          <div class="section-heading">
+            <div>
+              <h1 class="section-title" data-i18n="settingsTitle"></h1>
+              <p class="section-copy" data-i18n="settingsCopy"></p>
+            </div>
+          </div>
+
+          <div class="settings-block">
+            <span class="meta-label" data-i18n="language"></span>
+            <div class="language-row">
+              <button class="language-button" type="button" data-language="de" data-i18n="languageGerman"></button>
+              <button class="language-button" type="button" data-language="en" data-i18n="languageEnglish"></button>
+            </div>
+          </div>
+
+          <div class="settings-block">
+            <span class="meta-label" data-i18n="savedSites"></span>
+            <div class="list-stack sites-list" id="sitesList"></div>
+            <div class="input-row">
+              <input class="text-input" id="siteInput" type="text" autocomplete="off">
+              <button class="button" id="addSiteButton" type="button" data-i18n="addSite"></button>
+            </div>
+            <div class="message" id="settingsMessage" aria-live="polite"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>

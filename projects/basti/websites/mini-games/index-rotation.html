@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CHS Villach – Rotation CAPTCHA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{
+  --blue:#4a90e2;
+  --bg:#f1f3f6;
+  --card:#ffffff;
+  --shadow:0 15px 40px rgba(0,0,0,.12);
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:var(--bg);
+  font-family:Inter,system-ui,sans-serif;
+}
+
+.card{
+  background:var(--card);
+  width:360px;
+  border-radius:14px;
+  box-shadow:var(--shadow);
+  padding:18px;
+}
+
+.header{
+  background:var(--blue);
+  color:white;
+  padding:14px;
+  border-radius:10px;
+  margin-bottom:16px;
+}
+
+.header h1{
+  margin:0;
+  font-size:18px;
+  font-weight:600;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.tile{
+  aspect-ratio:1;
+  background:#eaeef4;
+  border-radius:10px;
+  cursor:pointer;
+  position:relative;
+  transition:
+    transform .6s cubic-bezier(.25,.8,.25,1),
+    box-shadow .3s;
+}
+
+.tile:hover{
+  box-shadow:0 10px 25px rgba(0,0,0,.18);
+}
+
+.tile.correct{
+  outline:3px solid #6ddf88;
+}
+
+.symbol{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:28px;
+  font-weight:700;
+  color:#555;
+}
+
+.footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:14px;
+}
+
+button{
+  border:none;
+  background:var(--blue);
+  color:white;
+  padding:8px 14px;
+  border-radius:8px;
+  font-weight:600;
+  cursor:pointer;
+  transition:background .2s;
+}
+
+button:hover{
+  background:#3a78c2;
+}
+
+.status{
+  font-size:13px;
+  color:#666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <div class="header">
+    <h1>Reassemble the Code Grid</h1>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="footer">
+    <span class="status" id="status">Rotate all tiles correctly</span>
+    <button onclick="reset()">Reset</button>
+  </div>
+</div>
+
+<script>
+const grid=document.getElementById("grid");
+const status=document.getElementById("status");
+
+let tiles=[];
+
+function create(){
+  grid.innerHTML="";
+  tiles=[];
+  for(let i=0;i<9;i++){
+    const tile=document.createElement("div");
+    tile.className="tile";
+    tile.rotation=Math.floor(Math.random()*4)*90;
+
+    tile.innerHTML=`<div class="symbol">&lt;/&gt;</div>`;
+    tile.style.transform=`rotate(${tile.rotation}deg)`;
+
+    tile.onclick=()=>{
+      tile.rotation=(tile.rotation+90)%360;
+      tile.style.transform=`rotate(${tile.rotation}deg)`;
+      check();
+    };
+
+    tiles.push(tile);
+    grid.appendChild(tile);
+  }
+}
+
+function check(){
+  let correct=true;
+  tiles.forEach(t=>{
+    if(t.rotation!==0) correct=false;
+    t.classList.toggle("correct",t.rotation===0);
+  });
+  if(correct){
+    status.textContent="✔ Verified – You are human";
+  }else{
+    status.textContent="Rotate all tiles correctly";
+  }
+}
+
+function reset(){
+  create();
+  status.textContent="Rotate all tiles correctly";
+}
+
+create();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+de-luebcke-2019	https://www.bundesgerichtshof.de/SharedDocs/Entscheidungen/DE/Strafsenate/3_StS/2021/3_StR_359-21.pdf?__blob=publicationFile&v=1
+de-luebcke-2019	https://www.bundesgerichtshof.de/SharedDocs/Entscheidungen/DE/Strafsenate/3_StS/2021/3_StR_359-21A.pdf?__blob=publicationFile&v=1
+de-kusel-2022	https://www.bundesgerichtshof.de/SharedDocs/Entscheidungen/DE/Strafsenate/4_StS/2023/4_StR_117-23.pdf?__blob=publicationFile&v=1
+de-zehlendorf-2024	https://www.bundesgerichtshof.de/SharedDocs/Entscheidungen/DE/Strafsenate/5_StS/2025/5_StR_368-25.pdf?__blob=publicationFile&v=1
+de-zehlendorf-2024	https://www.bundesgerichtshof.de/SharedDocs/Entscheidungen/DE/Strafsenate/5_StS/2022/5_StR_479-22.pdf?__blob=publicationFile&v=1
+de-muelheimer-insel-2024	https://www.bundesgerichtshof.de/SharedDocs/Entscheidungen/DE/Strafsenate/2_StS/2025/2_StR_304-25.pdf?__blob=publicationFile&v=1
+de-muelheimer-insel-2024	https://www.bundesgerichtshof.de/SharedDocs/Entscheidungen/DE/Strafsenate/2_StS/2025/2_StR_304-25.pdf?__blob=publicationFile&v=1
+uk-yeates-2010	https://caselaw.nationalarchives.gov.uk/ewhc/admin/2011/2074/data.pdf

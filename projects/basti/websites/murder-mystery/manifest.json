@@ -1,0 +1,8 @@
+{
+ "name":"Aktenzeichen Ungelöst — Mord-Mystery-Turnier",
+ "short_name":"Aktenzeichen",
+ "description":"20 reale, gerichtlich abgeschlossene Kriminalfälle aus 12 Ländern. Ermittelt gegeneinander, allein oder im Turnier.",
+ "start_url":"./index.html","scope":"./","display":"standalone","orientation":"any",
+ "background_color":"#0a0b0d","theme_color":"#0a0b0d","lang":"de","categories":["games","education"],
+ "icons":[{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}

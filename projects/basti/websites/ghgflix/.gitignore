@@ -1,0 +1,40 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Rust / Tauri build output
+src-tauri/target/
+
+# secrets
+*.env
+.env.*
+
+# GHGFlix personal server config (enthält TMDb-Key)
+server/docker-compose.zimaos.yml
+docker-compose.zimaos.yml
+
+# Von scripts/tv-installieren.ps1 heruntergeladene Android-Werkzeuge (adb).
+# Rund 17 MB Fremdbinaerdateien - gehoeren nicht ins Repo, holt sich das
+# Skript bei Bedarf selbst von Google.
+werkzeuge/

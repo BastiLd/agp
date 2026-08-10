@@ -1,0 +1,316 @@
+﻿from __future__ import annotations
+
+import logging
+
+import discord
+from discord import SelectOption, ui
+
+from botcore.facades import GameplayFacade
+
+
+def register_gameplay_commands(bot, api: GameplayFacade) -> dict[str, object]:
+    class MissionOperationSelectView(ui.View):
+        def __init__(self, user_id: int, options: list[SelectOption]):
+            super().__init__(timeout=60)
+            self.user_id = user_id
+            self.value: str | None = None
+            self.select = ui.Select(
+                placeholder="Wähle eine Operation...",
+                min_values=1,
+                max_values=1,
+                options=options[:25],
+            )
+            self.select.callback = self._on_select
+            self.add_item(self.select)
+
+        async def _on_select(self, interaction: discord.Interaction):
+            if interaction.user.id != self.user_id:
+                await interaction.response.send_message("Nur der Mission-User kann wählen!", ephemeral=True)
+                return
+            self.value = str(self.select.values[0] or "").strip() or None
+            await interaction.response.defer()
+            self.stop()
+
+    @bot.tree.command(
+        name="mission",
+        description="Schicke dein Team auf eine Mission und erhalte eine Belohnung",
+    )
+    async def mission(interaction: discord.Interaction):
+        if not await api.is_channel_allowed(interaction):
+            return
+        if await api.is_alpha_enabled(interaction.guild_id):
+            await api._send_ephemeral(interaction, content=api.ALPHA_FEATURE_DISABLED_TEXT)
+            return
+        await interaction.response.defer(ephemeral=True)
+        is_admin_user = await api.is_admin(interaction)
+
+        mission_count = 0
+        if not is_admin_user:
+            mission_count = await api.get_mission_count(interaction.user.id)
+            if mission_count >= 2:
+                await api._send_ephemeral(
+                    interaction,
+                    content=(
+                        "\u274c Du hast heute bereits deine 2 Missionen "
+                        "aufgebraucht! Komme morgen wieder."
+                    ),
+                )
+                return
+
+        operation_view = MissionOperationSelectView(
+            interaction.user.id,
+            api.mission_operation_options(),
+        )
+        await interaction.followup.send(
+            "Wähle zuerst die Operation für deine Mission:",
+            view=operation_view,
+            ephemeral=True,
+        )
+        await operation_view.wait()
+        if not operation_view.value:
+            await interaction.followup.send("⏰ Keine Operation gewählt. Mission abgebrochen.", ephemeral=True)
+            return
+
+        mission_data = api.build_mission_from_operation(
+            operation_view.value,
+            mission_number=mission_count + 1,
+            is_admin=is_admin_user,
+        )
+        embed = api._build_mission_embed(mission_data)
+        mission_thread = await api._create_required_private_mission_thread(interaction)
+        if mission_thread is None:
+            return
+
+        request_id = await api.create_mission_request(
+            guild_id=interaction.guild_id or 0,
+            channel_id=mission_thread.id,
+            user_id=interaction.user.id,
+            mission_data=mission_data,
+            visibility=api.VISIBILITY_PRIVATE,
+            is_admin=is_admin_user,
+        )
+        mission_view = api.MissionAcceptView(
+            interaction.user.id,
+            mission_data,
+            request_id=request_id,
+            visibility=api.VISIBILITY_PRIVATE,
+            is_admin=is_admin_user,
+        )
+        message = await api._safe_send_channel(interaction, mission_thread, embed=embed, view=mission_view)
+        if isinstance(message, discord.Message):
+            await api.update_mission_request_message(request_id, message.id, message.channel.id)
+            await interaction.followup.send(f"Mission-Thread erstellt: {mission_thread.mention}", ephemeral=True)
+        else:
+            await interaction.followup.send(
+                "\u274c Missions-Anfrage konnte nicht gesendet werden.",
+                ephemeral=True,
+            )
+
+    @bot.tree.command(name="geschichte", description="Starte eine interaktive Story")
+    async def story(interaction: discord.Interaction):
+        if not await api.is_channel_allowed(interaction):
+            return
+        if await api.is_alpha_enabled(interaction.guild_id):
+            await api._send_ephemeral(interaction, content=api.ALPHA_FEATURE_DISABLED_TEXT)
+            return
+        if await api.is_beta_enabled(interaction.guild_id):
+            await api._send_ephemeral(interaction, content=api.BETA_STORY_DISABLED_TEXT)
+            return
+        visibility_key = api.command_visibility_key_for_interaction(interaction)
+        visibility = (
+            await api.get_message_visibility(interaction.guild_id, visibility_key)
+            if visibility_key
+            else api.VISIBILITY_PRIVATE
+        )
+        ephemeral = visibility != api.VISIBILITY_PUBLIC
+        view = api.StorySelectView(interaction.user.id)
+        embed = discord.Embed(
+            title="\U0001F4D6 Story ausw\u00e4hlen",
+            description="W\u00e4hle eine Story aus der Liste. Aktuell verf\u00fcgbar: **text**",
+        )
+        await api._send_with_visibility(interaction, visibility_key, embed=embed, view=view)
+        await view.wait()
+        if not view.value:
+            await interaction.followup.send(
+                "\u23f0 Keine Story gew\u00e4hlt. Abgebrochen.",
+                ephemeral=ephemeral,
+            )
+            return
+
+        story_view = api.StoryPlayerView(interaction.user.id, view.value)
+        start_embed = story_view.render_step_embed()
+        await interaction.followup.send(embed=start_embed, view=story_view, ephemeral=ephemeral)
+
+    @bot.tree.command(name="kampf", description="Fordere einen anderen Spieler im 1v1 heraus!")
+    async def fight(interaction: discord.Interaction):
+        if not await api.is_channel_allowed(interaction):
+            return
+
+        try:
+            if not interaction.response.is_done():
+                await interaction.response.defer(ephemeral=True)
+        except Exception:
+            logging.exception("Unexpected error")
+
+        public_result_channel_id = interaction.channel_id or 0
+        if isinstance(interaction.channel, discord.Thread):
+            public_result_channel_id = int(interaction.channel.parent_id or interaction.channel_id or 0)
+
+        user_karten = await api.get_user_karten(interaction.user.id)
+        if not user_karten:
+            await interaction.followup.send(
+                "Du brauchst mindestens 1 Karte f\u00fcr den Kampf!",
+                ephemeral=True,
+            )
+            return
+
+        card_select_view = api.CardSelectView(interaction.user.id, user_karten, 1)
+        await interaction.followup.send(
+            "W\u00e4hle deine Karte f\u00fcr den 1v1-Kampf:",
+            view=card_select_view,
+            ephemeral=True,
+        )
+        await card_select_view.wait()
+        if not card_select_view.value:
+            await interaction.followup.send(
+                "\u23f0 Keine Karte gew\u00e4hlt. Kampf abgebrochen.",
+                ephemeral=True,
+            )
+            return
+
+        selected_names = card_select_view.value
+        selected_cards = [await api.get_karte_by_name(name) for name in selected_names]
+
+        view = api.OpponentSelectView(interaction.user, interaction.guild)
+        await interaction.followup.send(
+            "W\u00e4hle einen Gegner (User oder Bot):",
+            view=view,
+            ephemeral=True,
+        )
+        await view.wait()
+        if not view.value:
+            await interaction.followup.send(
+                "\u23f0 Kein Gegner gew\u00e4hlt. Kampf abgebrochen.",
+                ephemeral=True,
+            )
+            return
+
+        opponent_id = view.value
+        if opponent_id == "bot":
+            # Wie soll der Bot spielen? Gibt es nur "Standard", wird nicht
+            # gefragt und der Ablauf bleibt genau der alte.
+            gegner_version = await api.frage_gegner_version(interaction)
+            fight_thread = await api._create_required_private_fight_thread(interaction)
+            if fight_thread is None:
+                return
+            target_channel = fight_thread
+            alpha_enabled = await api.is_alpha_enabled(interaction.guild_id)
+            bot_card = api.random_gameplay_card(api.karten, alpha_enabled=alpha_enabled)
+            battle_view = api.BattleView(
+                selected_cards[0],
+                bot_card,
+                interaction.user.id,
+                0,
+                None,
+                public_result_channel_id=public_result_channel_id,
+            )
+            battle_view.setze_gegner_version(gegner_version, guild_id=interaction.guild_id)
+            await battle_view.init_with_buffs()
+
+            class BotUser:
+                def __init__(self):
+                    self.id = 0
+                    self.display_name = "Bot"
+                    self.mention = "**Bot**"
+
+            bot_user = BotUser()
+            log_message = await api._safe_send_channel(
+                interaction,
+                target_channel,
+                embed=api.create_battle_log_embed(),
+            )
+            if isinstance(log_message, discord.Message):
+                battle_view.battle_log_message = log_message
+
+            embed = api.create_battle_embed(
+                selected_cards[0],
+                bot_card,
+                battle_view.player1_hp,
+                battle_view.player2_hp,
+                interaction.user.id,
+                interaction.user,
+                bot_user,
+                current_attack_infos=api._build_attack_info_lines(selected_cards[0]),
+                recent_log_lines=battle_view._recent_log_lines,
+                highlight_tone=battle_view._last_highlight_tone,
+            )
+            battle_message = await api._safe_send_channel(interaction, target_channel, embed=embed, view=battle_view)
+            if battle_message is None:
+                return
+            if isinstance(battle_message, discord.Message):
+                await battle_view.persist_session(target_channel, status="active", battle_message=battle_message)
+            return
+
+        guild = interaction.guild
+        if guild is None:
+            await interaction.followup.send("\u274c Dieser Command funktioniert nur auf einem Server.", ephemeral=True)
+            return
+        challenged = guild.get_member(int(opponent_id))
+        if not challenged:
+            await interaction.followup.send("\u274c Gegner nicht gefunden!", ephemeral=True)
+            return
+        fight_thread = await api._create_required_private_fight_thread(interaction, challenged=challenged)
+        if fight_thread is None:
+            return
+        target_channel = fight_thread
+        thread_created = True
+
+        request_id = await api.create_fight_request(
+            guild_id=interaction.guild_id or 0,
+            origin_channel_id=public_result_channel_id or 0,
+            message_channel_id=getattr(target_channel, "id", 0) or 0,
+            thread_id=fight_thread.id,
+            thread_created=thread_created,
+            challenger_id=interaction.user.id,
+            challenged_id=challenged.id,
+            challenger_card=selected_cards[0]["name"],
+        )
+        challenge_view = api.ChallengeResponseView(
+            interaction.user.id,
+            challenged.id,
+            selected_cards[0]["name"],
+            request_id=request_id,
+            origin_channel_id=public_result_channel_id,
+            thread_id=fight_thread.id,
+            thread_created=thread_created,
+        )
+        message = await api._safe_send_channel(
+            interaction,
+            target_channel,
+            content=api._fight_challenge_prompt(challenged.mention, selected_cards[0]["name"]),
+            view=challenge_view,
+        )
+        if message is None:
+            await api.claim_fight_request(request_id, "failed")
+            await api._maybe_delete_fight_thread(fight_thread.id if fight_thread else None, thread_created)
+            return
+        await api.update_fight_request_message(request_id, message.id, getattr(message.channel, "id", None))
+        # Req. 13.1: AFK-Timer für die offene Challenge anlegen (4h -> Acceptor pingen).
+        try:
+            from services import afk_tracker
+            await afk_tracker.create_challenge_state(
+                battle_id=f"challenge:{request_id}",
+                thread_id=fight_thread.id,
+                challenger_id=interaction.user.id,
+                acceptor_id=challenged.id,
+            )
+        except Exception:
+            logging.exception("Failed to create challenge AFK state")
+        await interaction.followup.send(f"Warte auf Antwort von {challenged.mention}...", ephemeral=True)
+
+    return {
+        "mission": mission,
+        "story": story,
+        "fight": fight,
+    }
+

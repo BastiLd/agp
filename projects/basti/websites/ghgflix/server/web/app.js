@@ -1,0 +1,1110 @@
+/* GHGFlix web app — vanilla JS SPA (no build step, no dependencies).
+   Hash routing so the phone's back button/gesture always does the right
+   thing (player → detail page → overview), seasons are remembered. */
+"use strict";
+
+const $ = (sel, el = document) => el.querySelector(sel);
+const app = $("#app");
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+// Line icons that match the desktop app's lucide set (House/Film/Tv/Settings…).
+const ICONS = {
+  home: '<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/>',
+  film: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 3v18"/><path d="M3 7.5h4"/><path d="M3 12h18"/><path d="M3 16.5h4"/><path d="M17 3v18"/><path d="M17 7.5h4"/><path d="M17 16.5h4"/>',
+  tv: '<rect width="20" height="15" x="2" y="7" rx="2" ry="2"/><path d="m17 2-5 5-5-5"/>',
+  settings: '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>',
+  search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  refresh: '<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/>',
+  heart: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>',
+  play: '<polygon points="6 3 20 12 6 21 6 3"/>',
+  plus: '<path d="M5 12h14"/><path d="M12 5v14"/>',
+  hdd: '<line x1="22" x2="2" y1="12" y2="12"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/><line x1="6" x2="6.01" y1="16" y2="16"/><line x1="10" x2="10.01" y1="16" y2="16"/>',
+  folder: '<path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/>',
+  sparkles: '<path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .962 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.962 0z"/>',
+};
+const svgIcon = (name, size = 20) =>
+  `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block">${ICONS[name] || ""}</svg>`;
+
+// ── connection manager ──────────────────────────────────────────────────────
+// Saved endpoints (Lokal / Domain / Tailscale). When the PWA shell loads but
+// the current origin is unreachable (e.g. you left the house), it pings the
+// other addresses and hops to the first one that answers. Manual mode only
+// switches when the user picks an address.
+const CONN_KEY = "ghgflix.endpoints";
+const conn = {
+  load() {
+    try {
+      return JSON.parse(localStorage.getItem(CONN_KEY)) || { mode: "auto", list: [] };
+    } catch {
+      return { mode: "auto", list: [] };
+    }
+  },
+  save(v) {
+    localStorage.setItem(CONN_KEY, JSON.stringify(v));
+  },
+  async ping(base, ms = 3500) {
+    try {
+      const r = await fetch(base.replace(/\/$/, "") + "/api/ping", { signal: AbortSignal.timeout(ms) });
+      const j = await r.json();
+      return j && j.app === "ghgflix-server";
+    } catch {
+      return false;
+    }
+  },
+  async autoSwitch() {
+    const c = this.load();
+    if (c.mode !== "auto" || c.list.length === 0) return;
+    if (await this.ping(location.origin)) return; // current server fine
+    for (const e of c.list) {
+      const base = e.url.replace(/\/$/, "");
+      if (base === location.origin) continue;
+      if (await this.ping(base)) {
+        toast(`Wechsle zu ${e.name || base} …`);
+        location.replace(base + location.pathname + location.hash);
+        return;
+      }
+    }
+  },
+};
+
+// ── api ─────────────────────────────────────────────────────────────────────
+const store = {
+  get token() { return localStorage.getItem("ghgflix.token") || ""; },
+  set token(v) { v ? localStorage.setItem("ghgflix.token", v) : localStorage.removeItem("ghgflix.token"); },
+  get profile() { return parseInt(localStorage.getItem("ghgflix.profile") || "0", 10); },
+  set profile(v) { localStorage.setItem("ghgflix.profile", String(v)); },
+};
+
+async function api(path, opts = {}) {
+  const url = new URL(path, location.origin);
+  url.searchParams.set("profile", String(store.profile || 1));
+  if (store.token) url.searchParams.set("token", store.token);
+  const res = await fetch(url, {
+    method: opts.method || "GET",
+    headers: opts.body ? { "Content-Type": "application/json" } : {},
+    body: opts.body ? JSON.stringify(opts.body) : undefined,
+  });
+  if (res.status === 401) {
+    store.token = "";
+    route(); // back to login
+    throw new Error("unauthorized");
+  }
+  return res.json();
+}
+
+const img = (path, size = "w342") => (path ? `/api/img?path=${encodeURIComponent(path)}&size=${size}${store.token ? `&token=${store.token}` : ""}&profile=1` : null);
+const thumbUrl = (type, id) => `/api/thumb/${type}/${id}?profile=1${store.token ? `&token=${store.token}` : ""}`;
+const fmtTime = (s) => {
+  s = Math.max(0, Math.floor(s || 0));
+  const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60;
+  return h ? `${h}:${String(m).padStart(2, "0")}:${String(x).padStart(2, "0")}` : `${m}:${String(x).padStart(2, "0")}`;
+};
+
+let toastTimer;
+function toast(msg) {
+  $(".toast")?.remove();
+  const t = document.createElement("div");
+  t.className = "toast";
+  t.textContent = msg;
+  document.body.appendChild(t);
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.remove(), 3500);
+}
+
+// ── layout ──────────────────────────────────────────────────────────────────
+/** GHGFlix wordmark (GHG white + Flix red + red zigzag), like the desktop app. */
+const wordmark = (fontSize = 26) => `
+  <div class="wordmark">
+    <div class="wm" style="font-size:${fontSize}px"><span class="ghg">GHG</span><span class="flix">Flix</span></div>
+    <svg viewBox="0 0 120 12" preserveAspectRatio="none" style="height:${Math.round(fontSize * 0.3)}px;width:${Math.round(fontSize * 3)}px;margin-top:${Math.round(fontSize * 0.22)}px" fill="none" aria-hidden="true">
+      <polyline points="2,9 14,3 26,9 38,3 50,9 62,3 74,9 86,3 98,9 110,3 118,7" stroke="#e50914" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>`;
+
+const NAV = [
+  { id: "home", hash: "#/", label: "Start", icon: "home" },
+  { id: "movies", hash: "#/movies", label: "Filme", icon: "film" },
+  { id: "shows", hash: "#/shows", label: "Serien", icon: "tv" },
+  { id: "list", hash: "#/list", label: "Meine Liste", icon: "heart" },
+  { id: "settings", hash: "#/settings", label: "Einstellungen", icon: "settings" },
+];
+
+let lastCounts = { shows: null, movies: null };
+
+function shell(active, inner) {
+  const pName = localStorage.getItem("ghgflix.profileName") || "Profil";
+  app.innerHTML = `
+    <div class="frame">
+      <aside class="sidebar">
+        <div class="logo">${wordmark(26)}</div>
+        <nav>
+          ${NAV.map((n) => `
+            <button class="navitem ${active === n.id ? "active" : ""}" onclick="location.hash='${n.hash}'">
+              <span class="ic">${svgIcon(n.icon)}</span><span class="lbl">${n.label}</span>
+              ${n.id === "movies" && lastCounts.movies != null ? `<span class="count">${lastCounts.movies}</span>` : ""}
+              ${n.id === "shows" && lastCounts.shows != null ? `<span class="count">${lastCounts.shows}</span>` : ""}
+            </button>`).join("")}
+        </nav>
+        <button class="profilebtn" onclick="localStorage.removeItem('ghgflix.profile');location.reload()">
+          <span class="ava">${esc((pName[0] || "P").toUpperCase())}</span>
+          <span><span class="pn">${esc(pName)}</span><br><span class="ps">Profil wechseln</span></span>
+        </button>
+      </aside>
+      <div class="main">
+        <div class="topbar">
+          <div class="searchwrap">
+            <span class="si">${svgIcon("search", 18)}</span>
+            <input class="search" id="topsearch" placeholder="Suchen …" value="${esc(active === "search" ? currentQuery : "")}">
+          </div>
+          <div class="spacer"></div>
+          <button class="iconbtn" id="rescanTop" title="Bibliothek scannen">${svgIcon("refresh", 18)}</button>
+        </div>
+        <div class="content"><div class="page">${inner}</div></div>
+      </div>
+    </div>`;
+  const search = $("#topsearch");
+  search.oninput = () => runSearch(search.value);
+  $("#rescanTop").onclick = async () => { await api("/api/scan", { method: "POST" }); toast("Scan gestartet …"); };
+}
+
+let currentQuery = "";
+let searchTimer;
+function runSearch(q) {
+  currentQuery = q;
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(async () => {
+    if (!q.trim()) { if (location.hash.startsWith("#/search")) location.hash = "#/"; return; }
+    const lib = await getLibrary();
+    const ql = q.toLowerCase();
+    const shows = lib.shows.filter((s) => s.title.toLowerCase().includes(ql));
+    const movies = lib.movies.filter((m) => m.title.toLowerCase().includes(ql));
+    const box = $("#searchResults");
+    const html = `
+      ${shows.length ? `<div class="section-title">Serien</div><div class="grid">${shows.map((s) => posterCard("show", s)).join("")}</div>` : ""}
+      ${movies.length ? `<div class="section-title">Filme</div><div class="grid">${movies.map((m) => posterCard("movie", m)).join("")}</div>` : ""}
+      ${!shows.length && !movies.length ? '<div class="empty">Nichts gefunden</div>' : ""}`;
+    if (box) box.innerHTML = html;
+    else { if (!location.hash.startsWith("#/search")) history.replaceState(null, "", "#/search"); renderSearchPage(q, html); }
+  }, 180);
+}
+function renderSearchPage(q, html) {
+  shell("search", `<div class="section-title">Suche: „${esc(q)}“</div><div id="searchResults">${html}</div>`);
+  const s = $("#topsearch");
+  s.focus();
+  s.setSelectionRange(q.length, q.length);
+}
+
+// ── shared library state (progress + favorites), loaded once, refreshable ────
+let progressCache = null; // Map "type:refId" -> {position,duration,watched}
+let favCache = null; // Set "type:refId"
+async function loadUserState(force) {
+  if (!force && progressCache && favCache) return;
+  const [prog, favs] = await Promise.all([api("/api/progress"), api("/api/favorites").catch(() => [])]);
+  progressCache = new Map(prog.map((p) => [`${p.mediaType}:${p.refId}`, p]));
+  favCache = new Set(favs.map((f) => `${f.mediaType}:${f.refId}`));
+}
+const isFav = (kind, id) => favCache?.has(`${kind}:${id}`);
+async function toggleFav(kind, id) {
+  const r = await api("/api/favorites", { method: "POST", body: { mediaType: kind, refId: id } });
+  if (r.favorite) favCache.add(`${kind}:${id}`);
+  else favCache.delete(`${kind}:${id}`);
+  return r.favorite;
+}
+/** Fraction watched of a movie (for the progress bar on movie cards). */
+function movieProgress(id) {
+  const p = progressCache?.get(`movie:${id}`);
+  if (!p || p.watched || !p.duration || p.position < 30) return 0;
+  return Math.min(1, p.position / p.duration);
+}
+const isNew = (x) => Date.now() - (x.added_at || 0) < 7 * 864e5;
+
+const posterCard = (kind, x) => {
+  const watched = kind === "movie" && progressCache?.get(`movie:${x.id}`)?.watched;
+  const pct = kind === "movie" ? movieProgress(x.id) : 0;
+  return `
+  <a class="card" href="#/${kind}/${x.id}">
+    <div class="poster-wrap">
+      ${x.poster ? `<img class="poster" loading="lazy" src="${img(x.poster)}">` : `<div class="poster ph">${esc(x.title)}</div>`}
+      ${watched ? `<span class="badge-watched">${svgIcon("check", 13)}</span>` : ""}
+      ${isNew(x) ? `<span class="badge-new">NEU</span>` : ""}
+      ${pct > 0 ? `<div class="card-prog"><i style="width:${Math.round(pct * 100)}%"></i></div>` : ""}
+    </div>
+    <div class="t">${esc(x.title)}</div>
+    ${x.year ? `<div class="st">${x.year}</div>` : ""}
+  </a>`;
+};
+
+// ── views ───────────────────────────────────────────────────────────────────
+async function viewLogin() {
+  const ping = await api("/api/ping").catch(() => null);
+  if (!ping?.auth || store.token) return viewProfiles();
+  app.innerHTML = `
+    <div class="center-screen"><div style="width:min(380px,92vw)">
+      <div style="display:flex;justify-content:center;margin-bottom:28px">${wordmark(40)}</div>
+      <div class="panel"><h3>Anmelden</h3><div class="desc">Server: ${esc(ping.name)}</div>
+        <div class="field"><label>Passwort</label><input id="pw" type="password" autofocus></div>
+        <button class="btn" id="go" style="width:100%;justify-content:center">Anmelden</button>
+      </div>
+    </div></div>`;
+  const go = async () => {
+    const r = await fetch("/api/login", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password: $("#pw").value }) }).then((x) => x.json());
+    if (r.token) { store.token = r.token; route(); } else toast(r.error || "Fehler");
+  };
+  $("#go").onclick = go;
+  $("#pw").onkeydown = (e) => e.key === "Enter" && go();
+}
+
+async function viewProfiles() {
+  const profiles = await api("/api/profiles");
+  if (store.profile && profiles.some((p) => p.id === store.profile)) {
+    const me = profiles.find((p) => p.id === store.profile);
+    if (me) localStorage.setItem("ghgflix.profileName", me.name);
+    return viewHome();
+  }
+  // only one profile? skip the picker (single-user convenience) and honor
+  // whatever route the user actually navigated to (settings, a detail page, …)
+  if (profiles.length === 1) {
+    store.profile = profiles[0].id;
+    localStorage.setItem("ghgflix.profileName", profiles[0].name);
+    return route();
+  }
+  app.innerHTML = `
+    <div class="center-screen"><div>
+      <div style="display:flex;justify-content:center;margin-bottom:12px">${wordmark(40)}</div>
+      <p style="text-align:center;color:var(--muted);margin-bottom:28px;margin-top:14px">Wer schaut?</p>
+      <div class="profile-grid">
+        ${profiles.map((p) => `<button class="pf" data-id="${p.id}" data-name="${esc(p.name)}"><span class="ava">${esc(p.name[0].toUpperCase())}</span><span>${esc(p.name)}</span></button>`).join("")}
+        <button class="pf" id="addpf"><span class="ava" style="background:var(--surface2)">+</span><span>Neu</span></button>
+      </div>
+    </div></div>`;
+  const pick = (id, name) => { store.profile = id; localStorage.setItem("ghgflix.profileName", name); viewHome(); };
+  app.querySelectorAll(".pf[data-id]").forEach((b) => (b.onclick = () => pick(+b.dataset.id, b.dataset.name)));
+  $("#addpf").onclick = async () => {
+    const name = prompt("Name des Profils?");
+    if (!name) return;
+    const r = await api("/api/profiles", { method: "POST", body: { name } });
+    if (r.id) pick(r.id, name); else toast(r.error || "Fehler");
+  };
+}
+
+let libraryCache = null;
+const getLibrary = async (force) => (libraryCache = !force && libraryCache ? libraryCache : await api("/api/library"));
+
+const contCard = (c) => {
+  const href = c.mediaType === "movie" ? `#/play/movie/${c.refId}` : `#/play/episode/${c.refId}`;
+  const pic = c.still ? img(c.still, "w300") : c.mBackdrop || c.sBackdrop ? img(c.mBackdrop || c.sBackdrop, "w300") : thumbUrl(c.mediaType, c.refId);
+  const sub = c.mediaType === "episode" ? `S${String(c.season).padStart(2, "0")}E${String(c.episode).padStart(2, "0")} · ${fmtTime(c.duration - c.position)} übrig` : `${fmtTime(c.duration - c.position)} übrig`;
+  return `<a class="ccard" href="${href}"><img loading="lazy" src="${pic}"><div class="play-badge"><span>▶</span></div><div class="bar"><i style="width:${Math.round((c.position / c.duration) * 100)}%"></i></div><div class="t">${esc(c.title)}</div><div class="s">${sub}</div></a>`;
+};
+
+const parseGenres = (g) => (g ? String(g).split(/[,;]/).map((s) => s.trim()).filter(Boolean) : []);
+const row = (title, cards) => (cards.trim() ? `<div class="section-title">${esc(title)}</div><div class="hrow">${cards}</div>` : "");
+const grid = (title, cards) => (cards.trim() ? `<div class="section-title">${esc(title)}</div><div class="grid">${cards}</div>` : "");
+
+async function viewHome() {
+  const [lib] = await Promise.all([getLibrary(), loadUserState()]);
+  const [cont, history] = await Promise.all([api("/api/continue"), api("/api/history").catch(() => [])]);
+  lastCounts = { shows: lib.shows.length, movies: lib.movies.length };
+  const empty = lib.shows.length === 0 && lib.movies.length === 0;
+  const allItems = [...lib.movies.map((m) => ({ ...m, kind: "movie" })), ...lib.shows.map((s) => ({ ...s, kind: "show" }))];
+
+  // hero — newest item with a backdrop (desktop-style)
+  const hero = allItems.filter((x) => x.backdrop).sort((a, b) => b.added_at - a.added_at)[0];
+  const heroFav = hero && isFav(hero.kind, hero.id);
+  const heroHtml = hero
+    ? `<div class="herobox">
+        <img src="${img(hero.backdrop, "w1280")}">
+        <div class="grad"></div>
+        <div class="info">
+          <h1>${esc(hero.title)}</h1>
+          <div class="meta">${hero.year ?? ""}${hero.rating ? ` · ★ ${hero.rating.toFixed(1)}` : ""}${hero.genres ? ` · ${esc(hero.genres)}` : ""}</div>
+          <p>${esc(hero.overview ?? "")}</p>
+          <div class="btnrow" style="margin-bottom:0">
+            <a class="btn" href="#/${hero.kind}/${hero.id}">${svgIcon("play", 16)} Ansehen</a>
+            <button class="btn ghost" id="heroFav">${svgIcon("heart", 16)} ${heroFav ? "In Meiner Liste" : "Meine Liste"}</button>
+          </div>
+        </div>
+      </div>`
+    : "";
+
+  // my-list resolved
+  const favShows = lib.shows.filter((s) => isFav("show", s.id));
+  const favMovies = lib.movies.filter((m) => isFav("movie", m.id));
+  const newest = [...allItems].sort((a, b) => b.added_at - a.added_at).slice(0, 18);
+  const topRated = allItems.filter((x) => (x.rating ?? 0) >= 7).sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0)).slice(0, 18);
+
+  // genre rows (genres present on >=2 items, most common first)
+  const genreCount = {};
+  for (const x of allItems) for (const g of parseGenres(x.genres)) genreCount[g] = (genreCount[g] || 0) + 1;
+  const genres = Object.entries(genreCount).filter(([, n]) => n >= 2).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([g]) => g);
+  const genreRows = genres
+    .map((g) => row(g, allItems.filter((x) => parseGenres(x.genres).includes(g)).slice(0, 18).map((x) => posterCard(x.kind, x)).join("")))
+    .join("");
+
+  shell(
+    "home",
+    empty
+      ? `<div class="empty">Noch nichts in der Bibliothek.<br><br>Geh zu <b>Einstellungen → Bibliotheken</b> und füge deine Film- und Serienordner hinzu (oder „Automatisch erkennen“).<br><br><a class="btn" href="#/settings" style="display:inline-flex;margin-top:8px">Zu den Einstellungen</a></div>`
+      : `${heroHtml}
+     ${row("Weiterschauen", cont.map(contCard).join(""))}
+     ${row("Meine Liste", [...favShows.map((s) => posterCard("show", s)), ...favMovies.map((m) => posterCard("movie", m))].join(""))}
+     ${row("Neu dazugekommen", newest.map((x) => posterCard(x.kind, x)).join(""))}
+     ${row("Serien", lib.shows.map((s) => posterCard("show", s)).join(""))}
+     ${row("Filme", lib.movies.map((x) => posterCard("movie", x)).join(""))}
+     ${row("Top bewertet", topRated.map((x) => posterCard(x.kind, x)).join(""))}
+     ${genreRows}
+     ${row("Zuletzt gesehen", history.map((h) => contCard({ ...h, position: 0, duration: 1 })).join(""))}`,
+  );
+  const hf = $("#heroFav");
+  if (hf) hf.onclick = async () => { await toggleFav(hero.kind, hero.id); viewHome(); };
+}
+
+/** Movies/Shows page with the desktop toolbar (filter, genre, sort, hide-watched). */
+async function viewGrid(kind) {
+  const [lib] = await Promise.all([getLibrary(), loadUserState()]);
+  lastCounts = { shows: lib.shows.length, movies: lib.movies.length };
+  const linkKind = kind === "shows" ? "show" : "movie";
+  const items = kind === "shows" ? lib.shows : lib.movies;
+  const title = kind === "shows" ? "Serien" : "Filme";
+  const allGenres = [...new Set(items.flatMap((x) => parseGenres(x.genres)))].sort();
+  const sortKey = `ghgflix.sort.${kind}`;
+  let sort = localStorage.getItem(sortKey) || "added";
+  let genre = "";
+  let q = "";
+  let hideWatched = localStorage.getItem(`ghgflix.hideWatched.${kind}`) === "1";
+
+  const render = () => {
+    let list = items.filter((x) => (!q || x.title.toLowerCase().includes(q)) && (!genre || parseGenres(x.genres).includes(genre)));
+    if (hideWatched && kind === "movies") list = list.filter((x) => !progressCache?.get(`movie:${x.id}`)?.watched);
+    const cmp = { added: (a, b) => b.added_at - a.added_at, title: (a, b) => a.title.localeCompare(b.title, "de"), year: (a, b) => (b.year ?? 0) - (a.year ?? 0), yearOld: (a, b) => (a.year ?? 9999) - (b.year ?? 9999), rating: (a, b) => (b.rating ?? 0) - (a.rating ?? 0) };
+    list = [...list].sort(cmp[sort] || cmp.added);
+    $("#gridBody").innerHTML = list.map((x) => posterCard(linkKind, x)).join("") || '<div class="empty">Nichts gefunden.</div>';
+  };
+
+  shell(
+    kind,
+    `<div class="grid-toolbar">
+       <div class="section-title" style="margin:0">${title} <span style="color:var(--muted);font-weight:400;font-size:14px">${items.length}</span></div>
+       <div class="tb-controls">
+         <input class="tb" id="tbq" placeholder="Filtern …">
+         <select class="tb" id="tbgenre"><option value="">Alle Genres</option>${allGenres.map((g) => `<option>${esc(g)}</option>`).join("")}</select>
+         ${kind === "movies" ? `<label class="tb-check"><input type="checkbox" id="tbwatched" ${hideWatched ? "checked" : ""}> Gesehene ausblenden</label>` : ""}
+         <select class="tb" id="tbsort">
+           <option value="added">Zuletzt hinzugefügt</option>
+           <option value="title">Titel A–Z</option>
+           <option value="year">Jahr (neueste)</option>
+           <option value="yearOld">Jahr (älteste)</option>
+           <option value="rating">Bewertung</option>
+         </select>
+       </div>
+     </div>
+     <div class="grid" id="gridBody"></div>`,
+  );
+  $("#tbsort").value = sort;
+  $("#tbq").oninput = () => { q = $("#tbq").value.toLowerCase(); render(); };
+  $("#tbgenre").onchange = () => { genre = $("#tbgenre").value; render(); };
+  $("#tbsort").onchange = () => { sort = $("#tbsort").value; localStorage.setItem(sortKey, sort); render(); };
+  const tw = $("#tbwatched");
+  if (tw) tw.onchange = () => { hideWatched = tw.checked; localStorage.setItem(`ghgflix.hideWatched.${kind}`, hideWatched ? "1" : "0"); render(); };
+  render();
+}
+
+async function viewMyList() {
+  const [lib] = await Promise.all([getLibrary(), loadUserState(true)]);
+  const favShows = lib.shows.filter((s) => isFav("show", s.id));
+  const favMovies = lib.movies.filter((m) => isFav("movie", m.id));
+  shell(
+    "list",
+    (favShows.length || favMovies.length)
+      ? `${grid("Serien", favShows.map((s) => posterCard("show", s)).join(""))}
+         ${grid("Filme", favMovies.map((m) => posterCard("movie", m)).join(""))}`
+      : `<div class="empty">${svgIcon("heart", 40)}<br><br>Deine Liste ist leer.<br>Öffne einen Film oder eine Serie und tippe auf „Meine Liste“.</div>`,
+  );
+}
+
+/** heart + "gesehen" action buttons shared by the detail pages. */
+const favBtn = (kind, id) => `<button class="btn ghost" id="favBtn">${svgIcon("heart", 16)} ${isFav(kind, id) ? "In Meiner Liste" : "Meine Liste"}</button>`;
+
+async function viewShow(id, params) {
+  const [data] = await Promise.all([api(`/api/shows/${id}`), loadUserState()]);
+  const prog = await api("/api/progress");
+  const progMap = new Map(prog.filter((x) => x.mediaType === "episode").map((x) => [x.refId, x]));
+  const { show, seasons } = data;
+
+  const memKey = `ghgflix.season.${id}`;
+  const want = parseInt(params.get("season") ?? sessionStorage.getItem(memKey) ?? "", 10);
+  let season = seasons.some((s) => s.season === want) ? want : (seasons.find((s) => s.season > 0) ?? seasons[0])?.season ?? 1;
+
+  const flat = seasons.flatMap((s) => s.episodes);
+  const nextEp = flat.find((e) => !progMap.get(e.id)?.watched) ?? flat[0];
+  const resume = nextEp && progMap.get(nextEp.id);
+  const allWatched = flat.length > 0 && flat.every((e) => progMap.get(e.id)?.watched);
+
+  const render = () => {
+    sessionStorage.setItem(memKey, String(season));
+    const cur = seasons.find((s) => s.season === season);
+    const seasonWatched = (cur?.episodes ?? []).length > 0 && cur.episodes.every((e) => progMap.get(e.id)?.watched);
+    shell(
+      "shows",
+      `<div class="detail-hero">${show.backdrop ? `<img src="${img(show.backdrop, "w1280")}">` : ""}<div class="grad"></div><button class="backbtn" onclick="history.length>1?history.back():location.hash='#/shows'">← Zurück</button></div>
+       <div class="detail">
+        <h1>${esc(show.title)}</h1>
+        <div class="meta">${show.year ?? ""} · ${seasons.length} Staffeln · ${flat.length} Folgen${show.rating ? ` · ★ ${show.rating.toFixed(1)}` : ""}${show.genres ? ` · ${esc(show.genres)}` : ""}</div>
+        <div class="btnrow">
+          ${nextEp ? `<a class="btn" href="#/play/episode/${nextEp.id}">${svgIcon("play", 16)} ${resume && !resume.watched && resume.position > 30 ? "Fortsetzen" : "Abspielen"} · S${String(nextEp.season).padStart(2, "0")}E${String(nextEp.episode).padStart(2, "0")}</a>` : ""}
+          ${favBtn("show", show.id)}
+          <button class="btn ghost" id="watchShow">${svgIcon("check", 16)} ${allWatched ? "Als ungesehen" : "Alle gesehen"}</button>
+        </div>
+        <p class="overview">${esc(show.overview ?? "")}</p>
+        <div class="tabs">${seasons.map((s) => `<button data-s="${s.season}" class="${s.season === season ? "active" : ""}">${s.season === 0 ? "Specials" : "Staffel " + s.season}</button>`).join("")}</div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">
+          <button class="btn ghost sm" id="watchSeason">${svgIcon("check", 14)} ${seasonWatched ? "Staffel ungesehen" : "Staffel gesehen"}</button>
+        </div>
+        <div class="eplist">
+          ${(cur?.episodes ?? [])
+            .map((e) => {
+              const p = progMap.get(e.id);
+              const pct = p && p.duration > 0 ? Math.min(100, Math.round((p.position / p.duration) * 100)) : 0;
+              return `<a class="ep ${p?.watched ? "watched" : ""}" href="#/play/episode/${e.id}">
+                <img loading="lazy" src="${e.still ? img(e.still, "w300") : thumbUrl("episode", e.id)}">
+                <div class="info">
+                  <div class="n">${e.episode}. ${esc(e.title ?? "Folge " + e.episode)}</div>
+                  <div class="d">${esc(e.overview ?? "")}</div>
+                  ${pct > 0 && !p?.watched ? `<div class="prog"><i style="width:${pct}%"></i></div>` : ""}
+                </div></a>`;
+            })
+            .join("")}
+        </div>
+       </div>`,
+    );
+    app.querySelectorAll(".tabs button").forEach((b) => (b.onclick = () => { season = +b.dataset.s; render(); }));
+    $("#favBtn").onclick = async () => { await toggleFav("show", show.id); render(); };
+    $("#watchShow").onclick = async () => {
+      await api("/api/watched", { method: "POST", body: { mediaType: "show", refId: show.id, watched: !allWatched } });
+      progressCache = null; location.reload();
+    };
+    $("#watchSeason").onclick = async () => {
+      await api("/api/watched", { method: "POST", body: { mediaType: "season", refId: show.id, season, watched: !seasonWatched } });
+      progressCache = null; location.reload();
+    };
+  };
+  render();
+}
+
+async function viewMovie(id) {
+  const [mv] = await Promise.all([api(`/api/movies/${id}`), loadUserState()]);
+  const prog = await api("/api/progress");
+  const p = prog.find((x) => x.mediaType === "movie" && x.refId === +id);
+  const watched = !!p?.watched;
+  shell(
+    "movies",
+    `<div class="detail-hero">${mv.backdrop ? `<img src="${img(mv.backdrop, "w1280")}">` : ""}<div class="grad"></div><button class="backbtn" onclick="history.length>1?history.back():location.hash='#/movies'">← Zurück</button></div>
+     <div class="detail">
+      <h1>${esc(mv.title)}</h1>
+      <div class="meta">${mv.year ?? ""}${mv.rating ? ` · ★ ${mv.rating.toFixed(1)}` : ""}${mv.genres ? ` · ${esc(mv.genres)}` : ""}${mv.duration ? ` · ${Math.round(mv.duration / 60)} Min.` : ""}</div>
+      <div class="btnrow">
+        <a class="btn" href="#/play/movie/${mv.id}">${svgIcon("play", 16)} ${p && !p.watched && p.position > 30 ? "Fortsetzen" : "Abspielen"}</a>
+        ${favBtn("movie", mv.id)}
+        <button class="btn ghost" id="watchMovie">${svgIcon("check", 16)} ${watched ? "Als ungesehen" : "Als gesehen"}</button>
+      </div>
+      <p class="overview">${esc(mv.overview ?? "")}</p>
+     </div>`,
+  );
+  $("#favBtn").onclick = async () => { const on = await toggleFav("movie", mv.id); toast(on ? "Zu Meiner Liste hinzugefügt" : "Aus Meiner Liste entfernt"); viewMovie(id); };
+  $("#watchMovie").onclick = async () => {
+    await api("/api/watched", { method: "POST", body: { mediaType: "movie", refId: mv.id, watched: !watched } });
+    progressCache = null; viewMovie(id);
+  };
+}
+
+// ── player ──────────────────────────────────────────────────────────────────
+// Mirrors the desktop player: intro skip (button/auto), next-episode countdown
+// with credits auto-skip, end screen, volume, speed, quality & audio track
+// menus, keyboard shortcuts. Preferences live in localStorage.
+let playerCleanup = null;
+
+const PPREFS_KEY = "ghgflix.player";
+const PPREFS_DEFAULT = { autoplayNext: true, skipCredits: true, introMode: "button", introSkip: 85, nextCountdownSec: 15, quality: "original", volume: 1, muted: false, rate: 1 };
+const pprefs = {
+  load() { try { return Object.assign({}, PPREFS_DEFAULT, JSON.parse(localStorage.getItem(PPREFS_KEY)) || {}); } catch { return { ...PPREFS_DEFAULT }; } },
+  save(p) { localStorage.setItem(PPREFS_KEY, JSON.stringify(p)); },
+};
+
+async function viewPlayer(type, id) {
+  playerCleanup?.();
+  const P = pprefs.load();
+  const [info, prog, detail] = await Promise.all([
+    api(`/api/play/${type}/${id}`),
+    api("/api/progress"),
+    type === "episode" ? null : api(`/api/movies/${id}`),
+  ]);
+  if (info.error) { toast("Nicht gefunden"); location.hash = "#/"; return; }
+
+  let title = "", subtitle = "", showId = null, season = null;
+  let nextEp = null, prevEp = null, epRow = null;
+  if (type === "episode") {
+    // find the episode + its show for titles, intro window and prev/next
+    const lib = await getLibrary();
+    for (const s of lib.shows) {
+      const d = await api(`/api/shows/${s.id}`).catch(() => null);
+      const flat = d?.seasons?.flatMap((x) => x.episodes) ?? [];
+      const idx = flat.findIndex((e) => e.id === +id);
+      if (idx >= 0) {
+        epRow = flat[idx];
+        title = s.title;
+        season = epRow.season;
+        subtitle = `S${String(epRow.season).padStart(2, "0")}E${String(epRow.episode).padStart(2, "0")}${epRow.title ? " · " + epRow.title : ""}`;
+        nextEp = flat[idx + 1] ?? null;
+        prevEp = flat[idx - 1] ?? null;
+        showId = s.id;
+        break;
+      }
+    }
+  } else {
+    title = detail?.title ?? "Film";
+    subtitle = detail?.year ? String(detail.year) : "";
+  }
+  const nextId = nextEp?.id ?? null;
+
+  // intro window: per-episode data from the DB (chapter detection / desktop
+  // fingerprint via sync) — otherwise the fixed default like the desktop app
+  const introWin =
+    epRow && epRow.intro_start != null && epRow.intro_end != null && epRow.intro_end > epRow.intro_start + 2
+      ? { start: epRow.intro_start, end: epRow.intro_end }
+      : type === "episode" && P.introSkip > 0
+        ? { start: 1, end: P.introSkip }
+        : null;
+
+  const saved = prog.find((x) => x.mediaType === type && x.refId === +id);
+  const resumeAt = saved && !saved.watched && saved.position > 30 && saved.position < (saved.duration || Infinity) * 0.95 ? saved.position : 0;
+  const totalDuration = info.duration || saved?.duration || 0;
+
+  const nextLabel = nextEp ? `S${String(nextEp.season).padStart(2, "0")}E${String(nextEp.episode).padStart(2, "0")}${nextEp.title ? " · " + nextEp.title : ""}` : "";
+  const nextStill = nextEp ? (nextEp.still ? img(nextEp.still, "w300") : thumbUrl("episode", nextEp.id)) : null;
+
+  app.innerHTML = `
+    <div class="player">
+      <video id="v" playsinline autoplay></video>
+      <div class="pcenter" id="spin"><div class="spin"></div></div>
+      <button class="skipintro" id="skipIntro" style="display:none">Intro überspringen ⏭</button>
+      <div class="nextcard" id="nextCard" style="display:none">
+        <div class="nc-row">
+          ${nextStill ? `<img src="${nextStill}" alt="">` : ""}
+          <div class="nc-info">
+            <div class="nc-cd">Nächste Folge in <b id="nextCd">15</b>s</div>
+            <div class="nc-title">${esc(nextLabel)}</div>
+          </div>
+        </div>
+        <div class="nc-btns">
+          <button class="btn" id="nextNow">Jetzt</button>
+          <button class="btn ghost" id="nextCancel">Abbrechen</button>
+        </div>
+      </div>
+      <div class="endscreen" id="endScreen" style="display:none">
+        <div class="es-title">${esc(title)} — zu Ende</div>
+        <div class="btnrow">
+          <button class="btn ghost" id="esAgain">Nochmal ansehen</button>
+          ${nextId ? `<button class="btn" id="esNext">Nächste Folge</button>` : ""}
+          <button class="btn ghost" id="esBack">Zurück</button>
+        </div>
+      </div>
+      <div class="pui" id="ui">
+        <div class="top">
+          <button class="pbtn" id="back" title="Zurück">←</button>
+          <button class="pbtn" id="closex" title="Player schließen">✕</button>
+          <div class="titles"><div class="t1">${esc(title)}</div><div class="t2">${esc(subtitle)}</div></div>
+        </div>
+        <div class="bottom">
+          <div class="seek"><span id="cur">0:00</span><input type="range" id="bar" min="0" max="${Math.max(1, Math.floor(totalDuration))}" value="0" step="1"><span id="tot">${fmtTime(totalDuration)}</span></div>
+          <div class="controls">
+            <div class="cgroup left">
+              <button class="pbtn" id="mute" title="Stumm (M)">🔊</button>
+              <input type="range" id="vol" min="0" max="100" step="1" title="Lautstärke">
+            </div>
+            <div class="cgroup center">
+              ${prevEp ? `<button class="pbtn" id="prev" title="Vorherige Folge">⏮</button>` : ""}
+              <button class="pbtn" id="rew" title="10s zurück (←)">⏪ 10</button>
+              <button class="pbtn big" id="pp" title="Pause (Leertaste)">⏸</button>
+              <button class="pbtn" id="fwd" title="10s vor (→)">10 ⏩</button>
+              ${nextId ? `<button class="pbtn" id="next" title="Nächste Folge (N)">⏭</button>` : ""}
+            </div>
+            <div class="cgroup right">
+              <button class="pbtn" id="speed" title="Geschwindigkeit">1×</button>
+              ${(info.audioStreams?.length ?? 0) > 1 ? `<button class="pbtn" id="atrack" title="Audiospur">🗣</button>` : ""}
+              <button class="pbtn" id="qual" title="Qualität">HD</button>
+              <button class="pbtn" id="pset" title="Einstellungen">⚙</button>
+              <button class="pbtn" id="fs" title="Vollbild (F)">⛶</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  const v = $("#v"), ui = $("#ui"), bar = $("#bar");
+  // transcode streams start at an offset — real position = offset + currentTime
+  let mode = info.direct && P.quality === "original" ? "direct" : "transcode";
+  let offset = 0;
+  let ended = false;
+  let audioIndex = 0;
+  let quality = P.quality;
+  let introSkipped = false;
+  let nextCancelled = false;
+  let nextShownAt = 0; // pos() when the countdown card appeared (credits skip)
+
+  const tcUrl = (t) => `${info.transcodeUrl}&t=${Math.floor(t)}&q=${quality}&a=${audioIndex}`;
+  const src = (t) => {
+    if (mode === "direct") { offset = 0; v.src = info.directUrl; if (t > 0) v.addEventListener("loadedmetadata", () => (v.currentTime = t), { once: true }); }
+    else { offset = t; v.src = tcUrl(t); }
+    v.defaultPlaybackRate = P.rate; // survives src changes (loadstart resets playbackRate)
+    v.playbackRate = P.rate;
+  };
+  const pos = () => offset + (v.currentTime || 0);
+  const seekTo = (t) => { t = Math.max(0, t); if (mode === "direct") v.currentTime = t; else src(t); };
+
+  src(resumeAt);
+  v.volume = P.volume;
+  v.muted = P.muted;
+  v.onerror = () => {
+    if (mode === "direct") { mode = "transcode"; toast("Direktwiedergabe klappt nicht — Transcoding …"); src(pos() || resumeAt); }
+    else toast("Wiedergabefehler");
+  };
+
+  const save = (watched = false) => {
+    if (totalDuration <= 0 && !v.duration) return;
+    const dur = totalDuration || v.duration || 0;
+    const done = watched || (dur > 0 && pos() >= dur * 0.95);
+    api("/api/progress", { method: "POST", body: { mediaType: type, refId: +id, position: pos(), duration: dur, watched: done } }).catch(() => {});
+  };
+  const saveTimer = setInterval(save, 10000);
+
+  // UI show/hide
+  let hideTimer;
+  const wake = () => {
+    ui.classList.remove("hidden");
+    v.parentElement.classList.remove("nocursor");
+    clearTimeout(hideTimer);
+    hideTimer = setTimeout(() => { if (!v.paused) { ui.classList.add("hidden"); closeMenu(); v.parentElement.classList.add("nocursor"); } }, 3000);
+  };
+  wake();
+  v.parentElement.onpointermove = wake;
+  v.onclick = () => (ui.classList.contains("hidden") ? wake() : v.paused ? v.play() : v.pause());
+  v.ondblclick = () => toggleFs();
+
+  // ── popup menus (speed / quality / audio / settings) ──
+  const closeMenu = () => $(".pmenu")?.remove();
+  const openMenu = (anchor, items) => {
+    if ($(".pmenu")) { closeMenu(); return; }
+    const m = document.createElement("div");
+    m.className = "pmenu";
+    m.innerHTML = items.map((it, i) => it.header
+      ? `<div class="pm-head">${esc(it.header)}</div>`
+      : `<button class="pm-item ${it.active ? "active" : ""}" data-i="${i}">${it.active ? "✓ " : ""}${esc(it.label)}</button>`).join("");
+    v.parentElement.appendChild(m);
+    const r = anchor.getBoundingClientRect();
+    m.style.right = Math.max(8, window.innerWidth - r.right) + "px";
+    m.style.bottom = Math.max(8, window.innerHeight - r.top + 8) + "px";
+    m.querySelectorAll(".pm-item").forEach((b) => (b.onclick = (e) => { e.stopPropagation(); closeMenu(); items[+b.dataset.i].onClick(); }));
+  };
+
+  const goNext = () => { if (nextId) location.hash = `#/play/episode/${nextId}`; };
+
+  // ── intro skip + next-episode countdown, driven by timeupdate ──
+  const skipBtn = $("#skipIntro"), nextCard = $("#nextCard");
+  const skipIntro = () => { if (!introWin) return; introSkipped = true; skipBtn.style.display = "none"; seekTo(introWin.end); toast("Intro übersprungen"); };
+  skipBtn.onclick = skipIntro;
+  $("#nextNow").onclick = goNext;
+  $("#nextCancel").onclick = () => { nextCancelled = true; nextCard.style.display = "none"; };
+
+  const tick = () => {
+    const p = pos();
+    const dur = totalDuration || v.duration || 0;
+
+    // intro
+    if (introWin && P.introMode !== "off" && !introSkipped) {
+      const inWin = p >= introWin.start && p < introWin.end - 1;
+      if (inWin && P.introMode === "auto" && p > 0.5) skipIntro();
+      else skipBtn.style.display = inWin ? "" : "none";
+    } else skipBtn.style.display = "none";
+
+    // next-episode countdown (end-credit skip)
+    if (type === "episode" && nextId && P.autoplayNext && !nextCancelled && dur > 0) {
+      const remaining = dur - p;
+      if (remaining <= P.nextCountdownSec && remaining > 0) {
+        if (nextCard.style.display === "none") { nextCard.style.display = ""; nextShownAt = p; }
+        // credits auto-skip: don't sit through the credits — jump after 5s
+        const cd = P.skipCredits ? Math.min(Math.ceil(remaining), Math.max(0, Math.ceil(5 - (p - nextShownAt)))) : Math.ceil(remaining);
+        $("#nextCd").textContent = String(Math.max(0, cd));
+        if (P.skipCredits && p - nextShownAt >= 5) { save(true); ended = true; goNext(); return; }
+      } else nextCard.style.display = "none";
+    }
+  };
+
+  v.ontimeupdate = () => {
+    if (!bar.dragging) bar.value = Math.floor(pos());
+    $("#cur").textContent = fmtTime(pos());
+    if (!totalDuration && v.duration) { bar.max = Math.floor(v.duration); $("#tot").textContent = fmtTime(v.duration); }
+    tick();
+  };
+  v.onplay = () => { $("#pp").textContent = "⏸"; wake(); };
+  v.onpause = () => { $("#pp").textContent = "▶"; wake(); };
+  v.onwaiting = () => ($("#spin").style.display = "");
+  v.onplaying = () => ($("#spin").style.display = "none");
+  v.onended = () => {
+    ended = true;
+    save(true);
+    if (type === "episode" && nextId && P.autoplayNext && !nextCancelled) return goNext();
+    if (type === "movie" || !nextId) $("#endScreen").style.display = "";
+    else $("#endScreen").style.display = "";
+  };
+
+  $("#esAgain")?.addEventListener("click", () => { $("#endScreen").style.display = "none"; ended = false; seekTo(0); v.play(); });
+  $("#esNext")?.addEventListener("click", goNext);
+  $("#esBack")?.addEventListener("click", () => goBack());
+
+  bar.oninput = () => { bar.dragging = true; $("#cur").textContent = fmtTime(+bar.value); };
+  bar.onchange = () => { bar.dragging = false; seekTo(+bar.value); };
+  $("#pp").onclick = () => (v.paused ? v.play() : v.pause());
+  $("#rew").onclick = () => seekTo(pos() - 10);
+  $("#fwd").onclick = () => seekTo(pos() + 10);
+  const toggleFs = () => (document.fullscreenElement ? document.exitFullscreen() : v.parentElement.requestFullscreen?.().catch(() => {}));
+  $("#fs").onclick = toggleFs;
+  if (nextId) $("#next").onclick = goNext;
+  if (prevEp) $("#prev").onclick = () => (location.hash = `#/play/episode/${prevEp.id}`);
+
+  // volume
+  const vol = $("#vol"), muteBtn = $("#mute");
+  const volUi = () => { vol.value = Math.round((v.muted ? 0 : v.volume) * 100); muteBtn.textContent = v.muted || v.volume === 0 ? "🔇" : v.volume < 0.5 ? "🔉" : "🔊"; };
+  volUi();
+  vol.oninput = () => { v.volume = +vol.value / 100; v.muted = v.volume === 0; P.volume = v.volume; P.muted = v.muted; pprefs.save(P); volUi(); };
+  muteBtn.onclick = () => { v.muted = !v.muted; P.muted = v.muted; pprefs.save(P); volUi(); };
+  const volStep = (d) => { v.muted = false; v.volume = Math.min(1, Math.max(0, v.volume + d)); P.volume = v.volume; P.muted = false; pprefs.save(P); volUi(); wake(); };
+
+  // speed
+  const speedBtn = $("#speed");
+  speedBtn.textContent = P.rate === 1 ? "1×" : `${P.rate}×`;
+  speedBtn.onclick = () => openMenu(speedBtn, [
+    { header: "Geschwindigkeit" },
+    ...[0.5, 0.75, 1, 1.25, 1.5, 1.75, 2].map((r) => ({
+      label: `${r}×`, active: P.rate === r,
+      onClick: () => { P.rate = r; pprefs.save(P); v.defaultPlaybackRate = r; v.playbackRate = r; speedBtn.textContent = r === 1 ? "1×" : `${r}×`; },
+    })),
+  ]);
+
+  // quality (forces transcode for anything but "original"+direct-capable)
+  const QLABEL = { original: "Original", high: "1080p", medium: "720p", low: "480p" };
+  const qualBtn = $("#qual");
+  qualBtn.textContent = quality === "original" ? "HD" : QLABEL[quality];
+  qualBtn.onclick = () => openMenu(qualBtn, [
+    { header: "Qualität" },
+    ...Object.keys(QLABEL).map((k) => ({
+      label: QLABEL[k] + (k === "original" && info.direct ? " (Direkt)" : ""), active: quality === k,
+      onClick: () => {
+        const t = pos();
+        quality = k; P.quality = k; pprefs.save(P);
+        mode = k === "original" && info.direct && audioIndex === 0 ? "direct" : "transcode";
+        qualBtn.textContent = k === "original" ? "HD" : QLABEL[k];
+        src(t);
+      },
+    })),
+  ]);
+
+  // audio track (transcode-only — the browser can't switch embedded tracks)
+  const atrackBtn = $("#atrack");
+  if (atrackBtn) atrackBtn.onclick = () => openMenu(atrackBtn, [
+    { header: "Audiospur" },
+    ...info.audioStreams.map((a, i) => ({
+      label: [a.lang, a.title, a.codec?.toUpperCase()].filter(Boolean).join(" · ") || `Audio ${i + 1}`,
+      active: audioIndex === i,
+      onClick: () => { const t = pos(); audioIndex = i; mode = "transcode"; src(t); },
+    })),
+  ]);
+
+  // player settings (autoplay / credits / intro)
+  const psetBtn = $("#pset");
+  psetBtn.onclick = () => openMenu(psetBtn, [
+    { header: "Wiedergabe" },
+    { label: "Autoplay nächste Folge", active: P.autoplayNext, onClick: () => { P.autoplayNext = !P.autoplayNext; pprefs.save(P); toast(P.autoplayNext ? "Autoplay an" : "Autoplay aus"); } },
+    { label: "Abspann überspringen", active: P.skipCredits, onClick: () => { P.skipCredits = !P.skipCredits; pprefs.save(P); toast(P.skipCredits ? "Abspann wird übersprungen" : "Abspann läuft durch"); } },
+    { header: "Intro" },
+    { label: "Skip-Button zeigen", active: P.introMode === "button", onClick: () => { P.introMode = "button"; pprefs.save(P); } },
+    { label: "Automatisch überspringen", active: P.introMode === "auto", onClick: () => { P.introMode = "auto"; pprefs.save(P); } },
+    { label: "Aus", active: P.introMode === "off", onClick: () => { P.introMode = "off"; pprefs.save(P); } },
+  ]);
+
+  // keyboard shortcuts, like the desktop app
+  const onKey = (e) => {
+    if (e.target.tagName === "INPUT" && e.target.type !== "range") return;
+    const k = e.key.toLowerCase();
+    if (k === " " || k === "k") { e.preventDefault(); v.paused ? v.play() : v.pause(); }
+    else if (k === "arrowleft" || k === "j") { e.preventDefault(); seekTo(pos() - 10); wake(); }
+    else if (k === "arrowright" || k === "l") { e.preventDefault(); seekTo(pos() + 10); wake(); }
+    else if (k === "arrowup") { e.preventDefault(); volStep(0.05); }
+    else if (k === "arrowdown") { e.preventDefault(); volStep(-0.05); }
+    else if (k === "m") { v.muted = !v.muted; P.muted = v.muted; pprefs.save(P); volUi(); wake(); }
+    else if (k === "f") toggleFs();
+    else if (k === "n" && nextId) goNext();
+    else if (k === "s" && skipBtn.style.display !== "none") skipIntro();
+    else if (k === "escape" && !document.fullscreenElement) goBack();
+  };
+  window.addEventListener("keydown", onKey);
+
+  // Back = to the detail page WITH the right season; X = same target (the web
+  // player has no mini mode — both leave, back keeps history natural).
+  const backTarget = type === "episode" && showId != null ? `#/show/${showId}?season=${season}` : type === "movie" ? `#/movie/${id}` : "#/";
+  const goBack = () => { location.hash = backTarget; };
+  $("#back").onclick = goBack;
+  $("#closex").onclick = goBack;
+
+  playerCleanup = () => {
+    clearInterval(saveTimer);
+    window.removeEventListener("keydown", onKey);
+    closeMenu();
+    if (!ended) save();
+    v.pause();
+    v.removeAttribute("src");
+    v.load();
+    playerCleanup = null;
+  };
+}
+
+// ── settings ────────────────────────────────────────────────────────────────
+/** Folder-browser modal (in-container filesystem) — click your way to a
+ *  folder instead of typing paths blind, exactly like the desktop app's
+ *  picker. onPick(path, kind) fires when the user chooses "Serien"/"Filme". */
+async function openBrowseModal(onPick) {
+  const overlay = document.createElement("div");
+  overlay.className = "modal-overlay";
+  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+  document.body.appendChild(overlay);
+
+  const render = async (path) => {
+    const data = await api(`/api/browse${path ? `?path=${encodeURIComponent(path)}` : ""}`);
+    if (data.error) { toast(data.error); return; }
+    const atRoot = !data.parent;
+    // pretty breadcrumb relative to the browse root (/host stripped away)
+    const rel = data.root && data.path.startsWith(data.root) ? data.path.slice(data.root.length) || "/" : data.path;
+    overlay.innerHTML = `
+      <div class="modalbox">
+        <div class="modalhead"><h3>Ordner wählen</h3><button class="iconbtn" id="mclose">✕</button></div>
+        <div class="breadcrumb">${esc(rel)}</div>
+        <div class="browse-list">
+          ${!atRoot ? `<button class="browse-item up" data-p="${esc(data.parent)}">${svgIcon("folder", 18)} .. (zurück)</button>` : ""}
+          ${data.entries.map((e) => `<button class="browse-item" data-p="${esc(e.path)}">${svgIcon("folder", 18)} ${esc(e.name)}</button>`).join("") || '<div class="hint" style="padding:8px 4px">Keine Unterordner hier</div>'}
+        </div>
+        <div class="btnrow" style="margin-top:14px">
+          <button class="btn" id="pickShow">${svgIcon("tv", 16)} Als Serien-Ordner</button>
+          <button class="btn ghost" id="pickMovie">${svgIcon("film", 16)} Als Film-Ordner</button>
+        </div>
+        <p class="hint">Navigiere in den Ordner, der direkt die Filme bzw. Serien enthält, und wähle unten den Typ.</p>
+      </div>`;
+    overlay.querySelectorAll(".browse-item").forEach((b) => (b.onclick = () => render(b.dataset.p)));
+    $("#mclose", overlay).onclick = () => overlay.remove();
+    $("#pickShow", overlay).onclick = () => { onPick(data.path, "show"); overlay.remove(); };
+    $("#pickMovie", overlay).onclick = () => { onPick(data.path, "movie"); overlay.remove(); };
+  };
+  await render(null);
+}
+
+/** Auto-detection modal: scans all drives and offers found folders to add. */
+async function openDetectModal(onDone) {
+  const overlay = document.createElement("div");
+  overlay.className = "modal-overlay";
+  overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
+  overlay.innerHTML = `<div class="modalbox"><div class="modalhead"><h3>Automatische Erkennung</h3><button class="iconbtn" id="mclose">✕</button></div><div class="spinner-center"><div class="spin"></div></div><p class="hint" style="text-align:center">Durchsuche alle Laufwerke …</p></div>`;
+  document.body.appendChild(overlay);
+  $("#mclose", overlay).onclick = () => overlay.remove();
+
+  const data = await api("/api/detect").catch(() => ({ found: [] }));
+  const found = data.found || [];
+  const box = overlay.querySelector(".modalbox");
+  if (!found.length) {
+    box.innerHTML = `<div class="modalhead"><h3>Automatische Erkennung</h3><button class="iconbtn" id="mclose2">✕</button></div><div class="empty">Keine Medienordner gefunden.<br><br>Nutze „Ordner hinzufügen“, um manuell einen Ordner zu wählen.</div>`;
+    $("#mclose2", overlay).onclick = () => overlay.remove();
+    return;
+  }
+  box.innerHTML = `
+    <div class="modalhead"><h3>${found.length} Ordner gefunden</h3><button class="iconbtn" id="mclose3">✕</button></div>
+    <p class="hint" style="margin-top:0">Häkchen setzen und übernehmen — Typ (Serien/Filme) kannst du je Ordner ändern.</p>
+    <div style="max-height:46vh;overflow-y:auto;margin:12px 0">
+      ${found.map((f, i) => `
+        <div class="detect-item">
+          <input type="checkbox" class="dchk" data-i="${i}" checked style="width:20px;height:20px;accent-color:var(--red)">
+          <div class="grow"><b>${esc(f.name)}</b><div class="dp">${esc(f.path)}</div></div>
+          <select class="dkind" data-i="${i}" style="background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:6px 8px;color:var(--text)">
+            <option value="show" ${f.kind === "show" ? "selected" : ""}>Serien</option>
+            <option value="movie" ${f.kind === "movie" ? "selected" : ""}>Filme</option>
+          </select>
+        </div>`).join("")}
+    </div>
+    <button class="btn" id="applyDetect" style="width:100%;justify-content:center">Ausgewählte übernehmen</button>`;
+  $("#mclose3", overlay).onclick = () => overlay.remove();
+  $("#applyDetect", overlay).onclick = async () => {
+    const picks = [...overlay.querySelectorAll(".dchk")].filter((c) => c.checked).map((c) => {
+      const i = +c.dataset.i;
+      const kind = overlay.querySelector(`.dkind[data-i="${i}"]`).value;
+      return { path: found[i].path, kind };
+    });
+    let ok = 0;
+    for (const p of picks) {
+      const r = await api("/api/libraries", { method: "POST", body: p });
+      if (!r.error) ok++;
+    }
+    overlay.remove();
+    toast(`${ok} Bibliothek(en) hinzugefügt — Scan läuft …`);
+    libraryCache = null;
+    onDone();
+  };
+}
+
+async function viewSettings() {
+  const s = await api("/api/settings");
+  const scan = await api("/api/scan/status");
+  const libs = await api("/api/libraries");
+  const ping = await api("/api/ping").catch(() => ({}));
+  const c = conn.load();
+  shell(
+    "settings",
+    `<div class="section-title">Einstellungen <span style="color:var(--muted);font-weight:400;font-size:13px">GHGFlix Server v${esc(ping.version || "?")}</span></div>
+
+     <div class="panel"><h3>Bibliotheken <span class="tag ${scan.tmdb ? "ok" : "bad"}">TMDb ${scan.tmdb ? "aktiv" : "kein Key"}</span></h3>
+      <div class="desc">${scan.shows} Serien · ${scan.episodes} Folgen · ${scan.movies} Filme ${scan.running ? "· <b>Scan läuft …</b>" : ""}</div>
+      <div id="libList">${libs
+        .map(
+          (l) => `
+        <div class="libitem">
+          <span class="tag ${l.kind === "show" ? "ok" : ""}">${l.kind === "show" ? "Serien" : "Filme"}</span>
+          <span class="lp">${esc(l.path)}</span>
+          <button class="iconbtn" data-libdel="${l.id}" title="Entfernen">✕</button>
+        </div>`,
+        )
+        .join("") || '<div class="hint" style="margin:8px 0">Noch keine Bibliothek. Klick auf <b>Automatisch erkennen</b> — das durchsucht alle Laufwerke.</div>'}</div>
+      <div class="btnrow">
+        <button class="btn" id="detectLib">${svgIcon("sparkles", 16)} Automatisch erkennen</button>
+        <button class="btn ghost" id="addLib">${svgIcon("folder", 16)} Ordner hinzufügen</button>
+        <button class="btn ghost" id="rescan">${svgIcon("refresh", 16)} Neu scannen</button>
+      </div>
+      <div class="field" style="margin-top:14px"><label>TMDb API-Key (für Poster & Beschreibungen)</label><input id="tmdb" placeholder="${s.tmdb_key_set ? "•••••• (gesetzt)" : "z.B. 1ab2c3…"}"></div>
+      <p class="hint">Mehrere Platten werden automatisch mitgesucht (alles, was im Container unter <code>/media</code>, <code>/DATA</code> oder <code>/mnt</code> eingebunden ist). „Automatisch erkennen“ findet Film-/Serienordner von selbst; mit „Ordner hinzufügen“ klickst du dich manuell durch alle Laufwerke.</p>
+     </div>
+
+     <div class="panel"><h3>Verbindungen (Lokal / Domain / Tailscale)</h3>
+      <div class="desc">Adressen, unter denen dieser Server erreichbar ist. Bei „Automatisch“ springt die App auf die erste erreichbare Adresse, wenn die aktuelle nicht antwortet (z.B. unterwegs → Tailscale).</div>
+      <div class="field"><label>Modus</label>
+        <select id="cmode"><option value="auto" ${c.mode === "auto" ? "selected" : ""}>Automatisch wechseln</option><option value="manual" ${c.mode === "manual" ? "selected" : ""}>Nur manuell</option></select>
+      </div>
+      <div id="clist">${c.list.map((e, i) => `
+        <div class="field" style="display:flex;gap:8px;align-items:center">
+          <input data-i="${i}" data-k="name" value="${esc(e.name)}" placeholder="Name" style="flex:0 0 110px">
+          <input data-i="${i}" data-k="url" value="${esc(e.url)}" placeholder="http://…">
+          <button class="iconbtn" data-del="${i}">🗑</button>
+          <button class="iconbtn" data-go="${i}" title="Jetzt zu dieser Adresse wechseln">↗</button>
+        </div>`).join("")}</div>
+      <button class="btn ghost" id="cadd">+ Adresse hinzufügen</button>
+      <div class="hint">Beispiele: <code>http://192.168.1.50:8484</code> (lokal) · <code>https://flix.meinedomain.de</code> · <code>http://zimaboard.tailnet-xyz.ts.net:8484</code> (Tailscale)</div>
+     </div>
+
+     <div class="panel"><h3>Supabase-Sync <span class="tag ${s.supabase_configured ? "ok" : ""}">${s.supabase_configured ? "verbunden" : "nicht konfiguriert"}</span></h3>
+      <div class="desc">Cloud-Abgleich mit deinem bestehenden GHGFlix-Supabase. Senden und Empfangen sind getrennt schaltbar.</div>
+      <label class="switch"><input type="checkbox" id="sb_pull" ${s.supabase_pull ? "checked" : ""}> Von Supabase empfangen</label>
+      <label class="switch"><input type="checkbox" id="sb_push" ${s.supabase_push ? "checked" : ""}> Zu Supabase senden</label>
+      <div class="field"><label>Supabase-URL</label><input id="sb_url" placeholder="${s.supabase_configured ? "•••••• (gesetzt)" : "https://xyz.supabase.co"}"></div>
+      <div class="field"><label>Service-Role-Key</label><input id="sb_key" type="password" placeholder="${s.supabase_configured ? "•••••• (gesetzt)" : "eyJ…"}"></div>
+      <button class="btn ghost" id="sb_import">Alles aus Supabase importieren</button>
+     </div>
+
+     <div class="panel"><h3>Server</h3>
+      <div class="field"><label>Server-Name</label><input id="sname" value="${esc(s.server_name)}"></div>
+      <div class="field"><label>Passwort (leer = kein Login nötig)</label><input id="spw" type="password" placeholder="${s.password_set ? "•••••• (gesetzt)" : "optional"}"></div>
+     </div>
+
+     <button class="btn" id="saveAll" style="width:100%;justify-content:center">Speichern</button>`,
+  );
+
+  $("#rescan").onclick = async () => { await api("/api/scan", { method: "POST" }); toast("Scan gestartet"); libraryCache = null; };
+  $("#detectLib").onclick = () => openDetectModal(() => viewSettings());
+  $("#addLib").onclick = () =>
+    openBrowseModal(async (path, kind) => {
+      const r = await api("/api/libraries", { method: "POST", body: { path, kind } });
+      if (r.error) { toast(r.error); return; }
+      toast("Bibliothek hinzugefügt — Scan läuft im Hintergrund …");
+      libraryCache = null;
+      viewSettings();
+    });
+  app.querySelectorAll("[data-libdel]").forEach(
+    (b) =>
+      (b.onclick = async () => {
+        await api(`/api/libraries/${b.dataset.libdel}`, { method: "DELETE" });
+        libraryCache = null;
+        toast("Bibliothek entfernt");
+        viewSettings();
+      }),
+  );
+  $("#sb_import").onclick = async () => {
+    toast("Import läuft …");
+    const r = await api("/api/supabase/import", { method: "POST" });
+    toast(r.ok ? `Import fertig: ${r.pulled} Einträge` : r.error || "Fehler");
+  };
+
+  const saveConn = () => {
+    const list = [...app.querySelectorAll("#clist .field")].map((f) => ({
+      name: f.querySelector('[data-k="name"]').value.trim(),
+      url: f.querySelector('[data-k="url"]').value.trim().replace(/\/$/, ""),
+    })).filter((e) => e.url);
+    conn.save({ mode: $("#cmode").value, list });
+  };
+  $("#cadd").onclick = () => { saveConn(); const v = conn.load(); v.list.push({ name: "", url: "" }); conn.save(v); viewSettings(); };
+  app.querySelectorAll("[data-del]").forEach((b) => (b.onclick = () => { saveConn(); const v = conn.load(); v.list.splice(+b.dataset.del, 1); conn.save(v); viewSettings(); }));
+  app.querySelectorAll("[data-go]").forEach((b) => (b.onclick = () => { saveConn(); const e = conn.load().list[+b.dataset.go]; if (e?.url) location.href = e.url; }));
+
+  $("#saveAll").onclick = async () => {
+    saveConn();
+    const body = {
+      server_name: $("#sname").value.trim() || "GHGFlix",
+      supabase_push: $("#sb_push").checked ? "on" : "off",
+      supabase_pull: $("#sb_pull").checked ? "on" : "off",
+    };
+    if ($("#tmdb").value.trim()) body.tmdb_key = $("#tmdb").value.trim();
+    if ($("#sb_url").value.trim()) body.supabase_url = $("#sb_url").value.trim();
+    if ($("#sb_key").value.trim()) body.supabase_key = $("#sb_key").value.trim();
+    if ($("#spw").value.trim()) body.password = $("#spw").value.trim();
+    await api("/api/settings", { method: "POST", body });
+    toast("Gespeichert");
+  };
+}
+
+// ── router ──────────────────────────────────────────────────────────────────
+async function route() {
+  playerCleanup?.();
+  const hash = location.hash.slice(1) || "/";
+  const [path, query] = hash.split("?");
+  const params = new URLSearchParams(query || "");
+  const seg = path.split("/").filter(Boolean);
+  try {
+    if (!store.token) {
+      const ping = await api("/api/ping").catch(() => null);
+      if (ping?.auth) return viewLogin();
+    }
+    if (!store.profile) return viewProfiles();
+    if (seg.length === 0) return viewHome();
+    if (seg[0] === "shows") return viewGrid("shows");
+    if (seg[0] === "movies") return viewGrid("movies");
+    if (seg[0] === "list") return viewMyList();
+    if (seg[0] === "show") return viewShow(seg[1], params);
+    if (seg[0] === "movie") return viewMovie(seg[1]);
+    if (seg[0] === "play") return viewPlayer(seg[1], seg[2]);
+    if (seg[0] === "settings") return viewSettings();
+    return viewHome();
+  } catch (e) {
+    if (String(e.message) !== "unauthorized") {
+      app.innerHTML = `<div class="center-screen"><div class="empty">Server nicht erreichbar.<br><br><button class="btn" onclick="location.reload()">Neu versuchen</button></div></div>`;
+      conn.autoSwitch();
+    }
+  }
+}
+
+window.addEventListener("hashchange", route);
+window.addEventListener("beforeunload", () => playerCleanup?.());
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("/sw.js").catch(() => {});
+conn.autoSwitch();
+route();

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Roblox-Report – Die dunkle Seite des Mega-Hits</title>
+    <!-- Lade Tailwind CSS für modernes, mobiles Design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Konfiguration der Tailwind-Klassen */
+        :root {
+            --primary-color: #f06a4b; /* Ein Orange/Rot, passend zum Thema */
+            --secondary-color: #3b82f6;
+            --background-dark: #1f2937; /* Dunkelgrau für den Hintergrund */
+            --text-light: #f9fafb;
+        }
+
+        /* Anpassung für die Inter-Schriftart */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-dark);
+            color: var(--text-light);
+            transition: background-color 0.5s ease;
+            min-height: 100vh;
+        }
+        
+        /* Custom CSS für Animationen und feste Elemente */
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .main-header {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-links a.active, .nav-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .subpage-content h1 {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            animation: slideInLeft 1s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        blockquote {
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+            background-color: #273444; /* Dunklerer Ton für den Blockquote */
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        /* Burger Menu Animation */
+        .burger-menu-icon {
+            transition: transform 0.3s ease-in-out;
+        }
+        .burger-menu-icon.open {
+            transform: rotate(90deg);
+        }
+
+        /* Mobile Nav */
+        .mobile-nav-menu {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+        .mobile-nav-menu.hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .mobile-nav-menu.visible {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Haupt-Header (immer sichtbar) -->
+    <header class="main-header bg-gray-900 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center py-4">
+            <div class="text-2xl font-bold tracking-tight text-white transition duration-300 hover:text-red-400">
+                <a href="#home" onclick="loadPage('home')">Roblox-Report</a>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <nav class="hidden lg:block">
+                <ul class="flex space-x-6 nav-links text-sm font-medium">
+                    <!-- Links werden über JS bei Klick geladen -->
+                    <li><a href="#home" class="active" onclick="loadPage('home')">Home</a></li>
+                    <li><a href="#was-ist-roblox" onclick="loadPage('was-ist-roblox')">Was ist Roblox?</a></li>
+                    <li><a href="#kindersicherheit" onclick="loadPage('kindersicherheit')">Kindersicherheit</a></li>
+                    <li><a href="#moderation" onclick="loadPage('moderation')">Moderation</a></li>
+                    <li><a href="#lootboxen" onclick="loadPage('lootboxen')">"Lootbox"-Klagen</a></li>
+                    <li><a href="#ausbeutung" onclick="loadPage('ausbeutung')">Entwickler-Ausbeutung</a></li>
+                    <li><a href="#datenschutz" onclick="loadPage('datenschutz')">Datenschutz</a></li>
+                    <li><a href="#schlep-kontroverse" onclick="loadPage('schlep-kontroverse')">SCHLEP-Kontroverse</a></li> <!-- NEUER LINK -->
+                    <li><a href="#aktuelle-klagen" onclick="loadPage('aktuelle-klagen')">Klagen</a></li>
+                    <li><a href="#stellungnahmen" onclick="loadPage('stellungnahmen')">Stellungnahmen</a></li>
+                    <li><a href="#quellen" onclick="loadPage('quellen')">Quellen</a></li>
+                </ul>
+            </nav>
+            
+            <!-- Burger Menu Button (Mobile) -->
+            <button class="lg:hidden text-white burger-menu" aria-label="Menü öffnen/schließen" onclick="toggleMenu()">
+                <i class="fas fa-bars text-xl burger-menu-icon" id="burger-icon"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Navigation Overlay -->
+        <nav id="mobile-menu" class="mobile-nav-menu hidden lg:hidden absolute w-full bg-gray-800 z-40 shadow-lg p-4">
+            <ul class="flex flex-col space-y-3 text-sm font-medium nav-links">
+                <li><a href="#home" onclick="loadPage('home'); toggleMenu()">Home</a></li>
+                <li><a href="#was-ist-roblox" onclick="loadPage('was-ist-roblox'); toggleMenu()">Was ist Roblox?</a></li>
+                <li><a href="#kindersicherheit" onclick="loadPage('kindersicherheit'); toggleMenu()">Kindersicherheit</a></li>
+                <li><a href="#moderation" onclick="loadPage('moderation'); toggleMenu()">Moderation</a></li>
+                <li><a href="#lootboxen" onclick="loadPage('lootboxen'); toggleMenu()">"Lootbox"-Klagen</a></li>
+                <li><a href="#ausbeutung" onclick="loadPage('ausbeutung'); toggleMenu()">Entwickler-Ausbeutung</a></li>
+                <li><a href="#datenschutz" onclick="loadPage('datenschutz'); toggleMenu()">Datenschutz</a></li>
+                <li><a href="#schlep-kontroverse" onclick="loadPage('schlep-kontroverse'); toggleMenu()">SCHLEP-Kontroverse</a></li> <!-- NEUER LINK -->
+                <li><a href="#aktuelle-klagen" onclick="loadPage('aktuelle-klagen'); toggleMenu()">Klagen</a></li>
+                <li><a href="#stellungnahmen" onclick="loadPage('stellungnahmen'); toggleMenu()">Stellungnahmen</a></li>
+                <li><a href="#quellen" onclick="loadPage('quellen'); toggleMenu()">Quellen</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hauptinhalt, der dynamisch geladen wird -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 flex-grow">
+        <article id="content-wrapper" class="bg-gray-800 p-6 sm:p-10 rounded-xl shadow-2xl min-h-[60vh]">
+            <!-- Dynamischer Seiteninhalt wird hier eingefügt -->
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer bg-gray-900 mt-10 py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400 text-xs">
+            <p class="mb-1">&copy; 2025 Roblox-Report. Alle Informationen basieren auf öffentlich zugänglichen Quellen.</p>
+            <p>Dies ist eine fiktive Webseite zu Informationszwecken und dient der Darstellung der Funktionalität.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript für SPA-Routing und Interaktivität -->
+    <script>
+        // Mapping der Seiten-Schlüssel zu ihrem Inhalt (HTML-Fragmente)
+        const PAGES = {
+            'home': {
+                title: 'Home | Roblox-Report',
+                content: `
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-red-400 mb-6">Roblox: Milliarden-Plattform unter Beschuss</h1>
+                    <p class="text-lg mb-8">Roblox ist eine der größten Entertainment-Plattformen der Welt, genutzt von Millionen Kindern und Jugendlichen täglich. Doch hinter der bunten Fassade verbergen sich schwerwiegende Vorwürfe, die das Unternehmen in massive rechtliche und öffentliche Schwierigkeiten bringen.</p>
+                    
+                    <div class="grid md:grid-cols-3 gap-6 mb-10">
+                        <!-- Karte 1: Kindersicherheit -->
+                        <div class="bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-red-500/50 transition duration-300 transform hover:scale-[1.02]">
+                            <i class="fas fa-child text-4xl text-blue-400 mb-3"></i>
+                            <h2 class="text-xl font-semibold mb-2">Gefahr im Chat</h2>
+                            <p class="text-gray-300">Berichte über "Grooming" und sexuelle Ausbeutung stellen die unzureichenden Sicherheitsvorkehrungen in Frage. Lesen Sie mehr über die Klagen der Generalstaatsanwälte.</p>
+                            <a href="#kindersicherheit" onclick="loadPage('kindersicherheit')" class="text-red-400 hover:text-red-300 font-medium mt-3 inline-block">Mehr erfahren &rarr;</a>
+                        </div>
+                        
+                        <!-- Karte 2: Finanzielle Ausbeutung -->
+                        <div class="bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-red-500/50 transition duration-300 transform hover:scale-[1.02]">
+                            <i class="fas fa-money-bill-wave text-4xl text-green-400 mb-3"></i>
+                            <h2 class="text-xl font-semibold mb-2">Das Robux-Dilemma</h2>
+                            <p class="text-gray-300">Von illegalem Kinder-Glücksspiel bis zur gnadenlosen Ausbeutung junger Entwickler: Das DevEx-System und die Lootbox-Klagen im Detail.</p>
+                            <a href="#ausbeutung" onclick="loadPage('ausbeutung')" class="text-red-400 hover:text-red-300 font-medium mt-3 inline-block">Mehr erfahren &rarr;</a>
+                        </div>
+                        
+                        <!-- Karte 3: Moderation und Datenschutz -->
+                        <div class="bg-gray-700 p-6 rounded-lg shadow-lg hover:shadow-red-500/50 transition duration-300 transform hover:scale-[1.02]">
+                            <i class="fas fa-eye-slash text-4xl text-yellow-400 mb-3"></i>
+                            <h2 class="text-xl font-semibold mb-2">Filter im Visier</h2>
+                            <p class="text-gray-300">Das Versagen der automatischen Moderation sowie Klagen wegen des illegalen Sammelns von Kinderdaten (COPPA-Verstöße).</p>
+                            <a href="#datenschutz" onclick="loadPage('datenschutz')" class="text-red-400 hover:text-red-300 font-medium mt-3 inline-block">Mehr erfahren &rarr;</a>
+                        </div>
+                    </div>
+
+                    <h2 class="text-2xl font-bold mt-10 mb-4">Wichtige Themen im Überblick</h2>
+                    <ul class="list-disc list-inside space-y-2 text-gray-300 ml-4">
+                        <li><a href="#schlep-kontroverse" onclick="loadPage('schlep-kontroverse')" class="hover:text-red-400 transition duration-200">SCHLEP-Kontroverse: Exploit oder Entwickler-Tool?</a></li>
+                        <li><a href="#aktuelle-klagen" onclick="loadPage('aktuelle-klagen')" class="hover:text-red-400 transition duration-200">Aktuelle Klagen: Die RICO- und AG-Fälle</a></li>
+                        <li><a href="#stellungnahmen" onclick="loadPage('stellungnahmen')" class="hover:text-red-400 transition duration-200">Roblox' offizielle Verteidigung und Stellungnahmen</a></li>
+                        <li><a href="#quellen" onclick="loadPage('quellen')" class="hover:text-red-400 transition duration-200">Vollständige Liste der Quellen und Berichte</a></li>
+                    </ul>
+                `
+            },
+            'was-ist-roblox': {
+                title: 'Was ist Roblox? | Roblox-Report',
+                content: `
+                    <h1 class="text-3xl sm:text-4xl font-extrabold">Was ist Roblox?</h1>
+                    <p class="mb-4">Roblox ist nicht einfach nur ein Spiel, sondern eine globale Online-Plattform und ein "Game Creation System". Nutzer können ihre eigenen Spiele ("Experiences") mit dem Tool "Roblox Studio" erstellen und sie mit Millionen anderer Spieler teilen.</p>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">Die zwei Säulen von Roblox</h2>
+                    <ul class="list-disc list-inside space-y-2 ml-4">
+                        <li><strong>Roblox Client:</strong> Die Anwendung, die Spieler nutzen, um die "Experiences" zu spielen, sich zu treffen und zu chatten.</li>
+                        <li><strong>Roblox Studio:</strong> Die kostenlose Software, mit der Entwickler (Creators) Welten, Spiele und Items erstellen.</li>
+                    </ul>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">Die "Robux"-Wirtschaft</h2>
+                    <p>Das Herzstück der Plattform ist die virtuelle Währung "Robux". Spieler kaufen Robux mit echtem Geld, um damit In-Game-Items, Skins (Avatare) oder Zugang zu bestimmten Spielen zu erwerben.</p>
+                    <p>Entwickler, die diese Items oder Spiele erstellen, werden in Robux bezahlt. Über das "Developer Exchange" (DevEx) Programm können sie diese Robux theoretisch wieder in echtes Geld umtauschen. Dieses System ist jedoch ein zentraler Punkt der Kritik, da die Wechselkurse extrem ungünstig für die Entwickler sind und Roblox den größten Teil der Einnahmen einbehält (siehe Seite "Entwickler-Ausbeutung").</p>
+                    
+                    <blockquote>
+                        <p>"Roblox ist keine einzelne Welt, sondern ein Universum aus Millionen von Welten, die alle von seinen Nutzern erschaffen wurden."</p>
+                        <footer><cite>Roblox Unternehmensbeschreibung</cite></footer>
+                    </blockquote>
+
+                    <p>Mit über 70 Millionen täglich aktiven Nutzern, von denen ein Großteil unter 16 Jahre alt ist, ist Roblox eine der einflussreichreichsten digitalen Plattformen für Kinder und Jugendliche. Diese massive, junge Nutzerbasis macht die Probleme bei der Sicherheit und Moderation umso gravierender.</p>
+                `
+            },
+            'kindersicherheit': {
+                title: 'Kindersicherheit | Roblox-Report',
+                content: `
+                    <h1 class="text-3xl sm:text-4xl font-extrabold">Gefahr im Kinderzimmer</h1>
+                    <p class="mb-4">Der schwerwiegendste Vorwurf gegen Roblox betrifft das systematische Versagen beim Schutz von Minderjährigen. Obwohl die Plattform primär von Kindern genutzt wird, ist sie ein bekannter Treffpunkt für sexuelle Prädatoren und "Grooming".</p>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">Die Realität des "Grooming"</h2>
+                    <p>Berichte und Klagen belegen, dass Erwachsene die Plattform nutzen, um gezielt Kontakt zu Kindern aufzunehmen. Sie bauen in harmlos wirkenden Spielen wie "Pet Simulator" Vertrauen auf, bevor sie die Kinder auf unmoderierte Plattformen wie Discord locken.</p>
+                    <p>Im Oktober 2025 reichten Dutzende Familien sowie die Generalstaatsanwälte von Kentucky und Louisiana Klagen ein. Sie werfen Roblox vor, von der Gefahr gewusst, sie aber ignoriert zu haben, um den Profit nicht zu gefährden.</p>
+
+                    <blockquote>
+                        <p>"Ein 13-Jähriger wurde in 'Pet Simulator' von einem angeblichen 16-Jährigen kontaktiert. Dieser erpresste das Kind später mit Nacktbildern, die er es zu erstellen überredet hatte. Die Familie klagt nun Roblox an."</p>
+                        <footer><cite>CBS News, Oktober 2025</cite></footer>
+                    </blockquote>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">Internationale Konsequenzen</h2>
+                    <p>Die Probleme sind so gravierend, dass Regierungen weltweit reagieren. Laut Berichten (Stand 2024/2025) haben:</p>
+                    <ul class="list-disc list-inside space-y-2 ml-4">
+                        <li>die <strong>Türkei</strong> Roblox im August 2024 verboten.</li>
+                        <li><strong>Katar</strong> und <strong>Kuwait</strong> die Plattform im August 2025 gesperrt.</li>
+                        <li><strong>Indonesien</strong> und <strong>Bahrain</strong> mit Verboten gedroht oder Schritte eingeleitet.</li>
+                        <li>die <strong>Niederlande</strong> und <strong>Belgien</strong> bestimmte Spiele wegen Glücksspielmechaniken (Lootboxen) eingeschränkt.</li>
+                    </ul>
+                    <p>Einem Bericht von Bloomberg Businessweek zufolge wurden allein in den USA seit 2018 mindestens 24 Personen verhaftet, die Kinder über Roblox sexuell missbraucht oder entführt hatten.</p>
+                `
+            },
+            'moderation': {
+                title: 'Moderationsprobleme | Roblox-Report',
+                content: `
+                    <h1 class="text-3xl sm:text-4xl font-extrabold">Ein unlösbares Problem?</h1>
+                    <p class="mb-4">Das Kernproblem von Roblox ist die Moderation von "User-Generated Content" (UGC). Bei Millionen von "Experiences", die täglich erstellt und geändert werden, ist es für die Moderationsteams unmöglich, Schritt zu halten.</p>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">"Condo Games" und sexuelle Inhalte</h2>
+                    <p>Trotz strenger Regeln finden Nutzer immer wieder Wege, die Filter zu umgehen. Ein berüchtigtes Beispiel sind "Condo Games". Dies sind private, oft versteckte Spielewelten, die explizit für virtuelle sexuelle Handlungen (von Avataren) erstellt werden. Sie tauchen kurz auf, werden geteilt und sind oft wieder verschwunden, bevor Moderatoren sie finden.</p>
+                    <p>Ein investigativer Bericht von "The Guardian" im November 2025 beschrieb die Erfahrung eines Journalisten, der als Kind-Avatar die Plattform erkundete:</p>
+                    
+                    <blockquote>
+                        <p>"Meine erschütternde Woche auf Roblox: Sexuell belästigt und zugeschissen als Kinder-Avatar in der Online-Welt."</p>
+                        <footer><cite>The Guardian, November 2025</cite></footer>
+                    </blockquote>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">Filter-Versagen</h2>
+                    <p>Die automatisierten Chat-Filter von Roblox sind dafür bekannt, dass sie oft harmlose Wörter blockieren ("Zensur"), während Nutzer durch einfache Tricks (z.B. "falsche" Schreibweisen oder das Einbetten von Text in Bilder) sexuelle Anspielungen, Hassrede oder Grooming-Versuche erfolgreich verbergen.</p>
+                    <p>Kritiker werfen Roblox vor, sich auf billige KI-Moderation zu verlassen, statt massiv in menschliche Moderatoren zu investieren, die den Kontext verstehen können. Auch der im November 2025 angekündigte Rechtsstreit durch den Generalstaatsanwalt von Texas, Ken Paxton, zielt direkt auf diese expliziten Inhalte ab.</p>
+                `
+            },
+            'lootboxen': {
+                title: '"Lootbox"-Klagen | Roblox-Report',
+                content: `
+                    <h1 class="text-3xl sm:text-4xl font-extrabold">Illegales Glücksspiel für Kinder?</h1>
+                    <p class="mb-4">Ein weiterer massiver Rechtsstreit wirft Roblox vor, ein illegales Glücksspiel-Ökosystem für Minderjährige zu betreiben und davon zu profitieren. Im Zentrum stehen nicht nur "Lootboxen" (zufällige Item-Pakete in Spielen), sondern auch Drittanbieter-Casinos.</p>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">Die Casino-Klagen (RICO Act)</h2>
+                    <p>Sammelklagen (Class Action Lawsuits), u.a. von der Kanzlei Weitz & Luxenberg, werfen Roblox vor, gegen den RICO Act (ein Gesetz gegen organisierte Kriminalität) zu verstoßen. Der Vorwurf: Roblox ermöglicht es Drittanbieter-Casinoseiten (wie Satozuki, Studs und RBLXWild), die Währung "Robux" für Glücksspiele wie Blackjack oder Spielautomaten zu nutzen.</p>
+                    <p>Der Mechanismus:</p>
+                    <ol class="list-decimal list-inside space-y-2 ml-4">
+                        <li>Kinder kaufen Robux auf der offiziellen Roblox-Plattform.</li>
+                        <li>Sie transferieren die Robux zu diesen externen Casino-Seiten.</li>
+                        <li>Sie verspielen (oder gewinnen) die Robux.</li>
+                        <li>Die Casinobetreiber tauschen die gewonnenen Robux über Roblox (DevEx) wieder in echtes Geld um, wobei Roblox eine Gebühr von 30% einstreicht.</li>
+                    </ol>
+                    <p>Die Klage argumentiert, dass Roblox wissentlich von diesem illegalen Glücksspielring für Minderjährige profitiert.</p>
+
+                    <blockquote>
+                        <p>"Roblox und drei Mitangeklagte fungieren als Glücksspielring, der auf Minderjährige abzielt... [Roblox] und die Online-Casinos verstoßen gegen den Racketeer Influenced and Corrupt Organizations (RICO) Act."</p>
+                        <footer><cite>Weitz & Luxenberg, Roblox Gambling Litigation</cite></footer>
+                    </blockquote>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">Stand der Verfahren</h2>
+                    <p>Im März 2024 wies ein Gericht Teile der Klage ab, ließ aber die zentralen Vorwürfe der Fahrlässigkeit (Negligence) zu. Ein Bericht von Courthouse News (November 2025) bestätigte, dass ein Richter zwar einige Ansprüche abwies, Roblox aber weiterhin für seine Fahrlässigkeit bei der Zulassung dieser Praktiken zur Verantwortung gezogen wird. Roblox argumentiert, dass es diese Seiten nicht betreibt und versucht hat, sie zu stoppen.</p>
+                `
+            },
+            'ausbeutung': {
+                title: 'Entwickler-Ausbeutung | Roblox-Report',
+                content: `
+                    <h1 class="text-3xl sm:text-4xl font-extrabold">Das DevEx-Dilemma: Hohe Gebühren, niedrige Auszahlung</h1>
+                    <p class="mb-4">Roblox rühmt sich, Kreativität zu fördern und eine Plattform zu sein, auf der jeder Entwickler sein eigenes Geschäft aufbauen kann. Kritiker werfen dem Unternehmen jedoch vor, ein System geschaffen zu haben, das junge, oft minderjährige Entwickler systematisch ausbeutet.</p>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">Der Wechselkurs-Schock</h2>
+                    <p>Das "Developer Exchange" (DevEx)-Programm erlaubt es Entwicklern, ihre verdienten Robux (die virtuelle Währung) in echtes Geld umzutauschen. Der Wechselkurs ist jedoch extrem ungünstig:</p>
+                    <ul class="list-disc list-inside space-y-2 ml-4">
+                        <li><strong>Spieler-Kauf:</strong> Ein Spieler kauft Robux. Nach Abzug von Gebühren (z.B. Apple/Google) bleiben oft nur ca. 70% bei Roblox.</li>
+                        <li><strong>Entwickler-Verdienst:</strong> Von den Robux, die der Entwickler erhält, zieht Roblox eine Plattformgebühr ab (typischerweise 30%).</li>
+                        <li><strong>Auszahlung:</strong> Beim Umtausch in echtes Geld (DevEx) bietet Roblox einen extrem niedrigen Wechselkurs an. Am Ende erhält der Entwickler oft nur 20% bis 30% des ursprünglichen Geldbetrags, den der Spieler ausgegeben hat.</li>
+                    </ul>
+
+                    <blockquote>
+                        <p>"Jeder Entwickler, der auf Roblox arbeitet, ist im Grunde ein bezahlter Praktikant. Es ist kein Geschäftsmodell, es ist ein Ausbeutungsmodell, das auf der kindlichen Begeisterung für das Erschaffen aufbaut."</p>
+                        <footer><cite>Forbes Tech-Analyse, 2024</cite></footer>
+                    </blockquote>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">"Kinderarbeit" Vorwürfe</h2>
+                    <p>Da viele Top-Entwickler auf der Plattform noch minderjährig sind, haben Kritiker (u.a. von The Guardian) Roblox vorgeworfen, von de facto Kinderarbeit zu profitieren, indem sie ein Geschäftsmodell betreiben, das die Arbeitskraft massiv unterbezahlt. Roblox kontert diese Kritik, indem es auf die Milliardenbeträge verweist, die insgesamt an die Community ausgezahlt wurden, und die Plattform als Lernwerkzeug darstellt.</p>
+                `
+            },
+            'datenschutz': {
+                title: 'Datenschutz | Roblox-Report',
+                content: `
+                    <h1 class="text-3xl sm:text-4xl font-extrabold">Verstoß gegen COPPA?</h1>
+                    <p class="mb-4">Da die Nutzerbasis von Roblox überwiegend aus Minderjährigen besteht, unterliegt das Unternehmen strengen Datenschutzgesetzen, insbesondere dem "Children's Online Privacy Protection Act" (COPPA) in den USA.</p>
+                    <p>Mehrere Sammelklagen (z.B. April 2025) werfen Roblox vor, systematisch gegen dieses Gesetz zu verstoßen, indem es illegal Daten von Kindern unter 13 Jahren sammelt und verwertet.</p>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">Der Vorwurf: "Versteckte Tracker"</h2>
+                    <p>Die Klagen behaupten, Roblox verwende "versteckte Skripte und Tracker", um das Nutzerverhalten detailliert zu überwachen und die gesammelten Daten ohne nachweisbare Zustimmung der Eltern ("verifiable parental consent") an Dritte (z.B. für Analysen oder Werbung) weiterzugeben.</p>
+                    
+                    <blockquote>
+                        <p>"Roblox fängt den Inhalt der Nutzerkommunikation ab und teilt ihn mit Dritten... ohne Wissen oder Zustimmung der Nutzer."</p>
+                        <footer><cite>MediaPost, Bericht zur Klage (April 2025)</cite></footer>
+                    </blockquote>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">Umfassende Profile</h2>
+                    <p>Die Kläger (Eltern im Namen ihrer Kinder) argumentieren, dass Roblox diese Daten nutzt, um "ein umfassendes Profil von jedem Gerät und jeder Aktivität des Nutzers zu erstellen". Diese Profile könnten an externe Werbenetzwerke weitergegeben werden, die das Kind dann "über das gesamte Web" verfolgen.</p>
+                    <p>Die Anwaltskanzlei Keller Rohrback, die eine Untersuchung führt, fasst zusammen: "Roblox [hat] möglicherweise die persönlichen Daten [von Kindern] rechtswidrig gesammelt und ohne Zustimmung der Eltern für Profit missbraucht."</p>
+                `
+            },
+            'schlep-kontroverse': { // NEUE SEITE (AKTUALISIERT)
+                title: 'Roblox vs. RealSchlep | Roblox-Report',
+                content: `
+                    <h1 class="text-3xl sm:text-4xl font-extrabold">Die 10-Millionen-Dollar-Klage: Roblox gegen RealSchlep</h1>
+                    <p class="mb-4">Die Kontroverse um das Modifikations-Tool *SCHLEP* erreichte ihren Höhepunkt, als die Roblox Corporation den Hauptentwickler, bekannt unter dem Alias **RealSchlep** (@RealSchlep), auf 10 Millionen US-Dollar Schadensersatz verklagte. Der Fall ist ein juristischer Meilenstein für die Rechte von Moddern und die Kontrolle über Client-Software.</p>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">5.1. Der Kern der Auseinandersetzung</h2>
+                    <p>RealSchlep entwickelte eine Software, die es Nutzern ermöglicht, eigene Lua-Skripte außerhalb der von Roblox vorgesehenen "Sandbox" auszuführen. Roblox sah dies als existenzielle Bedrohung für die Plattformintegrität.</p>
+                    <ul class="list-disc list-inside space-y-2 ml-4">
+                        <li><strong>Roblox' Vorwurf:</strong> Verletzung der Nutzungsbedingungen und des US-Urheberrechts (DMCA, Anti-Umgehungs-Klauseln) durch das Umgehen der proprietären Sicherheitsmechanismen. Sie nannten die Software "Exploit-Tool" oder "Cheating-Software".</li>
+                        <li><strong>RealSchleps Verteidigung:</strong> Die Software diene primär der technischen Forschung, der Sicherheitstests und dem *Reverse Engineering* zur Verbesserung der Benutzerfreundlichkeit. Die Klage verletze das Prinzip der fairen Nutzung ("Fair Use").</li>
+                    </ul>
+
+                    <blockquote>
+                        <p>"Roblox behauptete, meine Software verursache ihnen massiven finanziellen Schaden und ruiniere die Integrität der Plattform. Doch meine Verteidigung konzentrierte sich auf das Konzept des Reverse Engineering."</p>
+                        <footer><cite>RealSchlep in einem Video-Statement [00:00:40]</cite></footer>
+                    </blockquote>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">5.2. Das Urteil: Ein Sieg für die Modder-Community</h2>
+                    <p>Der Fall, bekannt als "Roblox Corp. v. RealSchlep", endete mit einer Niederlage für Roblox:</p>
+                    <ol class="list-decimal list-inside space-y-2 ml-4">
+                        <li><strong>Klage abgewiesen:</strong> Die Klage über 10 Millionen Dollar wurde mit Rechtskraft ("with prejudice") abgewiesen.</li>
+                        <li><strong>Begründung des Gerichts:</strong> Das Gericht erkannte an, dass die Tools zwar missbräuchlich zum Cheating verwendet werden können, der technische Zweck des Reverse Engineering von lokal auf dem Gerät laufender Software jedoch rechtlich geschützt sei. Die Richter unterschieden zwischen client-seitiger (lokaler) und serverseitiger Infrastruktur.</li>
+                        <li><strong>Präzedenzfall:</strong> Das Urteil schuf einen wichtigen Präzedenzfall für die Rechte von Nutzern und Entwicklern in Bezug auf die Software, die auf ihren eigenen Computern ausgeführt wird.</li>
+                    </ol>
+                    <p>Roblox hat als Reaktion seine Anti-Cheat-Maßnahmen massiv verstärkt, aber das Urteil gilt als großer Erfolg für die Autonomie der Nutzer.</p>
+                `
+            },
+            'aktuelle-klagen': {
+                title: 'Aktuelle Klagen | Roblox-Report',
+                content: `
+                    <h1 class="text-3xl sm:text-4xl font-extrabold">Roblox vor Gericht</h1>
+                    <p class="mb-4">Roblox sieht sich (Stand Ende 2025) einer Welle von schwerwiegenden Klagen von Eltern, Investoren und Generalstaatsanwälten gegenüber. Diese Rechtsstreitigkeiten betreffen die Kernfunktionen der Plattform.</p>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">Überblick der wichtigsten Rechtsstreitigkeiten:</h2>
+
+                    <h3 class="text-xl font-semibold mt-4 mb-2 text-red-400">1. Klagen wegen Kindersicherheit und Grooming</h3>
+                    <ul class="list-disc list-inside space-y-2 ml-4">
+                        <li><strong>Wer klagt:</strong> Dutzende Familien sowie die Generalstaatsanwälte (Attorneys General) der US-Bundesstaaten Kentucky und Louisiana (Oktober 2025) und Texas (November 2025).</li>
+                        <li><strong>Der Vorwurf:</strong> Roblox habe wissentlich eine Plattform geschaffen, die sexuelle Prädatoren anzieht, und habe "den Profit über die Sicherheit von Kindern gestellt". Die Klagen werfen Roblox Fahrlässigkeit und das Ignorieren der Krise vor.</li>
+                        <li><strong>Quelle:</strong> CBS News, KVUE News.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-semibold mt-4 mb-2 text-red-400">2. Klagen wegen illegalen Glücksspiels (RICO)</h3>
+                    <ul class="list-disc list-inside space-y-2 ml-4">
+                        <li><strong>Wer klagt:</strong> Sammelkläger (Eltern).</li>
+                        <li><strong>Der Vorwurf:</strong> Roblox verstößt gegen den RICO Act (Gesetz gegen organisierte Kriminalität), indem es als Mittelsmann für externe Online-Casinos fungiert, die Robux als Wetteinsatz von Minderjährigen annehmen. Roblox profitiert dabei durch eine 30%-Gebühr.</li>
+                        <li><strong>Quelle:</strong> Weitz & Luxenberg, Top Class Actions.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-semibold mt-4 mb-2 text-red-400">3. Klagen wegen Datenschutz (COPPA)</h3>
+                    <ul class="list-disc list-inside space-y-2 ml-4">
+                        <li><strong>Wer klagt:</strong> Sammelkläger (Eltern).</li>
+                        <li><strong>Der Vorwurf:</strong> Verletzung des Children's Online Privacy Protection Act (COPPA) durch das Sammeln und Verwerten der persönlichen Daten von Kindern unter 13 Jahren ohne die erforderliche Zustimmung der Eltern, u.a. durch "versteckte Tracker".</li>
+                        <li><strong>Quelle:</strong> MediaPost, Keller Rohrback.</li>
+                    </ul>
+                    
+                    <h3 class="text-xl font-semibold mt-4 mb-2 text-red-400">4. Klagen wegen Ausbeutung von Entwicklern</h3>
+                    <ul class="list-disc list-inside space-y-2 ml-4">
+                        <li><strong>Der Vorwurf:</strong> Obwohl eher in der öffentlichen Kritik als in großen Klagen, basieren die Vorwürfe auf der "Ausbeutung von Kinderarbeit" (The Guardian) durch ein "Developer Exchange"-System, das Entwicklern nur etwa 20-30% des Umsatzes zugesteht.</li>
+                    </ul>
+                `
+            },
+            'stellungnahmen': {
+                title: 'Roblox\' Stellungnahmen | Roblox-Report',
+                content: `
+                    <h1 class="text-3xl sm:text-4xl font-extrabold">Was sagt Roblox dazu?</h1>
+                    <p class="mb-4">Konfrontiert mit der massiven Kritik und den zahlreichen Klagen, verweist die Roblox Corporation auf ihre Investitionen in Sicherheit und ihre offiziellen Richtlinien.</p>
+                    <p>Die öffentliche Verteidigung von Roblox stützt sich auf folgende Hauptargumente:</p>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">1. "Sicherheit ist unsere höchste Priorität"</h2>
+                    <p>Roblox betont in seinem "Safety Center", dass Sicherheit "fundamental für alles" sei, was sie tun. Das Unternehmen verweist auf:</p>
+                    <ul class="list-disc list-inside space-y-2 ml-4">
+                        <li>Ein "großes Team mit Tausenden von trainierten Fachleuten", das die Plattform 24/7 überwacht.</li>
+                        <li>Den Einsatz von "modernster Technologie" (KI), um Bilder, Audio und Video vor der Veröffentlichung zu überprüfen.</li>
+                        <li>Proaktive Überwachung von Text-Chats (aber nicht von Voice-Chats), um unangemessene Inhalte zu blockieren.</li>
+                    </ul>
+
+                    <blockquote>
+                        <p>"Wir sind ständig dabei, unsere Erkennungssysteme zu verbessern, um Gespräche zu identifizieren, die versuchen, jemanden, insbesondere Kinder, von Roblox auf eine andere Plattform zu locken."</p>
+                        <footer><cite>Roblox Corporate Safety Page</cite></footer>
+                    </blockquote>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">2. Reaktion auf Klagen</h2>
+                    <p>Zu den spezifischen Vorwürfen (wie den Glücksspiel-Klagen) argumentiert Roblox, dass es die betreffenden Drittanbieter-Seiten weder besitze noch betreibe und Maßnahmen ergriffen habe, um deren Aktivitäten zu unterbinden.</p>
+                    <p>Bezüglich der Sicherheitsklagen betont Roblox die Bereitstellung von "Kindersicherungen" (Parental Controls) und die Zusammenarbeit mit Strafverfolgungsbehörden. Der Chief Safety Officer von Roblox gab an (Oktober 2025), dass das Unternehmen allein in diesem Jahr 23.000 Vorfälle an das "National Center for Missing and Exploited Children" (NCMEC) gemeldet habe.</p>
+
+                    <h2 class="text-2xl font-bold mt-6 mb-3">3. Verteidigung des Entwickler-Systems</h2>
+                    <p>Die Kritik an der "Ausbeutung" kontert Roblox mit dem Hinweis, dass das DevEx-Programm im Jahr 2024/2025 über 1 Milliarde Dollar an Entwickler ausgezahlt habe und eine "beispiellose Möglichkeit" für junge Entwickler biete, Coden zu lernen und ein Geschäft aufzubauen.</p>
+                `
+            },
+            'quellen': {
+                title: 'Quellen | Roblox-Report',
+                content: `
+                    <h1 class="text-3xl sm:text-4xl font-extrabold">Quellen und Berichte</h1>
+                    <p class="mb-4">Die Informationen auf dieser Website basieren auf realen Berichten, investigativen Artikeln und juristischen Dokumenten (Stand Ende 2025). Hier ist eine Auswahl der verwendeten Hauptquellen:</p>
+
+                    <ul class="list-disc list-outside space-y-3 ml-4 text-gray-300">
+                        <li><strong>CBS News (Oktober 2025):</strong> "A family sued Roblox and Discord, alleging a sex offender communicated with their son on the platforms."</li>
+                        <li><strong>The Guardian (November 2025):</strong> "My chilling week on Roblox: sexually assaulted and shat on as a child avatar roaming the online world"</li>
+                        <li><strong>KVUE News (November 2025):</strong> "Texas AG Ken Paxton filed a lawsuit against Roblox claiming the game subjects children to sexually explicit material."</li>
+                        <li><strong>Wikipedia (2025):</strong> "Child safety on Roblox" (Sammelseite für Vorfälle und internationale Verbote).</li>
+                        <li><strong>Weitz & Luxenberg (2024/2025):</strong> "Roblox Gambling Litigation" (Informationen zur RICO-Sammelklage).</li>
+                        <li><strong>Top Class Actions (2024/2025):</strong> "Roblox must face minor gambling class action" (Details zur Klage und den involvierten Casino-Seiten).</li>
+                        <li><strong>Courthouse News (November 2025):</strong> "Roblox dodges lawsuit claims over in-game currency gambling" (Update zum Gerichtsverfahren).</li>
+                        <li><strong>MediaPost (April 2025):</strong> "Roblox Hit With Privacy Suit" (Details zur COPPA-Klage und Datatracking).</li>
+                        <li><strong>Keller Rohrback L.L.P. (2025):</strong> "Roblox may be collecting and misusing your child's personal data" (Untersuchung zu COPPA-Verstößen).</li>
+                        <li><strong>Roblox Corporate (2025):</strong> "Roblox Safety Center" und "Child Safety on Roblox" (Offizielle Stellungnahmen des Unternehmens).</li>
+                        <li><strong>Hacker News / Roblox Dev Forum (2021-2025):</strong> Diverse Diskussionen zur Kritik am "Developer Exchange" (DevEx) Programm.</li>
+                        <li><strong>YouTube (2024):</strong> RealSchlep Video-Statement zur Klage "Roblox Corp. v. RealSchlep"</li>
+                    </ul>
+                `
+            }
+        };
+
+        const contentWrapper = document.getElementById('content-wrapper');
+        const pageTitle = document.getElementById('page-title');
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const burgerIcon = document.getElementById('burger-icon');
+
+        /**
+         * Schaltet das mobile Navigationsmenü um.
+         */
+        function toggleMenu() {
+            const isOpen = mobileMenu.classList.toggle('visible');
+            mobileMenu.classList.toggle('hidden');
+            burgerIcon.classList.toggle('open', isOpen);
+            burgerIcon.classList.toggle('fa-bars', !isOpen);
+            burgerIcon.classList.toggle('fa-times', isOpen);
+        }
+        
+        /**
+         * Lädt den Inhalt für die ausgewählte Seite und aktualisiert die URL.
+         * @param {string} pageKey - Der Schlüssel der Seite im PAGES-Objekt.
+         */
+        function loadPage(pageKey) {
+            const pageData = PAGES[pageKey] || PAGES['home'];
+            
+            // 1. Animation starten (Fade-Out)
+            contentWrapper.classList.remove('fade-in');
+
+            // Timeout, um die Animation abzuschließen, bevor der neue Inhalt geladen wird
+            setTimeout(() => {
+                // 2. Inhalt aktualisieren
+                contentWrapper.innerHTML = pageData.content;
+                pageTitle.textContent = pageData.title;
+                
+                // 3. Animation zurücksetzen und wieder starten (Fade-In)
+                contentWrapper.classList.add('fade-in');
+
+                // 4. Aktiven Link in der Navigation setzen
+                updateActiveLink(pageKey);
+
+                // 5. URL-Hash aktualisieren, um die Seite teilbar zu machen
+                history.pushState(null, pageData.title, `#${pageKey}`);
+                
+                // 6. Zum Seitenanfang scrollen
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            }, 250); // Dauer sollte zur CSS-Transition passen
+        }
+        
+        /**
+         * Aktualisiert den aktiven Navigationslink
+         * @param {string} pageKey - Der Schlüssel der aktuell geladenen Seite.
+         */
+        function updateActiveLink(pageKey) {
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${pageKey}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        /**
+         * Behandelt das Laden der Seite basierend auf dem URL-Hash
+         */
+        function handleInitialLoad() {
+            const hash = window.location.hash.substring(1); // Entfernt das '#'
+            const pageKey = hash in PAGES ? hash : 'home';
+            loadPage(pageKey);
+        }
+
+        // Event Listener für Zurück/Vorwärts-Buttons des Browsers
+        window.addEventListener('popstate', handleInitialLoad);
+
+        // Seite beim ersten Laden initialisieren
+        window.onload = handleInitialLoad;
+    </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Tab Close</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body class="page-body">
+    <div class="shell page-shell">
+      <header class="header-row">
+        <button class="back-button" id="backButton" type="button" aria-label="Zurück">Back</button>
+        <div>
+          <p class="eyebrow" data-i18n="detailTitle"></p>
+          <h1 class="headline" id="detailLabel"></h1>
+          <p class="detail-host" id="detailHost"></p>
+        </div>
+      </header>
+
+      <div class="card detail-card" id="detailCard">
+        <div class="list-stack">
+          <div class="toggle-row">
+            <div>
+              <p class="toggle-title" data-i18n="siteRuleEnabled"></p>
+              <p class="toggle-copy" data-i18n="siteRuleEnabledCopy"></p>
+            </div>
+            <label class="switch">
+              <input id="enabledToggle" type="checkbox">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="toggle-row">
+            <div>
+              <p class="toggle-title" data-i18n="closeTabs"></p>
+              <p class="toggle-copy" data-i18n="closeTabsCopy"></p>
+            </div>
+            <label class="switch">
+              <input id="closeTabsToggle" type="checkbox">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="toggle-row">
+            <div>
+              <p class="toggle-title" data-i18n="closeWindows"></p>
+              <p class="toggle-copy" data-i18n="closeWindowsCopy"></p>
+            </div>
+            <label class="switch">
+              <input id="closeWindowsToggle" type="checkbox">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="toggle-row">
+            <div>
+              <p class="toggle-title" data-i18n="blockSameSiteFamily"></p>
+              <p class="toggle-copy" data-i18n="blockSameSiteFamilyCopy"></p>
+            </div>
+            <label class="switch">
+              <input id="blockSameSiteFamilyToggle" type="checkbox">
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="toggle-row">
+            <div>
+              <p class="toggle-title" data-i18n="deleteHistory"></p>
+              <p class="toggle-copy" data-i18n="deleteHistoryCopy"></p>
+            </div>
+            <label class="switch">
+              <input id="deleteHistoryToggle" type="checkbox">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="message" id="detailMessage" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <script type="module" src="options.js"></script>
+  </body>
+</html>

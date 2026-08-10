@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  background: #09090b;
+  color: #f4f4f5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Thin scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #52525b;
+}
+
+/* Remove outline on focus for buttons that have own styles */
+button:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+input:focus-visible {
+  outline: none;
+}
+
+/* Pixelated images (for cursor previews) */
+.pixelated {
+  image-rendering: pixelated;
+}
+
+/* Toast-Einblendung */
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.toast-in {
+  animation: toast-in 0.18s ease-out;
+}
+
+/* Modal-Einblendung */
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.modal-in {
+  animation: modal-in 0.15s ease-out;
+}
+
+/* Schachbrett-Hintergrund für transparente Vorschauen */
+.checkerboard {
+  background-image:
+    linear-gradient(45deg, #27272a 25%, transparent 25%),
+    linear-gradient(-45deg, #27272a 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #27272a 75%),
+    linear-gradient(-45deg, transparent 75%, #27272a 75%);
+  background-size: 12px 12px;
+  background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+  background-color: #18181b;
+}
+
+/* Sanftes Pulsieren für den Drag-Zustand */
+@keyframes pulse-border {
+  0%, 100% {
+    border-color: rgb(96 165 250 / 0.9);
+  }
+  50% {
+    border-color: rgb(96 165 250 / 0.4);
+  }
+}
+.drag-pulse {
+  animation: pulse-border 1.2s ease-in-out infinite;
+}
+
+/* Zahleneingaben: Spinner ausblenden */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Textauswahl-Farbe */
+::selection {
+  background: rgb(59 130 246 / 0.4);
+}

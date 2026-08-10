@@ -1,0 +1,453 @@
+﻿from __future__ import annotations
+
+import logging
+
+import discord
+from discord import app_commands
+
+from botcore.facades import PlayerFacade
+
+
+def register_player_commands(bot, module: PlayerFacade) -> dict[str, object]:
+    @bot.tree.command(name="t\u00e4glich", description="Hole deine t\u00e4gliche Belohnung ab")
+    async def taeglich(interaction: discord.Interaction):
+        visibility_key = module.command_visibility_key_for_interaction(interaction)
+        now = int(module.time.time())
+        is_admin_user = await module.is_admin(interaction)
+        async with module.db_context() as db:
+            cursor = await db.execute(
+                "SELECT last_daily FROM user_daily WHERE user_id = ?",
+                (interaction.user.id,),
+            )
+            row = await cursor.fetchone()
+            if (not is_admin_user) and row and row[0] and now - row[0] < 86400:
+                stunden = int((86400 - (now - row[0])) / 3600)
+                await module._send_ephemeral(
+                    interaction,
+                    content=f"Du kannst deine t\u00e4gliche Belohnung erst in {stunden} Stunden abholen.",
+                )
+                return
+            await db.execute(
+                "INSERT OR REPLACE INTO user_daily (user_id, last_daily) VALUES (?, ?)",
+                (interaction.user.id, now),
+            )
+            await db.commit()
+
+        user_id = interaction.user.id
+        alpha_enabled = await module.is_alpha_enabled(interaction.guild_id)
+        karte = module.random_gameplay_card(
+            module.karten,
+            alpha_enabled=alpha_enabled,
+            context="daily",
+        )
+
+        is_new_card = await module.check_and_add_karte(user_id, karte)
+        card_name_text = str(karte.get("name") or "Unbekannte Karte")
+        embed_color = module._card_rarity_color(karte)
+        image_url = str(karte.get("bild") or "").strip()
+        if not image_url:
+            fallback_card = module._card_by_name_local(card_name_text)
+            image_url = str((fallback_card or {}).get("bild") or "").strip()
+
+        if is_new_card:
+            embed = discord.Embed(
+                title="\U0001F381 T\u00e4gliche Belohnung",
+                description="Du hast eine t\u00e4gliche Belohnung erhalten:",
+                color=embed_color,
+            )
+            embed.add_field(
+                name="Karte",
+                value=module._card_name_ansi_block(card_name_text, karte),
+                inline=False,
+            )
+            if image_url:
+                embed.set_image(url=image_url)
+            await module._send_with_visibility(interaction, visibility_key, embed=embed)
+            return
+
+        embed = discord.Embed(
+            title="\U0001F48E T\u00e4gliche Belohnung - Infinitydust!",
+            description="Du hattest diese Karte bereits:",
+            color=embed_color,
+        )
+        embed.add_field(
+            name="Karte",
+            value=module._card_name_ansi_block(card_name_text, karte),
+            inline=False,
+        )
+        embed.add_field(
+            name="Umwandlung",
+            value="Die Karte wurde zu **Infinitydust** umgewandelt!",
+            inline=False,
+        )
+        dust_item = module.get_item_by_id("infinitydust")
+        dust_image_url = str((dust_item or {}).get("bild") or "").strip()
+        dust_thumbnail_url = str((dust_item or {}).get("thumbnail") or "").strip()
+        if dust_thumbnail_url:
+            embed.set_thumbnail(url=dust_thumbnail_url)
+        if dust_image_url:
+            embed.set_image(url=dust_image_url)
+        await module._send_with_visibility(interaction, visibility_key, embed=embed)
+
+    @bot.tree.command(
+        name="eingeladen",
+        description="Einladung erfassen: als Einlader oder als Eingeladener.",
+    )
+    @app_commands.describe(modus="Welche Rolle hast du bei dieser Einladung?")
+    @app_commands.choices(
+        modus=[
+            app_commands.Choice(name="Ich bin Einlader", value="inviter"),
+            app_commands.Choice(name="Ich bin Eingeladener", value="invitee"),
+        ]
+    )
+    async def eingeladen(interaction: discord.Interaction, modus: str):
+        try:
+            logging.info(
+                "[INVITED] command invoked user=%s guild=%s channel=%s",
+                interaction.user.id,
+                interaction.guild_id,
+                interaction.channel_id,
+            )
+            if await module.is_alpha_enabled(interaction.guild_id):
+                await module._send_ephemeral(interaction, content=module.ALPHA_FEATURE_DISABLED_TEXT)
+                return
+            if await module.is_beta_enabled(interaction.guild_id):
+                await module._send_ephemeral(interaction, content=module.BETA_INVITE_DISABLED_TEXT)
+                return
+            visibility_key = module.command_visibility_key_for_interaction(interaction)
+            visibility = (
+                await module.get_message_visibility(interaction.guild_id, visibility_key)
+                if visibility_key
+                else module.VISIBILITY_PRIVATE
+            )
+            ephemeral = visibility != module.VISIBILITY_PUBLIC
+            await interaction.response.defer(ephemeral=ephemeral)
+
+            user_id = interaction.user.id
+            is_admin_user = await module.is_admin(interaction)
+            logging.info("[INVITED] is_admin_user=%s user=%s", is_admin_user, interaction.user.id)
+
+            async with module.db_context() as db:
+                cursor = await db.execute("SELECT DISTINCT user_id FROM user_karten")
+                user_rows = await cursor.fetchall()
+
+                cursor = await db.execute("SELECT DISTINCT user_id FROM user_daily")
+                daily_rows = await cursor.fetchall()
+
+                cursor = await db.execute("SELECT DISTINCT user_id FROM user_infinitydust")
+                dust_rows = await cursor.fetchall()
+
+                all_user_ids = set()
+                for row in user_rows + daily_rows + dust_rows:
+                    all_user_ids.add(row[0])
+
+                if interaction.guild is not None:
+                    for member in interaction.guild.members:
+                        if not getattr(member, "bot", False):
+                            all_user_ids.add(member.id)
+
+                all_user_ids.discard(user_id)
+                logging.info("[INVITED] candidates_found=%s user=%s", len(all_user_ids), user_id)
+
+                if not all_user_ids:
+                    await interaction.followup.send(
+                        "\u274c Keine anderen Spieler gefunden! Es m\u00fcssen andere Spieler den Bot bereits genutzt haben.",
+                        ephemeral=True,
+                    )
+                    return
+
+            view = module.InviteUserSelectView(user_id, str(modus), list(all_user_ids))
+            age_limit_days = await module.get_invite_max_member_age_days()
+            if modus == "inviter":
+                title = "\U0001F381 Wen hast du eingeladen?"
+                role_text = "Du bist der **Einlader**. W\u00e4hle die Person, die du eingeladen hast."
+            else:
+                title = "\U0001F381 Wer hat dich eingeladen?"
+                role_text = "Du bist der **Eingeladene**. W\u00e4hle die Person, die dich eingeladen hat."
+
+            description = (
+                f"{role_text}\n\n"
+                "Danach erscheint eine \u00f6ffentliche Best\u00e4tigung: **Einlader** und **Eingeladener** "
+                "m\u00fcssen beide zustimmen.\n\n"
+                f"Der Eingeladene darf h\u00f6chstens **{age_limit_days} Tage** auf dem Server sein.\n\n"
+                "Bei der **ersten** abgeschlossenen Einladung eines Einladers bekommt der Einlader eine **Karte** "
+                "und der Eingeladene **5 Infinitydust**. Danach bekommen beide **5 Infinitydust**."
+            )
+
+            embed = discord.Embed(
+                title=title,
+                description=description,
+                color=0x9D4EDD,
+            )
+            dust_item = module.get_item_by_id("infinitydust")
+            dust_thumbnail_url = str((dust_item or {}).get("thumbnail") or "").strip()
+            if dust_thumbnail_url:
+                embed.set_thumbnail(url=dust_thumbnail_url)
+            await interaction.followup.send(embed=embed, view=view, ephemeral=ephemeral)
+
+        except discord.NotFound:
+            logging.info("Invite interaction message no longer exists")
+        except Exception:
+            logging.exception("Fehler in eingeladen command")
+            try:
+                await interaction.followup.send(
+                    "\u274c Ein Fehler ist aufgetreten. Bitte versuche es erneut.",
+                    ephemeral=True,
+                )
+            except Exception:
+                logging.exception("Unexpected error")
+
+    @bot.tree.command(name="verbessern", description="Verst\u00e4rke deine Karten mit Infinitydust")
+    async def fuse(interaction: discord.Interaction):
+        if not await module.is_channel_allowed(interaction):
+            return
+        visibility_key = module.command_visibility_key_for_interaction(interaction)
+        user_id = interaction.user.id
+        user_dust = await module.get_infinitydust(user_id)
+
+        if user_dust < module.FUSE_DUST_COST:
+            embed = discord.Embed(
+                title="\u274c Nicht genug Infinitydust",
+                description=(
+                    f"Du hast nur **{user_dust} Infinitydust**.\n"
+                    f"Du brauchst mindestens **{module.FUSE_DUST_COST} Infinitydust** zum Verst\u00e4rken!"
+                ),
+                color=0xFF0000,
+            )
+            await module._send_ephemeral(interaction, embed=embed)
+            return
+
+        # v2.3.0 Task 6.8 (Req. 6.14): Edge case "0 Karten im Besitz".
+        # Wenn der Spieler keine (filterbaren) Karten besitzt, würde das
+        # Karten-Auswahl-Menü leer angezeigt werden. Stattdessen klar
+        # kommunizieren, dass nichts zum Aufwerten da ist, und früh aussteigen.
+        user_karten = await module.get_user_karten(user_id)
+        eligible_karten = module._filter_owned_cards_for_current_mode(user_karten)
+        if not eligible_karten:
+            empty_embed = discord.Embed(
+                title="\u274c Keine Karten zum Verst\u00e4rken",
+                description=(
+                    "Du hast aktuell keine Karten in deinem Besitz, die du "
+                    "aufwerten k\u00f6nntest. Sammle erst Karten und versuche "
+                    "es dann erneut."
+                ),
+                color=0xFF0000,
+            )
+            await module._send_ephemeral(interaction, embed=empty_embed)
+            return
+
+        # v2.3.0 Task 6.8: Einstieg in den \u00fcberarbeiteten /verbessern-Flow
+        # geht jetzt direkt in die Karten-Auswahl (FuseCardSelectView).
+        # Stat-Auswahl und Multiplikator-Auswahl folgen in den Schritten B/C.
+        view = module.FuseCardSelectView(interaction.user.id, user_dust, eligible_karten)
+        embed = discord.Embed(
+            title="\U0001F48E Karten-Verst\u00e4rkung",
+            description=(
+                f"Du hast **{user_dust} Infinitydust**\n\n"
+                "W\u00e4hle eine Karte zum Verst\u00e4rken. Danach kannst du "
+                "den Stat (Leben oder eine Attacke) und einen Multiplikator "
+                "von **1\u00d7 (5 Dust)** bis **6\u00d7 (30 Dust)** w\u00e4hlen."
+            ),
+            color=0x9D4EDD,
+        )
+        dust_item = module.get_item_by_id("infinitydust")
+        dust_thumbnail_url = str((dust_item or {}).get("thumbnail") or "").strip()
+        if dust_thumbnail_url:
+            embed.set_thumbnail(url=dust_thumbnail_url)
+        await module._send_with_visibility(interaction, visibility_key, embed=embed, view=view)
+
+    @bot.tree.command(name="sammlung", description="Zeige deine Karten-Sammlung")
+    async def vault(interaction: discord.Interaction):
+        if not await module.is_channel_allowed(interaction):
+            return
+        visibility_key = module.command_visibility_key_for_interaction(interaction)
+        user_id = interaction.user.id
+        user_karten = await module.get_user_karten(user_id)
+        infinitydust = await module.get_infinitydust(user_id)
+        units = await module.get_units(user_id)
+
+        if not user_karten and infinitydust == 0:
+            await module._send_ephemeral(
+                interaction,
+                content="Du hast noch keine Karten in deiner Sammlung.",
+            )
+            return
+
+        grouped_cards = module._group_owned_cards_for_current_mode(user_karten)
+        embed = discord.Embed(
+            title="\U0001F5C4\ufe0f Deine Karten-Sammlung",
+            description=f"Du besitzt **{len(grouped_cards)}** verschiedene Helden:",
+        )
+
+        if infinitydust > 0:
+            embed.add_field(name="\U0001F48E Infinitydust", value=f"Anzahl: {infinitydust}x", inline=True)
+            dust_item = module.get_item_by_id("infinitydust")
+            dust_thumbnail_url = str((dust_item or {}).get("thumbnail") or "").strip()
+            if dust_thumbnail_url:
+                embed.set_thumbnail(url=dust_thumbnail_url)
+
+        units_value = module._build_units_collection_field_value(units)
+        if units_value:
+            unit_item = module.get_item_by_id("unit") or {}
+            unit_label = str(unit_item.get("display_name") or "Unit").strip() or "Unit"
+            embed.add_field(name=f"\U0001FA99 {unit_label}", value=units_value, inline=True)
+            unit_thumbnail_url = str(unit_item.get("thumbnail") or unit_item.get("bild") or "").strip()
+            if unit_thumbnail_url and infinitydust <= 0:
+                embed.set_thumbnail(url=unit_thumbnail_url)
+
+        for group in grouped_cards[:10]:
+            base_name = str(group.get("base_name") or "")
+            variant_rows = list(group.get("variants") or [])
+            detail_name = variant_rows[0][0] if variant_rows else base_name
+            karte = await module.get_karte_by_name(detail_name)
+            if karte:
+                variant_text = ", ".join(f"{variant_name} x{amount}" for variant_name, amount in variant_rows)
+                embed.add_field(
+                    name=module._group_option_label(group),
+                    value=f"{karte['beschreibung'][:80]}...\nVarianten: {variant_text}",
+                    inline=False,
+                )
+
+        if len(grouped_cards) > 10:
+            embed.set_footer(text=f"Und {len(grouped_cards) - 10} weitere Helden...")
+
+        view = module.VaultView(interaction.user.id, user_karten)
+        await module._send_with_visibility(interaction, visibility_key, embed=embed, view=view)
+
+    @bot.tree.command(
+        name="anfang",
+        description="Zeigt das Startmen\u00fc mit Schnellzugriff auf wichtige Funktionen",
+    )
+    @app_commands.describe(action="Optional: /anfang aktualisieren oder /anfang lastaktu")
+    @app_commands.choices(
+        action=[
+            app_commands.Choice(name="aktualisieren", value="aktualisieren"),
+            app_commands.Choice(name="lastaktu", value="lastaktu"),
+        ]
+    )
+    async def anfang(interaction: discord.Interaction, action: str | None = None):
+        if not await module.is_channel_allowed(interaction):
+            return
+
+        alpha_enabled = await module.is_alpha_enabled(interaction.guild_id)
+        beta_enabled = await module.is_beta_enabled(interaction.guild_id)
+        text = module.build_anfang_intro_text(alpha_enabled=alpha_enabled, beta_enabled=beta_enabled)
+        view = module.AnfangView(alpha_enabled=alpha_enabled, beta_enabled=beta_enabled)
+        if interaction.guild is None:
+            await interaction.response.send_message(content=text, view=view)
+            return
+
+        visibility_key = module.command_visibility_key_for_interaction(interaction)
+        visibility = (
+            await module.get_message_visibility(interaction.guild_id, visibility_key)
+            if visibility_key
+            else module.VISIBILITY_PRIVATE
+        )
+        is_admin_user = await module.is_admin(interaction)
+
+        if action:
+            if not is_admin_user:
+                await interaction.response.send_message("\u274c Keine Berechtigung.", ephemeral=True)
+                return
+            if action == "lastaktu":
+                existing = await module.get_latest_anfang_message(interaction.guild_id)
+                if not existing:
+                    await interaction.response.send_message(
+                        "\u2139\ufe0f Es gibt noch keine gespeicherte /anfang-Nachricht.",
+                        ephemeral=True,
+                    )
+                    return
+                channel_id, message_id = existing
+                link = f"https://discord.com/channels/{interaction.guild_id}/{channel_id}/{message_id}"
+                await interaction.response.send_message(
+                    f"\U0001F517 Letzte /anfang-Nachricht: {link}",
+                    ephemeral=True,
+                )
+                return
+            if action == "aktualisieren":
+                existing = await module.get_latest_anfang_message(interaction.guild_id)
+                if not existing:
+                    await interaction.response.send_message(
+                        "\u2139\ufe0f Keine gespeicherte /anfang-Nachricht gefunden. Nutze zuerst `/anfang`.",
+                        ephemeral=True,
+                    )
+                    return
+                old_channel_id, old_message_id = existing
+                try:
+                    old_channel = interaction.guild.get_channel(old_channel_id) or await interaction.guild.fetch_channel(
+                        old_channel_id
+                    )
+                    if not isinstance(old_channel, (discord.TextChannel, discord.Thread)):
+                        await interaction.response.send_message(
+                            "\u274c Kanal der gespeicherten Nachricht nicht gefunden.",
+                            ephemeral=True,
+                        )
+                        return
+                    old_message = await old_channel.fetch_message(old_message_id)
+                    await old_message.edit(content=text, view=view)
+                    await module.set_latest_anfang_message(
+                        interaction.guild_id,
+                        old_channel_id,
+                        old_message_id,
+                        interaction.user.id,
+                    )
+                    await interaction.response.send_message("\u2705 /anfang aktualisiert.", ephemeral=True)
+                except Exception:
+                    logging.exception("Failed to edit latest /anfang message")
+                    await interaction.response.send_message(
+                        "\u274c Konnte die gespeicherte /anfang-Nachricht nicht aktualisieren.",
+                        ephemeral=True,
+                    )
+                return
+
+        if is_admin_user:
+            existing = await module.get_latest_anfang_message(interaction.guild_id)
+
+            if existing:
+                old_channel_id, old_message_id = existing
+                try:
+                    old_channel = interaction.guild.get_channel(old_channel_id) or await interaction.guild.fetch_channel(
+                        old_channel_id
+                    )
+                    if isinstance(old_channel, (discord.TextChannel, discord.Thread)):
+                        old_message = await old_channel.fetch_message(old_message_id)
+                        await old_message.edit(view=None)
+                except Exception:
+                    pass
+
+            sent_message = None
+            try:
+                if not interaction.response.is_done():
+                    await interaction.response.send_message(content=text, view=view)
+                    sent_message = await interaction.original_response()
+                else:
+                    sent_message = await interaction.followup.send(content=text, view=view)
+            except Exception:
+                logging.exception("Failed to send /anfang message")
+                return
+
+            if sent_message is None:
+                return
+            await module.set_latest_anfang_message(
+                interaction.guild_id,
+                sent_message.channel.id,
+                sent_message.id,
+                interaction.user.id,
+            )
+            return
+
+        if visibility == module.VISIBILITY_PUBLIC:
+            await module._send_with_visibility(interaction, visibility_key, content=text, view=view)
+        else:
+            await module._send_ephemeral(interaction, content=text, view=view)
+
+    return {
+        "t\u00e4glich": taeglich,
+        "eingeladen": eingeladen,
+        "fuse": fuse,
+        "vault": vault,
+        "anfang": anfang,
+    }
+
+
+

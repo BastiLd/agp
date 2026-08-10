@@ -1,0 +1,20 @@
+{
+  "appName": { "message": "AutoCapture: Ganze Seite & Unterseiten" },
+  "appDesc": { "message": "Erstellt automatisch Screenshots der gesamten aktuellen Seite und aller Unterseiten." },
+  "recursiveCrawl": { "message": "Rekursiver Crawl (Ganze Website)" },
+  "maxPages": { "message": "Max. Seiten" },
+  "startBtn": { "message": "Capture Starten" },
+  "stopBtn": { "message": "Stopp" },
+  "statusReady": { "message": "Bereit. Gehe auf eine Website, um zu starten." },
+  "statusRunning": { 
+    "message": "Verarbeite $current$ / $total$ ($url$)",
+    "placeholders": {
+      "current": { "content": "$1" },
+      "total": { "content": "$2" },
+      "url": { "content": "$3" }
+    }
+  },
+  "statusStopped": { "message": "Angehalten" },
+  "statusFinished": { "message": "Erfassung abgeschlossen." },
+  "errorChromeUrl": { "message": "Auf chrome:// Seiten nicht möglich." }
+}

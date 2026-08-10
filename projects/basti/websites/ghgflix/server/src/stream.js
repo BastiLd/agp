@@ -1,0 +1,233 @@
+// Video delivery: ffprobe (codec info), direct play with HTTP Range support,
+// and on-the-fly ffmpeg transcoding to fragmented MP4 (h264/aac) that every
+// browser and phone can play — with instant seeking via ?t=<seconds>.
+import { spawn } from "node:child_process";
+import { createReadStream, statSync } from "node:fs";
+import { extname } from "node:path";
+import { settingOr } from "./db.js";
+
+const FFMPEG = process.env.FFMPEG_PATH || "ffmpeg";
+const FFPROBE = process.env.FFPROBE_PATH || "ffprobe";
+
+const MIME = {
+  ".mp4": "video/mp4",
+  ".m4v": "video/mp4",
+  ".webm": "video/webm",
+  ".mkv": "video/x-matroska",
+  ".avi": "video/x-msvideo",
+  ".mov": "video/quicktime",
+  ".ts": "video/mp2t",
+  ".m2ts": "video/mp2t",
+};
+
+export function ffprobe(path) {
+  return new Promise((resolve) => {
+    const p = spawn(FFPROBE, ["-v", "quiet", "-print_format", "json", "-show_format", "-show_streams", path]);
+    let out = "";
+    p.stdout.on("data", (d) => (out += d));
+    p.on("error", () => resolve(null));
+    p.on("close", () => {
+      try {
+        const j = JSON.parse(out);
+        const v = (j.streams || []).find((s) => s.codec_type === "video");
+        const a = (j.streams || []).find((s) => s.codec_type === "audio");
+        resolve({
+          duration: parseFloat(j.format?.duration) || null,
+          container: (j.format?.format_name || "").split(",")[0],
+          vcodec: v?.codec_name ?? null,
+          acodec: a?.codec_name ?? null,
+          width: v?.width ?? null,
+          height: v?.height ?? null,
+          audioStreams: (j.streams || [])
+            .filter((s) => s.codec_type === "audio")
+            .map((s, i) => ({ index: i, lang: s.tags?.language ?? null, title: s.tags?.title ?? null, codec: s.codec_name })),
+          subtitleStreams: (j.streams || [])
+            .filter((s) => s.codec_type === "subtitle")
+            .map((s, i) => ({ index: i, lang: s.tags?.language ?? null, title: s.tags?.title ?? null, codec: s.codec_name })),
+        });
+      } catch {
+        resolve(null);
+      }
+    });
+  });
+}
+
+/** Can the browser play this file as-is (no transcode)? */
+export function canDirectPlay(row) {
+  const ext = extname(row.path).toLowerCase();
+  const containerOk = ext === ".mp4" || ext === ".m4v" || ext === ".webm";
+  const vOk = ["h264", "vp9", "av1", "vp8"].includes(row.vcodec ?? "");
+  const aOk = ["aac", "mp3", "opus", "vorbis", "flac"].includes(row.acodec ?? "");
+  return containerOk && vOk && aOk;
+}
+
+/** Direct file streaming with Range support (the <video> element needs it). */
+export function serveFile(req, res, path) {
+  let st;
+  try {
+    st = statSync(path);
+  } catch {
+    res.writeHead(404).end("file not found");
+    return;
+  }
+  const mime = MIME[extname(path).toLowerCase()] || "application/octet-stream";
+  const range = req.headers.range;
+  if (range) {
+    const m = range.match(/bytes=(\d*)-(\d*)/);
+    let start = m?.[1] ? parseInt(m[1], 10) : 0;
+    let end = m?.[2] ? parseInt(m[2], 10) : st.size - 1;
+    if (start >= st.size) {
+      res.writeHead(416, { "Content-Range": `bytes */${st.size}` }).end();
+      return;
+    }
+    end = Math.min(end, st.size - 1);
+    res.writeHead(206, {
+      "Content-Range": `bytes ${start}-${end}/${st.size}`,
+      "Accept-Ranges": "bytes",
+      "Content-Length": end - start + 1,
+      "Content-Type": mime,
+    });
+    createReadStream(path, { start, end }).pipe(res);
+  } else {
+    res.writeHead(200, { "Content-Length": st.size, "Content-Type": mime, "Accept-Ranges": "bytes" });
+    createReadStream(path).pipe(res);
+  }
+}
+
+const QUALITY = {
+  low: { height: 480, vbr: "1500k", maxrate: "2000k" },
+  medium: { height: 720, vbr: "3000k", maxrate: "4000k" },
+  high: { height: 1080, vbr: "6000k", maxrate: "8000k" },
+  original: null, // keep resolution, just convert the codec
+};
+
+// SRV-017: laufende Transcodes zählen/begrenzen — mehrere gleichzeitig
+// schauende Geräte (Desktop + TV + Handy) können ein schwaches NAS sonst
+// komplett auslasten. SRV-005: beim Container-Stopp alle sauber beenden.
+const activeFF = new Set();
+export const activeTranscodeCount = () => activeFF.size;
+export function killAllTranscodes() {
+  for (const p of activeFF) {
+    try {
+      p.kill("SIGKILL");
+    } catch {}
+  }
+  activeFF.clear();
+}
+
+/* Der HLS-Weg (hls.js, für iPhone/iPad) startet eigene ffmpeg-Prozesse. Sie
+   müssen in DERSELBEN Liste stehen wie die hier — sonst würde die Obergrenze
+   TRANSCODE_MAX doppelt vergeben und ein SIGTERM ließe sie als Waisen zurück
+   (genau der Fehler, der beim Studio-Port schon einmal Stunden gekostet hat). */
+export const ffAnmelden = (p) => activeFF.add(p);
+export const ffAbmelden = (p) => activeFF.delete(p);
+/** Wie viele Umwandlungen dürfen höchstens gleichzeitig laufen? */
+export const transcodeMax = () =>
+  Math.max(1, parseInt(settingOr("transcode_max", "TRANSCODE_MAX", "3"), 10) || 3);
+
+/** Live transcode from `start` seconds → fragmented MP4 piped to the client.
+ *  h264 video is stream-copied when only the audio/container is the problem. */
+export function serveTranscode(req, res, row, { start = 0, quality = "original", audioIndex = 0 } = {}) {
+  // SRV-017: Limit gleichzeitiger Transcodes (Setting/ENV TRANSCODE_MAX, Standard 3)
+  const maxFF = transcodeMax();
+  if (activeFF.size >= maxFF) {
+    res.writeHead(503, { "Content-Type": "application/json; charset=utf-8", "Retry-After": "10" });
+    res.end(JSON.stringify({ error: `Zu viele gleichzeitige Video-Umwandlungen (max. ${maxFF}). Kurz warten — oder TRANSCODE_MAX erhöhen.` }));
+    return;
+  }
+
+  const q = QUALITY[quality] ?? QUALITY.original;
+
+  // AV-01/AV-02 (Ton/Bild-Versatz nach Seek/Resume): input seeking (-ss before
+  // -i) combined with `-c:v copy` snaps the VIDEO to the previous keyframe —
+  // up to several seconds before `start`, depending on the source's GOP length
+  // — while the re-encoded AUDIO starts exactly at `start`. Result: an A/V
+  // offset after every seek/resume/audio-track switch during transcode
+  // playback ("manchmal", because it depends on the distance to the keyframe).
+  // Fix: only stream-copy when playing from 0 (files start on a keyframe);
+  // any real seek re-encodes the video so both tracks start sample-exact at
+  // `start`. Escape hatch for very weak NAS boards: setting/env
+  // TRANSCODE_ACCURATE_SEEK=off restores the old copy behaviour.
+  const accurateSeek = settingOr("transcode_accurate_seek", "TRANSCODE_ACCURATE_SEEK", "on") !== "off";
+  const copyVideo = row.vcodec === "h264" && !q && (start <= 0 || !accurateSeek);
+
+  // -fflags +genpts: rebuild missing/broken timestamps (MKV/TS sources) so
+  // audio and video share one clean clock instead of drifting apart.
+  const args = ["-hide_banner", "-loglevel", "warning", "-fflags", "+genpts"];
+  if (start > 0) args.push("-ss", String(start));
+  args.push("-i", row.path, "-map", "0:v:0", "-map", `0:a:${audioIndex}?`);
+
+  if (copyVideo) {
+    args.push("-c:v", "copy");
+  } else {
+    args.push("-c:v", "libx264", "-preset", "veryfast", "-crf", "22", "-pix_fmt", "yuv420p");
+    if (q) args.push("-vf", `scale=-2:min(${q.height}\\,ih)`, "-maxrate", q.maxrate, "-bufsize", q.maxrate);
+  }
+  // Ton NICHT unnötig neu kodieren: ist die Spur schon AAC (und wird nicht
+  // gespult, wo exakte Startpunkte zählen), einfach durchkopieren. Das spart
+  // auf schwachen NAS-CPUs spürbar Last — vorher lief IMMER eine AAC-Kodierung.
+  const copyAudio = row.acodec === "aac" && copyVideo;
+  if (copyAudio) {
+    args.push("-c:a", "copy");
+  } else {
+    args.push("-c:a", "aac", "-ac", "2", "-b:a", "160k");
+    // A/V-Sync: Ton an die Video-Uhr binden. aresample=async dehnt/füllt
+    // winzige Lücken sample-genau, statt den Versatz aufsummieren zu lassen.
+    args.push("-af", "aresample=async=1:min_hard_comp=0.100:first_pts=0");
+  }
+  args.push("-avoid_negative_ts", "make_zero", "-max_muxing_queue_size", "2048");
+  args.push("-movflags", "frag_keyframe+empty_moov+default_base_moof", "-f", "mp4", "pipe:1");
+
+  const ff = spawn(FFMPEG, args);
+  activeFF.add(ff);
+  res.writeHead(200, {
+    "Content-Type": "video/mp4",
+    "Cache-Control": "no-store",
+    // AV-03: with accurate seek the stream really starts at `start`, so the
+    // client-side offset assumption (offsetRef = requested t) is now correct.
+    "X-GHG-Stream-Start": String(start),
+  });
+  ff.stdout.pipe(res);
+  // AV-07: don't throw ffmpeg's stderr away — timestamp warnings like
+  // "Non-monotonous DTS" or "invalid pts" are direct evidence of A/V-sync
+  // trouble with a particular source file. Keep a small rolling buffer and
+  // log it when ffmpeg dies or complains.
+  let errBuf = "";
+  let warned = false;
+  ff.stderr.on("data", (d) => {
+    errBuf = (errBuf + d.toString()).slice(-4096);
+    if (!warned && /non-monotonous dts|invalid pts|invalid dts|timestamps are unset/i.test(errBuf)) {
+      warned = true;
+      console.warn(`[transcode] Timestamp-Warnung bei "${row.path}" (t=${start}): ${errBuf.trim().split("\n").pop()}`);
+    }
+  });
+  const kill = () => {
+    try {
+      ff.kill("SIGKILL");
+    } catch {}
+  };
+  req.on("close", kill);
+  ff.on("close", (code) => {
+    activeFF.delete(ff);
+    if (code !== 0 && code !== null && errBuf.trim()) {
+      console.error(`[transcode] ffmpeg exit ${code} bei "${row.path}" (t=${start}): ${errBuf.trim().slice(-500)}`);
+    }
+    res.end();
+  });
+  ff.on("error", () => {
+    if (!res.headersSent) res.writeHead(500);
+    res.end();
+  });
+}
+
+/** One JPEG frame (for episode thumbnails without TMDb art). */
+export function serveThumb(res, path, at = 300) {
+  const ff = spawn(FFMPEG, [
+    "-hide_banner", "-loglevel", "error",
+    "-ss", String(at), "-i", path,
+    "-frames:v", "1", "-vf", "scale=480:-2", "-f", "image2", "-c:v", "mjpeg", "pipe:1",
+  ]);
+  res.writeHead(200, { "Content-Type": "image/jpeg", "Cache-Control": "public, max-age=604800" });
+  ff.stdout.pipe(res);
+  ff.on("error", () => res.end());
+}

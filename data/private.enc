@@ -1,0 +1,8 @@
+{
+  "verfahren": "AES-256-GCM",
+  "ableitung": "PBKDF2-SHA256",
+  "iterationen": 250000,
+  "salt": "7A+iscZkuteDIDEgISzv2w==",
+  "iv": "bSKN0XDxyl7ICw96",
+  "daten": "jvlWJsAjTE6EnlFObsQ6QhA8CwZIUn7UrkfEeAdNjD4ykreQrlgYowvgyYv4Z3UBbYwQTYMEfPEsvLMIxKhsEZ/VZjXZPwwP2WKue1Jjpn1QME/hfwHYmZh5R99r294DpCrTD3peuM38OSK51RkIcUarnT6wskVAKc132opl9r0THkF0Yb8KFNyjXUJVcz7s6+SzCxpEa7ZEoGf0mAec"
+}

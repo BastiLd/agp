@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "VetNow Kärnten",
+    "slug": "vetnow-kaernten",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "backgroundColor": "#f4f7f6",
+    "primaryColor": "#0c7d72",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "at.vetnow.kaernten",
+      "versionCode": 1,
+      "usesCleartextTraffic": true,
+      "softwareKeyboardLayoutMode": "resize",
+      "adaptiveIcon": {
+        "backgroundColor": "#0c7d72",
+        "foregroundImage": "./assets/icon.png"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Erlaube VetNow Kärnten den Zugriff auf deine Fotos, um Bilder an Nachrichten anzuhängen.",
+          "cameraPermission": "Erlaube VetNow Kärnten den Zugriff auf die Kamera, um Fotos für Nachrichten aufzunehmen."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "a24f0f8b-5c86-4cc3-b10a-42785275b6c9"
+      }
+    },
+    "owner": "lightningbasti"
+  }
+}

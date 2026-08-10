@@ -1,0 +1,51 @@
+# QA-003/OPS-001: Basis-Checks bei jedem Push — TypeScript-Compile des
+# Frontends und Syntax-Check aller Server-Module. Verhindert, dass kaputte
+# Commits im Docker-Image landen.
+name: Checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - name: TypeScript (Frontend + Desktop-Shell)
+        run: npx tsc --noEmit
+      - name: Web-Build (identisch zum Docker-Build)
+        run: npm run build:web
+      - name: Server-Module Syntax
+        run: |
+          for f in server/src/*.js; do node --check "$f"; done
+      - name: Parser-Tests (Erkennung identisch zum Desktop)
+        run: node server/src/parser.js --test
+      - name: Scanner-Tests (echte Beispielbibliothek)
+        working-directory: server
+        run: node --experimental-sqlite test/scan.test.mjs
+      - name: Profil-Tests (Cloud-Abgleich der Weboberflaeche)
+        working-directory: server
+        run: node --experimental-sqlite test/profile.test.mjs
+      - name: mobile/app.json valide
+        run: node -e "JSON.parse(require('fs').readFileSync('mobile/app.json','utf8'))"
+
+  # Die Rust-Tests des Desktop-Parsers laufen getrennt — sie sind die Referenz,
+  # gegen die der Server-Parser portiert wurde.
+  rust:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: System-Abhängigkeiten (Tauri)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev
+      - name: cargo test
+        working-directory: src-tauri
+        run: cargo test --lib

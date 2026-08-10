@@ -1,0 +1,39 @@
+# VetNow Studio für ZimaOS — mit HOST-NETZWERK: keine Port-Zuordnungen nötig!
+#
+# VORTEIL: Der Container teilt sich das Netzwerk mit dem Server. Du kannst
+# JEDEN Port (Studio, Handy-Apps, neue Apps) direkt im Studio einstellen und
+# ändern — ohne Neuinstallation, ohne Docker-Einstellungen anzufassen.
+# Ist ein Port belegt (wie bei dir 8081-8083): einfach im Studio auf der
+# App-Karte → Einstellungen → Port z. B. 8047 eintragen. Fertig.
+#
+# Ollama läuft bei dir schon als eigene ZimaOS-App (Port 11434) — bleibt so!
+#
+# NEUINSTALLATION:
+#   1. Alte App "vetnow-studio" in ZimaOS deinstallieren
+#      (Ordner /DATA/AppData/vetnow-studio löschen = ganz frischer Start).
+#   2. Diese Datei als Compose importieren. Es gibt nur EINEN Tab (vetnow-studio),
+#      Netzwerk muss "host" sein, Ports-Liste bleibt LEER — das ist richtig so!
+#   3. VORHER unten dein EXPO_TOKEN wieder eintragen (von expo.dev).
+#   4. Starten. Studio: http://192.168.68.10:3000
+#   5. EINMALIG: Studio → Tab "KI" → "qwen2.5:3b" (⭐) installieren (~1,9 GB).
+#      OHNE dieses Modell kann die KI nicht antworten!
+#   6. Handy-Apps: falls Port-Meldung kommt, im Studio auf der App-Karte den
+#      Port auf einen freien ändern (z. B. 8047 / 8046 / 8045).
+services:
+  vetnow-studio:
+    image: ghcr.io/bastild/vetnow-studio:latest
+    container_name: vetnow-studio
+    network_mode: host                  # <<< alle Ports automatisch offen — im Studio frei wählbar
+    environment:
+      HOST_IP: "192.168.68.10"          # LAN-IP deines Servers
+      REPO_URL: "https://github.com/BastiLd/vetnow.git"
+      REPO_ROOT: "/repo"
+      STUDIO_DATA_DIR: "/data"
+      STUDIO_PORT: "3000"
+      EXPO_NO_TELEMETRY: "1"
+      OLLAMA_URL: "http://192.168.68.10:11434"   # dein VORHANDENES Ollama (eigene ZimaOS-App)
+      EXPO_TOKEN: "HIER-DEIN-EXPO-TOKEN-EINFUEGEN"   # <<< dein Token von expo.dev wieder einsetzen!
+    volumes:
+      - /DATA/AppData/vetnow-studio/repo:/repo
+      - /DATA/AppData/vetnow-studio/data:/data
+    restart: unless-stopped

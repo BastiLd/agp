@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VetNow Studio</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-theme="dark" data-density="normal">
+  <header class="topbar">
+    <div class="brand" id="brandHome" title="Zur Übersicht">
+      <span class="brand-mark">🐾</span>
+      <div>
+        <div class="brand-name">VetNow <span>Studio</span></div>
+        <div class="brand-sub">Apps bauen · previewen · starten — alles an einem Ort</div>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button data-tab="apps" class="is-on">🗂️ Apps</button>
+      <button data-tab="ai">🧠 KI</button>
+      <button data-tab="settings">⚙️ Einstellungen</button>
+      <button data-tab="system">🖥️ System<span class="update-dot" id="updateDot" style="display:none"></span></button>
+    </nav>
+    <div class="top-actions">
+      <span class="host-chip" id="hostChip">…</span>
+    </div>
+  </header>
+
+  <main class="wrap" id="view"></main>
+
+  <div class="modal-bg" id="modalBg" style="display:none">
+    <div class="modal" id="modal"></div>
+  </div>
+
+  <!-- Download-Panel: liegt BEWUSST außerhalb von #view, damit render()
+       (setzt #view.innerHTML = '') laufende Downloads nicht mehr abhängt. -->
+  <div class="pull-panel" id="pullPanel" style="display:none"></div>
+
+  <div class="toast-host" id="toastHost"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

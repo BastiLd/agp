@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bastian Klaus Portfolio</title>
+
+    <link rel="stylesheet" href="CSS/style.css">
+    
+    <link rel="icon" href="img/favicon.png" type="image/png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5TK73VEF28"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-5TK73VEF28');
+    </script>
+
+</head>
+<body>
+        <nav>
+            <ul>
+                <li><a href="index.html"> HOME </a></li>
+                <li><a href="studiow.html"> Studiow </a></li>
+                <li><a class="active"Projekte.html">Projekte</a></li>
+                <li><a href="#">Updates</a></li>
+                <li><a href="#">Aktuelle Arbeiten</a></li>
+        </nav>
+
+    <header><h1>Tisch-Tennis-Turnier 2025</h1></header>
+    <main>
+        <p>
+            <h2>Ich durfte die Plakate für das 5.Tisch-Tennis-Turnier (das jährlich stattfindet) in Thörl-Maglern designen.</h2> <br>
+            <h2>Unten seht ihr meine Designs:</h2>
+        </p>
+
+        <div id="Tisch-Tennis-Bilder-2025" class="tisch-tennis-">
+        <img src="img/TT_2025_einladung_High.jpg" width="456rem">
+        <img src="img/Logicom_TT_2025_high.png" height="642rem">
+        </div>
+        </main>
+
+
+
+
+
+
+<div class="tile-container">
+
+    <!-- START KACHEL 1 -->
+    <div class="tile-card">
+        
+        <!-- Die ID und die Klasse MÜSSEN genau so heißen -->
+        <input type="checkbox" id="tile-trigger-1" class="tile-checkbox">
+        
+        <!-- Das 'for' verweist exakt auf die ID der Checkbox darüber -->
+        <label for="tile-trigger-1" class="tile-content">
+            <h3>Kachel Titel 1</h3>
+            <p>Kurze Beschreibung</p>
+        </label>
+
+        <!-- Dieses div MUSS das direkte Geschwisterkind der Checkbox sein -->
+        <div class="tile-menu">
+            <div class="menu-inner">
+                <h4>Mehr Informationen zu Kachel 1</h4>
+                <p>Hier steht dein ausführlicher Text.</p>
+                
+                <div class="menu-buttons">
+                    <a href="#" class="btn">Mehr erfahren</a>
+                </div>
+
+                <!-- Schließt das Menü beim Klick -->
+                <label for="tile-trigger-1" class="close-btn">Schließen</label>
+            </div>
+        </div>
+
+    </div>
+    <!-- ENDE KACHEL 1 -->
+
+</div>
