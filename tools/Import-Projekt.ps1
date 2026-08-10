@@ -21,6 +21,7 @@
 
 .PARAMETER Ziel
     Wohin im Repo. Relativ zum Repo-Stamm, z.B. "projects/basti/websites/webbing".
+    Ein absoluter Pfad wird ebenfalls angenommen — praktisch fuer das private Repo.
 
 .PARAMETER MaxMB
     Größengrenze je Datei. Standard: 20.
@@ -118,7 +119,9 @@ if (-not (Test-Path -LiteralPath $Quelle)) {
 }
 
 $RepoStamm = Split-Path -Parent $PSScriptRoot
-$ZielVoll  = Join-Path $RepoStamm ($Ziel -replace '/', '\')
+$ZielRoh   = $Ziel -replace '/', '\'
+# Absolute Ziele erlauben — gebraucht z.B. fuer das getrennte private Repo.
+$ZielVoll  = if ([System.IO.Path]::IsPathRooted($ZielRoh)) { $ZielRoh } else { Join-Path $RepoStamm $ZielRoh }
 $MaxBytes  = $MaxMB * 1MB
 
 Write-Host ""

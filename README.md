@@ -86,6 +86,11 @@ Projektdaten liegen als `data/private.enc` — mit **AES-256-GCM** verschlüssel
 wird über **PBKDF2-SHA256** mit 250 000 Runden aus dem Passwort abgeleitet. Ohne das
 richtige Passwort ist die Datei nicht lesbar, auch nicht hier im öffentlichen Repo.
 
+Nach dem Entsperren erscheint unten ein **eigener Abschnitt mit Schloss-Symbol** und
+gestricheltem Rahmen; die Kacheln darin sind orange abgesetzt und tragen die Marke
+🔒 Privat. Der **Code** dieser Projekte liegt nicht hier, sondern im privaten Repository
+`BastiLd/agp-privat` — deshalb fehlt bei ihnen der Link „Code in diesem Repo".
+
 Neu verschlüsseln nach einer Änderung an `data/private.json`:
 
 ```bash

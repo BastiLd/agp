@@ -14,7 +14,8 @@ fortgesetzt.
 - `duplicate-finder/Find-Duplicates.ps1` findet Mehrfachkopien
 - `tools/Import-Projekt.ps1` übernimmt ein Projekt und lässt Zugangsdaten, Build-Ausgaben und
   Browser-Profile automatisch weg
-- Privater Bereich enthält den ersten Eintrag (Zorah Business)
+- Privater Bereich steht: eigener Abschnitt mit Schloss-Symbol, Code im privaten Repo
+  [agp-privat](https://github.com/BastiLd/agp-privat)
 
 Laufwerk **G:** wurde geprüft und enthält keinen Code — `G:\Win` ist leer, `G:\Linux` hat nur
 PC-Teilelisten.
@@ -40,31 +41,39 @@ fehlenden Ordner freigeben** — dann tauchen sie wie die anderen von selbst auf
 
 | Ordner | Wohin | Bereich | Stand |
 |---|---|---|---|
-| `Privat\Fiverr1\Basti Cursor` | privates Repo | privat | **erledigt** — als Zorah Business |
+| `Privat\Fiverr1\Basti Cursor` | `agp-privat` | privat | **erledigt** — als Zorah Business |
 | `Jackson` | `projects/mijo/websites/jackson` | öffentlich | fehlt, Freigabe nötig |
 | `Privat\Basti-Roast` | privates Repo | privat | fehlt, Freigabe nötig |
 | `Privat\TdoT` | privates Repo | privat | fehlt, Freigabe nötig |
 | `Privat\HTML` | privates Repo | privat | fehlt, Freigabe nötig |
 | `Privat\CTF` | privates Repo | privat | fehlt, Freigabe nötig |
 
-## 2. Privaten Bereich hochladen
+## 2. Privater Bereich — erledigt, so funktioniert er
 
-`data/private.json` und die verschlüsselte `data/private.enc` enthalten bereits **Zorah
-Business**. Was noch fehlt, ist das Repo für den Code:
+Das private Repo **[BastiLd/agp-privat](https://github.com/BastiLd/agp-privat)** ist angelegt
+und enthält den Code von **Zorah Business** und **Montrigor**.
 
-1. Privates Repo `BastiLd/agp-privat` anlegen (**privat**, nicht öffentlich).
-2. Den Code dorthin pushen. Die Quelle liegt unverändert unter
-   `C:\Users\basti\OneDrive - CHS Villach\Dateien von Moertl Mijo, 1BKMD - Fiverr1\Basti Cursor`
-   — am einfachsten mit `tools/Import-Projekt.ps1` in eine Arbeitskopie des privaten Repos.
-3. Nach jeder Änderung an `data/private.json` neu verschlüsseln und hochladen:
+Im Katalog erscheinen sie nach Eingabe des Passworts in einem eigenen Abschnitt mit
+Schloss-Symbol, orangem Rahmen und der Marke „🔒 Privat" — deutlich abgesetzt von den
+öffentlichen Kacheln. Ein Link „Code in diesem Repo" gibt es dort bewusst nicht, weil der
+Code eben nicht hier liegt.
+
+So kommt ein neues privates Projekt dazu:
+
+1. Code ins private Repo übernehmen — `tools/Import-Projekt.ps1` nimmt auch absolute Ziele:
+   ```powershell
+   .\tools\Import-Projekt.ps1 -Quelle "C:\Pfad\zum\Projekt" -Ziel "C:\Pfad\zu\agp-privat\projects\basti\websites\name"
+   ```
+2. Eintrag in `data/private.json` ergänzen (gleiches Schema wie `projects.json`).
+3. Neu verschlüsseln und hochladen:
    ```bash
    node tools/encrypt-private.js "GHGFLIX"
    git add data/private.enc && git commit -m "Privaten Bereich aktualisieren" && git push
    ```
 
-`data/private.json` steht in `.gitignore` und darf nie hochgeladen werden. Der Code privater
-Projekte gehört **nicht** in dieses Repo — die Katalogseite verlinkt für private Einträge
-bewusst nur auf das externe Repository.
+`data/private.json` steht in `.gitignore` und darf nie hochgeladen werden — veröffentlicht
+wird ausschließlich die verschlüsselte `data/private.enc`. Der **Code** privater Projekte
+gehört nicht in dieses Repo.
 
 ## 3. Zwei Stände nachziehen
 
