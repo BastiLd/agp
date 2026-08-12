@@ -1,0 +1,313 @@
+{
+  "hinweis": "Woher jedes Projekt stammt. Wird von tools/Update-AGP.ps1 gelesen, um Aenderungen nachzuziehen. Schluessel ist der Rechnername (%COMPUTERNAME%), weil dieselben Projekte auf Laptop und PC an verschiedenen Orten liegen.",
+  "aktualisiert": "2026-08-12",
+  "quellen": {
+    "echt-pwa": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Meine Projekte\\Meine Projekte\\ECHT"
+      }
+    },
+    "portfolio-chatgpt": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\OneDrive - CHS Villach\\Webiste CHatgpt"
+      }
+    },
+    "website-chatgpt": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\OneDrive - CHS Villach\\WEBSITE CHATGPT"
+      }
+    },
+    "website-gemini": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\OneDrive - CHS Villach\\Website Gemini"
+      }
+    },
+    "roblox-website": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\OneDrive - CHS Villach\\Website über Roblox mit gemini"
+      }
+    },
+    "resumax-clone": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\OneDrive - CHS Villach\\MEINE PROJEKTE\\ResuMax Clone"
+      }
+    },
+    "webhafen": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\OneDrive - CHS Villach\\Attachments\\Websites\\webhafen"
+      },
+      "ausschluss": [
+        "data/sites",
+        "data/analytics",
+        "data/caddy"
+      ]
+    },
+    "webbing": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\Documents\\WebApp like Mobbin ("
+      }
+    },
+    "excel-formel-retter": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\Documents\\WebApps Formale für Excel etc"
+      }
+    },
+    "ai-response-verifier": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\Documents\\Check Ai reqst"
+      }
+    },
+    "viele-webapps": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\OneDrive - CHS Villach\\Attachments\\Viele WebApps"
+      }
+    },
+    "pfotennotruf-kaernten": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Meine Projekte\\Test S & N\\pfotennotruf-kaernten"
+      }
+    },
+    "pfotennotruf-mvp": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Meine Projekte\\Test GPT S n"
+      }
+    },
+    "discord-bot-maker": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Meine Projekte\\Meine Projekte\\Discord Bot Maker Site"
+      }
+    },
+    "small-but-good": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Meine Projekte\\Meine Projekte\\Small but Good"
+      },
+      "ausschluss": [
+        "test"
+      ]
+    },
+    "perry-rat": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Meine Projekte\\Meine Projekte\\Perry Rat Website from Github"
+      }
+    },
+    "mcdiskussion-web": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Cursour\\MCDiskussionWeb"
+      }
+    },
+    "katabump-panel": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Meine Projekte\\Meine Projekte\\Katabump als Docker Container"
+      }
+    },
+    "discord-archive-web": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Meine Projekte\\Meine Projekte\\Discord Archive"
+      }
+    },
+    "obbymm": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\OneDrive - CHS Villach\\A EIGEN WEBSITE\\Mindmap GPT+Claude"
+      }
+    },
+    "wo-was-filme-serien": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\Documents\\Wo was Filme Serien"
+      }
+    },
+    "quizelt": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\Desktop\\Quizelt OWN"
+      }
+    },
+    "media-duplikat-finder": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Meine Projekte\\Vergleich"
+      }
+    },
+    "medien-suche": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Cursour\\Für Plex umnennen\\Suche nach Film Serie"
+      }
+    },
+    "mediasync": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Cursour\\Für Plex umnennen\\MediaSync"
+      }
+    },
+    "discord-archive-viewer": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Meine Projekte\\Meine Projekte\\app discord archive"
+      }
+    },
+    "tracker-kaufkompass": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\Downloads\\tracker_camera_app"
+      }
+    },
+    "game-server-zimaos": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Meine Projekte\\Game Server Docker"
+      }
+    },
+    "docker-discord-bot": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Meine Projekte\\Meine Projekte\\Docker für Discord Bot"
+      }
+    },
+    "searchapp": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Schule safe\\A Search\\SearchApp Main"
+      }
+    },
+    "audio-zu-text": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Audio zu Text Test zu Text für Mittelkap"
+      },
+      "ausschluss": [
+        "transcripts",
+        "output_*",
+        "mittelkap*",
+        "final_text*",
+        "combined_text*",
+        "transkript*"
+      ]
+    },
+    "privacy-guard-adblocker": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Meine Projekte\\Meine Projekte\\Neuer Ordner (2)"
+      },
+      "ausschluss": [
+        "_metadata",
+        "rules/*_static.json"
+      ]
+    },
+    "chs-instagram-audit-helper": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\OneDrive - CHS Villach\\Officemanagement\\34_DI_09.06.2026\\chs-instagram-audit-helper"
+      }
+    },
+    "restore-inv": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Meine Projekte\\Restore Inv Claude"
+      }
+    },
+    "hotbar-mod": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\Documents\\Hotbar Mod"
+      }
+    },
+    "invisible-mod": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\Documents\\Invisible"
+      }
+    },
+    "mab-mod": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\Documents\\MAB"
+      }
+    },
+    "who-did-what-when": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\Documents\\Who did what when"
+      }
+    },
+    "keep-inventory-worlds": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Cursour\\Keep Inventory even through Worlds"
+      }
+    },
+    "timer-datapack": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\Documents\\TIMER"
+      }
+    },
+    "zorah-business": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\OneDrive - CHS Villach\\Dateien von Moertl Mijo, 1BKMD - Fiverr1\\Basti Cursor"
+      }
+    },
+    "montrigor-site": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\Documents\\Websites\\montrigor-site"
+      }
+    }
+  },
+  "ohneQuelle": [
+    {
+      "id": "auto-capture",
+      "grund": "laptop",
+      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+    },
+    {
+      "id": "auto-tab-close",
+      "grund": "laptop",
+      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+    },
+    {
+      "id": "avocado-at-law",
+      "grund": "laptop",
+      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+    },
+    {
+      "id": "bastiklaus-online",
+      "grund": "laptop",
+      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+    },
+    {
+      "id": "claude-wormhole-site",
+      "grund": "laptop",
+      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+    },
+    {
+      "id": "cursor-forge",
+      "grund": "laptop",
+      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+    },
+    {
+      "id": "ghgflix",
+      "grund": "laptop",
+      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+    },
+    {
+      "id": "kartenbot-web",
+      "grund": "laptop",
+      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+    },
+    {
+      "id": "mediathek-downloader",
+      "grund": "laptop",
+      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+    },
+    {
+      "id": "mini-games",
+      "grund": "lose-dateien",
+      "erklaerung": "Die Dateien liegen einzeln im OneDrive-Stamm, es gibt keinen Projektordner."
+    },
+    {
+      "id": "murder-mystery",
+      "grund": "laptop",
+      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+    },
+    {
+      "id": "plex-transfer",
+      "grund": "laptop",
+      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+    },
+    {
+      "id": "stadt-land-fluss",
+      "grund": "laptop",
+      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+    },
+    {
+      "id": "vetnow",
+      "grund": "laptop",
+      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+    },
+    {
+      "id": "wipe-animation",
+      "grund": "laptop",
+      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+    }
+  ]
+}
