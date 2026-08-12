@@ -1,0 +1,70 @@
+[
+  {
+    "id": "ads_static",
+    "name": "EasyList",
+    "kind": "ads",
+    "url": "https://easylist.to/easylist/easylist.txt",
+    "bundled": true
+  },
+  {
+    "id": "privacy_static",
+    "name": "EasyPrivacy",
+    "kind": "privacy",
+    "url": "https://easylist.to/easylist/easyprivacy.txt",
+    "bundled": true
+  },
+  {
+    "id": "regional_de_static",
+    "name": "EasyList Germany",
+    "kind": "regional",
+    "url": "https://easylist-downloads.adblockplus.org/easylistgermany.txt",
+    "license": "EasyList license family",
+    "bundled": true,
+    "defaultEnabled": true
+  },
+  {
+    "id": "cookies_static",
+    "name": "Fanboy Cookie Notices",
+    "kind": "cookies",
+    "url": "https://secure.fanboy.co.nz/fanboy-cookiemonster.txt",
+    "license": "EasyList license family / CC BY 3.0 depending on source",
+    "bundled": true,
+    "defaultEnabled": true
+  },
+  {
+    "id": "annoyances_static",
+    "name": "Fanboy Annoyances",
+    "kind": "annoyances",
+    "url": "https://secure.fanboy.co.nz/fanboy-annoyance.txt",
+    "license": "EasyList license family",
+    "bundled": true,
+    "defaultEnabled": true
+  },
+  {
+    "id": "security_static",
+    "name": "NoCoin + URLhaus Lite",
+    "kind": "security",
+    "url": "https://raw.githubusercontent.com/hoshsadiq/adblock-nocoin-list/master/nocoin.txt",
+    "license": "MIT / URLhaus source conditions",
+    "bundled": true,
+    "defaultEnabled": true
+  },
+  {
+    "id": "url_tracking_static",
+    "name": "URL Tracking Parameters",
+    "kind": "url_tracking",
+    "url": "https://filters.adtidy.org/windows/filters/17.txt",
+    "license": "GPL-3.0",
+    "bundled": true,
+    "defaultEnabled": false
+  },
+  {
+    "id": "security_plus_static",
+    "name": "HaGeZi TIF Mini",
+    "kind": "security",
+    "url": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/tif.mini.txt",
+    "license": "GPL-3.0",
+    "bundled": true,
+    "defaultEnabled": false
+  }
+]

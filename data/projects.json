@@ -1,5 +1,5 @@
 {
-  "aktualisiert": "2026-08-10",
+  "aktualisiert": "2026-08-12",
   "kategorien": {
     "websites": {
       "label": "Websites",
@@ -440,7 +440,7 @@
       "repo": "https://github.com/BastiLd/MFU-TEST",
       "live": null,
       "liveHinweis": "docker compose up — danach im Browser auf den Dashboard-Port",
-      "stand": "2026-08-06"
+      "stand": "2026-08-05"
     },
     {
       "id": "webbing",

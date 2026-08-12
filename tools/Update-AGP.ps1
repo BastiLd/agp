@@ -102,10 +102,17 @@ function Vergleiche {
     # doppelte Arbeit und wuerde eine bereinigte Datei faelschlich ausblenden.
     $z = Get-AgpUebernehmbar -Wurzel $Ziel -OhneInhaltspruefung -ZusatzAus $ZusatzAus
 
+    $quellVoll = (Resolve-Path -LiteralPath $Quelle).Path
+    $zielVoll  = if (Test-Path -LiteralPath $Ziel) { (Resolve-Path -LiteralPath $Ziel).Path } else { $Ziel }
+
     $neu = @(); $geaendert = @(); $weg = @()
     foreach ($k in $q.Keys) {
-        if (-not $z.ContainsKey($k)) { $neu += $k }
-        elseif ($z[$k] -ne $q[$k])   { $geaendert += $k }
+        if (-not $z.ContainsKey($k)) { $neu += $k; continue }
+        if ($z[$k] -eq $q[$k]) { continue }
+        # Groesse allein reicht nicht: bei Textdateien macht schon der Wechsel
+        # von CRLF auf LF einen Unterschied, ohne dass sich etwas geaendert hat.
+        if (Test-AgpInhaltGleich -A (Join-Path $quellVoll $k) -B (Join-Path $zielVoll $k)) { continue }
+        $geaendert += $k
     }
     foreach ($k in $z.Keys) { if (-not $q.ContainsKey($k)) { $weg += $k } }
     return [pscustomobject]@{
@@ -148,14 +155,18 @@ $oeff = (Get-Content -Raw -LiteralPath (Join-Path $Repo 'data\projects.json') -E
 $privDatei = Join-Path $Repo 'data\private.json'
 $priv = if (Test-Path -LiteralPath $privDatei) { Get-Content -Raw -LiteralPath $privDatei -Encoding UTF8 | ConvertFrom-Json } else { $null }
 
-$projekte = @()
-foreach ($p in $oeff.projekte)  { $projekte += [pscustomobject]@{ id=$p.id; titel=$p.titel; pfad=$p.pfad; stand=$p.stand; bereich='oeffentlich'; wurzel=$Repo } }
-if ($priv) { foreach ($p in $priv.projekte) { $projekte += [pscustomobject]@{ id=$p.id; titel=$p.titel; pfad=$p.pfad; stand=$p.stand; bereich='privat'; wurzel=$PrivatRepo } } }
+$projekte = New-Object System.Collections.ArrayList
+foreach ($p in $oeff.projekte)  { [void]$projekte.Add([pscustomobject]@{ id=$p.id; titel=$p.titel; pfad=$p.pfad; stand=$p.stand; bereich='oeffentlich'; wurzel=$Repo }) }
+if ($priv) { foreach ($p in $priv.projekte) { [void]$projekte.Add([pscustomobject]@{ id=$p.id; titel=$p.titel; pfad=$p.pfad; stand=$p.stand; bereich='privat'; wurzel=$PrivatRepo }) } }
+$projekte = @($projekte)
 
 if ($NurProjekt) {
     $wunsch = $NurProjekt -split ',' | ForEach-Object { $_.Trim() }
-    $projekte = $projekte | Where-Object { $wunsch -contains $_.id }
-    if (-not $projekte) { throw "Keine Projekte passen zu '$NurProjekt'." }
+    # @() ist noetig: bei genau einem Treffer liefert Where-Object ein einzelnes
+    # Objekt statt eines Arrays, und .Count ist dann leer — der Fortschrittsbalken
+    # teilte prompt durch null.
+    $projekte = @($projekte | Where-Object { $wunsch -contains $_.id })
+    if (-not $projekte.Count) { throw "Keine Projekte passen zu '$NurProjekt'." }
 }
 
 Melde ("Projekte im Katalog: " + $projekte.Count)
@@ -280,7 +291,9 @@ $nodeSkript = Join-Path $PSScriptRoot 'stand-setzen.js'
 $standJson = ($neueStaende.GetEnumerator() | ForEach-Object { '"' + $_.Key + '":"' + $_.Value + '"' }) -join ','
 $standJson = '{' + $standJson + '}'
 $tmp = Join-Path $env:TEMP ('agp-stand-' + [Guid]::NewGuid().ToString('N') + '.json')
-Set-Content -LiteralPath $tmp -Value $standJson -Encoding UTF8
+# Bewusst ohne BOM: "Set-Content -Encoding UTF8" schreibt in PowerShell 5.1 eines,
+# und daran zerbricht JSON.parse auf der Node-Seite.
+[System.IO.File]::WriteAllText($tmp, $standJson, (New-Object System.Text.UTF8Encoding $false))
 try {
     $r = & node $nodeSkript $Repo $tmp 2>&1
     $r | ForEach-Object { Melde ("  " + $_) }

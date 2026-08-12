@@ -48,7 +48,24 @@ fehlenden Ordner freigeben** — dann tauchen sie wie die anderen von selbst auf
 | `Privat\HTML` | privates Repo | privat | fehlt, Freigabe nötig |
 | `Privat\CTF` | privates Repo | privat | fehlt, Freigabe nötig |
 
-## 2. Privater Bereich — erledigt, so funktioniert er
+## 2. Katalog aktuell halten — dafür gibt es jetzt ein Werkzeug
+
+Doppelklick auf **`AGP aktualisieren.bat`**. Es vergleicht jeden Quellordner mit der
+Kopie im Katalog und zieht Unterschiede nach. Ohne Knopfdruck ändert es nichts.
+
+Zwei Dinge, die dabei wichtig sind:
+
+- **Die Quellen stehen in `data/quellen.json`**, getrennt nach Rechnername. Auf diesem
+  PC haben 42 der 57 Projekte eine Quelle. Die übrigen 14 liegen nur auf dem Laptop
+  (GHGFlix, VetNow, Kartenbot, Claude Wormhole, …); dort ausgeführt findet das Werkzeug
+  sie und trägt sie unter `LAPTOP-NAME` ein. Ein Projekt (Mini-Games) hat gar keinen
+  eigenen Ordner — die fünf Seiten liegen lose im OneDrive-Stamm.
+- **Vier Projekte haben eigene Ausnahmen**, weil dort neben dem Code auch Laufzeitdaten
+  liegen: bei WebHafen die betriebenen Seiten unter `data/`, bei Audio zu Text die
+  Abschriften, bei Privacy Guard die heruntergeladenen Filterlisten. Steht mit Begründung
+  in `quellen.json`.
+
+## 3. Privater Bereich — erledigt, so funktioniert er
 
 Das private Repo **[BastiLd/agp-privat](https://github.com/BastiLd/agp-privat)** ist angelegt
 und enthält den Code von **Zorah Business** und **Montrigor**.
@@ -75,7 +92,7 @@ So kommt ein neues privates Projekt dazu:
 wird ausschließlich die verschlüsselte `data/private.enc`. Der **Code** privater Projekte
 gehört nicht in dieses Repo.
 
-## 3. Zwei Stände nachziehen
+## 4. Zwei Stände nachziehen
 
 Beim Vergleich sind zwei PC-Fassungen aufgetaucht, die **neuer** sind als das, was aus dem
 Laptop im Katalog liegt:
@@ -87,7 +104,7 @@ Laptop im Katalog liegt:
 Beide wurden **nicht** automatisch ersetzt, weil das eine bewusste Entscheidung ist: Der
 Katalog zeigt bisher den Laptop-Stand.
 
-## 4. Den OpenAI-Schlüssel zurückziehen
+## 5. Den OpenAI-Schlüssel zurückziehen
 
 In **Audio zu Text** lag ein gültiger OpenAI-API-Schlüssel im Klartext — in zwei Python-Dateien
 fest verdrahtet und zusätzlich in `project_commands.txt` ausgeschrieben. Er ist **nicht** ins
@@ -96,7 +113,7 @@ Repo gelangt (im Katalog steht `DEIN_API_KEY_HIER`), liegt aber weiterhin offen 
 **Zu tun:** Schlüssel bei OpenAI zurückziehen, neuen ausstellen und künftig nur noch über die
 Umgebungsvariable `OPENAI_API_KEY` setzen — das sehen die Skripte ohnehin schon vor.
 
-## 5. Eigene Repos für die übrigen Projekte
+## 6. Eigene Repos für die übrigen Projekte
 
 Diese Projekte haben **kein** eigenes GitHub-Repo und liegen bisher nur hier. Bewusst so
 entschieden, kann aber jederzeit nachgeholt werden.
@@ -112,7 +129,7 @@ Wo was Filme & Serien · Quizelt · Tracker & Kamera Kaufkompass · SearchApp ·
 Instagram Audit Helper · Hotbar Scroll · Stealth Creative · MAB · Who did what when ·
 Take it Anywhere · Timer Datapack
 
-## 6. Bewusst nicht aufgenommen
+## 7. Bewusst nicht aufgenommen
 
 Damit später niemand danach sucht:
 

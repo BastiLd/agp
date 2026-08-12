@@ -1,0 +1,92 @@
+{
+  "ads_static": {
+    "name": "ads_static",
+    "category": "ads",
+    "source": "https://easylist.to/easylist/easylist.txt",
+    "defaultEnabled": true,
+    "ruleCount": 30000,
+    "generatedAt": "2026-04-27T14:09:11.664Z",
+    "sha256": "0dd18c5d9db1ee2f92b753d2f25dbf068e6ebc3d49c9999da6578c64dea8f0f5",
+    "lastError": ""
+  },
+  "privacy_static": {
+    "name": "privacy_static",
+    "category": "privacy",
+    "source": "https://easylist.to/easylist/easyprivacy.txt",
+    "defaultEnabled": true,
+    "ruleCount": 30000,
+    "generatedAt": "2026-04-27T14:09:11.664Z",
+    "sha256": "7472c569509f502c44f4ac0d52c59a45c785f58b28e495d6ddcea5c615366415",
+    "lastError": ""
+  },
+  "regional_de_static": {
+    "name": "regional_de_static",
+    "category": "regional",
+    "source": "https://easylist-downloads.adblockplus.org/easylistgermany.txt",
+    "defaultEnabled": true,
+    "ruleCount": 2278,
+    "generatedAt": "2026-04-27T14:09:11.664Z",
+    "sha256": "aa03cfd11c07d07195d6d0a66b5a9ef2173347862a7f372d9e3708cd229c49b9",
+    "lastError": ""
+  },
+  "security_static": {
+    "name": "security_static",
+    "category": "security",
+    "source": "https://raw.githubusercontent.com/hoshsadiq/adblock-nocoin-list/master/nocoin.txt",
+    "defaultEnabled": true,
+    "ruleCount": 311,
+    "generatedAt": "2026-04-27T14:09:11.664Z",
+    "sha256": "35808a0e8d266f05341da661143e4c05e82403c759dd8f5b144cbac72c432e58",
+    "lastError": ""
+  },
+  "url_tracking_static": {
+    "name": "url_tracking_static",
+    "category": "url_tracking",
+    "source": "https://filters.adtidy.org/windows/filters/17.txt",
+    "defaultEnabled": false,
+    "ruleCount": 2415,
+    "generatedAt": "2026-04-27T14:09:11.664Z",
+    "sha256": "efd32eda532bbcf91bb0e037bcfbb03644237a6bf582bb652fc0a0d37aee8fc6",
+    "lastError": ""
+  },
+  "cookies_static": {
+    "name": "cookies_static",
+    "category": "consent",
+    "source": "https://secure.fanboy.co.nz/fanboy-cookiemonster.txt",
+    "defaultEnabled": true,
+    "ruleCount": 2072,
+    "generatedAt": "2026-04-27T14:09:11.664Z",
+    "sha256": "363ef3d23097ac0058c9d97bc7fbcbd84ecb2fff5b807cffdbd6f87c5208e733",
+    "lastError": ""
+  },
+  "annoyances_static": {
+    "name": "annoyances_static",
+    "category": "annoyance",
+    "source": "https://easylist.to/easylist/fanboy-annoyance.txt",
+    "defaultEnabled": true,
+    "ruleCount": 4046,
+    "generatedAt": "2026-04-27T14:09:11.664Z",
+    "sha256": "7cbef3e3796a9e95328e525951b8eccaf0cd7a51f879a3a25281d8916ea661c9",
+    "lastError": ""
+  },
+  "youtube_static": {
+    "name": "youtube_static",
+    "category": "youtube",
+    "source": "rules/youtube_static.json",
+    "defaultEnabled": true,
+    "ruleCount": 6,
+    "generatedAt": "2026-04-27T14:09:11.664Z",
+    "sha256": "6ad26d21372e788e0834620a60733b46106d8409b3dbc59e5f8b1d1f5088bc68",
+    "lastError": ""
+  },
+  "security_plus_static": {
+    "name": "security_plus_static",
+    "category": "security",
+    "source": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/tif.mini.txt",
+    "defaultEnabled": false,
+    "ruleCount": 30000,
+    "generatedAt": "2026-04-27T14:09:11.664Z",
+    "sha256": "2b3c033466363534a3a87ec162762c640894cce09a96ccb63306d54c6b96fa6d",
+    "lastError": ""
+  }
+}

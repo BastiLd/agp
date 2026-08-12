@@ -1,0 +1,397 @@
+{
+  "generatedAt": "2026-04-27T14:09:11.664Z",
+  "dryRun": false,
+  "limit": 30000,
+  "sources": [
+    {
+      "id": "ads_static",
+      "category": "ads",
+      "source": "https://easylist.to/easylist/easylist.txt",
+      "defaultEnabled": true,
+      "rules": 30000,
+      "allow": 0,
+      "removeparam": 0,
+      "cosmetic": 14551,
+      "cosmeticExceptions": 659,
+      "unsupported": 49007,
+      "unsupportedSamples": [
+        {
+          "line": "###AC_ad",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###AD_160",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###AD_300",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###AD_468x60",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###AD_ROW",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###AD_Top",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###AD_text",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###ADbox",
+          "reason": "unsupported-network-syntax"
+        }
+      ],
+      "sha256": "0dd18c5d9db1ee2f92b753d2f25dbf068e6ebc3d49c9999da6578c64dea8f0f5"
+    },
+    {
+      "id": "privacy_static",
+      "category": "privacy",
+      "source": "https://easylist.to/easylist/easyprivacy.txt",
+      "defaultEnabled": true,
+      "rules": 30000,
+      "allow": 2,
+      "removeparam": 0,
+      "cosmetic": 219,
+      "cosmeticExceptions": 0,
+      "unsupported": 25367,
+      "unsupportedSamples": [
+        {
+          "line": "||d1z2jf7jlzjs58.cloudfront.net^$rewrite=abp-resource:blank-js,domain=voici.fr",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###cxense-recs-in-article",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "##.embed-responsive-trendmd",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "/^https?:\\/\\/fdts\\.ebay-kleinanzeigen\\.de\\/[a-z0-9]{13,18}\\.js\\?/$script,domain=kleinanzeigen.de",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "/^https?:\\/\\/pov\\.spectrum\\.net\\/[a-zA-Z0-9]{14,}\\.js/$script,domain=spectrum.net",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "/^https?:\\/\\/tjmaxx\\.tjx\\.com\\/libraries\\/[a-z0-9]{20,}/$script,xmlhttprequest,domain=tjx.com",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "/^https?:\\/\\/tmx\\.(td|tdbank)\\.com\\/[a-z0-9]{14,18}\\.js.*/$script,domain=mbna.ca|td.com|tdbank.com",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "/^https?:\\/\\/www\\.ebay-kleinanzeigen\\.de\\/[a-z0-9]{8}\\-[0-9a-f]{4}\\-/$script,domain=kleinanzeigen.de",
+          "reason": "unsupported-network-syntax"
+        }
+      ],
+      "sha256": "7472c569509f502c44f4ac0d52c59a45c785f58b28e495d6ddcea5c615366415"
+    },
+    {
+      "id": "regional_de_static",
+      "category": "regional",
+      "source": "https://easylist-downloads.adblockplus.org/easylistgermany.txt",
+      "defaultEnabled": true,
+      "rules": 2278,
+      "allow": 128,
+      "removeparam": 0,
+      "cosmetic": 5065,
+      "cosmeticExceptions": 67,
+      "unsupported": 885,
+      "unsupportedSamples": [
+        {
+          "line": "###Ad_Win2day",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###LxWerbeteaser",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###ParentDivForWerbPostbit",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###SSpotIMPopSlider",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###SlimSpot_imPop_Container",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###Werb_Postbit_Bottom",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###WerbungLinks",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###WerbungOben",
+          "reason": "unsupported-network-syntax"
+        }
+      ],
+      "sha256": "aa03cfd11c07d07195d6d0a66b5a9ef2173347862a7f372d9e3708cd229c49b9"
+    },
+    {
+      "id": "security_static",
+      "category": "security",
+      "source": "https://raw.githubusercontent.com/hoshsadiq/adblock-nocoin-list/master/nocoin.txt",
+      "defaultEnabled": true,
+      "rules": 311,
+      "allow": 8,
+      "removeparam": 0,
+      "cosmetic": 0,
+      "cosmeticExceptions": 0,
+      "unsupported": 6,
+      "unsupportedSamples": [
+        {
+          "line": "/^(https?|wss?):\\/\\/([0-9a-z\\-]+\\.)?([0-9a-z\\-]+\\.)(accountant|bid|cf|club|cricket|date|download|faith|fun|ga|gdn|gq|loan|men|ml|network|online|ovh|party|pro|pw|racing|review|rocks|science|site|space(?!(/socket\\/websocket\\?vsn\\=))|stream|tk|top|trade|webcam|win|xyz|zone)(\\.)?\\/(.*)/$third-party,websocket,domain=~arium.events|~file.pizza|~instant.io|~kli.one|~mellivora.pro|~mellivora.trade|~myinterview.com|~polkadot.js.org|~proctoredu.com|~proctoredu.ru|~spaceship.media.mit.edu|~webtorrent.io|~yorbbackend.xyz|~redirect-ads.com|~robong.me",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "/^https?:\\/\\/([0-9a-z\\.-_]+)\\.(accountant|bid|cf|club|cricket|date|download|faith|fun|ga|gdn|gq|loan|men|ml|network|online|ovh|party|pro|pw|racing|review|rocks|science|sh|site|space|stream|tk|top|trade|webcam|win|xyz|zone)(\\.)\\/(.*)/$script,third-party",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "/^https?:\\/\\/([0-9a-z\\.-_]+)\\.(accountant|bid|cf|club|cricket|date|download|faith|fun|ga|gdn|gq|loan|men|ml|ovh|party|pro|pw|racing|review|rocks|ru|science|site|space|stream|tk|top|trade|webcam|win|xyz|zone)\\.\\/(.*)/$script,third-party",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "$csp=worker-src 'none',domain=123telugu.com|300mbfilms.co|agp.com.pk|ajplugins.com|animeteatr.ru|arnaques-internet.info|atk-exotics.com|atkebony.com|aulaplus.com.br|babyjav.com|bigspeeds.com|btstors.com|bustrain.net|centrum-dramy.pl|chemikino.ru|cinemafacil.com|citypaintsupplyghana.com|clicktabs.net|clipwatching.com|coinfaucet.eu|coinhub.win|cracklists.com|crictime.com|crictime.is|dekoder.ws|deltabit.co|descargas2020.com|djs.sk|domnuleprimar.ro|dragonballzpolo.blogspot.com|eduardolegatti.blogspot.com|empirenews.org|esudog.top|fileone.tv|filmonet.com|filmovix.com|filmovix.net|filmovix.org|filmstreamvk.me|filmstreamvk.net|filmstreamvk.org|filmstreamvk.site|filmyhd.cz|firstone.tv|firstonetv.eu|firstonetv.live|fruithosts.net|funtik.tv|genashowalter.com|hdvid.tv|ianimes.co|inside-out.xyz|javdl.co|jkanime.net|jpdress.com|kickass.cd|kinohabr.net|kinokongo.cc|kinoprofi.org|kinosha.cc|lafmacun.net|leitor.net|lewd.ninja|love-drama.pl|mladipodnikatelia.sk|movie4k.is|mozakrah.com|mrunlock.icu|myfeed4u.net|nahnoji.cz|netiap.com|neurozinzin.com|novator.az|novoscrb.ru|onlinevideoconverter.com|openload.cc|pebx.pl|peliculas24.me|pelisplus.online|pezeshk.us|potomy.ru|powvideo.cc|powvideo.net|protect-iframe.com|protect-link.biz|rapidvideo.com|reactor.cc|rednubes.de|rahunas.org|salon.com|seriesenlinea.net|severita-service.ru|sherlockonline.ru|shrink-service.it|shush.se|sickrage.ca|sleeptimer.org|sorteosrd.com|studio100.it|tapemovie.com|tarntercum.ru|theappguruz.com|tomadivx.tv|torrentrapid.com|tubetitties.com|tugaanimado.net|uptobox.com|uptobox.fr|uptobox.link|uptostream.com|uptostream.fr|uptostream.link|uptostream.eu|vidfile.net|vidoza.co|vidoza.net|vidtudu.com|vidup.me|void.cat|voirfilms.mx|wallpoper.com|wearesaudis.net|yourjav.com|zona.plus",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "$csp=child-src 'none'; frame-src *; worker-src 'none',domain=kickass.cd|myfeed4u.net|vidoza.co|vidoza.net|vidup.me",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "$csp=child-src 'none'; frame-src *; worker-src 'none',domain=pirateproxy.mx|thepiratebay.by|thepiratebay.org|thepiratebay.rocks|thepiratebay10.org|unblocktheship.org",
+          "reason": "unsupported-network-syntax"
+        }
+      ],
+      "sha256": "35808a0e8d266f05341da661143e4c05e82403c759dd8f5b144cbac72c432e58"
+    },
+    {
+      "id": "url_tracking_static",
+      "category": "url_tracking",
+      "source": "https://filters.adtidy.org/windows/filters/17.txt",
+      "defaultEnabled": false,
+      "rules": 2415,
+      "allow": 67,
+      "removeparam": 2290,
+      "cosmetic": 6,
+      "cosmeticExceptions": 0,
+      "unsupported": 9,
+      "unsupportedSamples": [
+        {
+          "line": "*$removeparam=channable,domain=easynotebooks.de|notebook.de",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "*$removeparam=sPartner,domain=easynotebooks.de|notebook.de",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "*$removeparam=siteNo,domain=m-emart.ssg.com|emart.ssg.com",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "*$removeparam=ckwhere,domain=m-emart.ssg.com|emart.ssg.com",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "*$removeparam=appPopYn,domain=m-emart.ssg.com|emart.ssg.com",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "*$removeparam=service_id,domain=m-emart.ssg.com|emart.ssg.com",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "*$removeparam=from,domain=rbc.ru|rbclifemedia.ru",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "*$removeparam=t-src,domain=tutanota.com|tuta.com",
+          "reason": "unsupported-network-syntax"
+        }
+      ],
+      "sha256": "efd32eda532bbcf91bb0e037bcfbb03644237a6bf582bb652fc0a0d37aee8fc6"
+    },
+    {
+      "id": "cookies_static",
+      "category": "consent",
+      "source": "https://secure.fanboy.co.nz/fanboy-cookiemonster.txt",
+      "defaultEnabled": true,
+      "rules": 2072,
+      "allow": 417,
+      "removeparam": 0,
+      "cosmetic": 16569,
+      "cosmeticExceptions": 1156,
+      "unsupported": 15518,
+      "unsupportedSamples": [
+        {
+          "line": "###-CookieConsentContainer",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###ACCETTA_COOKIES",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###AF_GDPR",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###AVGcookiemelding",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###AcceptCookie",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###AcceptCookieContainer",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###AcceptCookieInfo",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###AcceptCookies",
+          "reason": "unsupported-network-syntax"
+        }
+      ],
+      "sha256": "363ef3d23097ac0058c9d97bc7fbcbd84ecb2fff5b807cffdbd6f87c5208e733"
+    },
+    {
+      "id": "annoyances_static",
+      "category": "annoyance",
+      "source": "https://easylist.to/easylist/fanboy-annoyance.txt",
+      "defaultEnabled": true,
+      "rules": 4046,
+      "allow": 529,
+      "removeparam": 0,
+      "cosmetic": 32931,
+      "cosmeticExceptions": 1353,
+      "unsupported": 28145,
+      "unsupportedSamples": [
+        {
+          "line": "###FooterboardMobile",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###ac-lre-player",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###ac-lre-player-ph",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###amp-smart-banner-download",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###article_sharing_footer",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###cxense_widget",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###envato-widget",
+          "reason": "unsupported-network-syntax"
+        },
+        {
+          "line": "###feedback-bottomentry",
+          "reason": "unsupported-network-syntax"
+        }
+      ],
+      "sha256": "7cbef3e3796a9e95328e525951b8eccaf0cd7a51f879a3a25281d8916ea661c9"
+    },
+    {
+      "id": "youtube_static",
+      "category": "youtube",
+      "source": "rules/youtube_static.json",
+      "defaultEnabled": true,
+      "rules": 6,
+      "allow": 0,
+      "removeparam": 0,
+      "cosmetic": 0,
+      "cosmeticExceptions": 0,
+      "unsupported": 0,
+      "unsupportedSamples": [],
+      "sha256": "6ad26d21372e788e0834620a60733b46106d8409b3dbc59e5f8b1d1f5088bc68"
+    },
+    {
+      "id": "security_plus_static",
+      "category": "security",
+      "source": "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/tif.mini.txt",
+      "defaultEnabled": false,
+      "rules": 30000,
+      "allow": 0,
+      "removeparam": 0,
+      "cosmetic": 0,
+      "cosmeticExceptions": 0,
+      "unsupported": 105273,
+      "unsupportedSamples": [
+        {
+          "line": "||cnd-app.sbs^",
+          "reason": "ruleset-limit"
+        },
+        {
+          "line": "||cndeda.com^",
+          "reason": "ruleset-limit"
+        },
+        {
+          "line": "||cndqdx.com^",
+          "reason": "ruleset-limit"
+        },
+        {
+          "line": "||cndxg.com^",
+          "reason": "ruleset-limit"
+        },
+        {
+          "line": "||cneku.com^",
+          "reason": "ruleset-limit"
+        },
+        {
+          "line": "||cnemialbase.digital^",
+          "reason": "ruleset-limit"
+        },
+        {
+          "line": "||cnet.cam^",
+          "reason": "ruleset-limit"
+        },
+        {
+          "line": "||cnet-hpe.info^",
+          "reason": "ruleset-limit"
+        }
+      ],
+      "sha256": "2b3c033466363534a3a87ec162762c640894cce09a96ccb63306d54c6b96fa6d"
+    }
+  ],
+  "totals": {
+    "network": 97687,
+    "allow": 1151,
+    "removeparam": 2290,
+    "cosmetic": 69341,
+    "cosmeticExceptions": 3235,
+    "unsupported": 224210
+  }
+}

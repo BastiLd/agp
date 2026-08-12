@@ -99,6 +99,29 @@ node tools/encrypt-private.js "PASSWORT"
 
 `data/private.json` steht in `.gitignore` und wird nie hochgeladen.
 
+## Katalog aktualisieren
+
+Doppelklick auf **`AGP aktualisieren.bat`** im Repo-Stamm. Das Fenster zeigt, was
+sich in den Quellordnern geändert hat, lässt einzelne Projekte abwählen und
+übernimmt sie auf Knopfdruck — auf Wunsch samt Hochladen zu GitHub.
+
+Ohne Fenster geht es genauso:
+
+```powershell
+.\tools\Update-AGP.ps1                        # nur nachsehen, ändert nichts
+.\tools\Update-AGP.ps1 -Uebernehmen -Hochladen
+```
+
+Woher jedes Projekt stammt, steht in `data/quellen.json`. Der **Rechnername** ist
+Teil des Schlüssels, weil dieselben Projekte auf Laptop und PC an verschiedenen
+Orten liegen — auf `BASTIAN_PC` sind es 42 der 57, die übrigen gibt es nur auf dem
+Laptop. Beim Übernehmen gelten dieselben Ausschlüsse wie beim ersten Aufbau
+(`tools/AGP-Regeln.ps1`), Zugangsdaten bleiben also auch hier zurück.
+
+Das Werkzeug **löscht nichts**: mehrere Projekte sind aus zwei Quellen
+zusammengesetzt, ein Spiegeln würde den Teil aus der anderen Quelle vernichten.
+Was im Repo liegt, aber nicht mehr in der Quelle, wird nur gemeldet.
+
 ## Duplikate auf anderen Rechnern finden
 
 ```powershell

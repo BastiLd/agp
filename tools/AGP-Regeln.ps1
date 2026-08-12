@@ -164,6 +164,40 @@ function Get-AgpAusschlussGrund {
     return $null
 }
 
+# Endungen, bei denen Git die Zeilenenden vereinheitlicht. Bei denen sagt eine
+# abweichende Dateigroesse nichts: dieselbe Datei ist mit CRLF genau um die Zahl
+# ihrer Zeilen groesser als mit LF.
+$script:AgpTextEndungen = @(
+    '.txt', '.md', '.json', '.jsonl', '.yml', '.yaml', '.ini', '.cfg', '.conf', '.toml',
+    '.js', '.mjs', '.cjs', '.ts', '.tsx', '.jsx', '.py', '.ps1', '.sh', '.bat', '.cmd',
+    '.php', '.java', '.rs', '.go', '.html', '.htm', '.css', '.scss', '.env', '.gitignore',
+    '.properties', '.xml', '.sql', '.svg', '.csv', '.user', '.htaccess', '.gradle'
+)
+
+<#
+.SYNOPSIS
+    Vergleicht zwei Dateien inhaltlich und ignoriert dabei die Zeilenenden.
+.DESCRIPTION
+    Ohne das meldet der Vergleich staendig Aenderungen, die keine sind: die
+    Quellen liegen teils mit CRLF vor, im Repo steht LF. Beim ersten Lauf waren
+    das 61 Dateien — git selbst sah null Unterschiede.
+#>
+function Test-AgpInhaltGleich {
+    param([Parameter(Mandatory)][string]$A, [Parameter(Mandatory)][string]$B)
+    try {
+        $ea = [System.IO.Path]::GetExtension($A).ToLower()
+        if ($script:AgpTextEndungen -notcontains $ea) {
+            # Binaerdatei: Groesse hat schon unterschieden, also wirklich anders.
+            return $false
+        }
+        $ia = [System.IO.File]::ReadAllText($A) -replace "`r`n", "`n"
+        $ib = [System.IO.File]::ReadAllText($B) -replace "`r`n", "`n"
+        return ($ia -ceq $ib)
+    } catch {
+        return $false
+    }
+}
+
 <#
 .SYNOPSIS
     Liefert alle Dateien eines Ordners, die uebernommen wuerden — als

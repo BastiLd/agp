@@ -179,8 +179,10 @@
       },
       "ausschluss": [
         "_metadata",
-        "rules/*_static.json"
-      ]
+        "rules/*_static.json",
+        "test-pages/security.html"
+      ],
+      "hinweis": "test-pages/security.html verweist absichtlich auf coinhive.com und cryptoloot.pro, damit sich die Sicherheits-Filterliste testen laesst. Windows Defender sperrt daraufhin den Zugriff auf die Kopie — Git kann sie nicht einlesen. Die Datei bleibt deshalb draussen; im Quellordner liegt sie unveraendert."
     },
     "chs-instagram-audit-helper": {
       "pfade": {

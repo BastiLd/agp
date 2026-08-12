@@ -5,7 +5,7 @@ const Store = require('electron-store');
 
 const store = new Store();
 
-const TMDB_API_KEY = process.env.TMDB_API_KEY || 'DEIN_TMDB_KEY_HIER'; // <-- Hier eigenen API-Key eintragen
+const TMDB_API_KEY = '9f0ce30ad1517aa14ca4be09ca0a6b3d'; // <-- Hier eigenen API-Key eintragen
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
 
 function createWindow() {
