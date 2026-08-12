@@ -122,6 +122,17 @@ Das Werkzeug **löscht nichts**: mehrere Projekte sind aus zwei Quellen
 zusammengesetzt, ein Spiegeln würde den Teil aus der anderen Quelle vernichten.
 Was im Repo liegt, aber nicht mehr in der Quelle, wird nur gemeldet.
 
+### Neue Live-Seiten finden
+
+```bash
+node tools/pruefe-live.js
+```
+
+Fragt für jedes verknüpfte Repo bei GitHub nach, ob dort eine Pages-Seite läuft, die
+im Katalog noch fehlt — und meldet umgekehrt Links, deren Pages abgeschaltet wurde.
+Eingetragen wird **nichts automatisch**: eine Pages-Adresse kann eine alte, ganz
+andere Seite ausliefern, wie bei WebHafen. Erst ansehen, dann `live` setzen.
+
 ## Duplikate auf anderen Rechnern finden
 
 ```powershell

@@ -92,7 +92,23 @@ So kommt ein neues privates Projekt dazu:
 wird ausschließlich die verschlüsselte `data/private.enc`. Der **Code** privater Projekte
 gehört nicht in dieses Repo.
 
-## 4. Zwei Stände nachziehen
+## 4. WebHafen: alte Pages-Seite aufräumen
+
+Das Repo **[MFU-TEST](https://github.com/BastiLd/MFU-TEST)** enthält auf `main` den
+WebHafen-Code — der Repo-Link im Katalog stimmt also. Unter
+`https://bastild.github.io/MFU-TEST/` liegt aber noch eine **ganz andere Seite**: die
+Vorstellungsseite „Marvel Fan Universe" aus der Zeit, als das Repo dafür benutzt wurde
+(daher der Name).
+
+Der einzige Workflow im Repo baut ein Docker-Image, es gibt **keinen** Pages-Workflow —
+die Auslieferung ist ein Überbleibsel und wird von nichts mehr aktualisiert. Deshalb ist
+sie **nicht** als Live-Link eingetragen: WebHafen ist ein Docker-Panel und kann auf
+GitHub Pages gar nicht laufen.
+
+**Zu tun, falls es stört:** Pages im Repo unter Settings → Pages abschalten, oder das
+Repo umbenennen. Für den Katalog ändert sich dadurch nichts.
+
+## 5. Zwei Stände nachziehen
 
 Beim Vergleich sind zwei PC-Fassungen aufgetaucht, die **neuer** sind als das, was aus dem
 Laptop im Katalog liegt:
@@ -104,7 +120,7 @@ Laptop im Katalog liegt:
 Beide wurden **nicht** automatisch ersetzt, weil das eine bewusste Entscheidung ist: Der
 Katalog zeigt bisher den Laptop-Stand.
 
-## 5. Den OpenAI-Schlüssel zurückziehen
+## 6. Den OpenAI-Schlüssel zurückziehen
 
 In **Audio zu Text** lag ein gültiger OpenAI-API-Schlüssel im Klartext — in zwei Python-Dateien
 fest verdrahtet und zusätzlich in `project_commands.txt` ausgeschrieben. Er ist **nicht** ins
@@ -113,7 +129,7 @@ Repo gelangt (im Katalog steht `DEIN_API_KEY_HIER`), liegt aber weiterhin offen 
 **Zu tun:** Schlüssel bei OpenAI zurückziehen, neuen ausstellen und künftig nur noch über die
 Umgebungsvariable `OPENAI_API_KEY` setzen — das sehen die Skripte ohnehin schon vor.
 
-## 6. Eigene Repos für die übrigen Projekte
+## 7. Eigene Repos für die übrigen Projekte
 
 Diese Projekte haben **kein** eigenes GitHub-Repo und liegen bisher nur hier. Bewusst so
 entschieden, kann aber jederzeit nachgeholt werden.
@@ -129,7 +145,7 @@ Wo was Filme & Serien · Quizelt · Tracker & Kamera Kaufkompass · SearchApp ·
 Instagram Audit Helper · Hotbar Scroll · Stealth Creative · MAB · Who did what when ·
 Take it Anywhere · Timer Datapack
 
-## 7. Bewusst nicht aufgenommen
+## 8. Bewusst nicht aufgenommen
 
 Damit später niemand danach sucht:
 

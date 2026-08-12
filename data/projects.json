@@ -461,7 +461,7 @@
       ],
       "pfad": "projects/basti/websites/webbing",
       "repo": "https://github.com/BastiLd/Webbing",
-      "live": null,
+      "live": "https://bastild.github.io/Webbing/",
       "stand": "2025-12-09"
     },
     {
@@ -574,7 +574,7 @@
       ],
       "pfad": "projects/basti/websites/discord-bot-maker",
       "repo": "https://github.com/BastiLd/Discord_Bot-Maker",
-      "live": null,
+      "live": "https://bastild.github.io/Discord_Bot-Maker/",
       "stand": "2026-03-28"
     },
     {
@@ -629,7 +629,7 @@
       "pfad": "projects/basti/websites/mcdiskussion-web",
       "einstieg": "index.html",
       "repo": "https://github.com/BastiLd/MCDiskussionWeb",
-      "live": null,
+      "live": "https://bastild.github.io/MCDiskussionWeb/",
       "stand": "2026-06-10"
     },
     {
