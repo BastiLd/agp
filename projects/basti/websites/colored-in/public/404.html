@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Redirecting…</title>
+    <script>
+      // GitHub Pages SPA fallback for BrowserRouter.
+      // Inspired by https://github.com/rafgraph/spa-github-pages
+      (function () {
+        var l = window.location;
+        var base = "/colored-in";
+        var path = l.pathname;
+        
+        // If we're already on root or base, do nothing.
+        if (path === "/" || path === base || path === base + "/") {
+          return;
+        }
+        
+        // Remove base path if present
+        if (path.indexOf(base) === 0) {
+          path = path.slice(base.length);
+        }
+        
+        // Normalize path (ensure it starts with /, but not empty)
+        if (!path || path === "/") {
+          return;
+        }
+        if (!path.startsWith("/")) {
+          path = "/" + path;
+        }
+        
+        // Build redirect URL
+        var redirect = base + "/?p=" + encodeURIComponent(path + (l.search || "") + (l.hash || ""));
+        l.replace(redirect);
+      })();
+    </script>
+  </head>
+  <body></body>
+</html>
+

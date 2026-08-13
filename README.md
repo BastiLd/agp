@@ -128,6 +128,27 @@ Was im Repo liegt, aber nicht mehr in der Quelle, wird nur gemeldet.
 node tools/pruefe-live.js
 ```
 
+### Prüfen, ob alle Repos erfasst sind
+
+```bash
+node tools/pruefe-abdeckung.js
+```
+
+Vergleicht alle Repos des GitHub-Kontos mit dem Katalog und meldet jedes, das weder
+verlinkt noch in `DUPLIKATE.md` vermerkt ist. Umgekehrt auch Repo-Links, die auf ein
+nicht mehr vorhandenes Repository zeigen.
+
+### Tote Eigenlinks finden
+
+```bash
+node tools/pruefe-selbst.js
+```
+
+Manche Projekte tragen `live: "selbst"` — der Katalog liefert dann die Kopie im Repo
+selbst aus. Fehlt die Einstiegsdatei, ist der Knopf „Website öffnen" ein toter Link.
+Genau das wäre beim Umstellen von Avocado at Law auf die Expo-Fassung passiert: der
+alte Prototyp hatte eine HTML-Datei, die neue hat keine.
+
 Fragt für jedes verknüpfte Repo bei GitHub nach, ob dort eine Pages-Seite läuft, die
 im Katalog noch fehlt — und meldet umgekehrt Links, deren Pages abgeschaltet wurde.
 Eingetragen wird **nichts automatisch**: eine Pages-Adresse kann eine alte, ganz

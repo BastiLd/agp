@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300">
+  <!-- Zweite Reihe, heller Wüstensand. Nahtdüne doppelt (x=-140 und x=1060). -->
+  <g fill="#d2ab72">
+    <rect x="-140" y="140" width="280" height="160" rx="140"/>
+    <rect x="1060" y="140" width="280" height="160" rx="140"/>
+    <rect x="60" y="170" width="300" height="130" rx="150"/>
+    <rect x="400" y="125" width="420" height="175" rx="210"/>
+    <rect x="840" y="190" width="180" height="110" rx="90"/>
+    <rect x="0" y="220" width="1200" height="80"/>
+  </g>
+</svg>

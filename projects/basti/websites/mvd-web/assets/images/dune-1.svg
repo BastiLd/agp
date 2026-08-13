@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" width="1200" height="300">
+  <!-- Hinterste Reihe, heller Sandstein. Kachelt nahtlos: die Düne auf der
+       Naht ist doppelt gezeichnet (x=-170 und x=1030). -->
+  <g fill="#efe3c6">
+    <rect x="-170" y="150" width="340" height="150" rx="170"/>
+    <rect x="1030" y="150" width="340" height="150" rx="170"/>
+    <rect x="100" y="180" width="380" height="120" rx="190"/>
+    <rect x="520" y="130" width="200" height="170" rx="100"/>
+    <rect x="760" y="170" width="300" height="130" rx="150"/>
+    <rect x="0" y="200" width="1200" height="100"/>
+  </g>
+</svg>

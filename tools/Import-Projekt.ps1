@@ -50,7 +50,11 @@ param(
     # Zusaetzliche Ordner/Pfade, die bei DIESEM Projekt wegbleiben sollen.
     # Stehen in data/quellen.json, z.B. der Ordner, in den ein Hosting-Panel
     # die betriebenen Seiten legt.
-    [string[]] $ZusatzAus = @()
+    [string[]] $ZusatzAus = @(),
+    # Dateien, die trotz Treffer der Inhaltspruefung mitkommen sollen — etwa ein
+    # oeffentlicher Client-Schluessel, der im Code stehen darf. Steht ebenfalls
+    # in data/quellen.json, mit Begruendung.
+    [string[]] $TrotzdemMitnehmen = @()
 )
 
 $ErrorActionPreference = 'Stop'
@@ -96,7 +100,7 @@ $dateien = Get-ChildItem -LiteralPath $quelleVoll -Recurse -File -Force -ErrorAc
 foreach ($datei in $dateien) {
     $relativ = $datei.FullName.Substring($quelleVoll.Length).TrimStart('\')
 
-    $grund = Get-AgpAusschlussGrund -Datei $datei -Relativ $relativ -ProfilWurzeln $profilWurzeln -MaxBytes $MaxBytes -ZusatzAus $ZusatzAus
+    $grund = Get-AgpAusschlussGrund -Datei $datei -Relativ $relativ -ProfilWurzeln $profilWurzeln -MaxBytes $MaxBytes -ZusatzAus $ZusatzAus -TrotzdemMitnehmen $TrotzdemMitnehmen
 
     # Ballast-Ordner still übergehen, sonst wird der Bericht unlesbar.
     if ($grund -eq 'Ballast-Ordner' -or $grund -eq 'projektspezifisch ausgenommen') { continue }

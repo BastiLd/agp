@@ -1,0 +1,25 @@
+project_id = "gevqwporirhaekapftib"
+
+[functions.generate-palette]
+# Auth is verified manually inside the function using the Authorization header.
+# Keeping verify_jwt disabled prevents 401s at the Edge gateway while still enforcing auth in code.
+verify_jwt = false
+
+[functions.ask-chat]
+# Auth is verified manually inside the function using the Authorization header.
+verify_jwt = false
+
+[functions.create-checkout]
+# JWT verification is handled manually in the function code (see create-checkout/index.ts)
+# Setting verify_jwt = false allows the function to run and perform its own verification
+verify_jwt = false
+
+[functions.stripe-webhook]
+# Webhooks come directly from Stripe, not authenticated users
+# Security is handled via webhook signature verification in the function
+verify_jwt = false
+
+[functions.analyze-asset]
+# Auth is verified manually inside the function using the Authorization header.
+# Keeping verify_jwt disabled prevents 401s at the Edge gateway while still enforcing auth in code.
+verify_jwt = false

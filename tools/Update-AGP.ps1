@@ -96,8 +96,8 @@ function Loese-Pfad {
 . (Join-Path $PSScriptRoot 'AGP-Regeln.ps1')
 
 function Vergleiche {
-    param([string]$Quelle, [string]$Ziel, [string[]]$ZusatzAus = @())
-    $q = Get-AgpUebernehmbar -Wurzel $Quelle -ZusatzAus $ZusatzAus
+    param([string]$Quelle, [string]$Ziel, [string[]]$ZusatzAus = @(), [string[]]$TrotzdemMitnehmen = @())
+    $q = Get-AgpUebernehmbar -Wurzel $Quelle -ZusatzAus $ZusatzAus -TrotzdemMitnehmen $TrotzdemMitnehmen
     # Im Ziel liegt bereits nur Uebernommenes; die Inhaltspruefung waere hier
     # doppelte Arbeit und wuerde eine bereinigte Datei faelschlich ausblenden.
     $z = Get-AgpUebernehmbar -Wurzel $Ziel -OhneInhaltspruefung -ZusatzAus $ZusatzAus
@@ -188,14 +188,16 @@ foreach ($p in $projekte) {
     if (-not $rohPfad) { $ohneQuelle += $p; continue }
     $zusatzAus = @()
     if ($eintrag.Value.ausschluss) { $zusatzAus = @($eintrag.Value.ausschluss) }
+    $trotzdem = @()
+    if ($eintrag.Value.trotzdemMitnehmen) { $trotzdem = @($eintrag.Value.trotzdemMitnehmen) }
 
     $quellPfad = Loese-Pfad $rohPfad.Value
     if (-not $quellPfad) { $fehlend += [pscustomobject]@{ Projekt=$p; Pfad=$rohPfad.Value }; continue }
 
     $zielPfad = Join-Path $p.wurzel ($p.pfad -replace '/','\')
-    $v = Vergleiche -Quelle $quellPfad -Ziel $zielPfad -ZusatzAus $zusatzAus
+    $v = Vergleiche -Quelle $quellPfad -Ziel $zielPfad -ZusatzAus $zusatzAus -TrotzdemMitnehmen $trotzdem
     if ($v.Anzahl -gt 0) {
-        $aenderungen += [pscustomobject]@{ Projekt=$p; Quelle=$quellPfad; Ziel=$zielPfad; Vergleich=$v; ZusatzAus=$zusatzAus }
+        $aenderungen += [pscustomobject]@{ Projekt=$p; Quelle=$quellPfad; Ziel=$zielPfad; Vergleich=$v; ZusatzAus=$zusatzAus; Trotzdem=$trotzdem }
     }
 }
 Write-Progress -Activity 'Vergleiche Projekte' -Completed
@@ -267,7 +269,7 @@ foreach ($a in $aenderungen) {
     # Bewusst NICHT vorher leeren: mehrere Projekte sind aus zwei Quellen
     # zusammengesetzt. Ein Leeren wuerde den Teil aus der anderen Quelle
     # stillschweigend vernichten. Der Import ueberschreibt, was er mitbringt.
-    $ausgabe = & $importer -Quelle $a.Quelle -Ziel $a.Ziel -ZusatzAus $a.ZusatzAus 2>&1
+    $ausgabe = & $importer -Quelle $a.Quelle -Ziel $a.Ziel -ZusatzAus $a.ZusatzAus -TrotzdemMitnehmen $a.Trotzdem 2>&1
     $zugangsZeilen = $ausgabe | Where-Object { $_ -match 'ZUGANGSDATEN|Zugangsdaten' }
     if ($zugangsZeilen) {
         foreach ($z in ($ausgabe | Select-Object -Skip ([Array]::IndexOf($ausgabe, ($zugangsZeilen | Select-Object -First 1))))) {

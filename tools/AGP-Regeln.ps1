@@ -65,7 +65,14 @@ $script:AgpBallastMuster = @(
 
 # .env.example ist keine Zugangsdatei, sondern die Dokumentation dazu — die soll bleiben.
 # Als Muster, damit auch ".env.local.example" erkannt wird.
-$script:AgpAusnahmen = @('*.example', '*.sample', '*.template', '*.dist')
+#
+# Die zweite Zeile ist noetig, weil das Vorlagenwort auch MITTEN im Namen stehen
+# kann: "secrets.example.js" endet auf .js und wurde deshalb faelschlich als
+# Zugangsdatei aussortiert — dabei stehen dort nur Platzhalter.
+$script:AgpAusnahmen = @(
+    '*.example', '*.sample', '*.template', '*.dist',
+    '*.example.*', '*.sample.*', '*.template.*', '*.dist.*'
+)
 
 # Dateinamen allein reichen nicht. Beim Aufbau lag ein echter OpenAI-Schluessel in einer
 # Datei namens "project_commands.txt" — kein Muster der Welt haette die am Namen erkannt.
@@ -117,8 +124,19 @@ function Get-AgpAusschlussGrund {
         [System.Collections.Generic.List[string]]$ProfilWurzeln,
         [long]$MaxBytes = 20971520,
         [switch]$OhneInhaltspruefung,
-        [string[]]$ZusatzAus = @()
+        [string[]]$ZusatzAus = @(),
+        [string[]]$TrotzdemMitnehmen = @()
     )
+
+    # Ausdrueckliche Freigabe je Projekt. Gedacht fuer Dateien, die die
+    # Inhaltspruefung anschlaegt, obwohl der Schluessel dort hingehoert —
+    # etwa ein Supabase-"anon"-Key, der laut Hersteller im Client-Code stehen
+    # soll und ueber Row-Level-Security geschuetzt wird, nicht ueber Geheimhaltung.
+    # Greift NICHT fuer Ballast-Ordner: node_modules bleibt node_modules.
+    foreach ($frei in $TrotzdemMitnehmen) {
+        $muster = ($frei -replace '/', '\').TrimEnd('\')
+        if ($Relativ -like $muster -or $Relativ -like ($muster + '\*')) { return $null }
+    }
 
     $teile = $Relativ -split '\\'
     if ($teile.Count -gt 1) {
@@ -208,7 +226,8 @@ function Get-AgpUebernehmbar {
         [Parameter(Mandatory)][string]$Wurzel,
         [long]$MaxBytes = 20971520,
         [switch]$OhneInhaltspruefung,
-        [string[]]$ZusatzAus = @()
+        [string[]]$ZusatzAus = @(),
+        [string[]]$TrotzdemMitnehmen = @()
     )
     $ergebnis = @{}
     if (-not (Test-Path -LiteralPath $Wurzel)) { return $ergebnis }
@@ -217,7 +236,7 @@ function Get-AgpUebernehmbar {
 
     Get-ChildItem -LiteralPath $voll -Recurse -File -Force -ErrorAction SilentlyContinue | ForEach-Object {
         $rel = $_.FullName.Substring($voll.Length).TrimStart('\')
-        $grund = Get-AgpAusschlussGrund -Datei $_ -Relativ $rel -ProfilWurzeln $profile -MaxBytes $MaxBytes -OhneInhaltspruefung:$OhneInhaltspruefung -ZusatzAus $ZusatzAus
+        $grund = Get-AgpAusschlussGrund -Datei $_ -Relativ $rel -ProfilWurzeln $profile -MaxBytes $MaxBytes -OhneInhaltspruefung:$OhneInhaltspruefung -ZusatzAus $ZusatzAus -TrotzdemMitnehmen $TrotzdemMitnehmen
         if (-not $grund) { $ergebnis[$rel.ToLower()] = $_.Length }
     }
     return $ergebnis

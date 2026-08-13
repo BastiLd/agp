@@ -5,7 +5,9 @@ fortgesetzt.
 
 ## Was schon fertig ist
 
-- **56 Code-Projekte** im Katalog — 21 vom Laptop, 35 vom PC
+- **60 Code-Projekte** im Katalog — 58 öffentlich, 2 im privaten Bereich
+- **Alle 36 GitHub-Repos** sind erfasst: 28 verlinkt, 7 in `DUPLIKATE.md` mit Begründung
+  abgelegt, dazu der Katalog selbst. Nachprüfbar mit `node tools/pruefe-abdeckung.js`
 - Katalog-Website läuft: https://bastild.github.io/agp/
 - Fünf Kategorien: Websites, Python-Apps, Browser-Erweiterungen, Desktop-Apps und
   **Minecraft-Mods** (neu für die sieben Fabric-Mods und das Datenpaket)
@@ -56,10 +58,12 @@ Kopie im Katalog und zieht Unterschiede nach. Ohne Knopfdruck ändert es nichts.
 Zwei Dinge, die dabei wichtig sind:
 
 - **Die Quellen stehen in `data/quellen.json`**, getrennt nach Rechnername. Auf diesem
-  PC haben 42 der 57 Projekte eine Quelle. Die übrigen 14 liegen nur auf dem Laptop
+  PC haben 43 der 60 Projekte eine Quelle. Die übrigen 13 liegen nur auf dem Laptop
   (GHGFlix, VetNow, Kartenbot, Claude Wormhole, …); dort ausgeführt findet das Werkzeug
   sie und trägt sie unter `LAPTOP-NAME` ein. Ein Projekt (Mini-Games) hat gar keinen
-  eigenen Ordner — die fünf Seiten liegen lose im OneDrive-Stamm.
+  eigenen Ordner — die fünf Seiten liegen lose im OneDrive-Stamm. Drei weitere
+  (Colored In, MVD Web, MediaStack Regler) haben überhaupt keinen lokalen Ordner: ihr
+  Code kam direkt aus dem GitHub-Repo.
 - **Vier Projekte haben eigene Ausnahmen**, weil dort neben dem Code auch Laufzeitdaten
   liegen: bei WebHafen die betriebenen Seiten unter `data/`, bei Audio zu Text die
   Abschriften, bei Privacy Guard die heruntergeladenen Filterlisten. Steht mit Begründung
@@ -108,19 +112,33 @@ GitHub Pages gar nicht laufen.
 **Zu tun, falls es stört:** Pages im Repo unter Settings → Pages abschalten, oder das
 Repo umbenennen. Für den Katalog ändert sich dadurch nichts.
 
-## 5. Zwei Stände nachziehen
+## 5. Colored In: Row-Level-Security nachsehen
 
-Beim Vergleich sind zwei PC-Fassungen aufgetaucht, die **neuer** sind als das, was aus dem
-Laptop im Katalog liegt:
+In `Chrome Extension Colored-In/lib/supabase.js` steht ein Supabase-Schlüssel fest im
+Code. Das ist der **anon-Schlüssel** (Projekt `gevqwporirhaekapftib`, gültig bis 2034) —
+er ist laut Supabase ausdrücklich dafür gedacht, im Client-Code zu stehen, und liegt
+ohnehin schon öffentlich im Repo `colored-in`. Deshalb ist er auch im Katalog geblieben.
 
-- **Avocado at Law** — `D:\Meine Projekte\AvocadeatLaw`, Commit vom 31.05.2026, inzwischen als
-  Expo-/React-Native-App statt als Browser-Prototyp. Eigenes Repo `BastiLd/Avocados-at-Law`.
-- **Wunderwelten Reisen** — `C:\…\OneDrive - CHS Villach\Website Gemini`, Stand 12.06.2026.
+**Der Haken:** Ein anon-Schlüssel schützt nur dann, wenn **Row-Level-Security** für die
+Tabellen eingeschaltet ist. Ist sie es nicht, kann jede Person mit diesem Schlüssel alle
+Daten lesen und schreiben.
 
-Beide wurden **nicht** automatisch ersetzt, weil das eine bewusste Entscheidung ist: Der
-Katalog zeigt bisher den Laptop-Stand.
+**Zu tun:** Im Supabase-Dashboard unter Authentication → Policies nachsehen, ob für alle
+Tabellen RLS aktiv ist. Falls nicht: einschalten und Regeln hinterlegen.
 
-## 6. Den OpenAI-Schlüssel zurückziehen
+## 6. Ein Stand noch nachzuziehen
+
+**Avocado at Law ist erledigt** — der Katalog zeigt jetzt die neuere Expo-/React-Native-Fassung
+aus `D:\Meine Projekte\AvocadeatLaw` (Commit vom 31.05.2026) statt des alten Browser-Prototyps,
+und ist mit dem privaten Repo `BastiLd/Avocados-at-Law` verlinkt. Der alte Prototyp bleibt in
+der Git-Historie erhalten.
+
+Offen bleibt:
+
+- **Wunderwelten Reisen** — `C:\…\OneDrive - CHS Villach\Website Gemini`, Stand 12.06.2026 ist
+  neuer als der Laptop-Stand im Katalog. Bewusst noch nicht ersetzt.
+
+## 7. Den OpenAI-Schlüssel zurückziehen
 
 In **Audio zu Text** lag ein gültiger OpenAI-API-Schlüssel im Klartext — in zwei Python-Dateien
 fest verdrahtet und zusätzlich in `project_commands.txt` ausgeschrieben. Er ist **nicht** ins
@@ -129,23 +147,23 @@ Repo gelangt (im Katalog steht `DEIN_API_KEY_HIER`), liegt aber weiterhin offen 
 **Zu tun:** Schlüssel bei OpenAI zurückziehen, neuen ausstellen und künftig nur noch über die
 Umgebungsvariable `OPENAI_API_KEY` setzen — das sehen die Skripte ohnehin schon vor.
 
-## 7. Eigene Repos für die übrigen Projekte
+## 8. Eigene Repos für die übrigen Projekte
 
-Diese Projekte haben **kein** eigenes GitHub-Repo und liegen bisher nur hier. Bewusst so
-entschieden, kann aber jederzeit nachgeholt werden.
+Diese **31 Projekte** haben kein eigenes GitHub-Repo und liegen bisher nur hier. Bewusst so
+entschieden, kann aber jederzeit nachgeholt werden. Die übrigen 29 tragen einen Repo-Link.
 
-**Vom Laptop:** Avocado at Law · bastianklaus.online · Studiow-Warteliste · DigitalFAB ·
-FlashLearn · Wunderwelten Reisen · Roblox-Recherche · Mini-Games · ResuMax Clone ·
+**Vom Laptop:** bastianklaus.online · Studiow-Warteliste · DigitalFAB · FlashLearn ·
+Wunderwelten Reisen · Roblox-Recherche · Mini-Games · ResuMax Clone ·
 Mediathek-Downloader · Wisch-Animation · AutoCapture · Auto Tab Close ·
 Stadt-Land-Fluss-Auto-Fill · CursorForge
 
-**Neu vom PC:** Montrigor · KI-Antwort-Verifizierer · Viele WebApps · Pfotennotruf Kärnten
-(beide Fassungen) · Katabump Control Panel · Discord Archive (beide Fassungen) ·
-Wo was Filme & Serien · Quizelt · Tracker & Kamera Kaufkompass · SearchApp · Audio zu Text ·
-Instagram Audit Helper · Hotbar Scroll · Stealth Creative · MAB · Who did what when ·
-Take it Anywhere · Timer Datapack
+**Vom PC:** KI-Antwort-Verifizierer · Viele WebApps · Katabump Control Panel ·
+Discord Archive (beide Fassungen) · Wo was Filme & Serien · Quizelt ·
+Tracker & Kamera Kaufkompass · SearchApp · Audio zu Text · Instagram Audit Helper ·
+Hotbar Scroll · Stealth Creative · MAB · Who did what when · Take it Anywhere ·
+Timer Datapack
 
-## 8. Bewusst nicht aufgenommen
+## 9. Bewusst nicht aufgenommen
 
 Damit später niemand danach sucht:
 

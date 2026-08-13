@@ -278,6 +278,42 @@ Diese Ordner enthalten Wiederherstellungscodes und wurden weder geöffnet noch g
 
 ---
 
+## Repos ohne Katalog-Eintrag
+
+Auf dem GitHub-Konto `BastiLd` liegen **36 Repositories**: 28 sind im Katalog verlinkt,
+`agp` ist der Katalog selbst, und diese sieben bleiben bewusst außen vor. Sie sind hier
+aufgeführt, damit bei der nächsten Durchsicht niemand erneut danach sucht.
+**Gelöscht wurde keines.**
+
+Nachprüfen lässt sich das jederzeit mit `node tools/pruefe-abdeckung.js` — das Skript
+meldet jedes Repo, das weder verlinkt noch hier vermerkt ist.
+
+| Repo | Warum kein Katalog-Eintrag |
+|---|---|
+| [`Website-first-html`](https://github.com/BastiLd/Website-first-html) | Erste HTML-Übung („My Own Second"), eine einzelne `index.html` mit 10 KB |
+| [`bastiklaus-`](https://github.com/BastiLd/bastiklaus-) | Leer — nur eine README mit der Überschrift, 0 KB. Beim Anlegen vertippt |
+| [`coloored`](https://github.com/BastiLd/coloored) | Leer — nur eine README, 0 KB. Vertippte Fassung von `colored-in` |
+| [`formel-excel`](https://github.com/BastiLd/formel-excel) | Duplikat von `Fromel-Excel` |
+| [`fromel-exce`](https://github.com/BastiLd/fromel-exce) | Duplikat, am selben Tag angelegt |
+| [`fromel-excl`](https://github.com/BastiLd/fromel-excl) | Duplikat — **byte-gleicher Dateibaum** mit `formel-excel` (`07d47692…`) |
+| [`colored-in-Lovable`](https://github.com/BastiLd/colored-in-Lovable) | Zweite Fassung von Colored In, über Lovable.dev gebaut. Als Verweis in der Colored-In-Beschreibung |
+
+**Zu den drei `fromel-*`:** Alle drei entstanden am 07.12.2025 innerhalb von 25 Minuten —
+offenbar Tippfehler beim Anlegen. Das richtig geschriebene
+[`Fromel-Excel`](https://github.com/BastiLd/Fromel-Excel) kam einen Tag später und ist
+als **Excel Formel Retter** im Katalog verlinkt.
+
+Zwei weitere Repos haben aus anderem Grund keine eigene Kachel:
+
+- [`agp`](https://github.com/BastiLd/agp) ist der Katalog selbst. Statt einer Kachel gibt
+  es oben in der Kopfzeile einen kleinen Verweis auf den Quelltext.
+- [`S-N`](https://github.com/BastiLd/S-N) enthält nur eine README mit der Projektidee
+  („Sim & Nal" — ein besserer Weg, in Österreich Tierärzte zu finden). Kein eigener
+  Eintrag, aber bei **beiden Pfotennotruf-Kacheln** als Repository verlinkt, weil es der
+  reservierte Platz dafür ist.
+
+---
+
 ## Duplikate selbst suchen
 
 Für die Suche über mehrere Laufwerke liegt ein Skript bereit:

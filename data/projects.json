@@ -1,5 +1,5 @@
 {
-  "aktualisiert": "2026-08-12",
+  "aktualisiert": "2026-08-13",
   "kategorien": {
     "websites": {
       "label": "Websites",
@@ -88,19 +88,20 @@
       "titel": "Avocado at Law",
       "besitzer": "basti",
       "kategorie": "websites",
-      "kurz": "Lern-App für Recht im Duolingo-Stil (Prototyp)",
-      "beschreibung": "Ein Lern-App-Prototyp für österreichisches und EU-Recht, aufgebaut wie Duolingo oder Brilliant: Lektionen, Fortschritt, Maskottchen, Onboarding und ein iOS-Rahmen für die Vorschau. Läuft ohne Build-Schritt direkt im Browser, weil React und Babel zur Laufzeit geladen werden. Reine Demo — keine Rechtsberatung.",
+      "kurz": "Lern-App für österreichisches Recht im Duolingo-Stil",
+      "beschreibung": "Eine Lern-App, die Jugendlichen österreichisches Rechtswissen spielerisch vermittelt — Lernpfad mit runden Levelkreisen, Quizfragen mit Sofort-Rückmeldung und XP-Anzeige. Maskottchen ist die Avocado „Avo\", die als SVG gezeichnet ist und auf richtige und falsche Antworten reagiert. Dazu ein „Anwalts-Modus\", der einen lockeren Satz in Juristendeutsch übersetzt. Gebaut mit Expo, läuft damit aus einer Codebasis auf iOS, Android und im Browser. Entstanden für Jugend Innovativ #40. Die Rechtsinhalte sind bisher Demo-Texte und ausdrücklich keine Rechtsberatung.",
       "tech": [
-        "React 18",
-        "Babel Standalone",
-        "CSS",
-        "JSX"
+        "Expo",
+        "React Native",
+        "React 19",
+        "react-native-svg",
+        "JavaScript"
       ],
       "pfad": "projects/basti/websites/avocado-at-law",
-      "einstieg": "Avocado at Law.html",
-      "repo": null,
-      "live": "selbst",
-      "stand": "2026-07-14"
+      "repo": "https://github.com/BastiLd/Avocados-at-Law",
+      "live": null,
+      "stand": "2026-05-31",
+      "liveHinweis": "Expo-App — npm install, dann npx expo start. Im Browser mit Taste w, am Handy über Expo Go. Das Repo ist privat."
     },
     {
       "id": "bastiklaus-online",
@@ -535,9 +536,10 @@
         "Tailwind CSS 4"
       ],
       "pfad": "projects/basti/websites/pfotennotruf-kaernten",
-      "repo": null,
+      "repo": "https://github.com/BastiLd/S-N",
       "live": null,
-      "stand": "2026-05-20"
+      "stand": "2026-05-20",
+      "liveHinweis": "Im Repo S-N steht bisher nur die Projektidee — der Code liegt hier im Katalog."
     },
     {
       "id": "pfotennotruf-mvp",
@@ -553,9 +555,10 @@
         "Tailwind CSS 4"
       ],
       "pfad": "projects/basti/websites/pfotennotruf-mvp",
-      "repo": null,
+      "repo": "https://github.com/BastiLd/S-N",
       "live": null,
-      "stand": "2026-05-20"
+      "stand": "2026-05-20",
+      "liveHinweis": "Im Repo S-N steht bisher nur die Projektidee — der Code liegt hier im Katalog."
     },
     {
       "id": "discord-bot-maker",
@@ -1074,6 +1077,66 @@
       "live": null,
       "liveHinweis": "Ordner nach saves/<Welt>/datapacks kopieren",
       "stand": "2025-06-08"
+    },
+    {
+      "id": "colored-in",
+      "titel": "Colored In",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Farbpaletten mit KI erzeugen, dazu eine Chrome-Erweiterung",
+      "beschreibung": "Ein Werkzeug für Farbpaletten, das bewusst anders arbeitet als Coolors: statt zu würfeln, erzeugt es Paletten mit Richtung — aus einer Beschreibung, aus einem hochgeladenen Bild oder aus einer bestehenden Website. Paletten und Bildmaterial lassen sich an einem Ort sammeln und weiterverfeinern. Dazu gehört eine Chrome-Erweiterung, mit der sich Farben direkt beim Surfen aufnehmen lassen. Unterbau ist React mit Vite und shadcn/ui, die Daten liegen in Supabase; die KI-Aufrufe laufen über eine Edge Function. Es gibt noch eine zweite, über Lovable.dev gebaute Fassung unter github.com/BastiLd/colored-in-Lovable — der Vollständigkeit halber erwähnt, gepflegt wird diese hier.",
+      "tech": [
+        "React",
+        "TypeScript",
+        "Vite",
+        "Tailwind CSS",
+        "shadcn/ui",
+        "Supabase",
+        "Manifest V3"
+      ],
+      "pfad": "projects/basti/websites/colored-in",
+      "repo": "https://github.com/BastiLd/colored-in",
+      "live": "https://bastild.github.io/colored-in/",
+      "stand": "2026-03-11"
+    },
+    {
+      "id": "mvd-web",
+      "titel": "MVD — Marvel Vereinigt Deutschland",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Auftritt einer Marvel-Fangemeinschaft, ohne Build-Schritt",
+      "beschreibung": "Die Website einer deutschsprachigen Marvel-Fangemeinschaft. Reines HTML, CSS und JavaScript — kein Build-Schritt, läuft direkt über GitHub Pages. Der Aufbau folgt einer durchgehenden Szene: Strand-Header mit fünf Schatten, der nach unten in eine Sternennacht ausläuft, darunter ein Footer aus vier gestaffelten Dünenebenen. Der Übergang startet exakt auf der am Bildrand gemessenen Farbe, damit keine Kante sichtbar bleibt. Dazu ein Hamburger-Menü und Textblöcke, die beim Scrollen sanft einblenden.",
+      "tech": [
+        "HTML",
+        "CSS",
+        "JavaScript",
+        "GitHub Pages"
+      ],
+      "pfad": "projects/basti/websites/mvd-web",
+      "repo": "https://github.com/BastiLd/mvd-web",
+      "live": "https://bastild.github.io/mvd-web/",
+      "stand": "2026-08-12"
+    },
+    {
+      "id": "mediastack-regler",
+      "titel": "MediaStack Regler",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Steuerpult für Radarr, Sonarr, qBittorrent und Prowlarr",
+      "beschreibung": "Eine lokale Weboberfläche, um die eigene Medien-Automatik zu bedienen, ohne sich durch vier getrennte Einstellungsseiten zu klicken. Für Filme und Serien lassen sich getrennte Profile pflegen: Sprachen, Qualitätsspanne, HDR, Höchstgröße, Codec-Vorlieben und eine Sperrliste für Release-Gruppen. Eine Live-Vorschau zeigt an Beispiel-Dateinamen, was mit den aktuellen Regeln durchkäme und was nicht. Dazu Download-Fortschritt aus qBittorrent, manuelle Release-Auswahl und eine „Warum?\"-Analyse, wenn ein Titel nicht gefunden wird. Zugangsdaten kommen aus einer eigenen Datei, im Repo liegt nur die Vorlage.",
+      "tech": [
+        "React",
+        "Vite",
+        "three.js",
+        "Radarr",
+        "Sonarr",
+        "qBittorrent"
+      ],
+      "pfad": "projects/basti/websites/mediastack-regler",
+      "repo": "https://github.com/BastiLd/SeriesMoviesDownload",
+      "live": null,
+      "liveHinweis": "Lokale Oberfläche — npm install, dann npm run dev. Braucht laufende Radarr-/Sonarr-Instanzen.",
+      "stand": "2026-06-20"
     }
   ]
 }

@@ -1,0 +1,431 @@
+import { useState, useCallback, useEffect, useMemo } from "react";
+import { Copy, Lock, Unlock, RefreshCw, ChevronRight, Save, Share2, Undo2, Redo2 } from "lucide-react";
+import { toast } from "sonner";
+import { getRandomPalette, generateRandomColors } from "@/data/palettes";
+import { supabase } from "@/integrations/supabase/client";
+import { GuidedTour, type TourStep } from "@/components/GuidedTour";
+import { useLanguage } from "@/components/LanguageProvider";
+import { buildBuilderSearch } from "@/lib/paletteUrl";
+
+interface ColorSlot {
+  color: string;
+  locked: boolean;
+}
+
+interface PaletteGeneratorProps {
+  onBrowse: () => void;
+  onHome?: () => void;
+  onNewDesign?: () => void;
+  showNewDesignButton?: boolean;
+  initialColors?: string[];
+}
+
+type HistoryState = {
+  entries: ColorSlot[][];
+  index: number;
+};
+
+function createSlots(colors: string[]) {
+  return colors.map((color) => ({ color, locked: false }));
+}
+
+function getInitialSlots(initialColors?: string[]) {
+  const sourceColors =
+    initialColors && initialColors.length > 0 ? initialColors : getRandomPalette();
+  return createSlots(sourceColors);
+}
+
+function areSlotsEqual(left: ColorSlot[], right: ColorSlot[]) {
+  if (left.length !== right.length) {
+    return false;
+  }
+
+  return left.every(
+    (slot, index) =>
+      slot.color === right[index]?.color && slot.locked === right[index]?.locked
+  );
+}
+
+export function PaletteGenerator({
+  onBrowse,
+  onHome,
+  onNewDesign,
+  showNewDesignButton,
+  initialColors,
+}: PaletteGeneratorProps) {
+  const { t } = useLanguage();
+  const [historyState, setHistoryState] = useState<HistoryState>(() => {
+    const initialSlots = getInitialSlots(initialColors);
+    return {
+      entries: [initialSlots],
+      index: 0,
+    };
+  });
+  const colorSlots = historyState.entries[historyState.index] ?? [];
+
+  const pushSnapshot = useCallback((nextSlots: ColorSlot[]) => {
+    setHistoryState((prev) => {
+      const current = prev.entries[prev.index] ?? [];
+      if (areSlotsEqual(current, nextSlots)) {
+        return prev;
+      }
+
+      const nextEntries = [...prev.entries.slice(0, prev.index + 1), nextSlots];
+      return {
+        entries: nextEntries,
+        index: nextEntries.length - 1,
+      };
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!initialColors || initialColors.length === 0) {
+      return;
+    }
+
+    pushSnapshot(createSlots(initialColors));
+  }, [initialColors, pushSnapshot]);
+
+  useEffect(() => {
+    if (!window.location.pathname.includes("/builder")) {
+      return;
+    }
+
+    const nextSearch = buildBuilderSearch(colorSlots.map((slot) => slot.color));
+    const nextUrl = `${window.location.pathname}${nextSearch}${window.location.hash}`;
+    window.history.replaceState(window.history.state, "", nextUrl);
+  }, [colorSlots]);
+
+  const generateNewPalette = useCallback(() => {
+    const newColors = Math.random() > 0.3 ? getRandomPalette() : generateRandomColors();
+    const nextSlots = colorSlots.map((slot, index) =>
+      slot.locked
+        ? slot
+        : { color: newColors[index] || generateRandomColors(1)[0], locked: false }
+    );
+    pushSnapshot(nextSlots);
+  }, [colorSlots, pushSnapshot]);
+
+  const toggleLock = useCallback((index: number) => {
+    const nextSlots = colorSlots.map((slot, slotIndex) =>
+      slotIndex === index ? { ...slot, locked: !slot.locked } : slot
+    );
+    pushSnapshot(nextSlots);
+  }, [colorSlots, pushSnapshot]);
+
+  const undo = useCallback(() => {
+    setHistoryState((prev) =>
+      prev.index === 0
+        ? prev
+        : {
+            ...prev,
+            index: prev.index - 1,
+          }
+    );
+  }, []);
+
+  const redo = useCallback(() => {
+    setHistoryState((prev) =>
+      prev.index >= prev.entries.length - 1
+        ? prev
+        : {
+            ...prev,
+            index: prev.index + 1,
+          }
+    );
+  }, []);
+
+  const copyShareUrl = useCallback(() => {
+    const baseUrl = import.meta.env.BASE_URL === "/" ? "/" : import.meta.env.BASE_URL;
+    const shareUrl = `${window.location.origin}${baseUrl}builder${buildBuilderSearch(
+      colorSlots.map((slot) => slot.color)
+    )}`;
+    navigator.clipboard.writeText(shareUrl);
+    toast.success(t("freeBuilder.shareCopied", "Builder link copied!"), {
+      duration: 1500,
+      position: "bottom-center",
+    });
+  }, [colorSlots, t]);
+
+  const copyColor = useCallback((color: string) => {
+    navigator.clipboard.writeText(color);
+    toast.success(`${t("freeBuilder.copied", "Copied")} ${color}`, {
+      duration: 1500,
+      position: "bottom-center",
+    });
+  }, [t]);
+
+  const copyAllColors = useCallback(() => {
+    const colors = colorSlots.map(s => s.color).join(", ");
+    navigator.clipboard.writeText(colors);
+    toast.success(t("freeBuilder.copiedAll", "Copied all colors!"), {
+      duration: 1500,
+      position: "bottom-center",
+    });
+  }, [colorSlots, t]);
+
+  const lockedColors = colorSlots.filter(s => s.locked).map(s => s.color);
+  const canSave = lockedColors.length >= 3;
+  const canUndo = historyState.index > 0;
+  const canRedo = historyState.index < historyState.entries.length - 1;
+
+  const tourSteps = useMemo<TourStep[]>(
+    () => [
+      {
+        id: "palette",
+        selector: '[data-tour="free-palette"]',
+        title: t("freeBuilder.tourPaletteTitle", "Palette canvas"),
+        description: t("freeBuilder.tourPaletteText", "Click any color to copy it. Lock colors you want to keep, then regenerate."),
+        placement: "bottom",
+      },
+      {
+        id: "save",
+        selector: '[data-tour="free-save"]',
+        title: t("freeBuilder.tourSaveTitle", "Save your palette"),
+        description: t("freeBuilder.tourSaveText", "Lock at least 3 colors to save your palette to My Palettes."),
+        placement: "bottom",
+      },
+      {
+        id: "export",
+        selector: '[data-tour="free-export"]',
+        title: t("freeBuilder.tourExportTitle", "Export colors"),
+        description: t("freeBuilder.tourExportText", "Copy all colors at once to use them in your designs."),
+        placement: "bottom",
+      },
+      {
+        id: "browse",
+        selector: '[data-tour="free-browse"]',
+        title: t("freeBuilder.tourBrowseTitle", "Browse palettes"),
+        description: t("freeBuilder.tourBrowseText", "Explore curated palettes for inspiration and quick starts."),
+        placement: "bottom",
+      },
+    ],
+    [t]
+  );
+
+  const savePalette = useCallback(async () => {
+    if (!canSave) {
+      toast.error(t("freeBuilder.lockAtLeastThree", "Lock at least 3 colors to save"), { duration: 2000 });
+      return;
+    }
+
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      toast.error(t("freeBuilder.loginToSave", "Please log in to save palettes"), { duration: 2000 });
+      return;
+    }
+
+    const paletteName = `Custom ${new Date().toLocaleDateString()}`;
+    
+    const { error } = await supabase
+      .from("public_palettes")
+      .insert({
+        name: paletteName,
+        colors: lockedColors,
+        tags: ["custom", "user-created"],
+        created_by: session.user.id
+      });
+
+    if (error) {
+      toast.error(t("freeBuilder.failedSave", "Failed to save palette"), { duration: 2000 });
+      return;
+    }
+
+    toast.success(t("freeBuilder.savedPalette", "Saved palette with {count} colors!").replace("{count}", String(lockedColors.length)), {
+      duration: 2000,
+      position: "bottom-center",
+    });
+  }, [canSave, lockedColors, t]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.code === "KeyZ") {
+        e.preventDefault();
+        if (e.shiftKey) {
+          redo();
+        } else {
+          undo();
+        }
+        return;
+      }
+
+      if ((e.metaKey || e.ctrlKey) && e.code === "KeyY") {
+        e.preventDefault();
+        redo();
+        return;
+      }
+
+      if (e.code === "Space" && e.target === document.body) {
+        e.preventDefault();
+        generateNewPalette();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [generateNewPalette, redo, undo]);
+
+  const getContrastColor = (hex: string): string => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    return luminance > 0.5 ? "#000000" : "#FFFFFF";
+  };
+
+  return (
+    <div className="h-screen flex flex-col">
+      {/* Header */}
+      <header className="flex items-center justify-between px-6 py-4 bg-card border-b border-border">
+        <button 
+          onClick={onHome}
+          className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+        >
+          <h1 className="text-xl font-bold text-gradient font-display">Colored In</h1>
+        </button>
+        
+        <div className="flex items-center gap-3">
+          {showNewDesignButton && (
+            <button
+              onClick={onNewDesign}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground bg-muted hover:bg-muted/80 rounded-lg transition-colors"
+            >
+              {t("freeBuilder.newBuilder", "New Builder")}
+            </button>
+          )}
+
+          <button
+            onClick={undo}
+            disabled={!canUndo}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground bg-muted hover:bg-muted/80 rounded-lg transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+            title={t("freeBuilder.undo", "Undo")}
+          >
+            <Undo2 className="w-4 h-4" />
+            {t("freeBuilder.undo", "Undo")}
+          </button>
+
+          <button
+            onClick={redo}
+            disabled={!canRedo}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground bg-muted hover:bg-muted/80 rounded-lg transition-colors disabled:cursor-not-allowed disabled:opacity-50"
+            title={t("freeBuilder.redo", "Redo")}
+          >
+            <Redo2 className="w-4 h-4" />
+            {t("freeBuilder.redo", "Redo")}
+          </button>
+
+          <button
+            onClick={savePalette}
+            disabled={!canSave}
+            data-tour="free-save"
+            className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+              canSave 
+                ? "text-primary-foreground bg-primary hover:opacity-90 glow-primary" 
+                : "text-muted-foreground bg-muted cursor-not-allowed"
+            }`}
+            title={canSave ? t("freeBuilder.saveHint", "Save locked colors as palette") : t("freeBuilder.saveLockedHint", "Lock at least 3 colors to save")}
+          >
+            <Save className="w-4 h-4" />
+            {t("freeBuilder.save", "Save")} ({lockedColors.length}/3+)
+          </button>
+
+          <button
+            onClick={copyAllColors}
+            data-tour="free-export"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-secondary-foreground bg-secondary hover:bg-muted rounded-lg transition-colors"
+          >
+            <Copy className="w-4 h-4" />
+            {t("freeBuilder.export", "Export")}
+          </button>
+
+          <button
+            onClick={copyShareUrl}
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-secondary-foreground bg-secondary hover:bg-muted rounded-lg transition-colors"
+          >
+            <Share2 className="w-4 h-4" />
+            {t("freeBuilder.share", "Share URL")}
+          </button>
+          
+          <button
+            onClick={onBrowse}
+            data-tour="free-browse"
+            className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-primary-foreground bg-primary hover:opacity-90 rounded-lg transition-all glow-primary"
+          >
+            {t("freeBuilder.browse", "Browse Palettes")}
+            <ChevronRight className="w-4 h-4" />
+          </button>
+        </div>
+      </header>
+
+      {/* Color Strips */}
+      <div className="flex-1 flex" data-tour="free-palette">
+        {colorSlots.map((slot, index) => (
+          <div
+            key={index}
+            className="flex-1 relative group cursor-pointer transition-all duration-200 hover:flex-[1.1]"
+            style={{ backgroundColor: slot.color }}
+            onClick={() => copyColor(slot.color)}
+          >
+            {/* Color Info - Always visible */}
+            <div 
+              className="absolute inset-x-0 bottom-0 flex flex-col items-center pb-8 transition-opacity"
+              style={{ color: getContrastColor(slot.color) }}
+            >
+              <span className="font-mono text-sm font-medium tracking-wider opacity-80 group-hover:opacity-100">
+                {slot.color}
+              </span>
+            </div>
+
+            {/* Actions */}
+            <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex flex-col items-center gap-4 opacity-0 group-hover:opacity-100 transition-opacity">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  copyColor(slot.color);
+                }}
+                className="p-3 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/30 transition-colors"
+                style={{ color: getContrastColor(slot.color) }}
+              >
+                <Copy className="w-5 h-5" />
+              </button>
+              
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleLock(index);
+                }}
+                className="p-3 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/30 transition-colors"
+                style={{ color: getContrastColor(slot.color) }}
+              >
+                {slot.locked ? <Lock className="w-5 h-5" /> : <Unlock className="w-5 h-5" />}
+              </button>
+            </div>
+
+            {/* Lock indicator */}
+            {slot.locked && (
+              <div 
+                className="absolute top-4 left-1/2 -translate-x-1/2"
+                style={{ color: getContrastColor(slot.color) }}
+              >
+                <Lock className="w-4 h-4" />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Footer */}
+      <footer className="flex items-center justify-center px-6 py-4 bg-card border-t border-border">
+        <button
+          onClick={generateNewPalette}
+          className="flex items-center gap-2 px-6 py-3 text-sm font-medium text-primary-foreground bg-primary hover:opacity-90 rounded-lg transition-all glow-primary"
+        >
+          <RefreshCw className="w-4 h-4" />
+          {t("freeBuilder.generate", "Generate")}
+          <span className="ml-2 px-2 py-0.5 text-xs bg-primary-foreground/20 rounded">Space</span>
+        </button>
+      </footer>
+
+      <GuidedTour storageKey="tour-free-builder" steps={tourSteps} enabled />
+    </div>
+  );
+}

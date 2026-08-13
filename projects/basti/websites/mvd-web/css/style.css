@@ -1,0 +1,450 @@
+/* ==========================================================================
+   MVD Web – Bildbasiertes Layout
+   Aufbau von oben nach unten: Strand-Header  ->  dunkle Nacht  ->  Sand-Footer.
+   Die Übergangsfarben sind aus den Bildrändern gemessen, damit die Kanten der
+   Bilder nicht sichtbar werden:
+     Header unten  #67573E
+     Footer oben   #C3803C
+   ========================================================================== */
+
+:root {
+  /* Hintergrundverlauf zwischen den beiden Bildern */
+  --bg-top: #1a120b;      /* direkt unter dem Header, warm-dunkel */
+  --bg-mid: #0b0705;      /* tiefste Stelle in der Mitte */
+  --bg-bottom: #1c1108;   /* kurz vor dem Footer, wird wieder wärmer */
+
+
+  --color-red-glow: #ff5a42;
+  --color-orange: #ff8c1a;
+  --color-orange-light: #ffb43c;
+  --color-text: #f4ece6;
+  --color-text-muted: #c8b6a8;
+
+  --font-base: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --content-max-width: 680px;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg-mid);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-base);
+  color: var(--color-text);
+  background: var(--bg-mid);
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+h1, h2, h3 { font-weight: 700; margin: 0 0 0.6em; }
+p { line-height: 1.7; margin: 0 0 1em; }
+
+/* ==========================================================================
+   Header – Strand mit den fünf Schatten
+   ========================================================================== */
+
+.hero {
+  position: relative;
+  /* svh = kleine Viewporthöhe: springt nicht, wenn mobile Browser ihre
+     Adressleiste ein- und ausblenden. vh bleibt als Fallback davor. */
+  min-height: 88vh;
+  min-height: 88svh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 16vh 20px 0;
+  background-color: #c4a16f;
+  background-image: url("../assets/images/header-beach.jpg");
+  background-size: cover;
+  /* Bild ist quadratisch: dieser Ausschnitt zeigt Sand + Schatten. */
+  background-position: center 72%;
+  background-repeat: no-repeat;
+}
+
+/* Weicher Auslauf nach unten in den Seitenhintergrund. Beginnt transparent
+   auf der gemessenen Bildrandfarbe und endet exakt auf --bg-top. */
+.hero::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 46%;
+  background: linear-gradient(to bottom,
+      rgba(103, 87, 62, 0) 0%,
+      rgba(60, 45, 30, 0.55) 48%,
+      rgba(30, 21, 13, 0.9) 78%,
+      var(--bg-top) 100%);
+  pointer-events: none;
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.hero__title {
+  font-size: clamp(3rem, 11vw, 6.5rem);
+  letter-spacing: 0.08em;
+  margin: 0;
+  color: #fff8f0;
+  text-shadow: 0 4px 26px rgba(40, 20, 5, 0.75), 0 1px 3px rgba(40, 20, 5, 0.9);
+}
+
+.hero__subtitle {
+  margin: 0.5em 0 0;
+  font-size: clamp(0.95rem, 2.4vw, 1.25rem);
+  color: #fdf0e2;
+  text-shadow: 0 2px 14px rgba(40, 20, 5, 0.85);
+}
+
+/* ==========================================================================
+   Hamburger-Menü
+   ========================================================================== */
+
+.hamburger {
+  position: fixed;
+  top: calc(20px + env(safe-area-inset-top, 0px));
+  right: calc(20px + env(safe-area-inset-right, 0px));
+  z-index: 100;
+  width: 48px;
+  height: 48px;
+  background: rgba(20, 6, 0, 0.5);
+  border: 1px solid rgba(255, 140, 26, 0.6);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  box-shadow: 0 0 18px rgba(255, 140, 26, 0.22);
+}
+
+/* Hover nur auf Geräten mit echtem Zeiger – sonst bleibt der Effekt auf
+   Touchscreens nach dem Antippen sichtbar hängen. */
+@media (hover: hover) {
+  .hamburger:hover {
+    border-color: var(--color-orange-light);
+    box-shadow: 0 0 24px rgba(255, 140, 26, 0.45);
+  }
+}
+
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--color-orange-light), var(--color-orange));
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.hamburger[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.hamburger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.hamburger[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+.menu {
+  position: fixed;
+  top: calc(78px + env(safe-area-inset-top, 0px));
+  right: calc(20px + env(safe-area-inset-right, 0px));
+  z-index: 100;
+  background: rgba(12, 5, 2, 0.94);
+  border: 1px solid rgba(255, 140, 26, 0.45);
+  border-radius: 12px;
+  padding: 8px;
+  min-width: 200px;
+  max-width: calc(100vw - 40px);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+}
+
+.menu ul { list-style: none; margin: 0; padding: 0; }
+.menu li + li { border-top: 1px solid rgba(255, 140, 26, 0.18); }
+
+.menu-link {
+  display: block;
+  padding: 14px 16px;
+  border-radius: 7px;
+  color: var(--color-orange-light);
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+@media (hover: hover) {
+  .menu-link:hover {
+    background: rgba(255, 140, 26, 0.14);
+    color: #fff0dc;
+  }
+}
+
+/* Wechsel zur anderen Design-Version – hebt sich von den Platzhalter-Links ab. */
+.menu-link--version {
+  color: var(--color-red-glow);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Inhalt – dunkle Zone zwischen den beiden Bildern
+   ========================================================================== */
+
+/* Nachthimmel als fixierte Ebene hinter dem Textbereich. Fixiert statt als
+   Hintergrund von main, weil das Bild sonst über die volle Seitenhöhe
+   hochskaliert würde und die Sterne verwaschen. So bleibt es scharf und
+   der Text scrollt sanft darüber hinweg. */
+.night-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--bg-mid);
+  background-image: url("../assets/images/middle-night.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Header und Footer sind deckend und verdecken die Ebene von selbst. */
+.hero, main, .site-footer { position: relative; z-index: 1; }
+
+main {
+  padding: 70px 20px 120px;
+  /* Halbtransparent, damit der Sternenhimmel durchscheint – oben und unten
+     deckend, damit die Übergänge zu Header und Footer sauber bleiben. */
+  background-image: linear-gradient(to bottom,
+      var(--bg-top) 0%,
+      rgba(9, 8, 14, 0.78) 20%,
+      rgba(9, 8, 14, 0.78) 78%,
+      var(--bg-bottom) 100%);
+}
+
+.intro-text {
+  max-width: var(--content-max-width);
+  margin: 0 auto 70px;
+  text-align: center;
+  font-size: 1.3rem;
+}
+
+.content-block {
+  max-width: var(--content-max-width);
+  margin: 0 auto 70px;
+}
+
+.content-block h2 {
+  font-size: 1.5rem;
+  color: var(--color-red-glow);
+}
+
+.lead-out {
+  font-style: italic;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin-top: 1.5em;
+}
+
+/* Sanftes Einblenden beim Scrollen ------------------------------------- */
+
+.reveal { transition: opacity 0.7s ease, transform 0.7s ease; }
+
+.js .reveal { opacity: 0; transform: translateY(22px); }
+.js .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+/* ==========================================================================
+   Footer – Sand mit den eingeritzten Begriffen
+   ========================================================================== */
+
+/* Dünenlandschaft aus vier langsam driftenden Ebenen. Jede Ebene ist eine
+   nahtlos kachelnde SVG-Grafik; animiert wird die Hintergrundposition um
+   exakt eine Kachelbreite, dadurch springt nichts. */
+.site-footer {
+  position: relative;
+  min-height: 390px;
+  padding: 0 20px 30px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  background: linear-gradient(to bottom,
+      var(--bg-bottom) 0%,
+      #2a1a0d 55%,
+      #3b2613 100%);
+}
+
+/* Warmer Lichtschein hinter den Dünenkämmen – wie eine Sonne knapp darunter. */
+.site-footer::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 150px;
+  transform: translateX(-50%);
+  width: 90%;
+  height: 170px;
+  background: radial-gradient(ellipse at center,
+      rgba(224, 138, 43, 0.35) 0%,
+      rgba(160, 80, 25, 0.14) 45%,
+      transparent 72%);
+  filter: blur(14px);
+  pointer-events: none;
+}
+
+.dunes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Die Ebene ist eine Kachelbreite breiter als der Footer und wandert um genau
+   eine Kachel. Weil sich der Hintergrund exakt in diesem Takt wiederholt, ist
+   der Sprung am Ende unsichtbar. Bewegt wird per transform statt per
+   background-position – das läuft auf der GPU und spart Repaints. */
+.dune {
+  --tile: 1200px;
+  --tile-h: 300px;
+  position: absolute;
+  left: 0;
+  width: calc(100% + var(--tile));
+  height: var(--tile-h);
+  background-repeat: repeat-x;
+  background-position: 0 bottom;
+  background-size: var(--tile) var(--tile-h);
+  animation: dune-drift var(--speed, 90s) linear infinite;
+  will-change: transform;
+}
+
+/* Hintere Reihen stehen höher und driften langsamer – dadurch entsteht
+   Tiefe, statt dass alle Reihen aufeinanderliegen. */
+.dune--1 { background-image: url("../assets/images/dune-1.svg"); --speed: 200s; bottom: 96px; }
+.dune--2 { background-image: url("../assets/images/dune-2.svg"); --speed: 150s; bottom: 62px; }
+.dune--3 { background-image: url("../assets/images/dune-3.svg"); --speed: 105s; bottom: 30px; }
+.dune--4 { background-image: url("../assets/images/dune-4.svg"); --speed:  72s; bottom: 0; }
+
+/* Gegenläufig, damit die Ebenen nicht im Gleichschritt wandern. */
+.dune--2, .dune--4 { animation-direction: reverse; }
+
+@keyframes dune-drift {
+  from { transform: translateX(0); }
+  to   { transform: translateX(calc(-1 * var(--tile))); }
+}
+
+/* Verlängert den Sockel der vordersten Dünenreihe nach oben. Gleiche Farbe wie
+   dune-4, deshalb entsteht keine sichtbare Kante – es sorgt nur dafür, dass
+   der Text nie auf einem hellen Dünenkamm landet. */
+.site-footer::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: var(--footer-base, 84px);
+  background: #5d4023;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Der Text steht direkt auf der vordersten, dunklen Dünenreihe. */
+.footer-inner {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 10px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  font-weight: 700;
+  color: #f6dcb4;
+  text-shadow: 0 1px 3px rgba(20, 10, 2, 0.6);
+}
+
+@media (hover: hover) {
+  .footer-links a:hover {
+    color: #fff6e8;
+    text-decoration: underline;
+  }
+}
+
+.copyright {
+  font-size: 0.8rem;
+  margin: 0;
+  color: #d3b48c;
+  text-shadow: 0 1px 3px rgba(20, 10, 2, 0.6);
+}
+
+/* ==========================================================================
+   Responsive / Barrierefreiheit
+   ========================================================================== */
+
+/* Tablets und große Handys */
+@media (max-width: 700px) {
+  .hero {
+    min-height: 70vh;
+    min-height: 70svh;
+    padding-top: 18vh;
+    background-position: center 78%;
+  }
+  .hero::after { height: 40%; }
+  main { padding: 50px 18px 90px; }
+  .intro-text { font-size: 1.18rem; }
+  .content-block, .intro-text { margin-bottom: 50px; }
+  /* Kleinere Kachel, sonst sieht man auf dem Handy nur einen Ausschnitt
+     einer einzigen Düne. */
+  .site-footer { min-height: 320px; --footer-base: 118px; }
+  .dune { --tile: 680px; --tile-h: 260px; }
+  .dune--1 { bottom: 78px; }
+  .dune--2 { bottom: 52px; }
+  .dune--3 { bottom: 26px; }
+  .site-footer::before { height: 200px; bottom: 130px; }
+  .footer-links { gap: 15px; }
+  .footer-links a { font-size: 0.92rem; }
+}
+
+/* Handys. Der Hero wird kürzer, damit direkt darunter schon Text sichtbar
+   ist, und die Schriftgrößen werden auf Lesegrößen zurückgenommen. */
+@media (max-width: 480px) {
+  .hero {
+    min-height: 62vh;
+    min-height: 62svh;
+    padding-top: 14vh;
+  }
+  .hero__title {
+    font-size: clamp(2.6rem, 15vw, 4rem);
+    letter-spacing: 0.05em;
+  }
+  main { padding: 40px 16px 70px; }
+  .intro-text {
+    font-size: 1.08rem;
+    margin-bottom: 44px;
+  }
+  .content-block { margin-bottom: 44px; }
+  .content-block h2 { font-size: 1.28rem; }
+  .footer-links { gap: 12px 18px; }
+}
+
+/* Querformat auf dem Handy: sonst füllt allein der Hero mehr als den
+   gesamten Bildschirm und man sieht beim Laden nur das Bild. */
+@media (max-height: 520px) and (orientation: landscape) {
+  .hero {
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-top: 8vh;
+  }
+  .site-footer { min-height: 240px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { transition: none; }
+  .dune { animation: none; }
+}

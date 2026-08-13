@@ -233,6 +233,30 @@
       "pfade": {
         "BASTIAN_PC": "C:\\Users\\basti\\Documents\\Websites\\montrigor-site"
       }
+    },
+    "avocado-at-law": {
+      "pfade": {
+        "BASTIAN_PC": "D:\\Meine Projekte\\AvocadeatLaw"
+      },
+      "ausschluss": [
+        "images"
+      ],
+      "hinweis": "images/ enthaelt abfotografierte Duolingo-Bildschirme von Mobbin — fremdes Material, das als Gestaltungsvorlage diente und nicht in ein oeffentliches Repo gehoert. docs/AvocadoatLaw.pdf faellt ohnehin unter die Ballast-Regel."
+    },
+    "colored-in": {
+      "pfade": {},
+      "trotzdemMitnehmen": [
+        "Chrome Extension Colored-In/lib/supabase.js"
+      ],
+      "hinweis": "Kein lokaler Quellordner — der Code kommt aus dem Repo BastiLd/colored-in. lib/supabase.js enthaelt einen Supabase-anon-Schluessel; der ist als oeffentlicher Client-Schluessel gedacht (Schutz laeuft ueber Row-Level-Security) und steht ohnehin oeffentlich im Repo, deshalb ausdruecklich freigegeben."
+    },
+    "mvd-web": {
+      "pfade": {},
+      "hinweis": "Kein lokaler Quellordner — Code aus dem Repo BastiLd/mvd-web."
+    },
+    "mediastack-regler": {
+      "pfade": {},
+      "hinweis": "Kein lokaler Quellordner — Code aus dem Repo BastiLd/SeriesMoviesDownload."
     }
   },
   "ohneQuelle": [
@@ -243,11 +267,6 @@
     },
     {
       "id": "auto-tab-close",
-      "grund": "laptop",
-      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
-    },
-    {
-      "id": "avocado-at-law",
       "grund": "laptop",
       "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
     },

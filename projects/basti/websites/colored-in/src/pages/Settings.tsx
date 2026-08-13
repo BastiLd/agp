@@ -1,0 +1,802 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { User } from "@supabase/supabase-js";
+import { ArrowLeft, Shield, Lock, Eye, EyeOff, Trash2, AlertTriangle, CreditCard, Crown, ExternalLink, Loader2 } from "lucide-react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useLanguage } from "@/components/LanguageProvider";
+
+interface SubscriptionData {
+  plan: string;
+  is_active: boolean;
+  expires_at: string | null;
+  stripe_subscription_id: string | null;
+  stripe_customer_id: string | null;
+}
+
+const PLAN_NAMES: Record<string, string> = {
+  free: "Free",
+  pro: "Pro",
+  ultra: "Ultra",
+  individual: "Individual",
+};
+
+const Settings = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [subscription, setSubscription] = useState<SubscriptionData | null>(null);
+  const [isCanceling, setIsCanceling] = useState(false);
+  const [isLoadingPortal, setIsLoadingPortal] = useState(false);
+  const [isDevUpdatingPlan, setIsDevUpdatingPlan] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [saveChatHistory, setSaveChatHistory] = useState(false);
+  const [isLoadingSettings, setIsLoadingSettings] = useState(false);
+  const { language, setLanguage, t } = useLanguage();
+
+  useEffect(() => {
+    const { data: { subscription: authSubscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setUser(session?.user ?? null);
+      }
+    );
+
+    const init = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+      if (!session?.user) {
+        setLoading(false);
+        return;
+      }
+
+      // Determine if current user is an admin (used for test tools)
+      const { data: adminFlag } = await supabase.rpc("has_role", {
+        _role: "admin",
+        _user_id: session.user.id,
+      });
+      setIsAdmin(Boolean(adminFlag));
+
+      await refreshSubscription(session.user.id);
+
+      // Fetch user settings
+      const { data: settings } = await supabase
+        .from("user_settings")
+        .select("save_chat_history")
+        .eq("user_id", session.user.id)
+        .single();
+
+      if (settings) {
+        setSaveChatHistory(settings.save_chat_history);
+      }
+
+      setLoading(false);
+    };
+
+    init();
+
+    return () => authSubscription.unsubscribe();
+  }, [navigate]);
+
+  const refreshSubscription = async (userId: string) => {
+    const { data: subData } = await supabase
+      .from("user_subscriptions")
+      .select("plan, is_active, expires_at, stripe_subscription_id, stripe_customer_id")
+      .eq("user_id", userId)
+      .single();
+
+    if (subData) {
+      setSubscription(subData);
+    }
+  };
+
+  const setDevPlan = async (plan: "free" | "ultra") => {
+    if (!import.meta.env.DEV) return;
+    if (!user?.id) {
+      toast.error("No user session found.");
+      return;
+    }
+
+    setIsDevUpdatingPlan(true);
+    try {
+      const payload =
+        plan === "free"
+          ? {
+              user_id: user.id,
+              plan: "free",
+              is_active: true,
+              expires_at: null,
+              updated_at: new Date().toISOString(),
+            }
+          : {
+              user_id: user.id,
+              plan: "ultra",
+              is_active: true,
+              expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30).toISOString(),
+              updated_at: new Date().toISOString(),
+            };
+
+      const { error } = await supabase
+        .from("user_subscriptions")
+        .upsert(payload, { onConflict: "user_id" });
+
+      if (error) throw error;
+
+      await refreshSubscription(user.id);
+      toast.success(`DEV: set plan to ${plan.toUpperCase()}`);
+    } catch (e: any) {
+      console.error("DEV set plan error:", e);
+      toast.error(e?.message || "Failed to update plan");
+    } finally {
+      setIsDevUpdatingPlan(false);
+    }
+  };
+
+  const setTestPlan = async (plan: "free" | "pro" | "ultra" | "individual") => {
+    if (!user?.id) {
+      toast.error("No user session found.");
+      return;
+    }
+    if (!isAdmin) {
+      toast.error("Admin privileges required.");
+      return;
+    }
+
+    setIsDevUpdatingPlan(true);
+    try {
+      const { data, error } = await supabase.rpc("admin_set_self_plan", {
+        _plan: plan,
+        _duration_days: 30,
+      });
+
+      if (error) throw error;
+
+      // Refresh UI
+      await refreshSubscription(user.id);
+      toast.success(`Test plan set to ${PLAN_NAMES[plan]}`);
+    } catch (e: any) {
+      console.error("Test plan switch error:", e);
+      toast.error(e?.message || "Failed to update plan");
+    } finally {
+      setIsDevUpdatingPlan(false);
+    }
+  };
+
+  const handleManageBilling = async () => {
+    if (!subscription?.stripe_customer_id) {
+      toast.error("No billing information found.");
+      return;
+    }
+
+    setIsLoadingPortal(true);
+    try {
+      // For now, we'll provide a direct link to Stripe's billing portal
+      // In production, you'd create a portal session via Edge Function
+      toast.info("Billing management is available through Stripe. Contact support for assistance.");
+    } catch (error) {
+      console.error("Error opening billing portal:", error);
+      toast.error("Failed to open billing portal.");
+    } finally {
+      setIsLoadingPortal(false);
+    }
+  };
+
+  const handleCancelSubscription = async () => {
+    if (subscription?.plan === "free") {
+      toast.error("You are on the free plan.");
+      return;
+    }
+
+    setIsCanceling(true);
+    try {
+      // If there's a real Stripe subscription, cancel it via the Edge Function
+      if (subscription?.stripe_subscription_id) {
+        const { data, error } = await supabase.functions.invoke('cancel-subscription');
+
+        if (error) {
+          console.error("Cancel subscription error:", error);
+          throw new Error(error.message || "Failed to cancel subscription");
+        }
+
+        if (data?.error) {
+          throw new Error(data.error);
+        }
+
+        // Show success message with cancellation date
+        const cancelDate = data?.cancel_at 
+          ? new Date(data.cancel_at).toLocaleDateString("de-DE", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+          : "the end of your billing period";
+
+        toast.success(`Subscription will be canceled on ${cancelDate}. You'll keep all benefits until then.`);
+      } else {
+        // No Stripe subscription (admin-set plan) - just reset to free
+        const { error } = await supabase
+          .from("user_subscriptions")
+          .update({
+            plan: "free",
+            is_active: true,
+            expires_at: null,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("user_id", user?.id);
+
+        if (error) throw error;
+
+        toast.success("Plan has been reset to Free.");
+      }
+      
+      // Refresh subscription data
+      if (user?.id) {
+        await refreshSubscription(user.id);
+      }
+    } catch (error: any) {
+      console.error("Error canceling subscription:", error);
+      toast.error(error.message || "Failed to cancel subscription. Please try again.");
+    } finally {
+      setIsCanceling(false);
+    }
+  };
+
+  const handlePasswordChange = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (newPassword.length < 8) {
+      toast.error("New password must be at least 8 characters long");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      toast.error("New passwords do not match");
+      return;
+    }
+
+    setIsUpdating(true);
+
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      toast.success("Password updated successfully");
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to update password");
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleDeleteAccount = async () => {
+    setIsDeleting(true);
+    
+    try {
+      // Call the RPC function to delete current user
+      const { error } = await supabase.rpc('delete_current_user');
+
+      if (error) {
+        throw error;
+      }
+
+      // Sign out (user is already deleted at this point)
+      await supabase.auth.signOut();
+      
+      toast.success("Account successfully deleted. You can now register again with the same email.");
+      navigate("/auth");
+    } catch (error: any) {
+      console.error('Error deleting account:', error);
+      toast.error(error.message || "Failed to delete account.");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  const handleToggleChatHistory = async (checked: boolean) => {
+    if (!user?.id) return;
+
+    setIsLoadingSettings(true);
+    try {
+      const { error } = await supabase
+        .from("user_settings")
+        .upsert(
+          {
+            user_id: user.id,
+            save_chat_history: checked,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: "user_id" }
+        );
+
+      if (error) throw error;
+
+      setSaveChatHistory(checked);
+      toast.success(checked ? "Chat history will be saved" : "Chat history will not be saved");
+    } catch (error: any) {
+      console.error("Error updating settings:", error);
+      toast.error("Failed to update settings");
+    } finally {
+      setIsLoadingSettings(false);
+    }
+  };
+
+  const handlePasswordResetEmail = async () => {
+    if (!user?.email) {
+      toast.error("No email found");
+      return;
+    }
+
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(user.email, {
+        redirectTo: `${window.location.origin}/auth?reset=true`,
+      });
+
+      if (error) throw error;
+
+      toast.success("Password reset email sent! Check your inbox.");
+    } catch (error: any) {
+      console.error("Error sending reset email:", error);
+      toast.error(error.message || "Failed to send reset email");
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="flex items-center gap-4 px-6 py-4 border-b border-border">
+        <button
+          onClick={() => navigate("/dashboard")}
+          className="flex items-center gap-3 p-2 -ml-2 rounded-lg hover:bg-muted transition-colors cursor-pointer"
+        >
+          <ArrowLeft className="h-5 w-5" />
+          <h1 className="text-xl font-bold">{t("settings.title", "Safety Settings")}</h1>
+        </button>
+      </header>
+
+      <main className="container max-w-2xl mx-auto px-6 py-8">
+        {/* Security Section */}
+        <div className="bg-card border border-border rounded-xl p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+              <Shield className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <h2 className="font-semibold">{t("settings.security", "Security")}</h2>
+              <p className="text-sm text-muted-foreground">{t("settings.securityText", "Manage your account security")}</p>
+            </div>
+          </div>
+
+          {/* Change Password */}
+          <div className="border-t border-border pt-6">
+            <div className="flex items-center gap-3 mb-4">
+              <Lock className="h-5 w-5 text-muted-foreground" />
+              <h3 className="font-medium">{t("settings.changePassword", "Change Password")}</h3>
+            </div>
+
+            <form onSubmit={handlePasswordChange} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="newPassword">{t("settings.newPassword", "New Password")}</Label>
+                <div className="relative">
+                  <Input
+                    id="newPassword"
+                    type={showNewPassword ? "text" : "password"}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder={t("settings.newPasswordPlaceholder", "Enter new password")}
+                    className="pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowNewPassword(!showNewPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    {showNewPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="confirmPassword">{t("settings.confirmPassword", "Confirm New Password")}</Label>
+                <div className="relative">
+                  <Input
+                    id="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder={t("settings.confirmPasswordPlaceholder", "Confirm new password")}
+                    className="pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <Button type="submit" disabled={isUpdating || !newPassword || !confirmPassword}>
+                {isUpdating ? t("settings.updating", "Updating...") : t("settings.updatePassword", "Update Password")}
+              </Button>
+              
+              <div className="pt-4 border-t border-border">
+                <p className="text-sm text-muted-foreground mb-3">
+                  {t("settings.resetViaEmail", "Or reset your password via email")}
+                </p>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={handlePasswordResetEmail}
+                >
+                  {t("settings.sendResetEmail", "Send Password Reset Email")}
+                </Button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        {/* User Settings */}
+        <div className="mt-6 bg-card border border-border rounded-xl p-6">
+          <h3 className="font-medium mb-4">{t("settings.preferences", "Preferences")}</h3>
+          
+          <div className="space-y-4">
+            <div className="flex items-center justify-between gap-4">
+              <div className="space-y-1">
+                <Label>{t("settings.languageTitle", "Language")}</Label>
+                <p className="text-sm text-muted-foreground">
+                  {t(
+                    "settings.languageText",
+                    "Choose the interface language. Guests are stored locally, signed-in users are synced to their account."
+                  )}
+                </p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  type="button"
+                  variant={language === "en" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => void setLanguage("en")}
+                >
+                  {t("language.english", "English")}
+                </Button>
+                <Button
+                  type="button"
+                  variant={language === "de" ? "default" : "outline"}
+                  size="sm"
+                  onClick={() => void setLanguage("de")}
+                >
+                  {t("language.german", "Deutsch")}
+                </Button>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div className="space-y-1">
+                <Label htmlFor="chat-history">{t("settings.chatHistoryTitle", "Save Ask Mode Chat History")}</Label>
+                <p className="text-sm text-muted-foreground">
+                  {t(
+                    "settings.chatHistoryText",
+                    "When enabled, your Ask Mode conversations will be saved and restored when you return."
+                  )}
+                </p>
+              </div>
+              <Switch
+                id="chat-history"
+                checked={saveChatHistory}
+                onCheckedChange={handleToggleChatHistory}
+                disabled={isLoadingSettings}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Account Info */}
+        <div className="mt-6 bg-card border border-border rounded-xl p-6">
+          <h3 className="font-medium mb-4">{t("settings.accountInfo", "Account Information")}</h3>
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">{t("settings.accountEmail", "Email")}</span>
+              <span className="text-sm font-medium">{user?.email}</span>
+            </div>
+            <div className="flex justify-between items-center">
+              <span className="text-sm text-muted-foreground">{t("settings.accountCreated", "Account Created")}</span>
+              <span className="text-sm font-medium">
+                {user?.created_at ? new Date(user.created_at).toLocaleDateString() : "-"}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Subscription Management */}
+        <div className="mt-6 bg-card border border-border rounded-xl p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+              <CreditCard className="h-5 w-5 text-primary" />
+            </div>
+            <div>
+              <h2 className="font-semibold">{t("settings.subscription", "Subscription")}</h2>
+              <p className="text-sm text-muted-foreground">{t("settings.subscriptionText", "Manage your subscription and billing")}</p>
+            </div>
+          </div>
+
+          <div className="border-t border-border pt-6 space-y-4">
+            {/* Current Plan */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Crown className="h-5 w-5 text-amber-500" />
+                <div>
+                  <span className="text-sm text-muted-foreground">{t("settings.currentPlan", "Current Plan")}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-medium">
+                      {PLAN_NAMES[subscription?.plan || "free"]}
+                    </span>
+                    {subscription?.is_active && subscription?.plan !== "free" && (
+                      <Badge variant="default" className="bg-green-500">{t("settings.active", "Active")}</Badge>
+                    )}
+                    {!subscription?.is_active && subscription?.plan !== "free" && (
+                      <Badge variant="destructive">{t("settings.inactive", "Inactive")}</Badge>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => navigate("/pricing")}
+              >
+                {subscription?.plan === "free" ? t("settings.upgrade", "Upgrade") : t("settings.changePlan", "Change Plan")}
+              </Button>
+            </div>
+
+            {/* Next Billing Date */}
+            {subscription?.expires_at && subscription?.plan !== "free" && (
+              <div className="flex items-center justify-between pt-3 border-t border-border">
+                <div>
+                  <span className="text-sm text-muted-foreground">{t("settings.nextBillingDate", "Next Billing Date")}</span>
+                  <p className="font-medium">
+                    {new Date(subscription.expires_at).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Billing Management & Cancel */}
+            {subscription?.is_active && subscription?.plan !== "free" && (
+              <div className="flex flex-wrap gap-3 pt-3 border-t border-border">
+                {/* Only show Manage Billing if there's a real Stripe customer */}
+                {subscription?.stripe_customer_id && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleManageBilling}
+                    disabled={isLoadingPortal}
+                  >
+                    {isLoadingPortal ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        {t("settings.loading", "Loading...")}
+                      </>
+                    ) : (
+                      <>
+                        <ExternalLink className="w-4 h-4 mr-2" />
+                        {t("settings.manageBilling", "Manage Billing")}
+                      </>
+                    )}
+                  </Button>
+                )}
+
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="text-red-500 hover:text-red-600 hover:bg-red-500/10"
+                      disabled={isCanceling}
+                    >
+                      {subscription?.stripe_subscription_id ? t("settings.cancelSubscription", "Cancel Subscription") : t("settings.resetToFree", "Reset to Free")}
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        {subscription?.stripe_subscription_id ? "Cancel Subscription?" : "Reset to Free Plan?"}
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        {subscription?.stripe_subscription_id ? (
+                          <>
+                            Are you sure you want to cancel your subscription? You'll lose access to:
+                            <ul className="list-disc list-inside mt-2 space-y-1">
+                              <li>Premium palette browsing</li>
+                              <li>AI generation credits</li>
+                              <li>Advanced features</li>
+                            </ul>
+                            Your subscription will remain active until {subscription?.expires_at ? new Date(subscription.expires_at).toLocaleDateString() : "the end of your billing period"}.
+                          </>
+                        ) : (
+                          <>
+                            This will reset your plan back to Free. You'll lose access to all premium features immediately.
+                          </>
+                        )}
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>{t("settings.keepPlan", "Keep Plan")}</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={handleCancelSubscription}
+                        className="bg-red-500 hover:bg-red-600"
+                      >
+                        {isCanceling ? t("settings.processing", "Processing...") : (subscription?.stripe_subscription_id ? t("settings.cancelSubscription", "Cancel Subscription") : t("settings.resetToFree", "Reset to Free"))}
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </div>
+            )}
+
+            {/* Upgrade CTA for free users */}
+            {(!subscription || subscription?.plan === "free") && (
+              <div className="pt-3 border-t border-border">
+                <div className="bg-gradient-to-r from-primary/10 to-primary/5 rounded-lg p-4">
+                  <p className="text-sm text-muted-foreground mb-3">
+                    {t("settings.upgradeText", "Upgrade to unlock unlimited AI generations, premium palettes, and more.")}
+                  </p>
+                  <Button onClick={() => navigate("/pricing")} size="sm">
+                    {t("settings.viewPlans", "View Plans")}
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Safety Test Tools (admin only) */}
+        {isAdmin && (
+          <div className="mt-6 bg-card border border-dashed border-border rounded-xl p-6">
+            <h3 className="font-medium mb-2">Safety Test Tools</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Admin-only plan switcher for testing features. This affects the currently logged-in user.
+              Remove this section later when Stripe is fully live.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                variant="outline"
+                onClick={() => setTestPlan("free")}
+                disabled={isDevUpdatingPlan}
+              >
+                Set FREE
+              </Button>
+              <Button
+                onClick={() => setTestPlan("pro")}
+                disabled={isDevUpdatingPlan}
+              >
+                Set PRO
+              </Button>
+              <Button
+                onClick={() => setTestPlan("ultra")}
+                disabled={isDevUpdatingPlan}
+              >
+                Set ULTRA
+              </Button>
+              <Button
+                onClick={() => setTestPlan("individual")}
+                disabled={isDevUpdatingPlan}
+              >
+                Set INDIVIDUAL
+              </Button>
+            </div>
+            {isDevUpdatingPlan && (
+              <div className="mt-3 text-sm text-muted-foreground flex items-center gap-2">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Updating plan...
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Danger Zone */}
+        <div className="mt-6 bg-card border-2 border-red-500/20 rounded-xl p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center">
+              <AlertTriangle className="h-5 w-5 text-red-500" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-red-500">{t("settings.dangerTitle", "Danger Zone")}</h3>
+              <p className="text-sm text-muted-foreground">Irreversible actions</p>
+            </div>
+          </div>
+
+          <div className="border-t border-red-500/20 pt-4">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <h4 className="font-medium mb-1">{t("settings.deleteAccount", "Delete Account")}</h4>
+                <p className="text-sm text-muted-foreground">
+                  Permanently delete your account and all associated data. This action cannot be undone.
+                </p>
+              </div>
+              
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button 
+                    variant="destructive" 
+                    className="ml-4"
+                    disabled={isDeleting}
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    {t("settings.deleteAccount", "Delete Account")}
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>{t("settings.deleteConfirmTitle", "Are you absolutely sure?")}</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This action cannot be undone. This will permanently delete your account
+                      and remove all your data including:
+                      <ul className="list-disc list-inside mt-2 space-y-1">
+                        <li>Your profile information</li>
+                        <li>All saved palettes</li>
+                        <li>Your subscription data</li>
+                        <li>AI generation history</li>
+                      </ul>
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction
+                      onClick={handleDeleteAccount}
+                      className="bg-red-500 hover:bg-red-600"
+                    >
+                      {isDeleting ? t("settings.deleting", "Deleting...") : t("settings.deleteMyAccount", "Yes, delete my account")}
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+};
+
+export default Settings;
