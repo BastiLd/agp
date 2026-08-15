@@ -1,0 +1,7 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles/1080p60/partial_movie_files/Kästchen/3977891868_2197246339_223132457.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles/1080p60/partial_movie_files/Kästchen/2852726489_3890345977_1026699285.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles/1080p60/partial_movie_files/Kästchen/2852726489_554823295_894097493.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles/1080p60/partial_movie_files/Kästchen/2852726489_2354374403_2894078189.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles/1080p60/partial_movie_files/Kästchen/2852726489_2453922948_1544492724.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles/1080p60/partial_movie_files/Kästchen/2852726489_2899570619_3981203086.mp4'

@@ -1137,6 +1137,48 @@
       "live": null,
       "liveHinweis": "Lokale Oberfläche — npm install, dann npm run dev. Braucht laufende Radarr-/Sonarr-Instanzen.",
       "stand": "2026-06-20"
+    },
+    {
+      "id": "everything-self",
+      "titel": "Everything Self",
+      "besitzer": "basti",
+      "kategorie": "desktop-apps",
+      "kurz": "Eigene Oberfläche für Dateisuche in Everything-Geschwindigkeit plus Programmverwaltung",
+      "beschreibung": "Eine WPF-Oberfläche mit drei Bereichen: Dateisuche über den Index des laufenden Everything-Prozesses (komplette Everything-Syntax, Mehrfachauswahl, gemeinsames Löschen in den Papierkorb), eine Liste aller installierten Programme aus der Registry mit automatischer Resterkennung nach der Deinstallation, und eine Übersicht aller Edge-/WebView2-Bestandteile mit Erklärung zu jeder Aktion. Spricht Everything über dessen öffentlich dokumentierte Fensterschnittstelle (WM_COPYDATA) an — kein Everything-Quellcode, keine Everything64.dll nötig. Läuft bewusst ohne Administratorrechte; privilegierte Eingriffe laufen in einem kurzlebigen erhöhten Kindprozess mit vorheriger Klartext-Anzeige der Befehle.",
+      "tech": ["C#", ".NET 6", "WPF", "Win32 Interop", "Windows Registry"],
+      "pfad": "projects/basti/desktop-apps/everything-self",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Windows-Desktop-App — dotnet run --project \"EverythingSelf.App\". Braucht ein laufendes Everything von voidtools.",
+      "stand": "2026-08-13"
+    },
+    {
+      "id": "aufgabenliste",
+      "titel": "Aufgabenliste 15.–26. August",
+      "besitzer": "basti",
+      "kategorie": "desktop-apps",
+      "kurz": "Interaktive Version einer persönlichen Aufgabenliste mit Geräteabgleich",
+      "beschreibung": "Eine interaktive Fassung einer 12-tägigen Aufgabenliste (134 Häkchen über 12 Tage à 11 Aufgaben plus zwei Zusatzaufgaben), ursprünglich als Excel-Tabelle und PDF geplant. Reines HTML/CSS/JavaScript als Oberfläche, dazu ein kleiner Node-Server ohne ein einziges Fremdpaket — kein CDN, keine externen Schriften, kein Tracking. Der Server hält den Stand zwischen Geräten synchron und kann Push-Benachrichtigungen schicken. Läuft auch ganz ohne Server als reine Website, dann eben ohne Abgleich und Benachrichtigungen.",
+      "tech": ["HTML", "CSS", "JavaScript", "Node.js", "Docker", "Push-Benachrichtigungen"],
+      "pfad": "projects/basti/desktop-apps/aufgabenliste",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "node server/server.js, dann localhost:8090 — oder public/index.html direkt öffnen (ohne Geräteabgleich)",
+      "stand": "2026-08-15"
+    },
+    {
+      "id": "manim-online",
+      "titel": "Manim Online",
+      "besitzer": "basti",
+      "kategorie": "python-apps",
+      "kurz": "Sammlung eigener Mathe-Animationen mit Manim, dazu ein KI-Suchwerkzeug",
+      "beschreibung": "Eine gewachsene Sammlung von Python-Skripten rund um die Animationsbibliothek Manim (dieselbe, mit der 3Blue1Brown seine Mathe-Videos macht) — Textanimationen, geometrische Konstruktionen, kleine Quiz-Szenen und Schulmathe-Beispiele. Im Unterordner „Search Programm\" außerdem ein eigenständiges Werkzeug: eine Desktop-Suchleiste, die Anfragen an ChatGPT bzw. andere KI-Dienste weiterreicht und die Antwort direkt am Bildschirmrand einblendet.",
+      "tech": ["Python", "Manim", "LaTeX"],
+      "pfad": "projects/basti/python-apps/manim-online",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Einzelne Szenen rendern: manim -pql \"Datei.py\" KlassenName",
+      "stand": "2026-05-27"
     }
   ]
 }

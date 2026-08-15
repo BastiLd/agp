@@ -1,0 +1,7 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/YOUTUBE TESTS/1080p60/partial_movie_files/Youtube3test/3977891868_1969792465_2685123717.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/YOUTUBE TESTS/1080p60/partial_movie_files/Youtube3test/2852726489_3317210433_822647728.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/YOUTUBE TESTS/1080p60/partial_movie_files/Youtube3test/2852726489_752928304_4275882734.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/YOUTUBE TESTS/1080p60/partial_movie_files/Youtube3test/2852726489_3636024140_2446255196.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/YOUTUBE TESTS/1080p60/partial_movie_files/Youtube3test/2852726489_210957809_2489582625.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/YOUTUBE TESTS/1080p60/partial_movie_files/Youtube3test/2852726489_255102487_2290177589.mp4'

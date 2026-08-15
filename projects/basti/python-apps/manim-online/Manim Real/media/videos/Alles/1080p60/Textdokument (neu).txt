@@ -1,0 +1,21 @@
+from manim import *
+class Kästchen(Scene):
+    def construct(self):
+        text = Text("Welche Stafffel/Folge möchtest du sehen?")
+        self.play(Write(text))  # Schreibe den Text
+        self.wait(1)
+
+        # Erstelle 2 Kästchen und verschiebe den Text nach oben
+        kästchen1 = Rectangle(width=1, height=1, color=BLUE,).shift(DOWN * 2).shift(LEFT * 2)
+        kästchen2 = Rectangle(width=1, height=1, color=BLUE,).shift(DOWN * 2).shift(RIGHT * 2)
+        self.play(Create(kästchen1), Create(kästchen2), text.animate.shift(UP * 2), kästchen1.animate.shift(UP *2), kästchen2.animate.shift(UP *2))
+        self.wait(3)
+
+        #Ankreuzen
+        linie1 = Line(start=kästchen1.get_corner(UL), end=kästchen1.get_corner(DR), color=WHITE)
+        linie2 = Line(start=kästchen1.get_corner(DL), end=kästchen1.get_corner(UR), color=WHITE)
+        self.play(Create(linie1), Create(linie2))
+
+        
+        #Am Ende warten
+        self.wait(6)

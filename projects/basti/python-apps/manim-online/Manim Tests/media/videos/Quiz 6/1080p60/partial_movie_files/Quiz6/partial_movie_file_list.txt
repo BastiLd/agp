@@ -1,0 +1,6 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/media/videos/Quiz 6/1080p60/partial_movie_files/Quiz6/3977891868_3662902367_223132457.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/media/videos/Quiz 6/1080p60/partial_movie_files/Quiz6/2852726489_3895107776_3432227030.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/media/videos/Quiz 6/1080p60/partial_movie_files/Quiz6/2852726489_1227698800_1729334856.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/media/videos/Quiz 6/1080p60/partial_movie_files/Quiz6/2852726489_2016489_4245660047.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/media/videos/Quiz 6/1080p60/partial_movie_files/Quiz6/2852726489_1141282389_2581431795.mp4'

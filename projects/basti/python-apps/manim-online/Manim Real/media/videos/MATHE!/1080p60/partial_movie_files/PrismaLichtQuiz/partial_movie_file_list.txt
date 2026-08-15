@@ -1,0 +1,6 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/MATHE!/1080p60/partial_movie_files/PrismaLichtQuiz/1959641250_1981555630_223132457.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/MATHE!/1080p60/partial_movie_files/PrismaLichtQuiz/1158986825_3154465182_2624112970.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/MATHE!/1080p60/partial_movie_files/PrismaLichtQuiz/1158986825_3890345977_248868466.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/MATHE!/1080p60/partial_movie_files/PrismaLichtQuiz/1158986825_420298640_2128199149.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/MATHE!/1080p60/partial_movie_files/PrismaLichtQuiz/1158986825_255102487_1805677133.mp4'

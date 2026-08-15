@@ -1,0 +1,5 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/LightningDart/1080p60/partial_movie_files/WaveToText/3977891868_3348986522_2872512895.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/LightningDart/1080p60/partial_movie_files/WaveToText/2852726489_3289526392_3618680441.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/LightningDart/1080p60/partial_movie_files/WaveToText/2852726489_2367053433_3618680441.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/LightningDart/1080p60/partial_movie_files/WaveToText/2852726489_1141282389_1834087994.mp4'

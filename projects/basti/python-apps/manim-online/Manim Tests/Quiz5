@@ -1,0 +1,91 @@
+from manim import *
+
+class Quiz5(Scene):
+    def construct(self):
+        # Timer setup
+        timer = ValueTracker(16)
+        timer_text = DecimalNumber(16, num_decimal_places=0).scale(0.7)
+        timer_text.set_color(BLUE)
+        
+        # Timer circle
+        timer_circle = Circle(radius=0.7, color=BLUE).set_fill(color=BLACK, opacity=1)
+        timer_text.add_updater(lambda t: t.set_value(int(timer.get_value())))
+        timer_text.add_updater(lambda t: t.move_to(timer_circle.get_center()))
+        
+        def update_timer(dt):
+            new_value = timer.get_value() - dt
+            if new_value <= 0:
+                timer.set_value(0)
+                return
+            timer.set_value(new_value)
+        
+        def start_timer():
+            timer.set_value(16)
+            self.add_updater(update_timer)
+        
+        def stop_timer():
+            self.remove_updater(update_timer)
+        
+        # Question 1
+        question1 = Text("Welche Form hat ein Prisma?", font_size=40).move_to(UP*3)
+        
+        # Answer buttons
+        answers1 = VGroup(
+            VGroup(Rectangle(width=3, height=1.5, color=WHITE), Text("Quadrat", font_size=28).move_to(ORIGIN)),
+            VGroup(Rectangle(width=3, height=1.5, color=WHITE), Text("Dreieck", font_size=28).move_to(ORIGIN)),
+            VGroup(Rectangle(width=3, height=1.5, color=WHITE), Text("Rechteck", font_size=28).move_to(ORIGIN)),
+            VGroup(Rectangle(width=3, height=1.5, color=WHITE), Text("Dreidimensionale\nFigur", font_size=22).move_to(ORIGIN))
+        )
+        
+        for group in answers1:
+            group[1].move_to(group[0].get_center())
+        
+        answers1.arrange_in_grid(rows=2, cols=2, buff=1).move_to(DOWN*0.8)
+        
+        timer_circle.move_to(answers1.get_left() + LEFT * 2 + UP*0.5)
+
+        self.play(Write(question1), Write(answers1), Write(timer_circle), Write(timer_text))
+        start_timer()
+        self.wait(16)
+        stop_timer()
+
+        # Highlight correct answer in green
+        correct_answer1 = answers1[3]
+        self.play(correct_answer1[0].animate.set_fill(GREEN, opacity=0.5).set_color(GREEN), timer.animate.set_value(0))
+
+        # Highlight incorrect answers in red
+        incorrect_answers1 = VGroup(answers1[0], answers1[1], answers1[2])
+        self.play(*[group[0].animate.set_fill(RED, opacity=0.5).set_color(RED) for group in incorrect_answers1])
+        
+        self.wait(1)
+        
+        # Frage 2 - weitere Fragen können ähnlich angepasst werden
+        question2 = Text("Was ist das Volumen eines Prismas?", font_size=40).move_to(UP*3)
+        answers2 = VGroup(
+            VGroup(Rectangle(width=3, height=1.5, color=WHITE), Text("Länge * Breite", font_size=22).move_to(ORIGIN)),
+            VGroup(Rectangle(width=3, height=1.5, color=WHITE), Text("Länge * Breite\n* Höhe", font_size=22).move_to(ORIGIN)),
+            VGroup(Rectangle(width=3, height=1.5, color=WHITE), Text("Grundfläche\n* Höhe", font_size=22).move_to(ORIGIN)),
+            VGroup(Rectangle(width=3, height=1.5, color=WHITE), Text("Keine der oben\ngenannten", font_size=22).move_to(ORIGIN))
+        )
+        
+        for group in answers2:
+            group[1].move_to(group[0].get_center())
+        
+        answers2.arrange_in_grid(rows=2, cols=2, buff=1).move_to(DOWN*0.8)
+        timer_circle.move_to(answers2.get_left() + LEFT * 2 + UP*0.5)
+        
+        self.play(ReplacementTransform(question1, question2), ReplacementTransform(answers1, answers2),
+                  timer_circle.animate.move_to(answers2.get_left() + LEFT * 2 + UP*0.5))
+        start_timer()
+        self.wait(16)
+        stop_timer()
+
+        correct_answer2 = answers2[2]
+        self.play(correct_answer2[0].animate.set_fill(GREEN, opacity=0.5).set_color(GREEN), timer.animate.set_value(0))
+
+        incorrect_answers2 = VGroup(answers2[0], answers2[1], answers2[3])
+        self.play(*[group[0].animate.set_fill(RED, opacity=0.5).set_color(RED) for group in incorrect_answers2])
+        
+        self.wait(1)
+        
+        # Weitere Fragen können analog angepasst werden, indem move_to(UP*3) für Fragen und move_to(DOWN*0.8) für Antworten genutzt wird.

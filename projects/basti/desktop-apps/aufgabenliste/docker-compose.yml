@@ -1,0 +1,33 @@
+services:
+  aufgabenliste:
+    build:
+      # Absoluter Pfad, DAMIT ES AUCH ÜBER PORTAINER "UPLOAD" FUNKTIONIERT.
+      # Muss exakt der Ordner sein, in dem auf der ZimaOS-Box Dockerfile,
+      # public/ und server/ nebeneinander liegen. Bei dir laut Dateimanager:
+      #   ZimaOS-HD / AppData / aufgabenliste
+      # -> das entspricht auf dem Server dem echten Pfad:
+      context: /DATA/AppData/aufgabenliste
+      dockerfile: Dockerfile
+    image: aufgabenliste:latest
+    container_name: aufgabenliste
+    restart: unless-stopped
+
+    ports:
+      # links der Port auf deinem Server, rechts der im Container.
+      # 8090 frei wählbar – 8010 ist bei dir schon von WebHafen belegt.
+      - "8090:8080"
+
+    environment:
+      - TZ=Europe/Vienna
+      - PORT=8080
+      - DATEN=/app/daten
+      # Adresse für die Push-Dienste, falls es Rückfragen gibt.
+      - KONTAKT=mailto:herringerr912@gmail.com
+      # Optionaler Zugangsschlüssel für die API. Leer = offen im Tailnet.
+      # - ZUGANG=einLangesGeheimnis
+      # Nur nötig, wenn die Seite von einer anderen Adresse aus zugreifen soll:
+      # - ERLAUBTE_HERKUNFT=https://bastild.github.io
+
+    volumes:
+      # Ebenfalls absolut, aus demselben Grund wie oben.
+      - /DATA/AppData/aufgabenliste/daten:/app/daten
