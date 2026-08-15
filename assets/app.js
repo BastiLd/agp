@@ -1,11 +1,13 @@
-'use strict';
+﻿'use strict';
 
 const SYMBOLE = {
   websites: '\u{1F310}',
   'python-apps': '\u{1F40D}',
   'browser-extensions': '\u{1F9E9}',
   'desktop-apps': '\u{1F5A5}️',
-  'minecraft-mods': '\u{1F9F1}'
+  'minecraft-mods': '\u{1F9F1}',
+  'kartenbot-archiv': '\u{1F5C3}️',
+  'fremd-tools': '\u{1F9F0}'
 };
 
 const FARBEN = {
@@ -13,7 +15,9 @@ const FARBEN = {
   'python-apps': '#f0c14a',
   'browser-extensions': '#c084f5',
   'desktop-apps': '#4ad6c0',
-  'minecraft-mods': '#7cc45a'
+  'minecraft-mods': '#7cc45a',
+  'kartenbot-archiv': '#e0a13a',
+  'fremd-tools': '#8a93a8'
 };
 
 const zustand = {
@@ -127,13 +131,18 @@ function sichtbareProjekte() {
     ...(zustand.privat?.projekte || []).map((p) => ({ ...p, istPrivat: true }))
   ];
 
-  const suche = zustand.suche.trim().toLowerCase();
+  // In einzelne Wörter zerlegt statt als ein Stück Text verglichen: wer nicht
+  // den Titel kennt, sondern nur weiß "was mit Farben" oder "für Discord",
+  // soll trotzdem treffen — auch wenn diese Wörter im Text nicht nebeneinander
+  // stehen oder in anderer Reihenfolge vorkommen.
+  const woerter = zustand.suche.trim().toLowerCase().split(/\s+/).filter(Boolean);
 
   return alle.filter((p) => {
     if (p.besitzer !== zustand.person && p.besitzer !== 'beide') return false;
-    if (!suche) return true;
-    return [p.titel, p.kurz, p.beschreibung, ...(p.tech || [])]
-      .join(' ').toLowerCase().includes(suche);
+    if (!woerter.length) return true;
+    const text = [p.titel, p.kurz, p.beschreibung, ...(p.tech || [])]
+      .join(' ').toLowerCase();
+    return woerter.every((w) => text.includes(w));
   });
 }
 
@@ -179,7 +188,32 @@ function zeichnen() {
   }
 
   if (privat.length) {
-    privat.sort((a, b) => a.titel.localeCompare(b.titel, 'de'));
+    // Wie der öffentliche Bereich nach Kategorie unterteilt — dadurch stehen
+    // eigene Projekte (Websites) nicht im selben Topf wie z.B. das
+    // Kartenbot-Archiv oder heruntergeladene Fremd-Tools. Kategorien, die es
+    // nur im privaten Bereich gibt, kommen aus private.json und werden nach
+    // den öffentlichen angehängt.
+    const privatKategorien = { ...kategorien, ...(zustand.privat?.kategorien || {}) };
+    const privatReihenfolge = [...reihenfolge, ...Object.keys(zustand.privat?.kategorien || {})];
+    const privatGruppen = new Map();
+    for (const p of privat) {
+      if (!privatGruppen.has(p.kategorie)) privatGruppen.set(p.kategorie, []);
+      privatGruppen.get(p.kategorie).push(p);
+    }
+
+    const unterabschnitte = [];
+    for (const schluessel of privatReihenfolge) {
+      const liste = privatGruppen.get(schluessel);
+      if (!liste?.length) continue;
+      liste.sort((a, b) => a.titel.localeCompare(b.titel, 'de'));
+      const label = privatKategorien[schluessel]?.label || schluessel;
+      unterabschnitte.push(`
+        <div class="privat-untergruppe">
+          <h3 class="privat-untertitel">${escapeHtml(label)}</h3>
+          <div class="raster">${liste.map(kachelHtml).join('')}</div>
+        </div>`);
+    }
+
     teile.push(`
       <section class="gruppe gruppe-privat">
         <h2 class="gruppe-titel">
@@ -188,7 +222,7 @@ function zeichnen() {
           <span class="gruppe-anzahl">${privat.length} ${privat.length === 1 ? 'Projekt' : 'Projekte'}</span>
         </h2>
         <p class="gruppe-hinweis">Nur nach Eingabe des Passworts sichtbar. Der Code liegt nicht in diesem Repo.</p>
-        <div class="raster">${privat.map(kachelHtml).join('')}</div>
+        ${unterabschnitte.join('')}
       </section>`);
   }
 
@@ -229,7 +263,11 @@ function detailZeigen(id) {
   const p = projektFinden(id);
   if (!p) return;
 
-  const kat = zustand.daten.kategorien[p.kategorie]?.label || p.kategorie;
+  // Kategorien, die es nur im privaten Bereich gibt (z.B. "Fremd-Tools"),
+  // stehen nicht in zustand.daten — ohne den Zusammenschluss stünde hier der
+  // rohe Schlüssel statt der Bezeichnung.
+  const alleKategorien = { ...zustand.daten.kategorien, ...(zustand.privat?.kategorien || {}) };
+  const kat = alleKategorien[p.kategorie]?.label || p.kategorie;
   const url = liveAdresse(p);
 
   const knoepfe = [];

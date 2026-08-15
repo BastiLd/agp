@@ -256,7 +256,24 @@
     },
     "mediastack-regler": {
       "pfade": {},
-      "hinweis": "Kein lokaler Quellordner — Code aus dem Repo BastiLd/SeriesMoviesDownload."
+      "hinweis": "Kein lokaler Quellordner — Code aus dem Repo BastiLd/SeriesMoviesDownload.",
+      "externQuelle": {
+        "pfad": "E:\\AI\\BetterGitTorrent\\mediastack\\control-panel",
+        "hinweis": "Die echte lokale Quelle — liegt auf einem USB-Stick, der nicht immer eingesteckt ist. Deshalb nicht in pfade.BASTIAN_PC (Update-AGP.ps1 wuerde sonst bei jedem Lauf melden, dass die Quelle fehlt). Zum Nachziehen von Hand: Pfad im Werkzeug kopieren, Stick einstecken, dann Import-Projekt.ps1 darauf zeigen lassen."
+      }
+    },
+    "portablelm": {
+      "pfade": {
+        "BASTIAN_PC": "E:\\AI\\PortableLM-main\\PortableLM-main"
+      },
+      "ausschluss": [
+        "Shared/python",
+        "Shared/bin",
+        "Shared/chat_data",
+        "Shared/models/ollama_data",
+        "Shared/logs"
+      ],
+      "hinweis": "Fremdes Werkzeug, keine eigene Entwicklung — siehe DUPLIKATE.md. Ausgeschlossen: die mitgelieferte Python-Laufzeit und Engine-Binaries (Shared/python, Shared/bin — nicht eigener Code), heruntergeladene KI-Modelle (mehrere GB, faellt ohnehin unter die Groessengrenze), und Shared/chat_data — enthaelt echte private Chatverlaeufe."
     }
   },
   "ohneQuelle": [

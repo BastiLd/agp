@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kartenbot-Zeitleiste — AGP</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23e0a13a'/><text x='16' y='23' font-size='18' text-anchor='middle' fill='white'>🗃</text></svg>">
+<style>
+:root {
+  --bg: #0f1117; --bg-erhoben: #171a23; --bg-karte: #1c202b; --bg-karte-hover: #232839;
+  --rand: #2a3042; --text: #e9ecf3; --text-leise: #98a1b5;
+  --akzent: #e0a13a; --akzent-hell: #f0bf6e;
+  --schatten: 0 4px 24px rgba(0,0,0,.45); --radius: 14px;
+}
+[data-hell="1"] {
+  --bg: #f4f6fa; --bg-erhoben: #ffffff; --bg-karte: #ffffff; --bg-karte-hover: #eef3fb;
+  --rand: #d8dfeb; --text: #161a22; --text-leise: #5d6779;
+  --schatten: 0 4px 20px rgba(20,30,60,.10);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100vh; background: var(--bg); color: var(--text);
+  font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+a { color: inherit; }
+header.kopf {
+  padding: 1.75rem 1.25rem 1.25rem; text-align: center; position: relative;
+  border-bottom: 1px solid var(--rand);
+}
+.zurueck {
+  position: absolute; top: 1.1rem; left: 1.1rem;
+  font-size: .82rem; color: var(--text-leise); text-decoration: none;
+  display: inline-flex; align-items: center; gap: .3rem;
+}
+.zurueck:hover { color: var(--text); }
+.kopf h1 { margin: 0; font-size: 1.4rem; }
+.kopf p { margin: .4rem 0 0; color: var(--text-leise); font-size: .88rem; }
+.schloss-symbol { font-size: 1.4rem; }
+
+button {
+  font: inherit; cursor: pointer; border: 0; border-radius: 8px;
+  padding: .5rem .85rem; background: var(--akzent); color: #171208; font-weight: 600;
+}
+button.leise { background: var(--bg-karte); color: var(--text); border: 1px solid var(--rand); }
+button.leise[aria-pressed="true"] { background: color-mix(in srgb, var(--akzent) 22%, var(--bg-karte)); border-color: var(--akzent); color: var(--akzent-hell); }
+
+/* ---------- Passwort-Ansicht ---------- */
+#passwortAnsicht { max-width: 360px; margin: 3.5rem auto; padding: 0 1.25rem; text-align: center; }
+#passwortAnsicht input {
+  width: 100%; margin-top: 1rem; padding: .7rem .85rem; border-radius: 9px;
+  border: 1px solid var(--rand); background: var(--bg-karte); color: var(--text); font-size: 1rem;
+}
+#passwortAnsicht .fehler { color: #e07a7a; font-size: .85rem; margin-top: .6rem; min-height: 1.2em; }
+#passwortAnsicht button[type="submit"] { width: 100%; margin-top: .9rem; padding: .7rem; font-size: .95rem; }
+
+/* ---------- Werkzeugleiste ---------- */
+main { display: none; max-width: 980px; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+.werkzeugleiste {
+  display: flex; flex-wrap: wrap; gap: .6rem; align-items: center;
+  margin-bottom: 1.4rem; position: sticky; top: 0; background: var(--bg);
+  padding: .75rem 0; z-index: 5;
+}
+.suche-feld { position: relative; flex: 1; min-width: 180px; }
+.suche-feld input {
+  width: 100%; padding: .55rem .85rem .55rem 2.2rem; border-radius: 9px;
+  border: 1px solid var(--rand); background: var(--bg-karte); color: var(--text); font-size: .92rem;
+}
+.suche-feld svg { position: absolute; left: .7rem; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; opacity: .5; }
+.treffer-anzahl { font-size: .78rem; color: var(--text-leise); white-space: nowrap; }
+
+/* ---------- Mini-Zeitstrahl ---------- */
+.zeitstrahl { display: flex; align-items: center; gap: 2px; margin: 0 0 1.6rem; padding: 0 .1rem; }
+.zeitstrahl-punkt {
+  flex: 1; height: 5px; border-radius: 3px; background: var(--rand); cursor: pointer;
+  transition: background .15s, transform .15s;
+}
+.zeitstrahl-punkt.aktiv { background: var(--akzent); }
+.zeitstrahl-punkt:hover { transform: scaleY(1.6); }
+
+/* ---------- Liste / Kacheln ---------- */
+#staende.ansicht-kacheln { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px,1fr)); gap: .9rem; }
+#staende.ansicht-liste { display: flex; flex-direction: column; gap: .55rem; }
+
+.stand {
+  background: var(--bg-karte); border: 1px solid var(--rand); border-radius: var(--radius);
+  padding: 1rem 1.1rem; cursor: pointer; transition: background .15s, border-color .15s;
+}
+.stand:hover { background: var(--bg-karte-hover); border-color: color-mix(in srgb, var(--akzent) 40%, var(--rand)); }
+.stand-kopf { display: flex; justify-content: space-between; align-items: baseline; gap: .6rem; }
+.stand-nr { font-size: .72rem; color: var(--text-leise); font-variant-numeric: tabular-nums; }
+.stand-stufe { font-weight: 700; font-size: 1.02rem; margin: .15rem 0 .3rem; color: var(--akzent-hell); }
+.stand-datum { font-size: .8rem; color: var(--text-leise); white-space: nowrap; }
+.stand-beschreibung { font-size: .87rem; color: var(--text); opacity: .92; line-height: 1.45; margin: 0; }
+.stand-marken { display: flex; gap: .4rem; margin-top: .6rem; flex-wrap: wrap; }
+.marke { font-size: .68rem; padding: .16rem .45rem; border-radius: 5px; background: color-mix(in srgb, var(--text-leise) 16%, transparent); color: var(--text-leise); }
+
+.stand-details { display: none; margin-top: .8rem; padding-top: .8rem; border-top: 1px dashed var(--rand); }
+.stand.offen .stand-details { display: block; }
+.stand-details dl { margin: 0; font-size: .82rem; }
+.stand-details dt { color: var(--text-leise); margin-top: .5rem; }
+.stand-details dd { margin: .15rem 0 0; word-break: break-all; }
+.pfad-box {
+  display: flex; gap: .5rem; align-items: center; margin-top: .3rem;
+  background: var(--bg-erhoben); border: 1px solid var(--rand); border-radius: 7px; padding: .4rem .55rem;
+}
+.pfad-box code { flex: 1; font-size: .78rem; overflow-x: auto; white-space: nowrap; }
+.pfad-box button { padding: .3rem .6rem; font-size: .75rem; flex-shrink: 0; }
+
+.leer-hinweis { text-align: center; color: var(--text-leise); padding: 3rem 1rem; }
+.nur-vorlesen { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+footer.fuss { text-align: center; padding: 2rem 1rem; color: var(--text-leise); font-size: .8rem; }
+</style>
+</head>
+<body>
+
+<header class="kopf">
+  <a class="zurueck" href="index.html">&larr; Katalog</a>
+  <h1><span class="schloss-symbol" aria-hidden="true">🗃️</span> Kartenbot-Zeitleiste</h1>
+  <p>18 Entwicklungsstände, dedupliziert aus 41 verstreuten Backup-Kopien auf C:, D: und E:.</p>
+</header>
+
+<div id="passwortAnsicht">
+  <p>Diese Seite ist verschlüsselt. Dasselbe Passwort wie der private Bereich im Katalog.</p>
+  <form id="passwortForm">
+    <label class="nur-vorlesen" for="passwortEingabe">Passwort</label>
+    <input type="password" id="passwortEingabe" placeholder="Passwort" autocomplete="off" required>
+    <p class="fehler" id="passwortFehler" role="alert"></p>
+    <button type="submit">Entsperren</button>
+  </form>
+</div>
+
+<main id="inhalt">
+  <div class="werkzeugleiste">
+    <div class="suche-feld">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4.5-4.5"/></svg>
+      <input type="search" id="suche" placeholder="Suchen — Stufe, Beschreibung, Ordnername …" autocomplete="off">
+    </div>
+    <span class="treffer-anzahl" id="trefferAnzahl"></span>
+    <button class="leise" id="btnRichtung" title="Reihenfolge umkehren">Älteste zuerst</button>
+    <button class="leise" id="btnListe" aria-pressed="false">Liste</button>
+    <button class="leise" id="btnKacheln" aria-pressed="true">Kacheln</button>
+    <button class="leise" id="btnHell" aria-pressed="false" title="Hell/Dunkel unabhängig vom System umschalten">☀️ Hell</button>
+  </div>
+
+  <div class="zeitstrahl" id="zeitstrahl" aria-hidden="true"></div>
+
+  <div id="staende" class="ansicht-kacheln"></div>
+</main>
+
+<footer class="fuss">Nur lokal entschlüsselt im Browser — die Daten verlassen dieses Gerät nicht.</footer>
+
+<script>
+'use strict';
+
+function b64(s) { return Uint8Array.from(atob(s), c => c.charCodeAt(0)); }
+
+async function entschluesseln(passwort) {
+  const antwort = await fetch('data/kartenbot-zeitleiste.enc');
+  if (!antwort.ok) throw new Error('nicht gefunden');
+  const paket = await antwort.json();
+  const roh = new TextEncoder().encode(passwort);
+  const basis = await crypto.subtle.importKey('raw', roh, 'PBKDF2', false, ['deriveKey']);
+  const schluessel = await crypto.subtle.deriveKey(
+    { name: 'PBKDF2', salt: b64(paket.salt), iterations: paket.iterationen, hash: 'SHA-256' },
+    basis, { name: 'AES-GCM', length: 256 }, false, ['decrypt']
+  );
+  const klar = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(paket.iv) }, schluessel, b64(paket.daten));
+  return JSON.parse(new TextDecoder().decode(klar));
+}
+
+function escapeHtml(wert) {
+  return String(wert ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+const zustand = {
+  daten: null,
+  ansicht: localStorage.getItem('kb.ansicht') || 'kacheln',
+  richtungNeuZuerst: false,
+  hell: localStorage.getItem('kb.hell') === '1',
+  suche: '',
+  offen: new Set()
+};
+
+function anwenden() {
+  document.body.dataset.hell = zustand.hell ? '1' : '0';
+  document.querySelector('#btnHell').setAttribute('aria-pressed', String(zustand.hell));
+  document.querySelector('#btnHell').textContent = zustand.hell ? '🌙 Dunkel' : '☀️ Hell';
+}
+
+function gefiltert() {
+  const woerter = zustand.suche.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  let liste = zustand.daten.staende.filter(s => {
+    if (!woerter.length) return true;
+    const text = [s.stufe, s.beschreibung, s.originalname, s.datum].join(' ').toLowerCase();
+    return woerter.every(w => text.includes(w));
+  });
+  liste = [...liste].sort((a, b) => zustand.richtungNeuZuerst ? b.ordinal - a.ordinal : a.ordinal - b.ordinal);
+  return liste;
+}
+
+function standHtml(s) {
+  const offen = zustand.offen.has(s.ordinal);
+  return `
+    <article class="stand${offen ? ' offen' : ''}" data-ordinal="${s.ordinal}" tabindex="0" role="button" aria-expanded="${offen}">
+      <div class="stand-kopf">
+        <span class="stand-nr">#${String(s.ordinal).padStart(2,'0')}</span>
+        <span class="stand-datum">${escapeHtml(s.datum)}</span>
+      </div>
+      <h2 class="stand-stufe">${escapeHtml(s.stufe)}</h2>
+      <p class="stand-beschreibung">${escapeHtml(s.beschreibung)}</p>
+      <div class="stand-marken">
+        <span class="marke">${escapeHtml(s.groesse)}</span>
+        ${s.anzahlOrte > 1 ? `<span class="marke">${s.anzahlOrte}× gespiegelt gefunden</span>` : ''}
+      </div>
+      <div class="stand-details">
+        <dl>
+          <dt>Ursprünglicher Ordnername</dt>
+          <dd>${escapeHtml(s.originalname)}</dd>
+          <dt>Archiv-Ordner auf dem USB-Stick</dt>
+          <dd>
+            <div class="pfad-box">
+              <code>${escapeHtml(s.archivPfad)}</code>
+              <button type="button" class="pfad-kopieren" data-pfad="${escapeHtml(s.archivPfad)}">Pfad kopieren</button>
+            </div>
+          </dd>
+        </dl>
+      </div>
+    </article>`;
+}
+
+function zeichnen() {
+  const liste = gefiltert();
+  const behaelter = document.querySelector('#staende');
+  behaelter.className = zustand.ansicht === 'liste' ? 'ansicht-liste' : 'ansicht-kacheln';
+
+  document.querySelector('#trefferAnzahl').textContent = zustand.suche.trim()
+    ? `${liste.length} von ${zustand.daten.staende.length}`
+    : `${zustand.daten.staende.length} Stände`;
+
+  behaelter.innerHTML = liste.length
+    ? liste.map(standHtml).join('')
+    : '';
+  document.querySelector('#leerHinweis')?.remove();
+  if (!liste.length) {
+    const p = document.createElement('p');
+    p.id = 'leerHinweis';
+    p.className = 'leer-hinweis';
+    p.textContent = `Nichts gefunden für „${zustand.suche}".`;
+    behaelter.after(p);
+  }
+
+  // Zeitstrahl: ein Punkt je Stand in der ORIGINAL-Reihenfolge (unabhängig
+  // von Suche/Richtung), aktueller Filter farblich hervorgehoben.
+  const strahl = document.querySelector('#zeitstrahl');
+  const sichtbar = new Set(liste.map(s => s.ordinal));
+  strahl.innerHTML = zustand.daten.staende.map(s => `
+    <div class="zeitstrahl-punkt${sichtbar.has(s.ordinal) ? ' aktiv' : ''}"
+         data-ordinal="${s.ordinal}" title="#${s.ordinal} ${escapeHtml(s.stufe)}"></div>`).join('');
+
+  behaelter.querySelectorAll('.stand').forEach(el => {
+    el.addEventListener('click', (e) => {
+      if (e.target.closest('.pfad-kopieren')) return;
+      const nr = Number(el.dataset.ordinal);
+      zustand.offen.has(nr) ? zustand.offen.delete(nr) : zustand.offen.add(nr);
+      zeichnen();
+    });
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); }
+    });
+  });
+
+  behaelter.querySelectorAll('.pfad-kopieren').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+      e.stopPropagation();
+      const pfad = btn.dataset.pfad;
+      const alt = btn.textContent;
+      try {
+        await navigator.clipboard.writeText(pfad);
+        btn.textContent = 'Kopiert ✓';
+      } catch {
+        // navigator.clipboard verlangt einen fokussierten Tab und kann je nach
+        // Browser/Berechtigung verweigern. Rückfallweg: den Pfad markieren, damit
+        // von Hand mit Strg+C kopiert werden kann, statt nur "Fehlgeschlagen" zu zeigen.
+        const code = btn.previousElementSibling;
+        if (code) {
+          const bereich = document.createRange();
+          bereich.selectNodeContents(code);
+          const auswahl = window.getSelection();
+          auswahl.removeAllRanges();
+          auswahl.addRange(bereich);
+        }
+        btn.textContent = 'Markiert — Strg+C';
+      }
+      setTimeout(() => { btn.textContent = alt; }, 1800);
+    });
+  });
+
+  strahl.querySelectorAll('.zeitstrahl-punkt').forEach(p => {
+    p.addEventListener('click', () => {
+      const el = behaelter.querySelector(`.stand[data-ordinal="${p.dataset.ordinal}"]`);
+      if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.focus(); }
+    });
+  });
+}
+
+document.querySelector('#suche').addEventListener('input', (e) => {
+  zustand.suche = e.target.value;
+  zeichnen();
+});
+
+document.querySelector('#btnRichtung').addEventListener('click', () => {
+  zustand.richtungNeuZuerst = !zustand.richtungNeuZuerst;
+  document.querySelector('#btnRichtung').textContent = zustand.richtungNeuZuerst ? 'Neueste zuerst' : 'Älteste zuerst';
+  zeichnen();
+});
+
+document.querySelector('#btnListe').addEventListener('click', () => {
+  zustand.ansicht = 'liste'; localStorage.setItem('kb.ansicht', 'liste');
+  document.querySelector('#btnListe').setAttribute('aria-pressed', 'true');
+  document.querySelector('#btnKacheln').setAttribute('aria-pressed', 'false');
+  zeichnen();
+});
+document.querySelector('#btnKacheln').addEventListener('click', () => {
+  zustand.ansicht = 'kacheln'; localStorage.setItem('kb.ansicht', 'kacheln');
+  document.querySelector('#btnKacheln').setAttribute('aria-pressed', 'true');
+  document.querySelector('#btnListe').setAttribute('aria-pressed', 'false');
+  zeichnen();
+});
+document.querySelector('#btnHell').addEventListener('click', () => {
+  zustand.hell = !zustand.hell;
+  localStorage.setItem('kb.hell', zustand.hell ? '1' : '0');
+  anwenden();
+});
+
+document.querySelector('#passwortForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const fehler = document.querySelector('#passwortFehler');
+  fehler.textContent = '';
+  try {
+    zustand.daten = await entschluesseln(document.querySelector('#passwortEingabe').value);
+    document.querySelector('#passwortAnsicht').style.display = 'none';
+    document.querySelector('#inhalt').style.display = 'block';
+
+    if (zustand.ansicht === 'liste') {
+      document.querySelector('#btnListe').setAttribute('aria-pressed', 'true');
+      document.querySelector('#btnKacheln').setAttribute('aria-pressed', 'false');
+    }
+    zeichnen();
+  } catch {
+    fehler.textContent = 'Passwort stimmt nicht.';
+  }
+});
+
+anwenden();
+</script>
+</body>
+</html>

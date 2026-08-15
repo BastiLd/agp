@@ -2,6 +2,10 @@
 # Veröffentlicht wird ausschließlich die verschlüsselte data/private.enc
 /data/private.json
 
+# Dasselbe Prinzip für die Kartenbot-Zeitleiste — Klartext bleibt lokal,
+# veröffentlicht wird nur data/kartenbot-zeitleiste.enc
+/data/kartenbot-zeitleiste.json
+
 # Abhängigkeiten und Build-Ausgaben
 node_modules/
 .next/

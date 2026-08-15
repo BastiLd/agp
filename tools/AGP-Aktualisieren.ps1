@@ -91,6 +91,7 @@ $xaml = @'
     <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,12">
       <Button x:Name="btnPruefen" Content="Nachsehen, was sich geaendert hat"/>
       <Button x:Name="btnUebernehmen" Content="Uebernehmen" Margin="10,0,0,0" IsEnabled="False" Background="#C9762F"/>
+      <Button x:Name="btnExtern" Content="USB-Quellen" Margin="10,0,0,0" Background="#3A4258"/>
       <TextBlock x:Name="txtStatus" VerticalAlignment="Center" Margin="16,0,0,0" Foreground="#98A1B5" FontSize="12"/>
     </StackPanel>
 
@@ -135,6 +136,7 @@ $txtFuss        = $fenster.FindName('txtFuss')
 $scrollLog      = $fenster.FindName('scrollLog')
 $btnPruefen     = $fenster.FindName('btnPruefen')
 $btnUebernehmen = $fenster.FindName('btnUebernehmen')
+$btnExtern      = $fenster.FindName('btnExtern')
 $listeProjekte  = $fenster.FindName('listeProjekte')
 $chkHochladen   = $fenster.FindName('chkHochladen')
 $pwdPrivat      = $fenster.FindName('pwdPrivat')
@@ -339,6 +341,11 @@ $btnUebernehmen.Add_Click({
         Zeige-Hinweis 'Fertig. Zum Nachsehen noch einmal auf "Nachsehen" klicken.' '#55CF88'
         $btnUebernehmen.IsEnabled = $false
     }
+})
+
+$btnExtern.Add_Click({
+    $skript = Join-Path $PSScriptRoot 'Externe-Quellen.ps1'
+    Start-Process powershell.exe -ArgumentList '-NoProfile','-ExecutionPolicy','Bypass','-STA','-File',"`"$skript`"",'-Repo',"`"$Repo`""
 })
 
 [void]$fenster.ShowDialog()

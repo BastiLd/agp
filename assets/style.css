@@ -319,6 +319,17 @@ main {
   color: var(--text-leise);
 }
 
+.privat-untergruppe + .privat-untergruppe { margin-top: 1.75rem; }
+
+.privat-untertitel {
+  margin: 0 0 .7rem;
+  font-size: .88rem;
+  font-weight: 700;
+  color: var(--text-leise);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
 .meta-privat { color: var(--privat-hell); font-weight: 600; }
 
 .raster {
