@@ -138,6 +138,18 @@ Offen bleibt:
 - **Wunderwelten Reisen** — `C:\…\OneDrive - CHS Villach\Website Gemini`, Stand 12.06.2026 ist
   neuer als der Laptop-Stand im Katalog. Bewusst noch nicht ersetzt.
 
+## 6b. YouTube-Downloader — fehlt noch, vermutlich nur auf dem Laptop
+
+Gesucht auf diesem PC: `C:\Users\basti\Documents`, `Desktop`, `D:\Meine Projekte`, `D:\Cursour`,
+`E:\`. Kein eigenes Skript oder Projekt gefunden — nur ein `yt-dlp`-Cache-Ordner unter
+`C:\Users\basti\.cache\yt-dlp`, der von der YouTube-Kanal-Funktion in GHGFlix stammen dürfte
+(`youtube-sigfuncs`-Unterordner), nicht von einem eigenständigen Downloader.
+
+**Zu tun:** Am Laptop prüfen, ob es dort liegt. Falls ja: mit `tools\Import-Projekt.ps1`
+übernehmen wie jedes andere Projekt. Falls es nie existiert hat, kann Basti eines bauen lassen
+— Python mit `yt-dlp` als Kern, Links/Playlist-URLs einfügen, automatisch beste verfügbare
+Qualität (Video+Audio zusammengeführt).
+
 ## 7. Den OpenAI-Schlüssel zurückziehen
 
 In **Audio zu Text** lag ein gültiger OpenAI-API-Schlüssel im Klartext — in zwei Python-Dateien
