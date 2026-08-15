@@ -138,17 +138,34 @@ Offen bleibt:
 - **Wunderwelten Reisen** — `C:\…\OneDrive - CHS Villach\Website Gemini`, Stand 12.06.2026 ist
   neuer als der Laptop-Stand im Katalog. Bewusst noch nicht ersetzt.
 
-## 6b. YouTube-Downloader — fehlt noch, vermutlich nur auf dem Laptop
+## 6b. YouTube-Downloader — gefunden, aber kein eigenes Projekt
 
-Gesucht auf diesem PC: `C:\Users\basti\Documents`, `Desktop`, `D:\Meine Projekte`, `D:\Cursour`,
+Auf dem PC gesucht und nichts gefunden (siehe unten). Am **Laptop** jetzt gefunden:
+
+**`OneDrive - CHS Villach (1)\Privat\yt-dlp`** (in **Mijos** Ordner) — enthält `yt-dlp.exe`,
+`ffmpeg.exe`, `ffprobe.exe` und zwei Notizen (`yt-dlp.txt`, `how-to-webm-to-mp4.txt`).
+
+**Das ist kein selbst geschriebener Downloader**, sondern eine Zusammenstellung fertiger
+Programme (yt-dlp + ffmpeg als `.exe`) plus persönlicher Notizen dazu, wie man sie benutzt.
+Kein Code, den Mijo oder Basti selbst geschrieben haben — gehört damit **nicht** in den
+Katalog, genau wie die anderen Fremd-Tools in `DUPLIKATE.md`.
+
+**Blockiert von demselben Problem wie Mijos übrige Privat-Dateien** (siehe Punkt 1): der
+Ordner ist über die Freigabe *nicht* sichtbar, weil er in `Privat\` liegt und Mijo diesen
+Bereich noch nicht freigegeben hat. Die beiden `.txt`-Dateien (je unter 500 Byte) sind daher
+aktuell nicht lesbar — nur Namen und Dateigrößen sind über die Cloud-Metadaten sichtbar.
+
+Auf dem PC gesucht: `C:\Users\basti\Documents`, `Desktop`, `D:\Meine Projekte`, `D:\Cursour`,
 `E:\`. Kein eigenes Skript oder Projekt gefunden — nur ein `yt-dlp`-Cache-Ordner unter
 `C:\Users\basti\.cache\yt-dlp`, der von der YouTube-Kanal-Funktion in GHGFlix stammen dürfte
 (`youtube-sigfuncs`-Unterordner), nicht von einem eigenständigen Downloader.
 
-**Zu tun:** Am Laptop prüfen, ob es dort liegt. Falls ja: mit `tools\Import-Projekt.ps1`
-übernehmen wie jedes andere Projekt. Falls es nie existiert hat, kann Basti eines bauen lassen
-— Python mit `yt-dlp` als Kern, Links/Playlist-URLs einfügen, automatisch beste verfügbare
-Qualität (Video+Audio zusammengeführt).
+**Zu tun, falls gewünscht:** Sobald Mijo `Privat\yt-dlp` freigibt, die zwei Notizen lesen —
+falls darin eigene Befehle/Parameter stehen, gehören die als kurze Anleitung ins Katalog-README,
+nicht als eigenes Projekt (es ist ja kein eigener Code). Falls stattdessen ein **eigener**
+Downloader gewünscht ist: Python mit `yt-dlp` als Bibliothek (nicht nur die `.exe`), Links/
+Playlist-URLs einfügen, automatisch beste verfügbare Qualität (Video+Audio zusammengeführt) —
+ähnlich aufgebaut wie der vorhandene **Mediathek-Downloader**.
 
 ## 7. Den OpenAI-Schlüssel zurückziehen
 
