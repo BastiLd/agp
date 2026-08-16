@@ -231,8 +231,10 @@
     },
     "montrigor-site": {
       "pfade": {
-        "BASTIAN_PC": "C:\\Users\\basti\\Documents\\Websites\\montrigor-site"
-      }
+        "BASTIAN_PC": "C:\\Users\\basti\\Documents\\Websites\\montrigor-site",
+        "BASTI-LAPTOP": "C:\\Users\\basti\\OneDrive - CHS Villach\\Attachments\\Websites\\montrigor-site"
+      },
+      "hinweis": "Liegt im privaten Repo agp-privat, nicht in diesem Repo. Laptop-Pfad am 16.08.2026 gefunden (index.php vom 30.07.2026) — noch nicht mit dem Stand in agp-privat abgeglichen, das muesste jemand mit Zugriff auf beide Rechner einmal pruefen."
     },
     "avocado-at-law": {
       "pfade": {
