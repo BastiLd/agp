@@ -1157,6 +1157,34 @@
       "live": null,
       "liveHinweis": "Lokaler Server — START-SERVER.cmd doppelklicken, dann localhost:8090. Details in EINRICHTUNG.md.",
       "stand": "2026-08-17"
+    },
+    {
+      "id": "everything-self",
+      "titel": "Everything Self",
+      "besitzer": "basti",
+      "kategorie": "desktop-apps",
+      "kurz": "Eigene Oberfläche für Dateisuche in Everything-Geschwindigkeit plus Programmverwaltung",
+      "beschreibung": "Eine WPF-Oberfläche mit drei Bereichen: Dateisuche über den Index des laufenden Everything-Prozesses (komplette Everything-Syntax, Mehrfachauswahl, gemeinsames Löschen in den Papierkorb), eine Liste aller installierten Programme aus der Registry mit automatischer Resterkennung nach der Deinstallation, und eine Übersicht aller Edge-/WebView2-Bestandteile mit Erklärung zu jeder Aktion. Spricht Everything über dessen öffentlich dokumentierte Fensterschnittstelle (WM_COPYDATA) an — kein Everything-Quellcode, keine Everything64.dll nötig. Läuft bewusst ohne Administratorrechte; privilegierte Eingriffe laufen in einem kurzlebigen erhöhten Kindprozess mit vorheriger Klartext-Anzeige der Befehle.",
+      "tech": ["C#", ".NET 6", "WPF", "Win32 Interop", "Windows Registry"],
+      "pfad": "projects/basti/desktop-apps/everything-self",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Windows-Desktop-App — dotnet run --project \"EverythingSelf.App\". Braucht ein laufendes Everything von voidtools.",
+      "stand": "2026-08-13"
+    },
+    {
+      "id": "manim-online",
+      "titel": "Manim Online",
+      "besitzer": "basti",
+      "kategorie": "python-apps",
+      "kurz": "Sammlung eigener Mathe-Animationen mit Manim, dazu ein KI-Suchwerkzeug",
+      "beschreibung": "Eine gewachsene Sammlung von Python-Skripten rund um die Animationsbibliothek Manim (dieselbe, mit der 3Blue1Brown seine Mathe-Videos macht) — Textanimationen, geometrische Konstruktionen, kleine Quiz-Szenen und Schulmathe-Beispiele. Im Unterordner „Search Programm\" außerdem ein eigenständiges Werkzeug: eine Desktop-Suchleiste, die Anfragen an ChatGPT bzw. andere KI-Dienste weiterreicht und die Antwort direkt am Bildschirmrand einblendet.",
+      "tech": ["Python", "Manim", "LaTeX"],
+      "pfad": "projects/basti/python-apps/manim-online",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Einzelne Szenen rendern: manim -pql \"Datei.py\" KlassenName",
+      "stand": "2026-05-27"
     }
   ]
 }

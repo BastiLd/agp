@@ -143,6 +143,23 @@ PC-Kopien liegt `kartenbot.db` mit echten Discord-Nutzerdaten — der Ordner
 `Discord Bot änderungen für ZimaOS mit gehaltenen Nutzer daten` sagt das schon im Namen.
 Diese Datenbanken wurden nicht übernommen.
 
+**Nachtrag vom 16.08.2026 — möglicherweise verlorene Arbeit:** In
+`…\Attachments\Discord Bot - Kopie` (Laptop, Zeile 3 oben) steckt zwar ein Commit-Stand von
+Februar, **aber im Arbeitsverzeichnis liegen unveröffentlichte Änderungen**, die es sonst
+nirgends gibt — auch nicht in einer der anderen acht Kopien:
+
+- `bot.py`: +1233/−… Zeilen
+- `karten.py`: +47
+- `services/battle.py`: +65
+- `services/db.py`: +18
+- `tests/test_combat_rules.py`: **komplett neu, 499 Zeilen**
+
+Diese Änderungen wurden nie committet, liegen aber auf einer sechs Monate alten
+Codebasis auf — direkt in den heutigen Stand übernehmen würde vermutlich nicht sauber
+zusammenpassen. **Nicht automatisch übernommen.** Falls darin etwas Brauchbares steckt
+(die Testdatei sieht am ehesten danach aus), müsste jemand das von Hand mit dem
+aktuellen `kartenbot`-Stand vergleichen. Der Ordner wurde nicht verändert.
+
 ## 8. Plex Transfer — sechs Kopien
 
 | Ort | Stand |

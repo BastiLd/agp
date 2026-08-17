@@ -231,8 +231,10 @@
     },
     "montrigor-site": {
       "pfade": {
-        "BASTIAN_PC": "C:\\Users\\basti\\Documents\\Websites\\montrigor-site"
-      }
+        "BASTIAN_PC": "C:\\Users\\basti\\Documents\\Websites\\montrigor-site",
+        "BASTI-LAPTOP": "C:\\Users\\basti\\OneDrive - CHS Villach\\Attachments\\Websites\\montrigor-site"
+      },
+      "hinweis": "Liegt im privaten Repo agp-privat, nicht in diesem Repo. Laptop-Pfad am 16.08.2026 gefunden (index.php vom 30.07.2026) — noch nicht mit dem Stand in agp-privat abgeglichen, das muesste jemand mit Zugriff auf beide Rechner einmal pruefen."
     },
     "avocado-at-law": {
       "pfade": {
@@ -251,8 +253,10 @@
       "hinweis": "Kein lokaler Quellordner — der Code kommt aus dem Repo BastiLd/colored-in. lib/supabase.js enthaelt einen Supabase-anon-Schluessel; der ist als oeffentlicher Client-Schluessel gedacht (Schutz laeuft ueber Row-Level-Security) und steht ohnehin oeffentlich im Repo, deshalb ausdruecklich freigegeben."
     },
     "mvd-web": {
-      "pfade": {},
-      "hinweis": "Kein lokaler Quellordner — Code aus dem Repo BastiLd/mvd-web."
+      "pfade": {
+        "BASTI-LAPTOP": "C:\\Users\\basti\\OneDrive\\WEB\\MVD Web"
+      },
+      "hinweis": "Auf dem Laptop liegt die eigentliche Arbeitskopie mit .git (Repo BastiLd/mvd-web) in Bastis PERSÖNLICHEM OneDrive (nicht dem Schul-OneDrive) — Ordner \"OneDrive\" ohne Zusatz."
     },
     "mediastack-regler": {
       "pfade": {},
@@ -275,9 +279,16 @@
       ],
       "hinweis": "Fremdes Werkzeug, keine eigene Entwicklung — siehe DUPLIKATE.md. Ausgeschlossen: die mitgelieferte Python-Laufzeit und Engine-Binaries (Shared/python, Shared/bin — nicht eigener Code), heruntergeladene KI-Modelle (mehrere GB, faellt ohnehin unter die Groessengrenze), und Shared/chat_data — enthaelt echte private Chatverlaeufe."
     },
+    "everything-self": {
+      "pfade": {
+        "BASTI-LAPTOP": "C:\\Users\\basti\\OneDrive\\Apps\\Everything self"
+      },
+      "hinweis": "Bastis PERSÖNLICHEM OneDrive (nicht dem Schul-OneDrive) — Ordner \"OneDrive\" ohne Zusatz, Unterordner \"Apps\". Kein GitHub-Repo. Ausgeschlossen: shortcuts.db (Zugangsdaten, von Import-Projekt.ps1 erkannt), bin/obj-Build-Ausgaben."
+    },
     "aufgabenliste": {
       "pfade": {
-        "BASTIAN_PC": "C:\\Users\\basti\\OneDrive\\Apps\\ToDo 15082026 bis 26082026"
+        "BASTIAN_PC": "C:\\Users\\basti\\OneDrive\\Apps\\ToDo 15082026 bis 26082026",
+        "BASTI-LAPTOP": "C:\\Users\\basti\\OneDrive\\Apps\\ToDo 15082026 bis 26082026"
       },
       "ausschluss": [
         "daten",
@@ -288,7 +299,13 @@
       "trotzdemMitnehmen": [
         "website/assets/js/app.js"
       ],
-      "hinweis": "website/assets/js/kontakte.js bleibt IMMER draussen — enthaelt echte Namen und Telefonnummern von Nachbarn und Familie (Datei warnt im Kopf selbst davor). app.js wird trotz Treffer der Personendaten-Pruefung mitgenommen: der Treffer ist ein Beispiel-Format in einem Kommentar (\"0650 1234567\"), keine echte Nummer, von Hand geprueft. daten/ enthaelt den persoenlichen Aufgabenstand, Leitfaden/ die private xlsx/pdf/Fotos, Aufgabenliste-Server/ ist ein byte-identisches Bundle des Wurzelordners."
+      "hinweis": "website/assets/js/kontakte.js bleibt IMMER draussen — enthaelt echte Namen und Telefonnummern von Nachbarn und Familie (Datei warnt im Kopf selbst davor). Ein frueherer Lauf auf dem Laptop hatte das uebersehen und die Datei kurzzeitig oeffentlich gepusht (siehe DUPLIKATE.md) — deshalb jetzt zusaetzlich eine Personendaten-Pruefung in AGP-Regeln.ps1. app.js wird trotz Treffer dieser Pruefung mitgenommen: der Treffer ist ein Beispiel-Format in einem Kommentar (\"0650 1234567\"), keine echte Nummer, von Hand geprueft. daten/ enthaelt den persoenlichen Aufgabenstand, Leitfaden/ die private xlsx/pdf/Fotos, Aufgabenliste-Server/ ist ein byte-identisches Bundle des Wurzelordners (Ordner ist ueber Bastis persoenliches OneDrive synchronisiert, deshalb auf PC und Laptop derselbe Pfad)."
+    },
+    "manim-online": {
+      "pfade": {
+        "BASTI-LAPTOP": "C:\\Users\\basti\\OneDrive\\Manim Online"
+      },
+      "hinweis": "Bastis persönlichem OneDrive-Stamm. Kein GitHub-Repo. Ausgeschlossen: shortcuts.db (Zugangsdaten), .idea/.vscode, __pycache__, gerenderte Videos (media/ enthält nur die kleinen Zwischendateien von Manims LaTeX/SVG-Rendering, keine fertigen Videos)."
     }
   },
   "ohneQuelle": [

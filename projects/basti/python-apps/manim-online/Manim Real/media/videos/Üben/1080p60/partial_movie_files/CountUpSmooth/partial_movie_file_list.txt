@@ -1,0 +1,4 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Üben/1080p60/partial_movie_files/CountUpSmooth/3977891868_2367812078_3105627497.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Üben/1080p60/partial_movie_files/CountUpSmooth/2852726489_2642064809_3459770298.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Üben/1080p60/partial_movie_files/CountUpSmooth/2852726489_255102487_1451784077.mp4'

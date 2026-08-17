@@ -1,0 +1,165 @@
+﻿<UserControl x:Class="EverythingSelf.App.Views.SearchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:common="clr-namespace:EverythingSelf.App.Common"
+             Background="{StaticResource WindowBackground}">
+
+    <UserControl.Resources>
+        <common:SizeConverter x:Key="SizeConverter" />
+        <common:DateConverter x:Key="DateConverter" />
+        <common:EmptyStringToVisibilityConverter x:Key="TextToVisibility" />
+        <common:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+    </UserControl.Resources>
+
+    <Grid Margin="20,16,20,16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Hinweis, wenn Everything nicht erreichbar ist -->
+        <Border Grid.Row="0"
+                Background="#33E0A44A"
+                BorderBrush="{StaticResource WarningBrush}"
+                BorderThickness="1"
+                CornerRadius="6"
+                Padding="14,10"
+                Margin="0,0,0,12"
+                Visibility="{Binding ConnectionWarning, Converter={StaticResource TextToVisibility}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{Binding ConnectionWarning}" TextWrapping="Wrap" VerticalAlignment="Center" />
+                <Button Grid.Column="1"
+                        Content="Everything starten"
+                        Margin="14,0,0,0"
+                        Command="{Binding StartEverythingCommand}" />
+            </Grid>
+        </Border>
+
+        <!-- Suchfeld -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox x:Name="QueryBox"
+                     Text="{Binding Query, UpdateSourceTrigger=PropertyChanged, Delay=0}"
+                     FontSize="15"
+                     Padding="12,9" />
+
+            <Button Grid.Column="1"
+                    Content="Hilfe zur Suchsyntax"
+                    Margin="10,0,0,0"
+                    Click="OnSyntaxHelpClick" />
+        </Grid>
+
+        <!-- Optionen -->
+        <WrapPanel Grid.Row="2" Margin="0,12,0,0" Orientation="Horizontal">
+            <CheckBox Content="Pfad durchsuchen" IsChecked="{Binding MatchPath}" Margin="0,0,20,0" />
+            <CheckBox Content="Groß-/Kleinschreibung" IsChecked="{Binding MatchCase}" Margin="0,0,20,0" />
+            <CheckBox Content="Regulärer Ausdruck" IsChecked="{Binding UseRegex}" Margin="0,0,20,0" />
+            <CheckBox Content="Duplikate ausblenden" IsChecked="{Binding HideDuplicates}" Margin="0,0,6,0" />
+            <Button Style="{StaticResource InfoButton}"
+                    Margin="0,0,20,0"
+                    Click="OnDuplicateInfoClick" />
+
+            <TextBlock Text="Anzeigen:" Style="{StaticResource CaptionText}" VerticalAlignment="Center" Margin="0,0,6,0" />
+            <ComboBox ItemsSource="{Binding Limits}"
+                      SelectedItem="{Binding SelectedLimit}"
+                      MinWidth="130"
+                      Margin="0,0,16,0" />
+
+            <TextBlock Text="Sortierung:" Style="{StaticResource CaptionText}" VerticalAlignment="Center" Margin="0,0,6,0" />
+            <ComboBox ItemsSource="{Binding Sorts}"
+                      SelectedItem="{Binding SelectedSort}"
+                      MinWidth="190" />
+        </WrapPanel>
+
+        <ProgressBar Grid.Row="3"
+                     Margin="0,12,0,0"
+                     IsIndeterminate="True"
+                     Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}" />
+
+        <!-- Ergebnisliste -->
+        <DataGrid x:Name="ResultsGrid"
+                  Grid.Row="4"
+                  Margin="0,12,0,0"
+                  ItemsSource="{Binding Results}"
+                  CanUserSortColumns="False"
+                  MouseDoubleClick="OnResultDoubleClick">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="2.2*" />
+                <DataGridTextColumn Header="Pfad" Binding="{Binding Directory}" Width="3*" />
+                <DataGridTextColumn Header="Größe"
+                                    Binding="{Binding Size, Converter={StaticResource SizeConverter}}"
+                                    Width="100" />
+                <DataGridTextColumn Header="Geändert am"
+                                    Binding="{Binding Modified, Converter={StaticResource DateConverter}}"
+                                    Width="140" />
+                <DataGridTextColumn Header="Typ" Binding="{Binding TypeLabel}" Width="80" />
+            </DataGrid.Columns>
+
+            <!--
+                Das Kontextmenü liegt in einem eigenen Namescope. Die Auswahl wird
+                deshalb über PlacementTarget geholt, nicht über ElementName.
+            -->
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Öffnen"
+                              Command="{Binding OpenCommand}"
+                              CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                    <MenuItem Header="Ordner öffnen"
+                              Command="{Binding OpenFolderCommand}"
+                              CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                    <MenuItem Header="Pfad kopieren"
+                              Command="{Binding CopyPathCommand}"
+                              CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                    <Separator />
+                    <MenuItem Header="In den Papierkorb"
+                              Command="{Binding RecycleCommand}"
+                              CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                    <MenuItem Header="Endgültig löschen"
+                              Command="{Binding DeleteCommand}"
+                              CommandParameter="{Binding PlacementTarget.SelectedItems, RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+
+        <!-- Fußzeile mit Status und Aktionen -->
+        <Grid Grid.Row="5" Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="{Binding StatusText}"
+                       Style="{StaticResource CaptionText}"
+                       VerticalAlignment="Center"
+                       TextTrimming="CharacterEllipsis" />
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Content="Ordner öffnen"
+                        Margin="0,0,8,0"
+                        Command="{Binding OpenFolderCommand}"
+                        CommandParameter="{Binding SelectedItems, ElementName=ResultsGrid}" />
+                <Button Content="Pfad kopieren"
+                        Margin="0,0,8,0"
+                        Command="{Binding CopyPathCommand}"
+                        CommandParameter="{Binding SelectedItems, ElementName=ResultsGrid}" />
+                <Button Content="In den Papierkorb"
+                        Style="{StaticResource DangerButton}"
+                        Command="{Binding RecycleCommand}"
+                        CommandParameter="{Binding SelectedItems, ElementName=ResultsGrid}" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

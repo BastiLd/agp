@@ -1,0 +1,134 @@
+﻿<UserControl x:Class="EverythingSelf.App.Views.UninstallView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:common="clr-namespace:EverythingSelf.App.Common"
+             Background="{StaticResource WindowBackground}">
+
+    <UserControl.Resources>
+        <common:SizeConverter x:Key="SizeConverter" />
+        <common:DateOnlyConverter x:Key="DateOnlyConverter" />
+        <common:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+    </UserControl.Resources>
+
+    <Grid Margin="20,16,20,16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Kopfzeile -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}"
+                     Padding="10,7" />
+
+            <Button Grid.Column="1"
+                    Content="Auswahl aufheben"
+                    Margin="10,0,0,0"
+                    Command="{Binding SelectNoneCommand}" />
+
+            <Button Grid.Column="2"
+                    Content="Neu einlesen"
+                    Margin="8,0,0,0"
+                    Command="{Binding RefreshCommand}" />
+        </Grid>
+
+        <WrapPanel Grid.Row="1" Margin="0,12,0,0">
+            <CheckBox Content="Still deinstallieren, wo möglich"
+                      IsChecked="{Binding PreferSilent}"
+                      Margin="0,0,6,0" />
+            <Button Style="{StaticResource InfoButton}"
+                    Margin="0,0,20,0"
+                    Click="OnSilentInfoClick" />
+
+            <TextBlock Text="{Binding CountSummary}"
+                       Style="{StaticResource CaptionText}"
+                       VerticalAlignment="Center" />
+        </WrapPanel>
+
+        <!-- Programmliste -->
+        <DataGrid x:Name="ProgramsGrid"
+                  Grid.Row="2"
+                  Margin="0,12,0,0"
+                  ItemsSource="{Binding View}"
+                  SelectionMode="Single"
+                  CanUserSortColumns="True">
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="42" CanUserSort="False">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="" />
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
+                                      HorizontalAlignment="Center"
+                                      Checked="OnSelectionToggled"
+                                      Unchecked="OnSelectionToggled" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Header="Programm"
+                                    Binding="{Binding DisplayName}"
+                                    SortMemberPath="DisplayName"
+                                    Width="3*" />
+                <DataGridTextColumn Header="Version"
+                                    Binding="{Binding DisplayVersion}"
+                                    Width="130" />
+                <DataGridTextColumn Header="Hersteller"
+                                    Binding="{Binding Publisher}"
+                                    Width="1.7*" />
+                <DataGridTextColumn Header="Größe"
+                                    Binding="{Binding EstimatedSize, Converter={StaticResource SizeConverter}}"
+                                    SortMemberPath="EstimatedSize"
+                                    Width="95" />
+                <DataGridTextColumn Header="Installiert"
+                                    Binding="{Binding InstallDate, Converter={StaticResource DateOnlyConverter}}"
+                                    SortMemberPath="InstallDate"
+                                    Width="130" />
+                <DataGridTextColumn Header="Gilt für"
+                                    Binding="{Binding ScopeLabel}"
+                                    Width="150" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Fußzeile -->
+        <Grid Grid.Row="3" Margin="0,12,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <ProgressBar Grid.Row="0" Grid.ColumnSpan="2"
+                         Value="{Binding Progress, Mode=OneWay}"
+                         Maximum="100"
+                         Margin="0,0,0,10"
+                         Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}" />
+
+            <StackPanel Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">
+                <TextBlock Text="{Binding SelectionSummary}" />
+                <TextBlock Text="{Binding StatusText}"
+                           Style="{StaticResource CaptionText}"
+                           TextTrimming="CharacterEllipsis" />
+            </StackPanel>
+
+            <Button Grid.Row="1" Grid.Column="1"
+                    Content="Ausgewählte deinstallieren"
+                    Style="{StaticResource DangerButton}"
+                    MinWidth="220"
+                    Command="{Binding UninstallCommand}" />
+        </Grid>
+    </Grid>
+</UserControl>

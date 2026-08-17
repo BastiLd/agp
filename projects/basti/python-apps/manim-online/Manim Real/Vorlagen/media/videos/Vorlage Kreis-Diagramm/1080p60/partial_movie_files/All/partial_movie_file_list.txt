@@ -1,0 +1,6 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/Vorlagen/media/videos/Vorlage Kreis-Diagramm/1080p60/partial_movie_files/All/3977891868_1094145777_223132457.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/Vorlagen/media/videos/Vorlage Kreis-Diagramm/1080p60/partial_movie_files/All/2852726489_3890345977_1551031613.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/Vorlagen/media/videos/Vorlage Kreis-Diagramm/1080p60/partial_movie_files/All/2852726489_3781756501_3029384896.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/Vorlagen/media/videos/Vorlage Kreis-Diagramm/1080p60/partial_movie_files/All/2852726489_2557803063_4010548313.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/Vorlagen/media/videos/Vorlage Kreis-Diagramm/1080p60/partial_movie_files/All/2852726489_3257661881_64033226.mp4'

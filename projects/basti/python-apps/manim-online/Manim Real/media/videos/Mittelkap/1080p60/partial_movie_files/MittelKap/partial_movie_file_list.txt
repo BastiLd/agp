@@ -1,0 +1,10 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Mittelkap/1080p60/partial_movie_files/MittelKap/2459269014_2132487747_223132457.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Mittelkap/1080p60/partial_movie_files/MittelKap/853336700_4122663642_3362834651.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Mittelkap/1080p60/partial_movie_files/MittelKap/853336700_1719371664_2774163656.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Mittelkap/1080p60/partial_movie_files/MittelKap/853336700_1141282389_4095258092.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Mittelkap/1080p60/partial_movie_files/MittelKap/853336700_1419054526_4147941763.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Mittelkap/1080p60/partial_movie_files/MittelKap/853336700_2226754432_1405332433.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Mittelkap/1080p60/partial_movie_files/MittelKap/853336700_1141282389_3246276687.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Mittelkap/1080p60/partial_movie_files/MittelKap/853336700_2848275655_3743721325.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Mittelkap/1080p60/partial_movie_files/MittelKap/853336700_3636024140_1750435031.mp4'

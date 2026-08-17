@@ -1,0 +1,6 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Üben/1080p60/partial_movie_files/New/3977891868_244262550_223132457.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Üben/1080p60/partial_movie_files/New/2852726489_1425478608_3016092746.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Üben/1080p60/partial_movie_files/New/2852726489_2144378136_1535104463.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Üben/1080p60/partial_movie_files/New/2852726489_3868996776_1960710247.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Üben/1080p60/partial_movie_files/New/2852726489_2475379470_770149997.mp4'

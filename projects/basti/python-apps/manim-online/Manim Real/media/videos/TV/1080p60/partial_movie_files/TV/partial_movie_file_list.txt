@@ -1,0 +1,4 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/TV/1080p60/partial_movie_files/TV/uncached_00000.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/TV/1080p60/partial_movie_files/TV/uncached_00001.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/TV/1080p60/partial_movie_files/TV/uncached_00002.mp4'

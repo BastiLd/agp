@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+    <LangVersion>10.0</LangVersion>
+    <PlatformTarget>x64</PlatformTarget>
+    <RootNamespace>EverythingSelf.App</RootNamespace>
+    <AssemblyName>EverythingSelf</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <AssemblyTitle>Everything Self</AssemblyTitle>
+    <Product>Everything Self</Product>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EverythingSelf.Core\EverythingSelf.Core.csproj" />
+  </ItemGroup>
+
+</Project>

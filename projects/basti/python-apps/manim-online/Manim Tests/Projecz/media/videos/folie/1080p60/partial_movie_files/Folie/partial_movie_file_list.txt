@@ -1,0 +1,10 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/Projecz/media/videos/folie/1080p60/partial_movie_files/Folie/3977891868_1388164371_223132457.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/Projecz/media/videos/folie/1080p60/partial_movie_files/Folie/2852726489_125563217_1503924202.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/Projecz/media/videos/folie/1080p60/partial_movie_files/Folie/2852726489_3354651481_1253351590.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/Projecz/media/videos/folie/1080p60/partial_movie_files/Folie/2852726489_2837999048_4286662811.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/Projecz/media/videos/folie/1080p60/partial_movie_files/Folie/2852726489_3947270388_2062439268.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/Projecz/media/videos/folie/1080p60/partial_movie_files/Folie/2852726489_234394863_4001385364.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/Projecz/media/videos/folie/1080p60/partial_movie_files/Folie/2852726489_1141282389_2723978406.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/Projecz/media/videos/folie/1080p60/partial_movie_files/Folie/2852726489_1712267516_1324103165.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/Projecz/media/videos/folie/1080p60/partial_movie_files/Folie/2852726489_2475379470_1995945431.mp4'

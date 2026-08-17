@@ -1,0 +1,57 @@
+﻿<Window x:Class="EverythingSelf.App.Dialogs.InfoDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Erklärung"
+        Width="640"
+        SizeToContent="Height"
+        MaxHeight="760"
+        MinWidth="480"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResize"
+        ShowInTaskbar="False"
+        Background="{StaticResource WindowBackground}">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="HeadingBlock"
+                   Style="{StaticResource HeadingText}"
+                   FontSize="18"
+                   TextWrapping="Wrap"
+                   Margin="0,0,0,16" />
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" MaxHeight="560">
+            <StackPanel x:Name="SectionHost" />
+        </ScrollViewer>
+
+        <Grid Grid.Row="2" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0"
+                       Style="{StaticResource CaptionText}"
+                       VerticalAlignment="Center"
+                       Text="Text lässt sich markieren (Strg+A, Strg+C) oder komplett kopieren." />
+
+            <Button Grid.Column="1"
+                    Content="Alles kopieren"
+                    MinWidth="140"
+                    Margin="0,0,10,0"
+                    Click="OnCopyAllClick" />
+
+            <Button Grid.Column="2"
+                    Content="Schließen"
+                    MinWidth="110"
+                    IsDefault="True"
+                    IsCancel="True"
+                    Click="OnCloseClick" />
+        </Grid>
+    </Grid>
+</Window>

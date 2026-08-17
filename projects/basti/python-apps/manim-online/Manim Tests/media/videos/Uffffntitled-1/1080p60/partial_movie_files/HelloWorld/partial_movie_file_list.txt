@@ -1,0 +1,7 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/media/videos/Uffffntitled-1/1080p60/partial_movie_files/HelloWorld/624744031_187664589_223132457.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/media/videos/Uffffntitled-1/1080p60/partial_movie_files/HelloWorld/3080717092_3423582505_1055941701.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/media/videos/Uffffntitled-1/1080p60/partial_movie_files/HelloWorld/3080717092_1497467440_622152575.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/media/videos/Uffffntitled-1/1080p60/partial_movie_files/HelloWorld/3080717092_2542338236_622152575.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/media/videos/Uffffntitled-1/1080p60/partial_movie_files/HelloWorld/3080717092_3878067401_131676761.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Tests/media/videos/Uffffntitled-1/1080p60/partial_movie_files/HelloWorld/3080717092_3438219438_3949194804.mp4'

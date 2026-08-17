@@ -1,0 +1,9 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Papa/1080p60/partial_movie_files/Papa1/3977891868_910469119_223132457.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Papa/1080p60/partial_movie_files/Papa1/2852726489_3457720340_3443859850.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Papa/1080p60/partial_movie_files/Papa1/2852726489_3021665516_252653625.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Papa/1080p60/partial_movie_files/Papa1/2852726489_845472398_1269324436.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Papa/1080p60/partial_movie_files/Papa1/2852726489_666349050_1529507980.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Papa/1080p60/partial_movie_files/Papa1/2852726489_1923973204_2191289324.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Papa/1080p60/partial_movie_files/Papa1/2852726489_1232804904_2191289324.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Papa/1080p60/partial_movie_files/Papa1/2852726489_255102487_3172899745.mp4'

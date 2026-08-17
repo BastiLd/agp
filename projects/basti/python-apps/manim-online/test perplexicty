@@ -1,0 +1,145 @@
+import sys
+import platform
+import re
+import sqlite3
+import os
+import fnmatch
+import keyboard
+from pathlib import Path
+from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
+from kivymd.app import MDApp
+from kivymd.uix.datatables import MDDataTable
+from kivy.lang import Builder
+from kivy.core.window import Window
+from kivy.clock import Clock
+from watchdog.observers import Observer
+
+KV = '''
+BoxLayout:
+    orientation: 'vertical'
+    
+    MDTextField:
+        id: search_input
+        hint_text: "Suchbegriff oder Befehl..."
+        on_text: app.search(self.text)
+        
+    MDDataTable:
+        id: result_table
+        use_pagination: True
+        rows_num: 10
+        column_data:
+            [
+            ("Typ", 30),
+            ("Inhalt", 70)
+            ]
+'''
+
+class UniversalSearchApp(MDApp):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.executor = ThreadPoolExecutor(max_workers=4)
+        self.shortcut_db = "shortcuts.db"
+        self.observer = Observer()
+        self.init_db()
+        self.setup_hotkey()
+
+    def init_db(self):
+        with sqlite3.connect(self.shortcut_db) as conn:
+            conn.execute('''CREATE TABLE IF NOT EXISTS shortcuts
+                         (app TEXT, shortcut TEXT UNIQUE, command TEXT)''')
+
+    def setup_hotkey(self):
+        keyboard.add_hotkey('ctrl+m', self.toggle_window)
+
+    def toggle_window(self):
+        if Window.height == 0:
+            Window.size = (800, 600)
+            Window.top = 100
+            Window.left = 100
+        else:
+            Window.size = (0, 0)
+
+    def build(self):
+        self.theme_cls.theme_style = "Dark"
+        self.theme_cls.primary_palette = "BlueGray"
+        return Builder.load_string(KV)
+
+    def analyze_text(self, text):
+        words = re.findall(r'\w+', text)
+        numbers = re.findall(r'\d+', text)
+        return {
+            'words': len(words),
+            'characters': len(text),
+            'numbers': len(numbers),
+            'word_freq': Counter(words)
+        }
+
+    def search_files(self, path, pattern, filters=None):
+        matches = []
+        for root, _, files in os.walk(Path.home()):
+            for file in files:
+                if fnmatch.fnmatch(file, f'*{pattern}*'):
+                    filepath = Path(root) / file
+                    if self.apply_filters(filepath, filters):
+                        matches.append(('Datei', str(filepath)))
+        return matches
+
+    def apply_filters(self, filepath, filters):
+        if not filters:
+            return True
+        return filepath.suffix.lower() in filters.get('types', [])
+
+    def get_active_window(self):
+        try:
+            if platform.system() == 'Windows':
+                import pygetwindow as gw
+                return gw.getActiveWindow().title
+            elif platform.system() == 'Darwin':
+                from AppKit import NSWorkspace
+                return NSWorkspace.sharedWorkspace().activeApplication()['NSApplicationName']
+            else:
+                from Xlib.display import Display
+                return Display().get_input_focus().focus.get_wm_name()
+        except Exception as e:
+            print(f"Fehler: {e}")
+            return "Unknown"
+
+    def search(self, query):
+        if query.startswith('>'):
+            self.handle_command(query[1:])
+        else:
+            self.executor.submit(self.async_search, query)
+
+    def async_search(self, query):
+        results = []
+        
+        # Dateisuche
+        results += self.search_files(Path.home(), query)
+        
+        # Shortcuts
+        active_app = self.get_active_window()
+        with sqlite3.connect(self.shortcut_db) as conn:
+            cursor = conn.execute("SELECT shortcut,command FROM shortcuts WHERE app=?", (active_app,))
+            results += [('Shortcut', f"{s[0]} → {s[1]}") for s in cursor.fetchall()]
+        
+        # Textanalyse
+        analysis = self.analyze_text(query)
+        results.append(('Statistik', f"{analysis['words']} Wörter | {analysis['characters']} Zeichen | {analysis['numbers']} Zahlen"))
+        
+        Clock.schedule_once(lambda dt: self.update_ui(results))
+
+    def update_ui(self, results):
+        self.root.ids.result_table.row_data = [(r[0], r[1]) for r in results[:50]]
+
+    def handle_command(self, command):
+        print(f"Befehl: {command}")
+        # Hier Befehlshandler implementieren
+
+    def on_stop(self):
+        self.observer.stop()
+        self.executor.shutdown()
+
+if __name__ == '__main__':
+    Window.size = (0, 0)
+    UniversalSearchApp().run()

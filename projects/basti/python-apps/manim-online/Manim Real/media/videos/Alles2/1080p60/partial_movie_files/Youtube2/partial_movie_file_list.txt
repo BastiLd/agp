@@ -1,0 +1,13 @@
+# This file is used internally by FFMPEG.
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles2/1080p60/partial_movie_files/Youtube2/3977891868_490329255_223132457.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles2/1080p60/partial_movie_files/Youtube2/2852726489_2475379470_1629359565.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles2/1080p60/partial_movie_files/Youtube2/2852726489_2904059647_514141190.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles2/1080p60/partial_movie_files/Youtube2/2852726489_2475379470_382935618.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles2/1080p60/partial_movie_files/Youtube2/2852726489_3870171519_3344961345.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles2/1080p60/partial_movie_files/Youtube2/2852726489_2475379470_1298296330.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles2/1080p60/partial_movie_files/Youtube2/2852726489_1677700897_4280243127.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles2/1080p60/partial_movie_files/Youtube2/2852726489_2787036266_4084548337.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles2/1080p60/partial_movie_files/Youtube2/2852726489_991716146_916959234.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles2/1080p60/partial_movie_files/Youtube2/2852726489_3257661881_3240182347.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles2/1080p60/partial_movie_files/Youtube2/2852726489_4284538558_2770035660.mp4'
+file 'file:C:/Users/basti/Videos/Manim/Manim Real/media/videos/Alles2/1080p60/partial_movie_files/Youtube2/2852726489_2069770976_2863095820.mp4'
