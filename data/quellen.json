@@ -274,6 +274,21 @@
         "Shared/logs"
       ],
       "hinweis": "Fremdes Werkzeug, keine eigene Entwicklung — siehe DUPLIKATE.md. Ausgeschlossen: die mitgelieferte Python-Laufzeit und Engine-Binaries (Shared/python, Shared/bin — nicht eigener Code), heruntergeladene KI-Modelle (mehrere GB, faellt ohnehin unter die Groessengrenze), und Shared/chat_data — enthaelt echte private Chatverlaeufe."
+    },
+    "aufgabenliste": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Users\\basti\\OneDrive\\Apps\\ToDo 15082026 bis 26082026"
+      },
+      "ausschluss": [
+        "daten",
+        "Leitfaden",
+        ".claude",
+        "Aufgabenliste-Server"
+      ],
+      "trotzdemMitnehmen": [
+        "website/assets/js/app.js"
+      ],
+      "hinweis": "website/assets/js/kontakte.js bleibt IMMER draussen — enthaelt echte Namen und Telefonnummern von Nachbarn und Familie (Datei warnt im Kopf selbst davor). app.js wird trotz Treffer der Personendaten-Pruefung mitgenommen: der Treffer ist ein Beispiel-Format in einem Kommentar (\"0650 1234567\"), keine echte Nummer, von Hand geprueft. daten/ enthaelt den persoenlichen Aufgabenstand, Leitfaden/ die private xlsx/pdf/Fotos, Aufgabenliste-Server/ ist ein byte-identisches Bundle des Wurzelordners."
     }
   },
   "ohneQuelle": [

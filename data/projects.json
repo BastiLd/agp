@@ -1,5 +1,5 @@
 {
-  "aktualisiert": "2026-08-13",
+  "aktualisiert": "2026-08-17",
   "kategorien": {
     "websites": {
       "label": "Websites",
@@ -1137,6 +1137,26 @@
       "live": null,
       "liveHinweis": "Lokale Oberfläche — npm install, dann npm run dev. Braucht laufende Radarr-/Sonarr-Instanzen.",
       "stand": "2026-06-20"
+    },
+    {
+      "id": "aufgabenliste",
+      "titel": "Aufgabenliste",
+      "besitzer": "basti",
+      "kategorie": "websites",
+      "kurz": "Tagesablauf-Checkliste mit Geräteabgleich und Push-Erinnerungen",
+      "beschreibung": "Eine interaktive Aufgabenliste für einen festgelegten Zeitraum — als PWA installierbar, mit Häkchen für 12 Tage à 11 Aufgaben plus Zusatzaufgaben. Ein schlanker Node-Server ohne ein einziges Fremdpaket gleicht den Stand zwischen mehreren Geräten ab und verschickt Push-Erinnerungen über VAPID/Web-Push — ganz ohne Firebase oder einen anderen Cloud-Dienst dazwischen. Läuft wahlweise direkt auf dem PC über Tailscale erreichbar, oder auf einem eigenen Server. Die private Kontaktliste für den Notfall bleibt bewusst außen vor: die Datei kontakte.js enthält im Original echte Namen und Telefonnummern von Nachbarn und Familie und gehört nicht in ein öffentliches Repository — die App funktioniert auch ohne sie, nur die Notfall-Ansicht bleibt dann leer.",
+      "tech": [
+        "Node.js",
+        "PWA",
+        "Service Worker",
+        "Web Push (VAPID)",
+        "Docker"
+      ],
+      "pfad": "projects/basti/websites/aufgabenliste",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Lokaler Server — START-SERVER.cmd doppelklicken, dann localhost:8090. Details in EINRICHTUNG.md.",
+      "stand": "2026-08-17"
     }
   ]
 }

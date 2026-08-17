@@ -1,0 +1,14 @@
+{
+  "name": "aufgabenliste",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Aufgabenliste 15.-26. August 2026 mit Geraeteabgleich und Push-Benachrichtigungen",
+  "type": "commonjs",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

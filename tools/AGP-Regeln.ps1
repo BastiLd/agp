@@ -89,6 +89,15 @@ $script:AgpInhaltMuster = @(
     '-----BEGIN [A-Z ]*PRIVATE KEY-----'
 )
 
+# Personenbezogene Daten, kein Geheimnis im technischen Sinn, aber genauso wenig
+# fuer ein oeffentliches Repo gedacht. Ausloeser: "kontakte.js" bei der
+# Aufgabenliste-App enthielt echte Namen und Rufnummern von Nachbarn und Familie —
+# unter einer eigenen ACHTUNG-Warnung im Dateikopf, die keine Regel der Welt liest.
+# Die Inhaltspruefung schon.
+$script:AgpPersonMuster = @(
+    '0(6\d{2})[\s/]?\d{6,8}'   # oesterreichische Mobilnummer, z.B. "0650 5259563"
+)
+
 $script:AgpPruefEndungen = @(
     '.txt', '.md', '.json', '.yml', '.yaml', '.ini', '.cfg', '.conf', '.toml',
     '.js', '.mjs', '.cjs', '.ts', '.tsx', '.jsx', '.py', '.ps1', '.sh', '.bat',
@@ -176,6 +185,7 @@ function Get-AgpAusschlussGrund {
         $inhalt = Get-Content -LiteralPath $Datei.FullName -Raw -ErrorAction SilentlyContinue
         if ($inhalt) {
             foreach ($m in $script:AgpInhaltMuster) { if ($inhalt -match $m) { return 'Schluessel im Inhalt' } }
+            foreach ($m in $script:AgpPersonMuster) { if ($inhalt -match $m) { return 'Personenbezogene Daten im Inhalt' } }
         }
     }
 

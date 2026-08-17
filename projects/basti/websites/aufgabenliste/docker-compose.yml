@@ -1,0 +1,36 @@
+services:
+  aufgabenliste:
+    # Relativer Pfad: funktioniert zuverlässig, wenn "docker compose"
+    # direkt im Terminal in diesem Ordner ausgeführt wird (siehe
+    # EINRICHTUNG.md, Abschnitt "Portainer/ZimaOS per Terminal").
+    # Absolute Pfade scheitern hier, weil Portainer selbst in einem
+    # eigenen Container läuft und /DATA/... von dort aus oft nicht
+    # sichtbar ist ("unable to prepare context ... not found").
+    build: .
+    image: aufgabenliste:latest
+    container_name: aufgabenliste
+    restart: unless-stopped
+
+    ports:
+      # links der Port auf deinem Server, rechts der im Container.
+      # 8090 frei wählbar – 8010 ist bei dir schon von WebHafen belegt.
+      - "8090:8080"
+
+    environment:
+      - TZ=Europe/Vienna
+      - PORT=8080
+      - DATEN=/app/daten
+      # Adresse für die Push-Dienste, falls es Rückfragen gibt.
+      - KONTAKT=mailto:herringerr912@gmail.com
+      # KI-Assistent: Adresse des schon laufenden Ollama-Containers.
+      # 127.0.0.1 waere der Container selbst, deshalb die Adresse der Box.
+      - OLLAMA=http://192.168.68.10:11434
+      - KI_MODELL=qwen2.5:3b-instruct-q4_K_M
+      # Optionaler Zugangsschlüssel für die API. Leer = offen im Tailnet.
+      # - ZUGANG=einLangesGeheimnis
+      # Nur nötig, wenn die Seite von einer anderen Adresse aus zugreifen soll:
+      # - ERLAUBTE_HERKUNFT=https://bastild.github.io
+
+    volumes:
+      # Häkchen, Notizen, Fotos und Push-Abos überleben hier jeden Neustart.
+      - ./daten:/app/daten

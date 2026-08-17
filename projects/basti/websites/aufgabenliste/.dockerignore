@@ -1,0 +1,9 @@
+daten/
+node_modules/
+*.zip
+*.md
+!server/**
+.git/
+.claude/
+Leitfaden/
+website/

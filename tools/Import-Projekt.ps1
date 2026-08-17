@@ -139,7 +139,7 @@ foreach ($datei in $dateien) {
     $bytesGesamt += $datei.Length
 }
 
-$geheim = @($ausgelassen | Where-Object { $_.Grund -in @('Zugangsdaten', 'Schluessel im Inhalt') })
+$geheim = @($ausgelassen | Where-Object { $_.Grund -in @('Zugangsdaten', 'Schluessel im Inhalt', 'Personenbezogene Daten im Inhalt') })
 
 Write-Host ("Übernommen  : {0} Dateien, {1} MB" -f $uebernommen, [Math]::Round($bytesGesamt / 1MB, 1))
 Write-Host ("Ausgelassen : {0} Dateien" -f $ausgelassen.Count)
