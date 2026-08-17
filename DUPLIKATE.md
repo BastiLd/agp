@@ -331,6 +331,18 @@ Zwei weitere Repos haben aus anderem Grund keine eigene Kachel:
 
 ---
 
+## Aufgabenliste — zweimal unabhängig importiert
+
+Am 15.–17.08.2026 liefen parallel zwei Sitzungen (PC und Laptop) und haben unabhängig
+voneinander dieselbe App „Aufgabenliste“ gefunden und importiert — auf dem Laptop nach
+`projects/basti/desktop-apps/aufgabenliste`, auf dem PC nach
+`projects/basti/websites/aufgabenliste`. Beim Zusammenführen blieb nur die PC-Fassung,
+weil sie `kontakte.js` korrekt ausschließt — siehe **⚠️ Punkt 0** in `NAECHSTE-SCHRITTE.md`
+für den Sicherheitsvorfall, der dabei aufgefallen ist. Die Laptop-Fassung wurde beim Merge
+vollständig entfernt.
+
+---
+
 ## Duplikate selbst suchen
 
 Für die Suche über mehrere Laufwerke liegt ein Skript bereit:

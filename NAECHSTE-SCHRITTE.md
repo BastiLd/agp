@@ -24,6 +24,36 @@ PC-Teilelisten.
 
 ---
 
+## ⚠️ 0. Echte Telefonnummern standen kurz öffentlich auf GitHub
+
+**Was passiert ist:** Beim parallelen Arbeiten von PC und Laptop hat eine Sitzung auf dem
+Laptop die **Aufgabenliste**-App importiert und dabei `kontakte.js` mitgenommen — eine
+Datei, die im eigenen Dateikopf ausdrücklich vor sich selbst warnt: „ACHTUNG – PRIVATE
+TELEFONNUMMERN“. Sie enthält echte Namen und Rufnummern von Nachbarn und Familie (Robert,
+Sonja, Tina, Harald, Lissy). Die Datei wurde committet und **war öffentlich auf GitHub
+sichtbar**, Commit `0e5ef9e` vom 15.08.2026, bis eine zweite Sitzung auf dem PC das beim
+Zusammenführen bemerkt und die Datei aus dem aktuellen Stand entfernt hat.
+
+**Aktueller Stand:** Die Datei ist aus dem **aktuellen Stand des Repos** (`main`-Zweig,
+das was man beim Klonen bekommt) entfernt. `tools/AGP-Regeln.ps1` prüft ab sofort jede
+Textdatei zusätzlich auf österreichische Telefonnummern im Inhalt, nicht nur auf
+Zugangsdaten-Muster — genau dieser Fund hat gefehlt.
+
+**Was NICHT erledigt ist:** Die Datei steht weiterhin **in der Git-Historie** — jeder, der
+`git log`/`git show 0e5ef9e` aufruft oder die alte Commit-Version auf GitHub ansieht, sieht
+die Nummern weiterhin. Ein normales Löschen entfernt nur den aktuellen Stand, nicht die
+Historie. Um sie wirklich aus der Historie zu entfernen, bräuchte es ein Neuschreiben der
+Git-Historie (`git filter-repo` o.ä.) und einen **Force-Push** — das ist ein Eingriff, der
+nicht ohne Rücksprache gemacht werden sollte, weil er die Historie für jeden verändert, der
+das Repo bereits geklont hat.
+
+**Zu tun:**
+1. Entscheiden, ob die Historie bereinigt werden soll (Force-Push nötig).
+2. Nachdenken, ob Nachbarn/Familie informiert werden sollten — die Nummern waren einige
+   Tage öffentlich einsehbar (könnten von automatisierten Scrapern erfasst worden sein).
+3. Für künftige private Daten: Der private Bereich (`agp-privat`) ist genau dafür da —
+   `kontakte.js` gehört dort hin, nicht ins öffentliche Repo.
+
 ## 1. Mijos restliche Projekte
 
 **Das ist der nächste Schritt.** Auf beiden Rechnern fehlen dieselben fünf Ordner — aber aus
