@@ -324,10 +324,20 @@ Zwei weitere Repos haben aus anderem Grund keine eigene Kachel:
 
 - [`agp`](https://github.com/BastiLd/agp) ist der Katalog selbst. Statt einer Kachel gibt
   es oben in der Kopfzeile einen kleinen Verweis auf den Quelltext.
-- [`S-N`](https://github.com/BastiLd/S-N) enthält nur eine README mit der Projektidee
+- [`S-N`](https://github.com/BastiLd/S-N) war lange nur eine README mit der Projektidee
   („Sim & Nal" — ein besserer Weg, in Österreich Tierärzte zu finden). Kein eigener
   Eintrag, aber bei **beiden Pfotennotruf-Kacheln** als Repository verlinkt, weil es der
   reservierte Platz dafür ist.
+
+  **Stand 19.08.2026:** Der Code liegt jetzt dort, verteilt auf eigene Branches —
+  `alles` (VetNow komplett plus beide Pfotennotruf-Fassungen), `vetnow-app`
+  (nur Web, Handy-App, Extension), `pages` (die GitHub-Pages-Seite mit Start- und
+  Gedenkseite, live unter <https://bastild.github.io/S-N/>). `main` bleibt bei der
+  Projektidee. Das Repo wurde dafür von privat auf öffentlich umgestellt, weil
+  GitHub Pages für private Repos einen bezahlten Plan verlangt.
+  VetNow selbst liegt weiterhin zusätzlich unter
+  [`vetnow`](https://github.com/BastiLd/vetnow) — die Kopie in `S-N` ist bewusst
+  eine zweite Ablage, keine versehentliche Dublette.
 
 ---
 

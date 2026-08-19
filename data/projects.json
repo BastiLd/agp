@@ -1,5 +1,5 @@
 {
-  "aktualisiert": "2026-08-17",
+  "aktualisiert": "2026-08-19",
   "kategorien": {
     "websites": {
       "label": "Websites",
@@ -378,7 +378,7 @@
       "pfad": "projects/basti/desktop-apps/vetnow",
       "repo": "https://github.com/BastiLd/vetnow",
       "live": "https://bastild.github.io/vetnow/",
-      "stand": "2026-08-04"
+      "stand": "2026-08-19"
     },
     {
       "id": "plex-transfer",
@@ -537,9 +537,9 @@
       ],
       "pfad": "projects/basti/websites/pfotennotruf-kaernten",
       "repo": "https://github.com/BastiLd/S-N",
-      "live": null,
-      "stand": "2026-05-20",
-      "liveHinweis": "Im Repo S-N steht bisher nur die Projektidee — der Code liegt hier im Katalog."
+      "live": "https://bastild.github.io/S-N/",
+      "stand": "2026-08-19",
+      "liveHinweis": "Der Code liegt seit 19.08.2026 im Repo S-N — auf eigenen Branches: `alles` (VetNow komplett + beide Pfotennotruf-Fassungen), `vetnow-app` (nur Web, Handy, Extension), `pages` (die GitHub-Pages-Seite). `main` bleibt bei der Projektidee."
     },
     {
       "id": "pfotennotruf-mvp",
@@ -556,9 +556,9 @@
       ],
       "pfad": "projects/basti/websites/pfotennotruf-mvp",
       "repo": "https://github.com/BastiLd/S-N",
-      "live": null,
-      "stand": "2026-05-20",
-      "liveHinweis": "Im Repo S-N steht bisher nur die Projektidee — der Code liegt hier im Katalog."
+      "live": "https://bastild.github.io/S-N/",
+      "stand": "2026-08-19",
+      "liveHinweis": "Der Code liegt seit 19.08.2026 im Repo S-N — auf eigenen Branches: `alles` (VetNow komplett + beide Pfotennotruf-Fassungen), `vetnow-app` (nur Web, Handy, Extension), `pages` (die GitHub-Pages-Seite). `main` bleibt bei der Projektidee."
     },
     {
       "id": "discord-bot-maker",
@@ -1165,7 +1165,13 @@
       "kategorie": "desktop-apps",
       "kurz": "Eigene Oberfläche für Dateisuche in Everything-Geschwindigkeit plus Programmverwaltung",
       "beschreibung": "Eine WPF-Oberfläche mit drei Bereichen: Dateisuche über den Index des laufenden Everything-Prozesses (komplette Everything-Syntax, Mehrfachauswahl, gemeinsames Löschen in den Papierkorb), eine Liste aller installierten Programme aus der Registry mit automatischer Resterkennung nach der Deinstallation, und eine Übersicht aller Edge-/WebView2-Bestandteile mit Erklärung zu jeder Aktion. Spricht Everything über dessen öffentlich dokumentierte Fensterschnittstelle (WM_COPYDATA) an — kein Everything-Quellcode, keine Everything64.dll nötig. Läuft bewusst ohne Administratorrechte; privilegierte Eingriffe laufen in einem kurzlebigen erhöhten Kindprozess mit vorheriger Klartext-Anzeige der Befehle.",
-      "tech": ["C#", ".NET 6", "WPF", "Win32 Interop", "Windows Registry"],
+      "tech": [
+        "C#",
+        ".NET 6",
+        "WPF",
+        "Win32 Interop",
+        "Windows Registry"
+      ],
       "pfad": "projects/basti/desktop-apps/everything-self",
       "repo": null,
       "live": null,
@@ -1179,7 +1185,11 @@
       "kategorie": "python-apps",
       "kurz": "Sammlung eigener Mathe-Animationen mit Manim, dazu ein KI-Suchwerkzeug",
       "beschreibung": "Eine gewachsene Sammlung von Python-Skripten rund um die Animationsbibliothek Manim (dieselbe, mit der 3Blue1Brown seine Mathe-Videos macht) — Textanimationen, geometrische Konstruktionen, kleine Quiz-Szenen und Schulmathe-Beispiele. Im Unterordner „Search Programm\" außerdem ein eigenständiges Werkzeug: eine Desktop-Suchleiste, die Anfragen an ChatGPT bzw. andere KI-Dienste weiterreicht und die Antwort direkt am Bildschirmrand einblendet.",
-      "tech": ["Python", "Manim", "LaTeX"],
+      "tech": [
+        "Python",
+        "Manim",
+        "LaTeX"
+      ],
       "pfad": "projects/basti/python-apps/manim-online",
       "repo": null,
       "live": null,
