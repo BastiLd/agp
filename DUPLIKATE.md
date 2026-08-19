@@ -339,6 +339,12 @@ Zwei weitere Repos haben aus anderem Grund keine eigene Kachel:
   [`vetnow`](https://github.com/BastiLd/vetnow) — die Kopie in `S-N` ist bewusst
   eine zweite Ablage, keine versehentliche Dublette.
 
+  Auf `pages` liegen außerdem die privaten Fotos und Videos von Simba und Nala
+  (166 MB, aus 1,86 GB Rohmaterial umgerechnet). Dazu ein Release
+  [`v1.0.0`](https://github.com/BastiLd/S-N/releases/tag/v1.0.0) mit der
+  Android-App als APK — lokal gebaut, damit der Download-Link nicht wie bei
+  EAS nach 30 Tagen abläuft.
+
 ---
 
 ## Aufgabenliste — zweimal unabhängig importiert
