@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>mittelkap</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="kopf">
+    <div class="marke">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="12.5" y="6" width="7" height="13" rx="3.5" />
+        <path d="M8 18a8 8 0 0 0 16 0" fill="none" stroke-width="2.4" />
+        <path d="M16 26v3M11.5 29h9" fill="none" stroke-width="2.4" />
+      </svg>
+      <div>
+        <h1>mittelkap</h1>
+        <p class="unterzeile">Sprachnachrichten offline in Text</p>
+      </div>
+    </div>
+    <div class="zustandsleiste" id="zustandsleiste">
+      <span class="punkt" id="punkt"></span>
+      <span id="zustandstext">Kern startet…</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="ablage" id="ablage">
+      <div class="ablage-inhalt">
+        <svg class="ablage-symbol" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5" fill="none" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" fill="none" stroke-width="1.8"
+                stroke-linecap="round" />
+        </svg>
+        <p class="ablage-titel">Sprachnachrichten hierher ziehen</p>
+        <p class="ablage-hinweis">opus · ogg · m4a · mp3 · wav · mp4 · aac · flac</p>
+        <div class="knopfreihe">
+          <button class="knopf" id="knopf-dateien">Dateien wählen</button>
+          <button class="knopf" id="knopf-ordner">Ordner wählen</button>
+          <button class="knopf knopf-still" id="knopf-beobachten">Ordner überwachen</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="einstellungen">
+      <label class="feld">
+        <span>Modell</span>
+        <select id="wahl-modell">
+          <option value="large-v3">large-v3 — beste Qualität (~3,9 GB)</option>
+          <option value="medium">medium — schneller (~2 GB)</option>
+          <option value="small">small — sehr schnell (~0,5 GB)</option>
+          <option value="base">base — nur für klare Aufnahmen</option>
+        </select>
+      </label>
+      <label class="schalter">
+        <input type="checkbox" id="wahl-txt" checked />
+        <span>.txt neben die Audiodatei legen</span>
+      </label>
+      <label class="schalter">
+        <input type="checkbox" id="wahl-markdown" />
+        <span>Anschließend zu Markdown aufräumen</span>
+      </label>
+    </section>
+
+    <section class="warteschlange leer" id="warteschlange">
+      <h2>Warteschlange</h2>
+      <ul id="warteliste"></ul>
+    </section>
+
+    <section class="ergebnisse" id="ergebnisse"></section>
+  </main>
+
+  <aside class="protokoll zu" id="protokoll">
+    <button class="protokoll-kopf" id="protokoll-schalter" aria-expanded="false">
+      <span class="pfeil">▸</span>
+      <span>Protokoll</span>
+      <span class="zaehler" id="protokoll-zaehler">0</span>
+    </button>
+    <div class="protokoll-koerper">
+      <div class="protokoll-werkzeuge">
+        <button class="knopf knopf-klein" data-kopieren="protokoll">Protokoll kopieren</button>
+        <button class="knopf knopf-klein knopf-still" id="protokoll-leeren">Leeren</button>
+      </div>
+      <pre id="protokoll-text"></pre>
+    </div>
+  </aside>
+
+  <div class="hinweis" id="hinweis" role="status" aria-live="polite"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

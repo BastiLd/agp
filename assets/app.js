@@ -4,6 +4,7 @@ const SYMBOLE = {
   websites: '\u{1F310}',
   'python-apps': '\u{1F40D}',
   'browser-extensions': '\u{1F9E9}',
+  'plugins-addons': '\u{1F50C}',
   'desktop-apps': '\u{1F5A5}️',
   'minecraft-mods': '\u{1F9F1}',
   'kartenbot-archiv': '\u{1F5C3}️',
@@ -14,6 +15,7 @@ const FARBEN = {
   websites: '#5aa6f0',
   'python-apps': '#f0c14a',
   'browser-extensions': '#c084f5',
+  'plugins-addons': '#f0708a',
   'desktop-apps': '#4ad6c0',
   'minecraft-mods': '#7cc45a',
   'kartenbot-archiv': '#e0a13a',
@@ -25,7 +27,8 @@ const zustand = {
   privat: null,
   person: localStorage.getItem('agp.person') || 'basti',
   groesse: localStorage.getItem('agp.groesse') || 'mittel',
-  suche: ''
+  suche: '',
+  tags: new Set()
 };
 
 const $ = (s) => document.querySelector(s);
@@ -53,6 +56,11 @@ function personSetzen(person) {
     b.setAttribute('aria-pressed', String(b.dataset.person === person));
   });
 
+  // Tags gelten nur fuer die Projekte der aktuell gewaehlten Person — nach dem
+  // Umschalten koennten laengst nicht mehr vorhandene Tags aktiv bleiben und
+  // stumm alles ausblenden.
+  zustand.tags.clear();
+  tagLeisteZeichnen();
   zeichnen();
 }
 
@@ -139,10 +147,52 @@ function sichtbareProjekte() {
 
   return alle.filter((p) => {
     if (p.besitzer !== zustand.person && p.besitzer !== 'beide') return false;
+    if (zustand.tags.size && ![...zustand.tags].every((t) => (p.tags || []).includes(t))) return false;
     if (!woerter.length) return true;
     const text = [p.titel, p.kurz, p.beschreibung, ...(p.tech || [])]
       .join(' ').toLowerCase();
     return woerter.every((w) => text.includes(w));
+  });
+}
+
+/* ---------- Tag-Filter ---------- */
+
+// Ungefiltert nach Person, aber ohne Such- und Tag-Filter: sonst wuerde ein
+// aktiver Tag alle anderen Tags aus der Leiste verschwinden lassen, sobald
+// sie sich gegenseitig ausschliessen.
+function alleTags() {
+  const alle = [
+    ...(zustand.daten?.projekte || []),
+    ...(zustand.privat?.projekte || [])
+  ];
+  const menge = new Set();
+  for (const p of alle) {
+    if (p.besitzer !== zustand.person && p.besitzer !== 'beide') continue;
+    (p.tags || []).forEach((t) => menge.add(t));
+  }
+  return [...menge].sort((a, b) => a.localeCompare(b, 'de'));
+}
+
+function tagLeisteZeichnen() {
+  const leiste = $('#tagLeiste');
+  if (!leiste) return;
+  const tags = alleTags();
+  if (!tags.length) {
+    leiste.hidden = true;
+    leiste.innerHTML = '';
+    return;
+  }
+  leiste.hidden = false;
+  leiste.innerHTML = tags.map((t) => `
+    <button type="button" class="tag-chip${zustand.tags.has(t) ? ' aktiv' : ''}" data-tag="${escapeHtml(t)}" aria-pressed="${zustand.tags.has(t)}">${escapeHtml(t)}</button>
+  `).join('');
+  leiste.querySelectorAll('.tag-chip').forEach((knopf) => {
+    knopf.addEventListener('click', () => {
+      const t = knopf.dataset.tag;
+      if (zustand.tags.has(t)) zustand.tags.delete(t); else zustand.tags.add(t);
+      tagLeisteZeichnen();
+      zeichnen();
+    });
   });
 }
 
@@ -250,8 +300,14 @@ function kachelHtml(p) {
 
 /* ---------- Detailansicht ---------- */
 
-function projektFinden(id) {
-  return sichtbareProjekte().find((p) => p.id === id);
+// Fuer "Siehe auch"-Verlinkungen: unabhaengig von Suchbegriff und Tag-Filter,
+// sonst waere ein verlinktes Projekt bei aktivem Filter ploetzlich unauffindbar.
+function projektRohFinden(id) {
+  const alle = [
+    ...(zustand.daten?.projekte || []),
+    ...(zustand.privat?.projekte || []).map((p) => ({ ...p, istPrivat: true }))
+  ];
+  return alle.find((p) => p.id === id && (p.besitzer === zustand.person || p.besitzer === 'beide'));
 }
 
 function liveAdresse(p) {
@@ -260,7 +316,9 @@ function liveAdresse(p) {
 }
 
 function detailZeigen(id) {
-  const p = projektFinden(id);
+  // Nicht projektFinden(): ein "Siehe auch"-Link soll auch dann funktionieren,
+  // wenn Suche oder Tag-Filter das verlinkte Projekt gerade ausblenden.
+  const p = projektRohFinden(id);
   if (!p) return;
 
   // Kategorien, die es nur im privaten Bereich gibt (z.B. "Fremd-Tools"),
@@ -294,6 +352,21 @@ function detailZeigen(id) {
         <div class="tech-liste">${p.tech.map((t) => `<span class="tech">${escapeHtml(t)}</span>`).join('')}</div>
       </div>` : ''}
 
+    ${p.tags?.length ? `
+      <div class="detail-abschnitt">
+        <h3>Tags</h3>
+        <div class="tech-liste">${p.tags.map((t) => `<span class="tech tag">${escapeHtml(t)}</span>`).join('')}</div>
+      </div>` : ''}
+
+    ${p.verwandt?.length ? `
+      <div class="detail-abschnitt">
+        <h3>Siehe auch</h3>
+        <div class="verwandt-liste">${p.verwandt.map((id) => {
+          const v = projektRohFinden(id);
+          return v ? `<button type="button" class="verwandt-link" data-id="${escapeHtml(v.id)}">${escapeHtml(SYMBOLE[v.kategorie] || '')} ${escapeHtml(v.titel)}</button>` : '';
+        }).join('')}</div>
+      </div>` : ''}
+
     ${!url && p.liveHinweis ? `
       <div class="detail-abschnitt">
         <p class="hinweis">${escapeHtml(p.liveHinweis)}</p>
@@ -304,6 +377,10 @@ function detailZeigen(id) {
         <h3>Links</h3>
         <div class="detail-knoepfe">${knoepfe.join('')}</div>
       </div>` : ''}`;
+
+  $('#detailInhalt').querySelectorAll('.verwandt-link').forEach((knopf) => {
+    knopf.addEventListener('click', () => detailZeigen(knopf.dataset.id));
+  });
 
   overlayOeffnen('#detailOverlay');
 }
@@ -378,6 +455,7 @@ $('#passwortForm').addEventListener('submit', async (e) => {
     zustand.privat = await entschluesseln($('#passwortEingabe').value);
     overlayZu();
     $('#privatLink').textContent = 'privat · entsperrt';
+    tagLeisteZeichnen();
     zeichnen();
   } catch {
     fehler.textContent = 'Passwort stimmt nicht.';

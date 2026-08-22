@@ -252,6 +252,36 @@ body[data-person="mijo"] .schieber { transform: translateX(100%); }
   color: #fff;
 }
 
+.tag-leiste {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 1.25rem 1.25rem;
+}
+
+.tag-chip {
+  font: inherit;
+  font-size: .8rem;
+  padding: .32rem .8rem;
+  border-radius: 999px;
+  border: 1px solid var(--rand);
+  background: var(--bg-erhoben);
+  color: var(--text-leise);
+  cursor: pointer;
+  transition: .15s;
+}
+
+.tag-chip:hover { border-color: var(--akzent); color: var(--text); }
+
+.tag-chip.aktiv {
+  background: var(--akzent);
+  border-color: var(--akzent);
+  color: #fff;
+}
+
 .groessen-schalter svg {
   width: 1.1rem; height: 1.1rem;
   fill: currentColor; stroke: currentColor;
@@ -554,6 +584,25 @@ body[data-groesse="liste"] .kachel-marken { margin: 0; padding: 0; flex-wrap: no
   border: 1px solid var(--rand);
   color: var(--text-leise);
 }
+
+.verwandt-liste { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+.verwandt-link {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font: inherit;
+  font-size: .85rem;
+  padding: .5rem .85rem;
+  border-radius: 8px;
+  border: 1px solid var(--rand);
+  background: var(--bg-kachel);
+  color: var(--text);
+  cursor: pointer;
+  transition: .15s;
+}
+
+.verwandt-link:hover { border-color: var(--akzent); background: var(--bg-kachel-hover); }
 
 .detail-knoepfe { display: flex; flex-wrap: wrap; gap: .6rem; }
 

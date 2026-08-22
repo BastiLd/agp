@@ -1,5 +1,5 @@
 {
-  "aktualisiert": "2026-08-19",
+  "aktualisiert": "2026-08-22",
   "kategorien": {
     "websites": {
       "label": "Websites",
@@ -12,6 +12,10 @@
     "browser-extensions": {
       "label": "Browser-Erweiterungen",
       "icon": "puzzle"
+    },
+    "plugins-addons": {
+      "label": "Plugins & Add-ons",
+      "icon": "plug"
     },
     "desktop-apps": {
       "label": "Desktop-Apps",
@@ -43,7 +47,10 @@
       "repo": "https://github.com/BastiLd/GHGFLIX",
       "live": null,
       "liveHinweis": "Desktop-App — muss gebaut und installiert werden",
-      "stand": "2026-08-01"
+      "stand": "2026-08-01",
+      "tags": [
+        "Medien"
+      ]
     },
     {
       "id": "murder-mystery",
@@ -62,7 +69,11 @@
       "pfad": "projects/basti/websites/murder-mystery",
       "repo": "https://github.com/BastiLd/MurderMystery",
       "live": "https://bastild.github.io/MurderMystery/",
-      "stand": "2026-07-26"
+      "stand": "2026-07-26",
+      "tags": [
+        "Spiel",
+        "PWA"
+      ]
     },
     {
       "id": "claude-wormhole-site",
@@ -81,7 +92,10 @@
       "pfad": "projects/basti/websites/claude-wormhole-site",
       "repo": "https://github.com/BastiLd/school-website-tzu-powerpoint",
       "live": "https://bastild.github.io/school-website-tzu-powerpoint/",
-      "stand": "2026-06-29"
+      "stand": "2026-06-29",
+      "tags": [
+        "Schule"
+      ]
     },
     {
       "id": "avocado-at-law",
@@ -100,8 +114,9 @@
       "pfad": "projects/basti/websites/avocado-at-law",
       "repo": "https://github.com/BastiLd/Avocados-at-Law",
       "live": null,
-      "stand": "2026-05-31",
-      "liveHinweis": "Expo-App — npm install, dann npx expo start. Im Browser mit Taste w, am Handy über Expo Go. Das Repo ist privat."
+      "stand": "2026-07-14",
+      "liveHinweis": "Expo-App — npm install, dann npx expo start. Im Browser mit Taste w, am Handy über Expo Go. Das Repo ist privat.",
+      "tags": []
     },
     {
       "id": "bastiklaus-online",
@@ -119,7 +134,8 @@
       "pfad": "projects/basti/websites/bastiklaus-online",
       "repo": null,
       "live": "selbst",
-      "stand": "2026-08-02"
+      "stand": "2026-08-02",
+      "tags": []
     },
     {
       "id": "echt-pwa",
@@ -139,7 +155,10 @@
       "pfad": "projects/basti/websites/echt-pwa",
       "repo": null,
       "live": "selbst",
-      "stand": "2025-12-11"
+      "stand": "2025-12-11",
+      "tags": [
+        "PWA"
+      ]
     },
     {
       "id": "portfolio-chatgpt",
@@ -156,7 +175,10 @@
       "pfad": "projects/basti/websites/portfolio-chatgpt",
       "repo": null,
       "live": "selbst",
-      "stand": "2025-11-11"
+      "stand": "2025-11-11",
+      "tags": [
+        "Schule"
+      ]
     },
     {
       "id": "website-chatgpt",
@@ -173,7 +195,10 @@
       "pfad": "projects/basti/websites/website-chatgpt",
       "repo": null,
       "live": "selbst",
-      "stand": "2025-11-18"
+      "stand": "2025-11-18",
+      "tags": [
+        "Schule"
+      ]
     },
     {
       "id": "website-gemini",
@@ -190,7 +215,10 @@
       "pfad": "projects/basti/websites/website-gemini",
       "repo": null,
       "live": "selbst",
-      "stand": "2026-05-26"
+      "stand": "2026-05-26",
+      "tags": [
+        "Schule"
+      ]
     },
     {
       "id": "roblox-website",
@@ -207,7 +235,10 @@
       "pfad": "projects/basti/websites/roblox-website",
       "repo": null,
       "live": "selbst",
-      "stand": "2025-11-11"
+      "stand": "2025-11-11",
+      "tags": [
+        "Schule"
+      ]
     },
     {
       "id": "mini-games",
@@ -224,7 +255,11 @@
       "pfad": "projects/basti/websites/mini-games",
       "repo": null,
       "live": "selbst",
-      "stand": "2026-01-13"
+      "stand": "2026-01-13",
+      "tags": [
+        "Schule",
+        "Spiel"
+      ]
     },
     {
       "id": "resumax-clone",
@@ -243,7 +278,10 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Next.js — muss erst gebaut werden (npm install && npm run build)",
-      "stand": "2025-12-11"
+      "stand": "2025-12-11",
+      "tags": [
+        "Schule"
+      ]
     },
     {
       "id": "kartenbot-web",
@@ -263,7 +301,11 @@
       "repo": "https://github.com/BastiLd/kartenbot",
       "live": null,
       "liveHinweis": "Discord-Bot — braucht einen Bot-Token und muss lokal laufen",
-      "stand": "2026-08-07"
+      "stand": "2026-08-07",
+      "tags": [
+        "Discord",
+        "Bot"
+      ]
     },
     {
       "id": "mediathek-downloader",
@@ -281,7 +323,10 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Lokaler Server — python server.py, dann localhost:5000",
-      "stand": "2026-08-02"
+      "stand": "2026-08-02",
+      "tags": [
+        "Medien"
+      ]
     },
     {
       "id": "wipe-animation",
@@ -301,7 +346,8 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Kommandozeilen-/GUI-Werkzeug",
-      "stand": "2026-07-07"
+      "stand": "2026-07-07",
+      "tags": []
     },
     {
       "id": "auto-capture",
@@ -320,7 +366,10 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Chrome → Erweiterungen → Entwicklermodus → Entpackte Erweiterung laden",
-      "stand": "2026-08-07"
+      "stand": "2026-08-07",
+      "tags": [
+        "Automatisierung"
+      ]
     },
     {
       "id": "auto-tab-close",
@@ -338,7 +387,10 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Chrome → Erweiterungen → Entwicklermodus → Entpackte Erweiterung laden",
-      "stand": "2026-08-06"
+      "stand": "2026-08-06",
+      "tags": [
+        "Automatisierung"
+      ]
     },
     {
       "id": "stadt-land-fluss",
@@ -357,7 +409,10 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Chrome → Erweiterungen → Entwicklermodus → Entpackte Erweiterung laden",
-      "stand": "2026-07-06"
+      "stand": "2026-07-06",
+      "tags": [
+        "Automatisierung"
+      ]
     },
     {
       "id": "vetnow",
@@ -378,7 +433,8 @@
       "pfad": "projects/basti/desktop-apps/vetnow",
       "repo": "https://github.com/BastiLd/vetnow",
       "live": "https://bastild.github.io/vetnow/",
-      "stand": "2026-08-19"
+      "stand": "2026-08-04",
+      "tags": []
     },
     {
       "id": "plex-transfer",
@@ -399,7 +455,11 @@
       "repo": "https://github.com/BastiLd/transfermov-seritozimaOSserver",
       "live": null,
       "liveHinweis": "Windows-Desktop-App — npm --prefix App install && npm start",
-      "stand": "2026-07-06"
+      "stand": "2026-07-06",
+      "tags": [
+        "Medien",
+        "Automatisierung"
+      ]
     },
     {
       "id": "cursor-forge",
@@ -420,7 +480,8 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Tauri-App — npm install && npm run tauri build",
-      "stand": "2026-07-17"
+      "stand": "2026-07-17",
+      "tags": []
     },
     {
       "id": "webhafen",
@@ -441,7 +502,10 @@
       "repo": "https://github.com/BastiLd/MFU-TEST",
       "live": null,
       "liveHinweis": "docker compose up — danach im Browser auf den Dashboard-Port",
-      "stand": "2026-08-05"
+      "stand": "2026-08-05",
+      "tags": [
+        "Schule"
+      ]
     },
     {
       "id": "webbing",
@@ -463,7 +527,8 @@
       "pfad": "projects/basti/websites/webbing",
       "repo": "https://github.com/BastiLd/Webbing",
       "live": "https://bastild.github.io/Webbing/",
-      "stand": "2025-12-09"
+      "stand": "2025-12-09",
+      "tags": []
     },
     {
       "id": "excel-formel-retter",
@@ -483,7 +548,10 @@
       "pfad": "projects/basti/websites/excel-formel-retter",
       "repo": "https://github.com/BastiLd/Fromel-Excel",
       "live": null,
-      "stand": "2025-12-08"
+      "stand": "2025-12-08",
+      "tags": [
+        "KI"
+      ]
     },
     {
       "id": "ai-response-verifier",
@@ -502,7 +570,10 @@
       "pfad": "projects/basti/websites/ai-response-verifier",
       "repo": null,
       "live": null,
-      "stand": "2025-06-12"
+      "stand": "2025-06-12",
+      "tags": [
+        "KI"
+      ]
     },
     {
       "id": "viele-webapps",
@@ -520,7 +591,10 @@
       "pfad": "projects/basti/websites/viele-webapps",
       "repo": null,
       "live": null,
-      "stand": "2025-11-24"
+      "stand": "2025-11-24",
+      "tags": [
+        "Schule"
+      ]
     },
     {
       "id": "pfotennotruf-kaernten",
@@ -539,7 +613,8 @@
       "repo": "https://github.com/BastiLd/S-N",
       "live": "https://bastild.github.io/S-N/",
       "stand": "2026-08-19",
-      "liveHinweis": "Der Code liegt seit 19.08.2026 im Repo S-N — auf eigenen Branches: `alles` (VetNow komplett + beide Pfotennotruf-Fassungen), `vetnow-app` (nur Web, Handy, Extension), `pages` (die GitHub-Pages-Seite). `main` bleibt bei der Projektidee."
+      "liveHinweis": "Der Code liegt seit 19.08.2026 im Repo S-N — auf eigenen Branches: `alles` (VetNow komplett + beide Pfotennotruf-Fassungen), `vetnow-app` (nur Web, Handy, Extension), `pages` (die GitHub-Pages-Seite). `main` bleibt bei der Projektidee.",
+      "tags": []
     },
     {
       "id": "pfotennotruf-mvp",
@@ -558,7 +633,8 @@
       "repo": "https://github.com/BastiLd/S-N",
       "live": "https://bastild.github.io/S-N/",
       "stand": "2026-08-19",
-      "liveHinweis": "Der Code liegt seit 19.08.2026 im Repo S-N — auf eigenen Branches: `alles` (VetNow komplett + beide Pfotennotruf-Fassungen), `vetnow-app` (nur Web, Handy, Extension), `pages` (die GitHub-Pages-Seite). `main` bleibt bei der Projektidee."
+      "liveHinweis": "Der Code liegt seit 19.08.2026 im Repo S-N — auf eigenen Branches: `alles` (VetNow komplett + beide Pfotennotruf-Fassungen), `vetnow-app` (nur Web, Handy, Extension), `pages` (die GitHub-Pages-Seite). `main` bleibt bei der Projektidee.",
+      "tags": []
     },
     {
       "id": "discord-bot-maker",
@@ -578,7 +654,11 @@
       "pfad": "projects/basti/websites/discord-bot-maker",
       "repo": "https://github.com/BastiLd/Discord_Bot-Maker",
       "live": "https://bastild.github.io/Discord_Bot-Maker/",
-      "stand": "2026-03-28"
+      "stand": "2026-03-28",
+      "tags": [
+        "Discord",
+        "Bot"
+      ]
     },
     {
       "id": "small-but-good",
@@ -597,7 +677,8 @@
       "pfad": "projects/basti/websites/small-but-good",
       "repo": "https://github.com/BastiLd/Small-but-Good",
       "live": "https://bastild.github.io/Small-but-Good/",
-      "stand": "2026-06-04"
+      "stand": "2026-06-04",
+      "tags": []
     },
     {
       "id": "perry-rat",
@@ -615,7 +696,8 @@
       "einstieg": "index.html",
       "repo": "https://github.com/BastiLd/Perry-Rat",
       "live": "https://bastild.github.io/Perry-Rat/",
-      "stand": "2026-03-12"
+      "stand": "2026-03-12",
+      "tags": []
     },
     {
       "id": "mcdiskussion-web",
@@ -633,7 +715,10 @@
       "einstieg": "index.html",
       "repo": "https://github.com/BastiLd/MCDiskussionWeb",
       "live": "https://bastild.github.io/MCDiskussionWeb/",
-      "stand": "2026-06-10"
+      "stand": "2026-06-10",
+      "tags": [
+        "Minecraft"
+      ]
     },
     {
       "id": "katabump-panel",
@@ -652,7 +737,8 @@
       "repo": null,
       "live": null,
       "liveHinweis": "docker compose up — Zugangsdaten in .env.local.example",
-      "stand": "2026-05-10"
+      "stand": "2026-05-10",
+      "tags": []
     },
     {
       "id": "discord-archive-web",
@@ -669,7 +755,13 @@
       "pfad": "projects/basti/websites/discord-archive-web",
       "repo": null,
       "live": null,
-      "stand": "2026-05-22"
+      "stand": "2026-05-22",
+      "tags": [
+        "Discord"
+      ],
+      "verwandt": [
+        "discord-archive-viewer"
+      ]
     },
     {
       "id": "obbymm",
@@ -690,7 +782,10 @@
       "repo": "https://github.com/BastiLd/ObbyMM",
       "live": null,
       "liveHinweis": "Electron-App — npm install && npm run build",
-      "stand": "2026-04-30"
+      "stand": "2026-04-30",
+      "tags": [
+        "Schule"
+      ]
     },
     {
       "id": "wo-was-filme-serien",
@@ -710,7 +805,10 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Electron-App — npm install && npm start",
-      "stand": "2025-06-27"
+      "stand": "2025-06-27",
+      "tags": [
+        "Medien"
+      ]
     },
     {
       "id": "quizelt",
@@ -728,7 +826,8 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Flutter-App — flutter pub get && flutter run",
-      "stand": "2025-11-22"
+      "stand": "2025-11-22",
+      "tags": []
     },
     {
       "id": "media-duplikat-finder",
@@ -748,7 +847,10 @@
       "repo": "https://github.com/BastiLd/abgleich",
       "live": null,
       "liveHinweis": "Electron-App — npm install && npm run dev",
-      "stand": "2026-05-31"
+      "stand": "2026-05-31",
+      "tags": [
+        "Medien"
+      ]
     },
     {
       "id": "medien-suche",
@@ -769,7 +871,10 @@
       "repo": "https://github.com/BastiLd/Medien-Suche-Privat",
       "live": null,
       "liveHinweis": "Electron-App — npm install && npm run dev",
-      "stand": "2026-05-01"
+      "stand": "2026-05-01",
+      "tags": [
+        "Medien"
+      ]
     },
     {
       "id": "mediasync",
@@ -789,7 +894,10 @@
       "repo": "https://github.com/BastiLd/MediaSync",
       "live": null,
       "liveHinweis": "docker compose up — danach im Browser öffnen",
-      "stand": "2026-06-08"
+      "stand": "2026-06-08",
+      "tags": [
+        "Medien"
+      ]
     },
     {
       "id": "discord-archive-viewer",
@@ -808,7 +916,13 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Electron-App — npm install && npm run dev",
-      "stand": "2026-05-22"
+      "stand": "2026-05-22",
+      "tags": [
+        "Discord"
+      ],
+      "verwandt": [
+        "discord-archive-web"
+      ]
     },
     {
       "id": "tracker-kaufkompass",
@@ -826,7 +940,8 @@
       "repo": null,
       "live": null,
       "liveHinweis": "node tracker_camera_app.js",
-      "stand": "2026-05-29"
+      "stand": "2026-05-29",
+      "tags": []
     },
     {
       "id": "game-server-zimaos",
@@ -847,7 +962,10 @@
       "repo": "https://github.com/BastiLd/Game-Server-ZimaOS",
       "live": null,
       "liveHinweis": "docker compose up — danach im Browser öffnen",
-      "stand": "2026-06-01"
+      "stand": "2026-06-01",
+      "tags": [
+        "Minecraft"
+      ]
     },
     {
       "id": "docker-discord-bot",
@@ -868,7 +986,11 @@
       "repo": "https://github.com/BastiLd/Docker-Discord-Bot",
       "live": null,
       "liveHinweis": "docker compose up — Zugangsdaten in .env eintragen",
-      "stand": "2026-06-04"
+      "stand": "2026-06-04",
+      "tags": [
+        "Discord",
+        "Bot"
+      ]
     },
     {
       "id": "searchapp",
@@ -886,25 +1008,37 @@
       "repo": null,
       "live": null,
       "liveHinweis": "pip install -r requirements.txt && python main.py",
-      "stand": "2025-04-28"
+      "stand": "2025-04-28",
+      "tags": [
+        "Schule"
+      ]
     },
     {
       "id": "audio-zu-text",
-      "titel": "Audio zu Text",
+      "titel": "Voice to Text",
       "besitzer": "basti",
       "kategorie": "python-apps",
-      "kurz": "Schreibt Sprachnachrichten in Text um und fasst sie zusammen",
-      "beschreibung": "Eine Kette aus drei Schritten: Sprachaufnahmen werden in Text umgeschrieben, mit vorhandenen schriftlichen Unterhaltungen zusammengeführt und zu einer Übersicht verdichtet. Die Umsetzung läuft über die OpenAI-Schnittstelle, die Anweisungen für die Zusammenfassung stehen in einer eigenen Textdatei und lassen sich ohne Codeänderung anpassen. Im Katalog liegt nur der Programmcode — die Aufnahmen und die daraus entstandenen Texte sind private Sprachnachrichten und bewusst nicht enthalten.",
+      "kurz": "Verwandelt Discord-Sprachnachrichten offline in Text",
+      "beschreibung": "Ein offline arbeitendes Transkriptions-Werkzeug für deutsche Sprachnachrichten, gewachsen aus dem frühen \"Audio zu Text\": ein gemeinsamer Python-Kern mit zwei Oberflächen, ein Terminal-Befehl (mittelkap) und eine Tauri-Desktop-App. Erkennt Sprache lokal ohne Cloud-API, kann Ordner laufend überwachen und formatiert Text auf Wunsch per KI zu Markdown. Die frühere Fassung lief noch über die OpenAI-Cloud-API und ist darin aufgegangen. Ergänzt durch ein eigenes BetterDiscord-Plugin (siehe Voice Message Downloader), das die Sprachnachrichten aus Discord holt.",
       "tech": [
         "Python",
-        "OpenAI API",
-        "Whisper"
+        "Tauri 2",
+        "Rust",
+        "JavaScript",
+        "PowerShell"
       ],
       "pfad": "projects/basti/python-apps/audio-zu-text",
       "repo": null,
       "live": null,
-      "liveHinweis": "pip install -r requirements.txt — OPENAI_API_KEY als Umgebungsvariable setzen",
-      "stand": "2026-01-31"
+      "liveHinweis": "cd core && ../.venv/Scripts/python.exe -m mittelkap <datei> --txt — oder die gebaute exe unter gui/src-tauri/target/release/mittelkap.exe",
+      "stand": "2026-08-22",
+      "tags": [
+        "Discord",
+        "KI"
+      ],
+      "verwandt": [
+        "voice-message-downloader"
+      ]
     },
     {
       "id": "privacy-guard-adblocker",
@@ -923,7 +1057,11 @@
       "repo": "https://github.com/BastiLd/adblock-chrome-extension",
       "live": null,
       "liveHinweis": "node scripts/update-rules.mjs, dann in Chrome als entpackte Erweiterung laden",
-      "stand": "2026-04-27"
+      "stand": "2026-04-27",
+      "tags": [
+        "Datenschutz",
+        "Automatisierung"
+      ]
     },
     {
       "id": "chs-instagram-audit-helper",
@@ -942,7 +1080,10 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Chrome → Erweiterungen → Entwicklermodus → Entpackte Erweiterung laden",
-      "stand": "2026-06-09"
+      "stand": "2026-06-09",
+      "tags": [
+        "Schule"
+      ]
     },
     {
       "id": "restore-inv",
@@ -961,7 +1102,10 @@
       "repo": "https://github.com/BastiLd/Restore-Inv",
       "live": null,
       "liveHinweis": "Fabric-Mod — ./gradlew build, JAR nach .minecraft/mods kopieren",
-      "stand": "2026-06-05"
+      "stand": "2026-06-05",
+      "tags": [
+        "Minecraft"
+      ]
     },
     {
       "id": "hotbar-mod",
@@ -981,7 +1125,10 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Fabric-Mod — ./gradlew build",
-      "stand": "2025-07-18"
+      "stand": "2025-07-18",
+      "tags": [
+        "Minecraft"
+      ]
     },
     {
       "id": "invisible-mod",
@@ -1000,7 +1147,10 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Fabric-Mod — ./gradlew build",
-      "stand": "2025-07-04"
+      "stand": "2025-07-04",
+      "tags": [
+        "Minecraft"
+      ]
     },
     {
       "id": "mab-mod",
@@ -1021,7 +1171,10 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Fabric-Mod — ./gradlew build",
-      "stand": "2025-08-07"
+      "stand": "2025-08-07",
+      "tags": [
+        "Minecraft"
+      ]
     },
     {
       "id": "who-did-what-when",
@@ -1039,7 +1192,10 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Fabric-Mod — ./gradlew build",
-      "stand": "2025-06-09"
+      "stand": "2025-06-09",
+      "tags": [
+        "Minecraft"
+      ]
     },
     {
       "id": "keep-inventory-worlds",
@@ -1058,7 +1214,10 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Fabric-Mod — ./gradlew build",
-      "stand": "2026-06-11"
+      "stand": "2026-06-11",
+      "tags": [
+        "Minecraft"
+      ]
     },
     {
       "id": "timer-datapack",
@@ -1076,7 +1235,10 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Ordner nach saves/<Welt>/datapacks kopieren",
-      "stand": "2025-06-08"
+      "stand": "2025-06-08",
+      "tags": [
+        "Minecraft"
+      ]
     },
     {
       "id": "colored-in",
@@ -1097,7 +1259,10 @@
       "pfad": "projects/basti/websites/colored-in",
       "repo": "https://github.com/BastiLd/colored-in",
       "live": "https://bastild.github.io/colored-in/",
-      "stand": "2026-03-11"
+      "stand": "2026-03-11",
+      "tags": [
+        "KI"
+      ]
     },
     {
       "id": "mvd-web",
@@ -1115,7 +1280,8 @@
       "pfad": "projects/basti/websites/mvd-web",
       "repo": "https://github.com/BastiLd/mvd-web",
       "live": "https://bastild.github.io/mvd-web/",
-      "stand": "2026-08-12"
+      "stand": "2026-08-21",
+      "tags": []
     },
     {
       "id": "mediastack-regler",
@@ -1136,7 +1302,11 @@
       "repo": "https://github.com/BastiLd/SeriesMoviesDownload",
       "live": null,
       "liveHinweis": "Lokale Oberfläche — npm install, dann npm run dev. Braucht laufende Radarr-/Sonarr-Instanzen.",
-      "stand": "2026-06-20"
+      "stand": "2026-06-20",
+      "tags": [
+        "Medien",
+        "Automatisierung"
+      ]
     },
     {
       "id": "aufgabenliste",
@@ -1156,7 +1326,11 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Lokaler Server — START-SERVER.cmd doppelklicken, dann localhost:8090. Details in EINRICHTUNG.md.",
-      "stand": "2026-08-17"
+      "stand": "2026-08-17",
+      "tags": [
+        "PWA",
+        "Automatisierung"
+      ]
     },
     {
       "id": "everything-self",
@@ -1176,7 +1350,8 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Windows-Desktop-App — dotnet run --project \"EverythingSelf.App\". Braucht ein laufendes Everything von voidtools.",
-      "stand": "2026-08-13"
+      "stand": "2026-08-14",
+      "tags": []
     },
     {
       "id": "manim-online",
@@ -1194,7 +1369,35 @@
       "repo": null,
       "live": null,
       "liveHinweis": "Einzelne Szenen rendern: manim -pql \"Datei.py\" KlassenName",
-      "stand": "2026-05-27"
+      "stand": "2026-05-27",
+      "tags": [
+        "KI"
+      ]
+    },
+    {
+      "id": "voice-message-downloader",
+      "titel": "VoiceMessageDownloader",
+      "besitzer": "basti",
+      "kategorie": "plugins-addons",
+      "kurz": "BetterDiscord-Plugin: Download-Knopf an jeder Sprachnachricht",
+      "beschreibung": "Ein BetterDiscord-Plugin, das neben jeder Discord-Sprachnachricht einen Download-Button einblendet. Ein Klick speichert die Aufnahme als .ogg in einen frei einstellbaren Ordner (Vorlage für Dateiname und Unterordner je Server/Kanal einstellbar), Shift-Klick oder Rechtsklick öffnet stattdessen den Windows-Speichern-Dialog. Ein MutationObserver erkennt Sprachnachrichten im Chat, der Download läuft über BdApi.Net.fetch. Keine Abhängigkeit zu ZeresPluginLibrary oder BDFDB. Liefert die Aufnahmen, die Voice to Text anschließend offline in Text umwandelt.",
+      "tech": [
+        "BetterDiscord",
+        "JavaScript"
+      ],
+      "pfad": "projects/basti/plugins-addons/voice-message-downloader",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "VoiceMessageDownloader.plugin.js nach %appdata%\\BetterDiscord\\plugins\\ kopieren, in Discord unter Einstellungen -> Plugins einschalten",
+      "stand": "2026-08-22",
+      "tags": [
+        "Discord",
+        "BetterDiscord-Plugin",
+        "Automatisierung"
+      ],
+      "verwandt": [
+        "audio-zu-text"
+      ]
     }
   ]
 }

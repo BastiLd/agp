@@ -1,14 +1,32 @@
 # MVD Web
 
-Website für MVD – Marvel Vereinigt Deutschland. Reines HTML/CSS/JS, kein Build-Schritt,
+Website für MVD – Marvel vereinigt Deutschland. Reines HTML/CSS/JS, kein Build-Schritt,
 läuft direkt über GitHub Pages.
 
 ## Struktur
 
 ```
-index.html
-css/style.css      gesamtes Design
+index.html         Startseite V1
+v2.html            Startseite V2
+creator.html       Creator-Seite V1
+creator-v2.html    Creator-Seite V2
+css/style.css              Design V1
+css/style-creator.css      Ergänzung für creator.html
+css/style-v2.css           Design V2
+css/style-creator-v2.css   Ergänzung für creator-v2.html
 js/main.js         Hamburger-Menü + sanftes Einblenden der Textblöcke
+js/main-v2.js      dasselbe für V2, zusätzlich die Topbar beim Scrollen
+js/clouds.js       Wolken-Canvas in der Himmelzone von creator.html
+js/qa.js           Aufklapp-Verhalten der Frage/Antwort-Blöcke (V1 + V2)
+js/footer-scene.js Footer-Landschaft V1: Dünen, Bewuchs, Treibsand, Sandhosen
+js/night.js        Sternschnuppen und Glühwürmchen (V1)
+js/deco.js         schwebende Objekte je Bereich, gesteuert über data-deco
+                   (fest eingefärbt: Play rot, Sprechblasen blau, usw.)
+js/icon-colors.js  Schalter: Social-Icons schlicht oder in Markenfarben
+js/qa-tiles.js     Fragen als Kacheln mit Antwort-Fenster (V1)
+js/section-nav.js  Fortschrittsbalken + Sprungmarken, gesteuert über data-nav
+js/hero-video.js   lädt das Hero-Video der V2-Startseite erst bei Bedarf
+assets/videos/hero.mp4   Titelvideo der V2-Startseite (16 MB)
 assets/images/
   header-beach.jpg   Strand mit den fünf Schatten   (ausgeliefert, 428 KB)
   middle-night.jpg   Sternenhimmel hinter dem Text  (ausgeliefert,  54 KB)
@@ -83,3 +101,28 @@ kurzer Disclaimer („Fan-Projekt, keine Verbindung zu Marvel oder Disney").
 Repository `BastiLd/mvd-web`, Pages-Quelle `main` / `/ (root)`.
 Nach jedem Push aktualisiert sich <https://bastild.github.io/mvd-web/> automatisch
 (ca. 1 Minute).
+
+## Bereiche hinzufügen
+
+Fortschrittsbalken und Sprungmarken rechts rechnen sich selbst aus. Ein neuer
+Bereich braucht nur:
+
+```html
+<section id="mein-bereich" data-nav="Anzeigename" data-deco="play">
+```
+
+* `id` ist das Sprungziel
+* `data-nav` ist der Name an der Sprungmarke
+* `data-deco` ist optional und bestimmt die schwebende Deko
+  (`play`, `bubble`, `key`, `shield`, `gear`, `spark`, mehrere per Komma)
+
+Die Anzahl der Bereiche steht nirgends fest eingetragen. Deko in einem
+Bereich wieder loswerden: `data-deco` aus dem HTML löschen.
+
+## Icon-Farben-Schalter entfernen
+
+Der Schalter unten links steckt vollständig in `js/icon-colors.js`. Zum
+Entfernen genügt es, das `<script src="js/icon-colors.js">` aus allen vier
+Seiten zu löschen und die Datei wegzuwerfen. Danach wird die Klasse
+`brand-icons` nie gesetzt, die zugehörigen CSS-Regeln greifen nicht mehr und
+die Icons bleiben dauerhaft schlicht.

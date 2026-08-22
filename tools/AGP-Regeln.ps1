@@ -12,15 +12,30 @@
 # jederzeit neu erzeugen und wuerden das Repo um Groessenordnungen aufblaehen.
 $script:AgpOrdnerAus = @(
     'node_modules', '.venv', 'venv', 'env', '__pycache__', '.pytest_cache',
+    '.pycache_tmp',
     'dist', 'build', 'out', 'release', 'target', '.next', '.nuxt', '.turbo',
     '.git', '.gradle', '.idea', '.vscode', '.expo', '.dart_tool',
     'vendor', 'Pods', 'bin', 'obj', '.tmp', '.cache', 'coverage',
     'site-packages', '.codex-test', '.playwright-cli', 'hts-cache',
+    # Googles Android-SDK-Platform-Tools (adb, fastboot & co.), komplett gebuendelt
+    # abgelegt statt installiert. Bei GHGFlix unter werkzeuge/platform-tools
+    # gefunden — die .exe/.dll darin fielen schon unter die Ballast-Regel, aber
+    # mke2fs.conf, NOTICE.txt und source.properties nicht.
+    'platform-tools',
+    # Arbeitsverzeichnisse von Claude Codes Worktree-Isolation fuer parallele
+    # Aufgaben — volle Kopien des Codes zu einem Nebenzweig, kein eigener Inhalt.
+    # Bei GHGFlix aufgefallen: 444 "neue" Dateien waren nur Worktree-Kopien.
+    'worktrees',
     # Browser-Profile aus automatisierten Screenshot-Laeufen. Die enthalten echte
     # Anmeldedaten und Cookies und haben mit dem Quelltext nichts zu tun.
     'Extensions', 'Service Worker', 'IndexedDB', 'Local Storage', 'Session Storage',
     'Cache', 'Code Cache', 'GPUCache', 'DawnGraphiteCache', 'DawnWebGPUCache',
-    'Network', 'Crashpad', 'Safe Browsing', 'component_crx_cache', 'segmentation_platform'
+    'Network', 'Crashpad', 'Safe Browsing', 'component_crx_cache', 'segmentation_platform',
+    # Waehrend der Entwicklung mit KI-Tools hochgeladene/eingefuegte Referenzbilder,
+    # kein eigener Code. Bei "avocado-at-law" lagen hier abfotografierte
+    # Duolingo-Bildschirme von Mobbin unter dem Namen "uploads" statt "images" —
+    # die bisherige projektspezifische Ausnahme haette das nicht erfasst.
+    'uploads'
 )
 
 # Ordner, deren Name einem Muster folgt. Gebraucht fuer heruntergeladene
@@ -29,7 +44,19 @@ $script:AgpOrdnerAus = @(
 $script:AgpOrdnerAusMuster = @(
     'fabric-[0-9]*',        # Fabric-API-Quellen, je Minecraft-Fassung entpackt
     'forge-[0-9]*',
-    'minecraft-[0-9]*'
+    'minecraft-[0-9]*',
+    # Export-Ordner der selbst gehosteten Foto-App Immich, an ihrem Zeitstempel
+    # im Namen erkennbar. Bei "Claude Wormhole Site" lagen hier vier echte
+    # private Fotos (immich-20260628_084941\IMG_4128.JPG usw.) mitten im
+    # Projektordner — kein Quelltext, sondern ein versehentlich abgelegter Export.
+    'immich-[0-9]*',
+    # Handgemachte Datums-Sicherungen desselben Projekts, die im Quellordner
+    # liegen geblieben sind. Bei "Claude Wormhole Site" lag so ein kompletter,
+    # sechs Wochen alter Stand (checkpoint-2026-06-16) neben dem aktuellen Code.
+    'checkpoint-[0-9]*',
+    # Dieselbe Art Sicherung, aber mit Unterstrich-Zeitstempel statt Datum. Bei
+    # GHGFlix lag so ein Ordner (backup_20260801_235846) direkt im Projekt selbst.
+    'backup_[0-9]*'
 )
 
 # Dateien, die nie mitkommen. Die erste Gruppe sind Zugangsdaten — die sind der
@@ -52,6 +79,11 @@ $script:AgpGeheimMuster = @(
 
 $script:AgpBallastMuster = @(
     '*.log', '*.pyc', '*.pyo', '*.class', '*.jar', '*.exe', '*.msi',
+    # Kompilierte Python-Dateien mit angehaengter Zahl statt normalem ".pyc"-Ende —
+    # bei "Plex Transfer" so aufgetaucht (app_check.pyc.2613964546480 direkt im
+    # Projektordner, dieselbe Zahlenendung wie in den regulaer ausgeschlossenen
+    # __pycache__-Dateien). Vermutlich eine Windows-Umbenennung wegen gesperrter Datei.
+    '*.pyc.*',
     '*.dll', '*.so', '*.dylib', '*.lib', '*.pdb',
     '*.zip', '*.rar', '*.7z', '*.tar', '*.gz', '*.iso',
     '*.mp4', '*.mkv', '*.mov', '*.avi', '*.wav', '*.mp3', '*.m4a',

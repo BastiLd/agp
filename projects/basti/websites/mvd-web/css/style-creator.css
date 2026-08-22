@@ -1,0 +1,853 @@
+/* ==========================================================================
+   MVD Web – Creator-Seite, Design V1 (Ergänzung zu style.css)
+   Wird IMMER nach style.css geladen. Hier steht nur, was diese Seite
+   zusätzlich braucht – Menü, Farben, Footer und Reveal kommen aus style.css.
+
+   Aufbau der Himmelzone von oben nach unten:
+     Sterne (hinter der Überschrift)  ->  Wolken  ->  Sonnenuntergang  ->  Dunkel
+   Das ist genau die Bildkomposition von middle-night.jpg, deshalb wird das
+   Bild hier über die volle Höhe der Zone gelegt statt beschnitten.
+   ========================================================================== */
+
+:root {
+  /* Höhe der Himmelzone. Die Marken darunter beziehen sich auf diesen Wert. */
+  --sky-h: 108svh;
+  /* Auf dieser Höhe der Zone liegt im Bild das orange Horizontband. */
+  --sky-horizon: 63%;
+}
+
+/* ==========================================================================
+   Himmelzone
+   ========================================================================== */
+
+.sky {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: var(--sky-h);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 22vh 20px 0;
+  padding-top: 22svh;
+  overflow: hidden;
+  background: #06080f;
+}
+
+/* Das Nachtbild über die volle Zonenhöhe. Absichtlich 100% x 100% statt
+   cover: nur so landet die Bildkomposition (Sterne oben, Horizont bei 63%,
+   dunkler Strand unten) maßstabsgetreu auf der Zone. Die Sterne werden dabei
+   minimal breiter – bei Punkten dieser Größe nicht sichtbar. */
+.sky__scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: #06080f;
+  background-image: url("../assets/images/middle-night.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+/* Wolken-Canvas. Liegt über dem Bild, aber unter dem Text. Die Wolken selbst
+   werden von js/clouds.js nur im Bereich zwischen Überschrift und Horizont
+   gezeichnet. */
+.sky__clouds {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Weicher Auslauf in den Seitenhintergrund – gleiches Prinzip wie
+   .hero::after in style.css, nur auf die Farben unterhalb des Horizonts
+   abgestimmt, damit keine Kante zum Inhalt entsteht. */
+.sky::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 32%;
+  z-index: 2;
+  background: linear-gradient(to bottom,
+      rgba(10, 9, 12, 0) 0%,
+      rgba(14, 11, 10, 0.6) 45%,
+      rgba(20, 15, 11, 0.9) 76%,
+      var(--bg-top) 100%);
+  pointer-events: none;
+}
+
+.sky__inner {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  max-width: 720px;
+}
+
+.sky__title {
+  font-size: clamp(2.6rem, 9vw, 5.5rem);
+  letter-spacing: 0.06em;
+  margin: 0;
+  color: #fff8f0;
+  /* Statt eines abdunkelnden Kastens hinter dem Text – der zeichnete sich
+     als sichtbarer Schattenblock gegen die Wolken ab – tragen jetzt der
+     Textschatten und ein weiches Loch in der Wolkenebene (js/clouds.js)
+     die Lesbarkeit. */
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.95),
+    0 4px 30px rgba(6, 8, 20, 0.9),
+    0 0 60px rgba(6, 8, 20, 0.8);
+}
+
+.sky__subtitle {
+  margin: 0.6em 0 0;
+  font-size: clamp(0.95rem, 2.4vw, 1.2rem);
+  color: #e7dccf;
+  letter-spacing: 0.02em;
+  text-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.95),
+    0 0 34px rgba(6, 8, 20, 0.9);
+}
+
+/* Sprungmarken zu den drei Hauptpunkten. */
+.sky__jump {
+  margin-top: 2.2em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 12px;
+}
+
+.sky__jump a {
+  padding: 10px 18px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(255, 140, 26, 0.5);
+  border-radius: 999px;
+  background: rgba(12, 8, 4, 0.45);
+  color: var(--color-orange-light);
+  font-size: 0.9rem;
+  text-decoration: none;
+  backdrop-filter: blur(3px);
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+@media (hover: hover) {
+  .sky__jump a:hover {
+    background: rgba(255, 140, 26, 0.16);
+    border-color: var(--color-orange-light);
+    color: #fff0dc;
+  }
+}
+
+/* Aktueller Menüpunkt hebt sich ab. */
+.menu-link--current {
+  color: #fff0dc;
+  background: rgba(255, 140, 26, 0.12);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   Abschnitte
+   ========================================================================== */
+
+/* Die Ziffer vor der Abschnittsüberschrift, etwas zurückgenommen. */
+.block-num {
+  color: var(--color-orange);
+  margin-right: 0.35em;
+  font-variant-numeric: tabular-nums;
+}
+
+.content-block h2 { scroll-margin-top: 24px; }
+
+/* Sätze, die im Original keine Frage sind, stehen als normaler Absatz da –
+   nur leicht abgesetzt, damit man sie nicht für eine Antwort hält. */
+.block-note {
+  margin: 1.6em 0 1.2em;
+  padding-left: 16px;
+  border-left: 2px solid rgba(255, 140, 26, 0.35);
+  color: var(--color-text-muted);
+}
+
+/* Frage / Antwort ------------------------------------------------------- */
+
+/* Natives <details>: funktioniert auch ohne JavaScript und ist mit der
+   Tastatur bedienbar. */
+.qa {
+  margin: 0 0 12px;
+  border: 1px solid rgba(255, 140, 26, 0.2);
+  border-radius: 10px;
+  background: rgba(12, 9, 14, 0.5);
+  overflow: hidden;
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+.qa > summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 18px;
+  min-height: 48px;
+  cursor: pointer;
+  font-size: 1.08rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--color-red-glow);
+  list-style: none;
+  transition: color 0.18s ease;
+}
+
+/* Das Standard-Dreieck der Browser entfernen – wir zeichnen einen eigenen
+   Pfeil, damit er in beiden Engines gleich aussieht. */
+.qa > summary::-webkit-details-marker { display: none; }
+.qa > summary::marker { content: ""; }
+
+.qa > summary::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 0;
+  height: 0;
+  margin-top: 0.45em;
+  border-left: 7px solid currentColor;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  transform-origin: 25% 50%;
+  transition: transform 0.2s ease;
+}
+
+.qa[open] > summary::before { transform: rotate(90deg); }
+
+.qa[open] {
+  border-color: rgba(255, 140, 26, 0.42);
+  background: rgba(16, 12, 18, 0.66);
+}
+
+.qa[open] > summary { color: var(--color-orange-light); }
+
+@media (hover: hover) {
+  .qa:hover {
+    border-color: rgba(255, 140, 26, 0.45);
+    background: rgba(18, 13, 18, 0.62);
+  }
+  .qa > summary:hover { color: var(--color-orange-light); }
+}
+
+.qa > summary:focus-visible {
+  outline: 2px solid var(--color-orange-light);
+  outline-offset: -2px;
+}
+
+/* Die Antwort ist nur eingerückt, ohne Leiste. Der Abstand sitzt auf dem
+   inneren Container, damit die Höhe wirklich auf 0 gehen kann – sonst bliebe
+   im zugeklappten Zustand der Innenabstand als Spalt stehen. */
+.qa__answer { padding: 0; }
+
+.qa__inner { padding: 2px 20px 14px 40px; }
+
+.qa__inner > :last-child { margin-bottom: 0; }
+
+/* Nur wenn js/qa.js läuft, wird die Höhe animiert. Ohne JavaScript klappt
+   das <details> wie gewohnt sofort auf. */
+.qa--js > .qa__answer {
+  overflow: hidden;
+  transition: height 0.28s ease;
+}
+
+/* Inhalte, die im Original als Aufzählung gemeint sind. */
+.tag-list {
+  list-style: none;
+  margin: 0 0 1em;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-list li {
+  padding: 6px 13px;
+  border: 1px solid rgba(255, 140, 26, 0.3);
+  border-radius: 999px;
+  background: rgba(255, 140, 26, 0.07);
+  font-size: 0.9rem;
+  color: var(--color-orange-light);
+}
+
+/* Kleiner Hinweis, der nicht Teil der eigentlichen Antwort ist. */
+.info-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 1.4em 0 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+.info-note strong { color: var(--color-orange-light); }
+
+.info-note__mark {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 140, 26, 0.55);
+  color: var(--color-orange-light);
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 16px;
+  text-align: center;
+}
+
+/* Discord: Satz links, Platzhalter für die Kanal-Bilder rechts ---------- */
+
+.with-shots {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+  margin-bottom: 1.4em;
+}
+
+.with-shots > p { flex: 1 1 auto; margin: 0; }
+
+.shots {
+  flex: 0 0 132px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  border: 1px dashed rgba(255, 140, 26, 0.35);
+  border-radius: 8px;
+  background: rgba(8, 6, 10, 0.5);
+}
+
+.shot {
+  display: block;
+  height: 16px;
+  border-radius: 3px;
+  background: repeating-linear-gradient(45deg,
+      rgba(255, 140, 26, 0.16) 0 6px,
+      rgba(255, 140, 26, 0.07) 6px 12px);
+}
+
+.shots__label {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgba(200, 182, 168, 0.75);
+}
+
+/* Abschnitt 4 – Basti und die Abkürzungen nebeneinander ----------------- */
+
+/* Dieser eine Bereich ist breiter als die 680px-Textspalte, sonst blieben für
+   zwei Spalten je nur gut 320px übrig. */
+.pair {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.basti-box {
+  padding: 26px 26px 10px;
+  border: 1px solid rgba(255, 90, 66, 0.28);
+  border-radius: 14px;
+  background: linear-gradient(160deg,
+      rgba(30, 16, 12, 0.8) 0%,
+      rgba(12, 9, 12, 0.85) 100%);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.4);
+}
+
+.basti-box h2 {
+  font-size: 1.28rem;
+  line-height: 1.4;
+}
+
+.basti-roles {
+  margin-top: 1.2em;
+  padding-top: 1em;
+  border-top: 1px solid rgba(255, 140, 26, 0.2);
+  color: var(--color-orange-light);
+  font-weight: 700;
+}
+
+/* Abkürzungen ----------------------------------------------------------- */
+
+.abbr-box {
+  height: 100%;
+  padding: 26px 24px 22px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  background: rgba(16, 16, 19, 0.88);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+}
+
+.abbr-box h2 {
+  margin: 0 0 1.1em;
+  font-size: 1.1rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.abbr-list { margin: 0; }
+
+.abbr-row {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 9px 0;
+}
+
+.abbr-row + .abbr-row { border-top: 1px solid rgba(255, 255, 255, 0.06); }
+
+.abbr-row dt {
+  flex: 0 0 54px;
+  font-weight: 700;
+  color: var(--color-orange-light);
+  letter-spacing: 0.06em;
+}
+
+.abbr-row dd {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.abbr-row dd span {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+}
+
+/* ==========================================================================
+   Dichtere Abstände
+   Die Blöcke standen sehr weit auseinander; auf einer reinen Textseite mit
+   Aufklappern entsteht dadurch viel leere Fläche.
+   ========================================================================== */
+
+main { padding-top: 46px; padding-bottom: 80px; }
+
+.intro-text { margin-bottom: 44px; }
+
+.content-block { margin-bottom: 48px; }
+
+.content-block h2 { margin-bottom: 0.5em; }
+
+.qa { margin-bottom: 9px; }
+
+.pair { margin-top: 8px; }
+
+/* ==========================================================================
+   Fragen als Kacheln (js/qa-tiles.js)
+
+   Die <details> im HTML bleiben als Rückfallebene bestehen und werden vom
+   Skript ausgeblendet. Läuft kein JavaScript, greift keine dieser Regeln und
+   man sieht die gewohnten Aufklapper.
+   ========================================================================== */
+
+.qa-tiles {
+  list-style: none;
+  margin: 1.4em 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.qa-tile {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  height: 100%;
+  min-height: 84px;
+  padding: 16px 16px 16px 18px;
+  border: 1px solid rgba(255, 140, 26, 0.24);
+  border-radius: 12px;
+  background: rgba(12, 9, 14, 0.6);
+  color: var(--color-red-glow);
+  font-family: var(--font-base);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background 0.18s ease,
+              color 0.18s ease, transform 0.18s ease;
+}
+
+.qa-tile__text { flex: 1 1 auto; }
+
+/* Pfeil nach rechts – zeigt an, dass sich etwas öffnet. */
+.qa-tile__mark {
+  flex: 0 0 auto;
+  width: 0;
+  height: 0;
+  margin-top: 0.35em;
+  border-left: 8px solid currentColor;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  transition: transform 0.18s ease;
+}
+
+@media (hover: hover) {
+  .qa-tile:hover {
+    border-color: rgba(255, 140, 26, 0.6);
+    background: rgba(20, 14, 20, 0.8);
+    color: var(--color-orange-light);
+    transform: translateY(-2px);
+  }
+  .qa-tile:hover .qa-tile__mark { transform: translateX(3px); }
+}
+
+.qa-tile:focus-visible {
+  outline: 2px solid var(--color-orange-light);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Antwort-Fenster
+   ========================================================================== */
+
+.qa-dialog {
+  width: min(620px, calc(100vw - 32px));
+  max-height: min(78vh, 640px);
+  padding: 0;
+  border: 1px solid rgba(255, 140, 26, 0.4);
+  border-radius: 14px;
+  background: linear-gradient(160deg, #16101a 0%, #0c0a0f 100%);
+  color: var(--color-text);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75);
+  overflow: hidden;
+}
+
+.qa-dialog::backdrop {
+  background: rgba(4, 3, 8, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.qa-dialog__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 22px 20px 16px 24px;
+  border-bottom: 1px solid rgba(255, 140, 26, 0.22);
+}
+
+.qa-dialog__title {
+  flex: 1 1 auto;
+  margin: 0;
+  font-size: 1.18rem;
+  line-height: 1.4;
+  color: var(--color-orange-light);
+}
+
+.qa-dialog__close {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  margin: -6px -4px 0 0;
+  border: 1px solid rgba(255, 140, 26, 0.35);
+  border-radius: 10px;
+  background: rgba(255, 140, 26, 0.08);
+  color: var(--color-orange-light);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+@media (hover: hover) {
+  .qa-dialog__close:hover {
+    background: rgba(255, 140, 26, 0.2);
+    border-color: var(--color-orange-light);
+    color: #fff0dc;
+  }
+}
+
+.qa-dialog__close:focus-visible {
+  outline: 2px solid var(--color-orange-light);
+  outline-offset: 2px;
+}
+
+.qa-dialog__body {
+  padding: 20px 24px 24px;
+  /* Lange Antworten scrollen im Fenster, nicht die Seite darunter. */
+  max-height: calc(min(78vh, 640px) - 92px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+/* Der kopierte Antwortblock braucht hier keine Einrückung mehr. */
+.qa-dialog__body .qa__inner { padding: 0; }
+.qa-dialog__body > :last-child { margin-bottom: 0; }
+
+/* Solange das Fenster offen ist, soll die Seite darunter stillstehen. */
+body.has-dialog { overflow: hidden; }
+
+/* ==========================================================================
+   Deko-Ebenen
+   ========================================================================== */
+
+/* Sternschnuppen und Glühwürmchen (js/night.js). Fest über der ganzen
+   Seite, damit die Bewegung beim Scrollen nicht abreißt. */
+.night-life {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Schwebende Objekte je Bereich (js/deco.js). Liegt hinter dem Text. */
+.deco {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Damit die Deko wirklich hinter dem Text landet, brauchen die Bereiche
+   einen eigenen Stapelkontext. */
+.content-block,
+.pair {
+  position: relative;
+}
+
+.content-block > *:not(.deco),
+.pair > *:not(.deco) {
+  position: relative;
+  z-index: 1;
+}
+
+/* ==========================================================================
+   Fortschrittsbalken je Abschnitt
+   Die Breite kommt aus --band-progress, gesetzt von js/section-nav.js:
+   erster Abschnitt ein n-tel, letzter voll. Beim Hinzufügen eines
+   Abschnitts rechnet das Skript neu – hier ist nichts fest eingetragen.
+   ========================================================================== */
+
+.content-block::before,
+.pair::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -14px;
+  height: 3px;
+  /* Bezugsbreite ist bewusst die Textspalte und nicht die Breite des
+     jeweiligen Blocks: der Basti-Block ist breiter, sonst spränge der
+     Maßstab und der Balken sähe beim letzten Abschnitt kürzer aus. */
+  /* min(): auf schmalen Schirmen ist die Spalte selbst schmaler als
+     --content-max-width, ohne die Deckelung liefe der Balken über den
+     rechten Rand hinaus. */
+  width: min(calc(var(--band-progress, 0) * var(--content-max-width)), 100%);
+  background: linear-gradient(90deg, var(--color-orange), var(--color-red-glow));
+  border-radius: 2px;
+  box-shadow: 0 0 14px rgba(255, 90, 66, 0.45);
+  /* Bewusst ohne transition – siehe Hinweis im V2-Stylesheet. */
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Sprungmarken rechts
+   Ein Strich je Abschnitt, erzeugt von js/section-nav.js.
+   ========================================================================== */
+
+.secnav {
+  position: fixed;
+  right: calc(14px + env(safe-area-inset-right, 0px));
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 90;
+}
+
+.secnav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.secnav__link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  /* Große Trefferfläche, obwohl der Strich selbst dünn ist. */
+  padding: 9px 6px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.secnav__dash {
+  display: block;
+  width: 26px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(255, 180, 60, 0.4);
+  transition: width 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+}
+
+.secnav__label {
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  color: var(--color-orange-light);
+  white-space: nowrap;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(12, 6, 2, 0.88);
+  border: 1px solid rgba(255, 140, 26, 0.4);
+  /* Standardmäßig versteckt, erscheint beim Überfahren bzw. im aktiven
+     Abschnitt. Kein display:none, damit Screenreader den Namen vorlesen. */
+  opacity: 0;
+  transform: translateX(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.secnav__link.is-active .secnav__dash {
+  width: 44px;
+  background: var(--color-orange);
+  box-shadow: 0 0 12px rgba(255, 140, 26, 0.7);
+}
+
+@media (hover: hover) {
+  .secnav__link:hover .secnav__dash {
+    width: 44px;
+    background: var(--color-orange-light);
+  }
+  .secnav__link:hover .secnav__label {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.secnav__link:focus-visible {
+  outline: 2px solid var(--color-orange-light);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.secnav__link:focus-visible .secnav__label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 700px) {
+  :root { --sky-h: 100svh; }
+
+  .sky {
+    padding-top: 18svh;
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .sky::after { height: 28%; }
+  .sky__jump { margin-top: 1.8em; }
+  .sky__jump a { padding: 9px 15px; font-size: 0.85rem; }
+
+  .qa > summary { padding: 14px 15px; font-size: 1rem; }
+  .qa__answer { padding: 0 15px 4px 26px; margin-left: 9px; }
+
+  /* Platzhalter unter den Satz statt daneben – nebeneinander wird es hier
+     zu eng. */
+  .with-shots { flex-direction: column; gap: 14px; }
+  .shots { flex: 0 0 auto; align-self: stretch; }
+  .shot { height: 20px; }
+
+  .basti-box { padding: 22px 20px 8px; }
+  .abbr-box { padding: 22px 18px 18px; }
+
+  .qa__inner { padding: 2px 16px 12px 30px; }
+
+  /* Nebeneinander wird auf dem Handy zu eng – eine Kachel pro Zeile. */
+  .qa-tiles { grid-template-columns: 1fr; gap: 10px; }
+  .qa-tile { min-height: 0; padding: 14px 14px 14px 16px; font-size: 0.96rem; }
+  .qa-dialog { width: calc(100vw - 20px); max-height: 82vh; }
+  .qa-dialog__head { padding: 18px 14px 14px 18px; }
+  .qa-dialog__title { font-size: 1.05rem; }
+  .qa-dialog__body { padding: 16px 18px 20px; max-height: calc(82vh - 84px); }
+  .tag-list li { font-size: 0.85rem; padding: 5px 11px; }
+
+  /* Untereinander und etwas kleiner – nebeneinander wird es hier zu eng. */
+  .pair {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    font-size: 0.96rem;
+  }
+  .pair .abbr-box { height: auto; }
+}
+
+@media (max-width: 480px) {
+  .sky { padding-top: 16svh; }
+  .sky__title {
+    font-size: clamp(2.2rem, 13vw, 3.4rem);
+    letter-spacing: 0.04em;
+  }
+  .sky__jump a { width: 100%; justify-content: center; }
+
+  .qa > summary { font-size: 0.98rem; gap: 10px; }
+  .qa__inner { padding: 2px 14px 12px 24px; }
+  .info-note { font-size: 0.84rem; padding: 10px 12px; }
+
+  .basti-box h2 { font-size: 1.14rem; }
+
+  /* Kürzel über die Erklärung statt daneben – sonst bleibt für den Text
+     kaum Breite übrig. */
+  .abbr-row { flex-direction: column; gap: 2px; }
+  .abbr-row dt { flex: 0 0 auto; }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+  :root { --sky-h: 130svh; }
+  .sky { padding-top: 12svh; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qa > summary::before { transition: none; }
+  .qa--js > .qa__answer { transition: none; }
+  .sky__clouds, .sandstorm { display: none; }
+}
+
+@media (max-width: 700px) {
+  /* Auf dem Handy nur die Striche, ohne Namen – der Platz reicht sonst
+     nicht und Hover gibt es dort ohnehin nicht. */
+  .secnav { right: calc(6px + env(safe-area-inset-right, 0px)); }
+  .secnav__dash { width: 18px; }
+  .secnav__link.is-active .secnav__dash { width: 30px; }
+  .secnav__label { display: none; }
+  .secnav__link { padding: 8px 4px; }
+
+  .content-block::before,
+  .pair::before {
+    top: -10px;
+    height: 2px;
+    /* Auf dem Handy ist die Spalte schmaler als --content-max-width. Würde
+       die feste Bezugsbreite bleiben, wären die letzten beiden Abschnitte
+       beide am Anschlag und der Fortschritt nicht mehr ablesbar. */
+    width: calc(var(--band-progress, 0) * 100%);
+  }
+}

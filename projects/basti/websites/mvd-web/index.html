@@ -3,7 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>MVD – Marvel Vereinigt Deutschland</title>
+<title>MVD – Marvel vereinigt Deutschland</title>
+<meta name="description" content="MVD (Marvel vereinigt Deutschland) ist die Idee für ein deutsches Marvel-Creator-Netzwerk. Wir suchen die ersten Creator, die es mit uns aufbauen.">
+<meta name="theme-color" content="#1a120b">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="MVD">
+<meta property="og:title" content="MVD – Marvel vereinigt Deutschland">
+<meta property="og:description" content="MVD (Marvel vereinigt Deutschland) ist die Idee für ein deutsches Marvel-Creator-Netzwerk. Wir suchen die ersten Creator, die es mit uns aufbauen.">
+<meta property="og:url" content="https://bastild.github.io/mvd-web/">
+<meta property="og:image" content="https://bastild.github.io/mvd-web/assets/images/hero-video-poster.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preload" as="image" href="assets/images/header-beach.jpg">
 <link rel="stylesheet" href="css/style.css">
 <script>
@@ -22,6 +32,7 @@
 
   <nav id="menu" class="menu" hidden>
     <ul>
+      <li><a href="creator.html" class="menu-link">Für Creator</a></li>
       <li><a href="#" class="menu-link">Anmelden</a></li>
       <li><a href="#" class="menu-link">Beitreten</a></li>
       <li><a href="#" class="menu-link">Bewerben</a></li>
@@ -51,7 +62,7 @@
         Anfang und suchen die ersten Creator, die Interesse an der Idee haben und sie gemeinsam mit uns
         aufbauen möchten. Das Ziel: miteinander wachsen, nicht gegeneinander. Über YouTube, Twitch,
         TikTok, Instagram, Discord, Twitter/X und weitere Plattformen soll gemeinsam Content und 
-        eine Community entstehen –Schritt für Schritt, mit jedem Creator, der dazukommt.
+        eine Community entstehen – Schritt für Schritt, mit jedem Creator, der dazukommt.
       </p>
     </section>
 
@@ -61,7 +72,7 @@
         Jeder Creator behält weiterhin seinen eigenen YouTube-, Twitch-, TikTok-, Instagram-, Discord-,
         Twitter/X- oder sonstigen Kanal und seine eigene Identität – niemand gibt seinen Kanal 
         oder seine Marke auf. Zusätzlich wird ein gemeinsamer Kanal und Discord-Server unter 
-                          dem Namen „Marvel Universe DE" entstehen,
+                          dem Namen „Marvel Universe DE“ entstehen,
         auf denen ausgewählte Inhalte, gemeinsame Projekte und Aktionen veröffentlicht werden.
         So gewinnt man zusätzliche Reichweite durch Cross-Promo mit anderen Creatorn,
         lernt andere Creator kennen und kann sich gegenseitig unterstützen.
@@ -81,7 +92,7 @@
         alleine stemmen könnte.
       </p>
       <p class="lead-out">MVD verbindet – Creator, Fans, gemeinsame Ideen.</p>
-      <p  class="lead-out">
+      <p class="lead-out">
         Der gemeinsame Discord-Server und alle MVD-Kanäle starten bewusst nicht einfach
         irgendwann, sondern an einem besonderen deutschen Marvel-Termin – der genaue
         Zeitpunkt wird noch bekanntgegeben.
@@ -100,23 +111,29 @@
   </main>
 
   <footer class="site-footer">
-    <div class="dunes" aria-hidden="true">
-      <div class="dune dune--1"></div>
-      <div class="dune dune--2"></div>
-      <div class="dune dune--3"></div>
-      <div class="dune dune--4"></div>
-    </div>
+    <canvas id="footer-scene" class="footer-scene" aria-hidden="true"></canvas>
     <div class="footer-inner">
+      <div class="footer-social" aria-label="Plattformen">
+        <span class="social-icon" data-brand="youtube" title="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.6V8.4l6.3 3.6z"/></svg><span class="sr-only">YouTube</span></span>
+        <span class="social-icon" data-brand="twitch" title="Twitch"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg><span class="sr-only">Twitch</span></span>
+        <span class="social-icon" data-brand="discord" title="Discord"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.2.4a13.5 13.5 0 0 0-6.4 0L8.6 3a19.8 19.8 0 0 0-5 1.4C.5 9 0 13.3.3 17.6a19.9 19.9 0 0 0 6 3l1.2-1.7c-.7-.3-1.3-.6-1.9-1l.5-.3a14.2 14.2 0 0 0 12 0l.5.3c-.6.4-1.2.7-1.9 1l1.2 1.7a19.9 19.9 0 0 0 6-3c.4-5-.5-9.2-3.6-13.2zM8.1 15c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4S9.3 15 8.1 15zm7.8 0c-1.2 0-2.2-1.1-2.2-2.4s1-2.4 2.2-2.4 2.2 1.1 2.2 2.4-1 2.4-2.2 2.4z"/></svg><span class="sr-only">Discord</span></span>
+        <span class="social-icon" data-brand="instagram" title="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.439.645 1.439 1.439z"/></svg><span class="sr-only">Instagram</span></span>
+        <span class="social-icon" data-brand="tiktok" title="TikTok"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="tt tt--cyan" d="M16.6 5.8a4.8 4.8 0 0 1-1.1-3.1h-3.3v13.3a2.9 2.9 0 1 1-2-2.8V9.7a6.2 6.2 0 1 0 5.3 6.1V9.2a8 8 0 0 0 4.7 1.5V7.4a4.8 4.8 0 0 1-3.6-1.6z"/><path class="tt tt--magenta" d="M16.6 5.8a4.8 4.8 0 0 1-1.1-3.1h-3.3v13.3a2.9 2.9 0 1 1-2-2.8V9.7a6.2 6.2 0 1 0 5.3 6.1V9.2a8 8 0 0 0 4.7 1.5V7.4a4.8 4.8 0 0 1-3.6-1.6z"/><path class="tt tt--main" d="M16.6 5.8a4.8 4.8 0 0 1-1.1-3.1h-3.3v13.3a2.9 2.9 0 1 1-2-2.8V9.7a6.2 6.2 0 1 0 5.3 6.1V9.2a8 8 0 0 0 4.7 1.5V7.4a4.8 4.8 0 0 1-3.6-1.6z"/></svg><span class="sr-only">TikTok</span></span>
+        <span class="social-icon" data-brand="x" title="X"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.2 2.3h3.4l-7.4 8.5L23 21.7h-6.8l-5.3-7-6.1 7H1.4l7.9-9.1L1 2.3h7l4.8 6.4zm-1.2 17.4h1.9L7.1 4.2H5z"/></svg><span class="sr-only">X</span></span>
+      </div>
       <div class="footer-links">
+        <a href="creator.html">Für Creator</a>
         <a href="#">Impressum</a>
         <a href="#">Kontakt</a>
         <a href="#">Anmelden</a>
         <a href="#">Beitreten</a>
       </div>
-      <p class="copyright">© 2026 MVD – Fan-Projekt, keine Verbindung zu Marvel oder Disney.</p>
+      <p class="copyright">© 2026 MVD – Bastian Klaus &amp; LightningDart. Fan-Projekt, keine Verbindung zu Marvel oder Disney.</p>
     </div>
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="js/footer-scene.js"></script>
+  <script src="js/icon-colors.js"></script>
 </body>
 </html>

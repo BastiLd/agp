@@ -1,0 +1,830 @@
+/* ==========================================================================
+   MVD Web – Creator-Seite, Design V2 (Ergänzung zu style-v2.css)
+   Wird IMMER nach style-v2.css geladen. Topbar, Menü, Buttons, .hl, Footer
+   und das Reveal-Verhalten kommen von dort.
+
+   Diese Seite kommt ohne ein einziges Bild aus: Wolken, Strahlen und das
+   Halbtonraster sind reine CSS-Formen, damit sie in jeder Größe scharf
+   bleiben und nichts nachgeladen werden muss.
+   ========================================================================== */
+
+:root {
+  /* Comic-Schrift nur für die großen Überschriften dieser Seite. Anton bleibt
+     für Topbar und Buttons, Barlow für den Fließtext. */
+  --font-comic: "Bangers", "Anton", Impact, sans-serif;
+  --sky-1: #bfe0f4;
+  --sky-2: #e3eff7;
+}
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+
+.chero {
+  position: relative;
+  min-height: 88vh;
+  min-height: 88svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--topbar-h) + 6vh) clamp(16px, 5vw, 40px) 6vh;
+  overflow: hidden;
+  background: linear-gradient(to bottom, var(--sky-1) 0%, var(--sky-2) 62%, var(--paper) 100%);
+}
+
+/* Speed-Lines: Strahlen aus der Bildmitte, wie hinter einem Comic-Logo.
+   Liegt ganz hinten – Wolken und Text stehen davor. */
+.chero__rays {
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 44%;
+  width: 190vmax;
+  height: 190vmax;
+  transform: translate(-50%, -50%);
+  background: repeating-conic-gradient(from 0deg at 50% 50%,
+      rgba(226, 35, 26, 0.07) 0deg 2.6deg,
+      transparent 2.6deg 9deg);
+  animation: rays-turn 140s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rays-turn {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Halbtonraster – der typische Rasterdruck alter Hefte. Liegt bewusst auch
+   über den Wolken, dadurch wirken sie wie gedruckt statt wie aufgeklebt. */
+.chero__dots {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  background-image: radial-gradient(rgba(20, 20, 26, 0.16) 1.1px, transparent 1.2px);
+  background-size: 9px 9px;
+  /* Nach unten ausblenden, damit der Übergang in den ersten Bereich weich ist. */
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, transparent 78%);
+          mask-image: linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, transparent 78%);
+  pointer-events: none;
+}
+
+/* Comic-Wolken ----------------------------------------------------------- */
+
+.chero__sky {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Jede Wolke besteht aus drei weißen Ballen. Die schwarze Kontur entsteht
+   nicht durch border (das würde die Linien zwischen den Ballen zeigen),
+   sondern durch vier versetzte drop-shadows: die folgen der Silhouette der
+   gesamten Form, also nur dem Außenrand. */
+.cloud {
+  position: absolute;
+  width: 150px;
+  height: 54px;
+  background: #fff;
+  border-radius: 999px;
+  filter:
+    drop-shadow(2.5px 0 0 var(--ink))
+    drop-shadow(-2.5px 0 0 var(--ink))
+    drop-shadow(0 2.5px 0 var(--ink))
+    drop-shadow(0 -2.5px 0 var(--ink));
+  /* Grundzustand: ohne laufende Animation (z.B. bei reduzierter Bewegung)
+     bleibt die Größenstaffelung der Wolken trotzdem erhalten. */
+  transform: scale(var(--s, 1));
+  animation: cloud-drift var(--dur, 34s) ease-in-out infinite alternate;
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.cloud::before {
+  width: 66px;
+  height: 66px;
+  left: 22px;
+  top: -30px;
+}
+
+.cloud::after {
+  width: 46px;
+  height: 46px;
+  right: 24px;
+  top: -20px;
+}
+
+/* Bewusst am Rand und unterhalb des Textblocks – keine Wolke darf hinter
+   Überschrift, Claim oder Buttons liegen, sonst leidet die Lesbarkeit. */
+.cloud--1 { left: 3%;   top: 17%; --dur: 24s; --s: 0.9; }
+.cloud--2 { right: 5%;  top: 23%; --dur: 31s; --s: 1.15; animation-delay: -6s; }
+.cloud--3 { left: 8%;   top: 76%; --dur: 27s; --s: 0.8;  animation-delay: -14s; }
+.cloud--4 { right: 10%; top: 82%; --dur: 35s; --s: 1.05; animation-delay: -22s; }
+.cloud--5 { left: 45%;  top: 9%;  --dur: 39s; --s: 0.6;  animation-delay: -9s; }
+
+/* Hin und her, nicht quer durchs Bild – so bleibt die Anordnung ruhig.
+   Zusätzlich ein leichtes Auf und Ab und eine Winzigkeit Größenänderung,
+   sonst sieht man die Bewegung auf einem breiten Schirm kaum. */
+@keyframes cloud-drift {
+  from { transform: translate(-70px, 10px) scale(var(--s, 1)); }
+  to   { transform: translate(70px, -10px) scale(calc(var(--s, 1) * 1.06)); }
+}
+
+/* Hero-Text -------------------------------------------------------------- */
+
+.chero__inner {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: var(--wrap);
+  text-align: center;
+}
+
+.chero__kicker {
+  margin: 0 0 0.9em;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.chero__title {
+  font-family: var(--font-comic);
+  font-size: clamp(3.2rem, 13vw, 8rem);
+  letter-spacing: 0.035em;
+  line-height: 0.98;
+  margin: 0;
+  color: var(--ink);
+  /* Versetzter Schatten in Rot – der Offsetdruck-Look aus Comicheften. */
+  text-shadow: 3px 3px 0 rgba(226, 35, 26, 0.28);
+}
+
+.chero__title .hl {
+  color: #fff;
+  text-shadow: 3px 3px 0 rgba(20, 20, 26, 0.3);
+}
+
+.chero__claim {
+  margin: 1.1em auto 0;
+  max-width: 46ch;
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  color: var(--text);
+}
+
+.chero__jump {
+  margin-top: 2.2em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+}
+
+.chero__jump a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 10px 24px;
+  border: 2px solid var(--ink);
+  border-radius: 3px;
+  background: #fff;
+  font-family: var(--font-display);
+  font-size: 0.86rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ink);
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease, color 0.16s ease;
+}
+
+@media (hover: hover) {
+  .chero__jump a:hover {
+    background: var(--red);
+    color: #fff;
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--ink);
+  }
+}
+
+.chero__jump a:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+/* ==========================================================================
+   Bereiche – jeder Hauptpunkt bekommt ein eigenes, volles Seitenband
+   ========================================================================== */
+
+.band {
+  position: relative;
+  padding: clamp(48px, 6.5vw, 82px) clamp(16px, 5vw, 40px);
+  overflow: hidden;
+  scroll-margin-top: var(--topbar-h);
+}
+
+.band--paper { background: var(--paper); }
+
+.band--ink {
+  background: var(--ink);
+  color: var(--text-on-dark);
+}
+
+.band--basti { color: var(--text-on-dark); }
+
+/* Feiner Rasterschleier auf den dunklen Bändern, damit sie nicht flach
+   wirken. Liegt auf dem Bereich selbst als Hintergrundbild, weil ::before
+   und ::after schon den Fortschrittsbalken tragen. */
+.band--ink,
+.band--basti {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1.1px);
+  background-size: 11px 11px;
+}
+
+.band--basti {
+  background-image:
+    radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1.1px),
+    radial-gradient(circle at 18% 0%, rgba(226, 35, 26, 0.22) 0%, transparent 55%),
+    linear-gradient(160deg, #1d1116 0%, var(--ink-soft) 100%);
+  background-size: 11px 11px, auto, auto;
+}
+
+.band__inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--wrap);
+  margin: 0 auto;
+}
+
+.band__inner--narrow { max-width: 860px; }
+
+/* Kopf des Bereichs – bewusst linksbündig. */
+.band__head {
+  text-align: left;
+  margin-bottom: clamp(26px, 3.4vw, 42px);
+}
+
+.band__head--tight { margin-bottom: clamp(18px, 2.4vw, 28px); }
+
+/* Nur als Kontur gesetzt. Die Strichfarbe muss explizit stehen: mit
+   currentColor wuerde sie zusammen mit dem transparenten Text verschwinden. */
+.band__num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 7vw, 4.4rem);
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--num-stroke, var(--ink));
+  opacity: 0.3;
+}
+
+.band--ink { --num-stroke: #fff; }
+.band--basti { --num-stroke: var(--red); }
+
+.band__title {
+  font-family: var(--font-comic);
+  font-size: clamp(2.4rem, 8vw, 5rem);
+  letter-spacing: 0.03em;
+  line-height: 1.02;
+  margin: 0.06em 0 0;
+}
+
+.band__title--sm {
+  font-size: clamp(1.6rem, 4.2vw, 2.8rem);
+  line-height: 1.14;
+  max-width: 22ch;
+}
+
+.band__lead {
+  margin: 1.1em 0 0;
+  max-width: 62ch;
+  font-size: clamp(1.02rem, 2vw, 1.16rem);
+}
+
+.band--ink .band__lead,
+.band--basti .band__lead { color: var(--text-on-dark-muted); }
+
+/* Sätze, die im Original keine Frage sind, stehen als eigener Absatz da. */
+.band__note {
+  max-width: 68ch;
+  margin: 26px auto;
+  padding: 16px 20px;
+  border-left: 4px solid var(--red);
+  background: rgba(226, 35, 26, 0.06);
+  font-size: 0.98rem;
+}
+
+.band--ink .band__note { background: rgba(255, 255, 255, 0.05); }
+
+/* ==========================================================================
+   Frage / Antwort
+   Frage mittig und in anderer Schrift als die Antwort, Antwort linksbündig.
+   ========================================================================== */
+
+.qa-list {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.qa2 {
+  border-top: 1px solid rgba(20, 20, 26, 0.14);
+  transition: background 0.18s ease;
+}
+
+.qa2:last-of-type { border-bottom: 1px solid rgba(20, 20, 26, 0.14); }
+
+.band--ink .qa2,
+.band--basti .qa2 { border-color: rgba(255, 255, 255, 0.16); }
+
+.qa2 > summary {
+  position: relative;
+  display: block;
+  padding: 22px 52px;
+  min-height: 48px;
+  cursor: pointer;
+  list-style: none;
+  /* Andere Ebene als die Antwort: gesperrte Barlow-Halbfette statt
+     normalem Fließtext. */
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(0.92rem, 1.7vw, 1.02rem);
+  letter-spacing: 0.055em;
+  line-height: 1.5;
+  text-align: center;
+  text-transform: uppercase;
+  transition: color 0.18s ease, transform 0.18s ease;
+}
+
+.qa2 > summary::-webkit-details-marker { display: none; }
+.qa2 > summary::marker { content: ""; }
+
+/* Plus, das beim Öffnen zum Minus wird. */
+.qa2 > summary::after {
+  content: "";
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  width: 15px;
+  height: 15px;
+  margin-top: -7px;
+  background:
+    linear-gradient(var(--red), var(--red)) center/100% 3px no-repeat,
+    linear-gradient(var(--red), var(--red)) center/3px 100% no-repeat;
+  transition: background-size 0.22s ease;
+}
+
+/* Aus dem Plus wird ein Minus: nur der senkrechte Strich verschwindet. */
+.qa2[open] > summary::after { background-size: 100% 3px, 3px 0; }
+
+.qa2[open] > summary { color: var(--red); }
+
+@media (hover: hover) {
+  .qa2:hover { background: rgba(226, 35, 26, 0.05); }
+  .qa2 > summary:hover { color: var(--red); transform: translateY(-1px); }
+  .band--ink .qa2:hover,
+  .band--basti .qa2:hover { background: rgba(255, 255, 255, 0.05); }
+}
+
+.qa2 > summary:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: -3px;
+}
+
+/* Antwort: linksbündig, in Lesebreite, ohne Leiste. Der Abstand sitzt auf
+   dem inneren Container, damit die Höhe wirklich auf 0 gehen kann – sonst
+   bliebe im zugeklappten Zustand der Innenabstand als Spalt stehen. */
+.qa2__answer {
+  padding: 0;
+  text-align: left;
+}
+
+.qa2__inner {
+  max-width: 68ch;
+  margin: 0 auto;
+  padding: 2px 4px 26px;
+}
+
+.qa2__inner > :last-child { margin-bottom: 0; }
+
+/* Nur wenn js/qa.js läuft, wird die Höhe animiert. Ohne JavaScript klappt
+   das <details> wie gewohnt sofort auf. */
+.qa--js > .qa2__answer {
+  overflow: hidden;
+  transition: height 0.28s ease;
+}
+
+.band--ink .qa2__answer,
+.band--basti .qa2__answer { color: var(--text-on-dark); }
+
+/* ==========================================================================
+   Basti
+   ========================================================================== */
+
+.basti2 {
+  max-width: 68ch;
+  font-size: 1.02rem;
+}
+
+.basti2__roles {
+  margin-top: 1.6em;
+  padding-top: 1.2em;
+  border-top: 2px solid var(--red);
+  font-weight: 600;
+  color: #fff;
+}
+
+/* ==========================================================================
+   Abkürzungen – stehen im Basti-Band, nicht mehr in eigener schwarzer Box
+   ========================================================================== */
+
+.abbr2 {
+  padding: clamp(20px, 2.6vw, 30px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.abbr2__title {
+  margin: 0 0 1.1em;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  letter-spacing: 0.22em;
+  color: var(--text-on-dark-muted);
+}
+
+.abbr2__list { margin: 0; }
+
+.abbr2__row {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 9px 0;
+}
+
+.abbr2__row + .abbr2__row { border-top: 1px solid rgba(255, 255, 255, 0.1); }
+
+.abbr2__row dt {
+  flex: 0 0 54px;
+  font-family: var(--font-display);
+  letter-spacing: 0.08em;
+  color: var(--red);
+}
+
+.abbr2__row dd { margin: 0; line-height: 1.5; font-size: 0.95rem; }
+
+.abbr2__row dd span {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-on-dark-muted);
+}
+
+/* Basti links, Abkürzungen rechts. */
+.basti-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(26px, 4vw, 52px);
+  align-items: start;
+}
+
+/* ==========================================================================
+   Zugriff – die beiden Punkte stehen offen nebeneinander
+   ========================================================================== */
+
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+}
+
+.split__title {
+  font-family: var(--font-comic);
+  font-size: clamp(1.5rem, 3.4vw, 2.2rem);
+  letter-spacing: 0.03em;
+  margin: 0 0 0.6em;
+  color: var(--red);
+}
+
+.split__col > p:last-child { margin-bottom: 0; }
+
+/* ==========================================================================
+   Aufzählungen und Hinweise
+   ========================================================================== */
+
+.tag-list {
+  list-style: none;
+  margin: 0 0 1em;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag-list li {
+  padding: 6px 14px;
+  border: 2px solid currentColor;
+  border-radius: 3px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.86rem;
+  letter-spacing: 0.03em;
+}
+
+.band--ink .tag-list li,
+.band--basti .tag-list li { color: var(--text-on-dark); }
+
+/* Kleiner Hinweis, der nicht Teil der eigentlichen Antwort ist. */
+.info-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 1.5em 0 0;
+  padding: 13px 15px;
+  border-left: 4px solid var(--red);
+  background: rgba(226, 35, 26, 0.07);
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+}
+
+.band--ink .info-note,
+.band--basti .info-note {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-on-dark-muted);
+}
+
+.info-note strong { color: var(--red); }
+
+.info-note__mark {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  border-radius: 50%;
+  border: 1.5px solid var(--red);
+  color: var(--red);
+  font-size: 0.72rem;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 15px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Deko: großes, sehr blasses Wort hinter jedem Bereich
+   Füllt die sonst leeren Randflächen, ohne vom Text abzulenken.
+   ========================================================================== */
+
+.band__mark {
+  position: absolute;
+  right: -0.06em;
+  bottom: -0.22em;
+  z-index: 0;
+  font-family: var(--font-comic);
+  font-size: clamp(6rem, 19vw, 17rem);
+  line-height: 0.8;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--ink);
+  opacity: 0.05;
+  pointer-events: none;
+  user-select: none;
+}
+
+.band--ink .band__mark,
+.band--basti .band__mark {
+  -webkit-text-stroke-color: #fff;
+  opacity: 0.06;
+}
+
+/* Rotes Band am oberen Rand, das zugleich den Fortschritt zeigt: Es wächst
+   von Bereich zu Bereich und reicht beim letzten über die ganze Breite.
+   Die Breite kommt aus --band-progress, gesetzt von js/section-nav.js –
+   beim Hinzufügen eines Bereichs rechnet das Skript neu, hier steht keine
+   feste Anzahl. */
+.band::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: calc(var(--band-progress, 0.25) * 100%);
+  height: 8px;
+  background: var(--red);
+  transform: skewX(-32deg);
+  transform-origin: top left;
+  /* Bewusst ohne transition: die Breite steht beim Laden fest und ändert
+     sich danach nicht mehr. Eine Übergangsanimation würde hier nur den
+     Startwert einfrieren, weil sie beginnt, bevor die Seite gezeichnet ist. */
+  pointer-events: none;
+}
+
+/* Der Rest des Balkens bleibt als blasse Spur stehen – so sieht man, wie
+   viel noch kommt. */
+.band::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: rgba(226, 35, 26, 0.14);
+  transform: skewX(-32deg);
+  transform-origin: top left;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Deko-Ebene je Bereich (js/deco.js)
+   ========================================================================== */
+
+.deco {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Sprungmarken rechts
+   Ein Strich je Bereich, erzeugt von js/section-nav.js – die Anzahl ergibt
+   sich aus dem HTML, hier ist nichts fest eingetragen.
+   ========================================================================== */
+
+.secnav {
+  position: fixed;
+  right: calc(14px + env(safe-area-inset-right, 0px));
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 80;
+}
+
+.secnav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.secnav__link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 8px 4px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.secnav__dash {
+  display: block;
+  width: 28px;
+  height: 3px;
+  background: rgba(20, 20, 26, 0.28);
+  transition: width 0.22s ease, background 0.22s ease;
+}
+
+.secnav__label {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 5px 10px;
+  color: #fff;
+  background: var(--ink);
+  border-radius: 2px;
+  opacity: 0;
+  transform: translateX(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.secnav__link.is-active .secnav__dash {
+  width: 48px;
+  background: var(--red);
+}
+
+@media (hover: hover) {
+  .secnav__link:hover .secnav__dash { width: 48px; background: var(--red); }
+  .secnav__link:hover .secnav__label { opacity: 1; transform: translateX(0); }
+}
+
+.secnav__link:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+
+.secnav__link:focus-visible .secnav__label {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Auf den dunklen Bändern würden schwarze Striche verschwinden. Die Farbe
+   wird beim Scrollen nicht umgeschaltet – stattdessen bekommen die Striche
+   einen hellen Schatten, der auf beiden Gründen trägt. */
+.secnav__dash {
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35);
+}
+
+/* ==========================================================================
+   Ab Tablet zweispaltig
+   Vorher stand alles untereinander in der Mitte – auf breiten Schirmen blieb
+   dadurch links und rechts sehr viel leere Fläche. Der Bereichskopf läuft
+   jetzt links mit, die Fragen stehen rechts daneben.
+   ========================================================================== */
+
+@media (min-width: 900px) {
+  .band--qa .band__inner {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.78fr) 1.22fr;
+    gap: clamp(34px, 4.5vw, 70px);
+    align-items: start;
+  }
+
+  .band--qa .band__head {
+    position: sticky;
+    top: calc(var(--topbar-h) + 26px);
+    margin-bottom: 0;
+  }
+
+  .qa-list { max-width: none; }
+}
+
+/* ==========================================================================
+   Responsive – alles einspaltig, nichts nebeneinander
+   ========================================================================== */
+
+@media (max-width: 900px) {
+  .basti-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 780px) {
+  .chero { min-height: 84svh; padding-bottom: 8vh; }
+  .cloud { width: 116px; height: 44px; }
+  .cloud::before { width: 52px; height: 52px; left: 18px; top: -24px; }
+  .cloud::after { width: 36px; height: 36px; right: 18px; top: -16px; }
+
+  .qa2 > summary { padding: 20px 44px; }
+  .qa2__inner { padding: 2px 2px 24px; }
+
+  .split { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  /* Auf dem Handy stören die kleinen Wolken mehr, als sie bringen. */
+  .cloud--3, .cloud--5 { display: none; }
+  .chero__rays { animation: none; opacity: 0.6; }
+  .chero__dots { background-size: 7px 7px; }
+
+  .chero__jump { flex-direction: column; }
+  .chero__jump a { width: 100%; justify-content: center; }
+
+  .band__title--sm { max-width: none; }
+  .band__mark { font-size: clamp(4.5rem, 26vw, 8rem); }
+
+  .qa2 > summary {
+    padding: 18px 40px 18px 12px;
+    letter-spacing: 0.04em;
+  }
+  .qa2 > summary::after { right: 10px; }
+  .qa2__inner { padding: 2px 0 22px; }
+
+  .tag-list li { font-size: 0.82rem; padding: 5px 11px; }
+  .abbr2 { padding: 20px 16px; }
+
+  /* Kürzel über die Erklärung statt daneben. */
+  .abbr2__row { flex-direction: column; gap: 2px; }
+  .abbr2__row dt { flex: 0 0 auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cloud { animation: none; }
+  .chero__rays { animation: none; }
+  .qa--js > .qa2__answer { transition: none; }
+  .qa2 > summary,
+  .qa2 > summary::after,
+  .chero__jump a { transition: none; }
+}
+
+@media (max-width: 780px) {
+  /* Auf dem Handy nur die Striche, ohne Namen – der Platz reicht sonst
+     nicht und Hover gibt es dort ohnehin nicht. */
+  .secnav { right: calc(6px + env(safe-area-inset-right, 0px)); }
+  .secnav__dash { width: 18px; height: 3px; }
+  .secnav__link.is-active .secnav__dash { width: 32px; }
+  .secnav__label { display: none; }
+
+  .band::after, .band::before { height: 6px; }
+}

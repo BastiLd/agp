@@ -26,6 +26,7 @@ agp/
 │   │   ├── websites/
 │   │   ├── python-apps/
 │   │   ├── browser-extensions/
+│   │   ├── plugins-addons/
 │   │   ├── desktop-apps/
 │   │   └── minecraft-mods/
 │   └── mijo/
@@ -40,12 +41,21 @@ agp/
 
 - **Kacheln in vier Größen** — klein, mittel, groß und Liste, wie die Symbolansicht im
   Windows-Explorer. Die Wahl bleibt gespeichert.
-- **Fünf Kategorien** — Websites, Python-Apps & Bots, Browser-Erweiterungen, Desktop-Apps
-  und Minecraft-Mods, jede mit eigenem Symbol und eigener Farbe.
+- **Sechs Kategorien** — Websites, Python-Apps & Bots, Browser-Erweiterungen,
+  Plugins & Add-ons, Desktop-Apps und Minecraft-Mods, jede mit eigenem Symbol und
+  eigener Farbe. Plugins & Add-ons ist für Zusatzmodule zu einem fremden Programm
+  gedacht (z. B. ein BetterDiscord-Plugin) — die passen weder zu Browser-Erweiterung
+  noch zu Desktop-App.
 - **Schalter oben in der Mitte** — links **Basti** (blau), rechts **Mijo** (grün).
   Anklicken oder mit der Maus bzw. dem Finger hinüberziehen.
-- **Klick auf eine Kachel** öffnet die Beschreibung mit verwendeter Technik und Links
-  zur laufenden Website, zum eigenen Repository und zum Code hier im Repo.
+- **Klick auf eine Kachel** öffnet die Beschreibung mit verwendeter Technik, Tags und
+  Links zur laufenden Website, zum eigenen Repository und zum Code hier im Repo.
+  Zusammengehörige Projekte verlinken sich dort gegenseitig unter „Siehe auch"
+  (z. B. Discord Archive Viewer und die Browser-Fassung, oder Voice to Text und
+  das zugehörige BetterDiscord-Plugin).
+- **Tag-Leiste** unter der Suche filtert quer zu den Kategorien — z. B. „Discord"
+  oder „Minecraft" zeigen Projekte aus mehreren Kategorien auf einmal. Ein Projekt
+  kann mehrere Tags tragen, ausgewählte Tags müssen alle zutreffen.
 - **Suchfeld** filtert über Titel, Beschreibung und Technik.
 
 ## Projekte mit eigenem Repository

@@ -229,6 +229,94 @@
         "BASTIAN_PC": "C:\\Users\\basti\\OneDrive - CHS Villach\\Dateien von Moertl Mijo, 1BKMD - Fiverr1\\Basti Cursor"
       }
     },
+    "ghgflix": {
+      "pfade": {
+        "BASTI-LAPTOP": "C:\\Users\\basti\\Documents\\GHGFlix"
+      }
+    },
+    "murder-mystery": {
+      "pfade": {
+        "BASTI-LAPTOP": "C:\\Users\\basti\\Documents\\MurderRateSpielWeb"
+      }
+    },
+    "claude-wormhole-site": {
+      "pfade": {
+        "BASTI-LAPTOP": "C:\\Users\\basti\\Documents\\Claude Wormhole Site"
+      }
+    },
+    "bastiklaus-online": {
+      "pfade": {
+        "BASTI-LAPTOP": "C:\\Users\\basti\\Documents\\Websites Download\\bastiklausonline"
+      },
+      "ausschluss": [
+        "CSS safe vor Projekte 08.12.2025 11_47"
+      ],
+      "hinweis": "Am 22.08.2026 gefunden: Ordner ist ein per httrack heruntergeladener Spiegel der eigenen laufenden Seite (Ordner liegt unter \"Websites Download\"), kein Git-Repo. \"CSS safe vor Projekte...\"-Unterordner ist eine Handsicherung von Basti selbst, kein aktueller Code."
+    },
+    "kartenbot-web": {
+      "pfade": {
+        "BASTI-LAPTOP": "C:\\Users\\basti\\Documents\\kartenbot-web"
+      },
+      "hinweis": "Git-Worktree von Documents\\BOT\\kartenbot (.git verweist dorthin) — siehe DUPLIKATE.md Abschnitt 2. BOT\\kartenbot selbst bewusst nicht als Quelle eingetragen, sonst wuerde Update-AGP.ps1 denselben Stand doppelt melden."
+    },
+    "vetnow": {
+      "pfade": {
+        "BASTI-LAPTOP": "C:\\Users\\basti\\Documents\\VetNow ALL\\vetnow-app"
+      },
+      "hinweis": "vetnow-app ist der aktuelle Stand (Commit 23ba10e, DUPLIKATE.md Abschnitt 4). \"VetNow (1)\" im selben Ordner ist ein veralteter HTML-Prototyp und bleibt aussen vor."
+    },
+    "plex-transfer": {
+      "pfade": {
+        "BASTI-LAPTOP": "C:\\Users\\basti\\Documents\\scripte\\transfer\\transfermov-seritozimaOSserver"
+      },
+      "ausschluss": [
+        "config.json",
+        "App/config.json",
+        "App/default-config.json"
+      ],
+      "hinweis": "Am 22.08.2026 festgestellt: Die App schreibt ihre Live-Einstellungen in dieselbe Datei, die eigentlich als Vorlage mit leeren Werten gedacht war (App/default-config.json) — dort steht jetzt zusammen mit config.json und App/config.json ein echter Plex-Zugangstoken (plex_token), die Heimnetz-Adresse des Plex-Servers und echte lokale Dateipfade. Keines der drei passt in ein bekanntes Schluesselformat, die Inhaltspruefung in AGP-Regeln.ps1 haette das nicht erkannt. Die im Katalog liegende App/default-config.json (leerer Token) bleibt unangetastet — genau das Token/Adresse-Leck, das laut README schon einmal beim ersten Aufbau entfernt wurde."
+    },
+    "auto-capture": {
+      "pfade": {
+        "BASTI-LAPTOP": "C:\\Users\\basti\\Documents\\AutoCaptureallunderpages"
+      }
+    },
+    "auto-tab-close": {
+      "pfade": {
+        "BASTI-LAPTOP": "C:\\Users\\basti\\Documents\\Auto Tab Close\\Auto Tab Close"
+      }
+    },
+    "stadt-land-fluss": {
+      "pfade": {
+        "BASTI-LAPTOP": "C:\\Users\\basti\\Documents\\scripte\\Extension Stadtlandflussandir"
+      }
+    },
+    "wipe-animation": {
+      "pfade": {
+        "BASTI-LAPTOP": "C:\\Users\\basti\\Documents\\scripte\\wipe_animation"
+      }
+    },
+    "audio-zu-text": {
+      "pfade": {
+        "BASTIAN_PC": "C:\\Audio zu Text Test zu Text für Mittelkap",
+        "BASTI-LAPTOP": "C:\\Users\\basti\\Documents\\mittelkap"
+      },
+      "ausschluss": [
+        "transcripts",
+        "output_*",
+        "mittelkap*",
+        "final_text*",
+        "combined_text*",
+        "transkript*",
+        "voice-message-downloader"
+      ],
+      "hinweis": "Am 22.08.2026 auf BASTI-LAPTOP als eigenstaendiger Nachfolge-Ordner \"mittelkap\" gefunden (offline statt Cloud-API, GUI+CLI) — Katalogeintrag auf \"Voice to Text\" umbenannt und aktualisiert, quellen-Pfad fuer BASTIAN_PC (alte OpenAI-Fassung) unveraendert gelassen, falls dort noch der alte Stand liegt. voice-message-downloader/ ist ausgeschlossen, weil es ein eigenes Projekt mit eigener Kachel ist (BetterDiscord-Plugin), kein Teil von Voice to Text."
+    },
+    "voice-message-downloader": {
+      "pfade": {
+        "BASTI-LAPTOP": "C:\\Users\\basti\\Documents\\mittelkap\\voice-message-downloader"
+      }
+    },
     "montrigor-site": {
       "pfade": {
         "BASTIAN_PC": "C:\\Users\\basti\\Documents\\Websites\\montrigor-site",
@@ -238,12 +326,14 @@
     },
     "avocado-at-law": {
       "pfade": {
-        "BASTIAN_PC": "D:\\Meine Projekte\\AvocadeatLaw"
+        "BASTIAN_PC": "D:\\Meine Projekte\\AvocadeatLaw",
+        "BASTI-LAPTOP": "C:\\Users\\basti\\Documents\\AvocadoatLaw"
       },
       "ausschluss": [
-        "images"
+        "images",
+        "uploads"
       ],
-      "hinweis": "images/ enthaelt abfotografierte Duolingo-Bildschirme von Mobbin — fremdes Material, das als Gestaltungsvorlage diente und nicht in ein oeffentliches Repo gehoert. docs/AvocadoatLaw.pdf faellt ohnehin unter die Ballast-Regel."
+      "hinweis": "images/ (PC) bzw. uploads/ (Laptop) enthalten dieselben abfotografierten Duolingo-Bildschirme von Mobbin — fremdes Material, das als Gestaltungsvorlage diente und nicht in ein oeffentliches Repo gehoert. Am 22.08.2026 festgestellt, dass der Laptop-Ordner den Ballast unter einem anderen Namen (uploads statt images) ablegt, den die alte Regel nicht erfasst haette — deshalb zusaetzlich als generelle Regel in AGP-Regeln.ps1 aufgenommen. docs/AvocadoatLaw.pdf faellt ohnehin unter die Ballast-Regel."
     },
     "colored-in": {
       "pfade": {},
@@ -305,79 +395,27 @@
       "pfade": {
         "BASTI-LAPTOP": "C:\\Users\\basti\\OneDrive\\Manim Online"
       },
-      "hinweis": "Bastis persönlichem OneDrive-Stamm. Kein GitHub-Repo. Ausgeschlossen: shortcuts.db (Zugangsdaten), .idea/.vscode, __pycache__, gerenderte Videos (media/ enthält nur die kleinen Zwischendateien von Manims LaTeX/SVG-Rendering, keine fertigen Videos)."
+      "ausschluss": [
+        "Manim Real/welding_torch_files"
+      ],
+      "hinweis": "Bastis persönlichem OneDrive-Stamm. Kein GitHub-Repo. Ausgeschlossen: shortcuts.db (Zugangsdaten), .idea/.vscode, __pycache__, gerenderte Videos (media/ enthält nur die kleinen Zwischendateien von Manims LaTeX/SVG-Rendering, keine fertigen Videos). Am 22.08.2026 zusaetzlich Manim Real/welding_torch_files ausgenommen — die per Browser-\"Speichern unter\" abgelegte Bilder-/Skript-Sammlung einer fremden Webseite (Dateinamen wie \"233-75cce6188cd8597e.js.Download\"), keine eigene Arbeit, sondern Rechercherest fuer eine Animation."
     }
   },
   "ohneQuelle": [
     {
-      "id": "auto-capture",
-      "grund": "laptop",
-      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
-    },
-    {
-      "id": "auto-tab-close",
-      "grund": "laptop",
-      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
-    },
-    {
-      "id": "bastiklaus-online",
-      "grund": "laptop",
-      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
-    },
-    {
-      "id": "claude-wormhole-site",
-      "grund": "laptop",
-      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
-    },
-    {
       "id": "cursor-forge",
-      "grund": "laptop",
-      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
-    },
-    {
-      "id": "ghgflix",
-      "grund": "laptop",
-      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
-    },
-    {
-      "id": "kartenbot-web",
-      "grund": "laptop",
-      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+      "grund": "unklar",
+      "erklaerung": "Am 22.08.2026 auf BASTI-LAPTOP gesucht (Name, \"Mauszeiger\", \"Tauri\") und nicht gefunden — weder als eigener Ordner noch als Zip. Vermutlich nur auf BASTIAN_PC vorhanden; dort muesste jemand mit Zugriff den Pfad eintragen."
     },
     {
       "id": "mediathek-downloader",
-      "grund": "laptop",
-      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+      "grund": "unklar",
+      "erklaerung": "Am 22.08.2026 auf BASTI-LAPTOP gesucht (Name, \"Mediathek\", \"Downloader\", Flask) und nicht gefunden. In quellen.json fehlt bislang auch ein BASTIAN_PC-Pfad — die Quelle wurde noch nie eingetragen, auf keinem der beiden Rechner."
     },
     {
       "id": "mini-games",
       "grund": "lose-dateien",
-      "erklaerung": "Die Dateien liegen einzeln im OneDrive-Stamm, es gibt keinen Projektordner."
-    },
-    {
-      "id": "murder-mystery",
-      "grund": "laptop",
-      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
-    },
-    {
-      "id": "plex-transfer",
-      "grund": "laptop",
-      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
-    },
-    {
-      "id": "stadt-land-fluss",
-      "grund": "laptop",
-      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
-    },
-    {
-      "id": "vetnow",
-      "grund": "laptop",
-      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
-    },
-    {
-      "id": "wipe-animation",
-      "grund": "laptop",
-      "erklaerung": "Nur auf dem Laptop vorhanden — auf diesem PC gibt es den Ordner nicht."
+      "erklaerung": "Die Dateien liegen einzeln im Wurzelverzeichnis von \"OneDrive - CHS Villach\" (game.html, index-rotation.html, index-wordsearch.html, no.html, wordsearch.html — Stand 22.08.2026 auf BASTI-LAPTOP bestaetigt), es gibt keinen Projektordner. Update-AGP.ps1 kann nur einzelne Ordner als Quelle abgleichen, keine losen Dateilisten — daher weiterhin ohne pfade-Eintrag."
     }
   ]
 }
