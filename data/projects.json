@@ -1037,7 +1037,8 @@
         "KI"
       ],
       "verwandt": [
-        "voice-message-downloader"
+        "voice-message-downloader",
+        "audio-zu-text-openai"
       ]
     },
     {
@@ -1394,6 +1395,33 @@
         "Discord",
         "BetterDiscord-Plugin",
         "Automatisierung"
+      ],
+      "verwandt": [
+        "audio-zu-text"
+      ]
+    },
+    {
+      "id": "audio-zu-text-openai",
+      "titel": "Audio zu Text (OpenAI-Fassung)",
+      "besitzer": "basti",
+      "kategorie": "python-apps",
+      "kurz": "Vorgänger von Voice to Text — lief noch über die OpenAI-Cloud-API",
+      "beschreibung": "Die ursprüngliche Fassung von Voice to Text: eine Kette aus drei Schritten, die Sprachnachrichten über die OpenAI-Whisper- und GPT-Schnittstelle transkribiert, mit bestehenden schriftlichen Unterhaltungen zusammenführt und zu einer Übersicht verdichtet. Enthält zusätzlich ein gepatchtes Discord-Plugin (Original von „Kaan“, hier mit ChatGPT-Unterstützung angepasst), das Sprachnachrichten zum Download anbietet — der Vorgänger von VoiceMessageDownloader. Rein archivarisch abgelegt, nicht mehr weiterentwickelt: Der Nachfolger Voice to Text erledigt dieselbe Aufgabe inzwischen offline, ohne Cloud-Kosten. Im Katalog liegt nur der Programmcode — die Aufnahmen und die daraus entstandenen Texte sind private Sprachnachrichten und bewusst nicht enthalten.",
+      "tech": [
+        "Python",
+        "OpenAI API",
+        "Whisper",
+        "BetterDiscord"
+      ],
+      "pfad": "projects/basti/python-apps/audio-zu-text-openai",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "pip install -r requirements.txt — OPENAI_API_KEY als Umgebungsvariable setzen",
+      "stand": "2026-01-31",
+      "tags": [
+        "Discord",
+        "KI",
+        "Archiv"
       ],
       "verwandt": [
         "audio-zu-text"

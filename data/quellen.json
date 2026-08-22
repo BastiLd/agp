@@ -317,6 +317,10 @@
         "BASTI-LAPTOP": "C:\\Users\\basti\\Documents\\mittelkap\\voice-message-downloader"
       }
     },
+    "audio-zu-text-openai": {
+      "pfade": {},
+      "hinweis": "Kein lokaler Quellordner — archivierte Vorgaengerversion von audio-zu-text, am 22.08.2026 aus dem alten Katalogstand ausgelagert, als audio-zu-text auf die neue mittelkap-Quelle umgestellt wurde. Wird nicht mehr aktualisiert."
+    },
     "montrigor-site": {
       "pfade": {
         "BASTIAN_PC": "C:\\Users\\basti\\Documents\\Websites\\montrigor-site",
