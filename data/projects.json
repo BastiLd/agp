@@ -1,5 +1,5 @@
 {
-  "aktualisiert": "2026-08-22",
+  "aktualisiert": "2026-10-06",
   "kategorien": {
     "websites": {
       "label": "Websites",
@@ -93,6 +93,129 @@
       "repo": "https://github.com/BastiLd/school-website-tzu-powerpoint",
       "live": "https://bastild.github.io/school-website-tzu-powerpoint/",
       "stand": "2026-06-29",
+      "tags": [
+        "Schule"
+      ]
+    },
+    {
+      "id": "mijo-webdesign-grundlagen",
+      "titel": "Webdesign-Grundlagen",
+      "besitzer": "mijo",
+      "kategorie": "websites",
+      "kurz": "Sammlung von HTML- und CSS-Übungen aus dem Webdesign-Unterricht",
+      "beschreibung": "Eine geordnete Sammlung von Mijos Übungen zu HTML-Struktur, Semantik, Bildern, Listen, Tabellen, Links, iFrames, CSS, Farbwerten und Klassen. Die Dateien zeigen die einzelnen Lernschritte und kleine Übungsseiten.",
+      "tech": [
+        "HTML",
+        "CSS"
+      ],
+      "pfad": "projects/mijo/websites/webdesign-grundlagen",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Übungssammlung mit mehreren Einstiegsdateien in den Unterordnern",
+      "stand": "2026-10-06",
+      "tags": [
+        "Schule",
+        "Übung"
+      ]
+    },
+    {
+      "id": "mijo-vertretungsstunde-teamseite",
+      "titel": "Vertretungsstunde – Teamseite",
+      "besitzer": "mijo",
+      "kategorie": "websites",
+      "kurz": "Gemeinsame HTML-Seite für eine Vertretungsstunde",
+      "beschreibung": "Kleines Teamprojekt aus dem Webdesign-Unterricht. Mehrere HTML-Fassungen dokumentieren die gemeinsame Ausarbeitung einer Seite für die Vertretungsstunde.",
+      "tech": [
+        "HTML",
+        "CSS"
+      ],
+      "pfad": "projects/mijo/websites/vertretungsstunde-teamseite",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Die einzelnen HTML-Entwürfe liegen direkt im Projektordner",
+      "stand": "2026-10-06",
+      "tags": [
+        "Schule",
+        "Teamprojekt"
+      ]
+    },
+    {
+      "id": "mijo-pizzera-und-jaus",
+      "titel": "Pizzera & Jaus – Portfolio",
+      "besitzer": "mijo",
+      "kategorie": "websites",
+      "kurz": "Mehrseitige Fan- und Portfolio-Website für Pizzera & Jaus",
+      "beschreibung": "Eine dreiseitige Website mit Start-, Informations- und Kontaktseite. Das Projekt verbindet eine eigene Gestaltung mit Bildern, Navigation und einer eingebundenen Schriftart.",
+      "tech": [
+        "HTML",
+        "CSS"
+      ],
+      "pfad": "projects/mijo/websites/pizzera-und-jaus",
+      "repo": null,
+      "live": "selbst",
+      "stand": "2026-10-06",
+      "tags": [
+        "Schule",
+        "Musik"
+      ]
+    },
+    {
+      "id": "mijo-michael-jackson-site",
+      "titel": "Michael Jackson – Infoseite",
+      "besitzer": "mijo",
+      "kategorie": "websites",
+      "kurz": "Mehrseitige Informationsseite über Michael Jackson mit Audio",
+      "beschreibung": "Eine klassische HTML-Website mit Start-, Über-uns- und Kontaktseite. Sie enthält Bilder und einen kurzen Soundeffekt zur thematischen Gestaltung.",
+      "tech": [
+        "HTML",
+        "CSS",
+        "Audio"
+      ],
+      "pfad": "projects/mijo/websites/michael-jackson-site",
+      "repo": null,
+      "live": "selbst",
+      "stand": "2026-10-06",
+      "tags": [
+        "Schule",
+        "Musik"
+      ]
+    },
+    {
+      "id": "mijo-formulare-uebung",
+      "titel": "Formulare – Übung",
+      "besitzer": "mijo",
+      "kategorie": "websites",
+      "kurz": "Übungsseite für verschiedene HTML-Formularfelder",
+      "beschreibung": "Eine kompakte Übungsseite, die Texteingaben, Auswahlfelder und weitere grundlegende HTML-Formularelemente demonstriert.",
+      "tech": [
+        "HTML",
+        "CSS"
+      ],
+      "pfad": "projects/mijo/websites/formulare-uebung",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Einstiegsdatei: forms.html",
+      "stand": "2026-10-06",
+      "tags": [
+        "Schule",
+        "Übung"
+      ]
+    },
+    {
+      "id": "mijo-chs-tag-der-offenen-tuer",
+      "titel": "CHS – Tag der offenen Tür",
+      "besitzer": "mijo",
+      "kategorie": "websites",
+      "kurz": "Konzept-Website für den Tag der offenen Tür der CHS Villach",
+      "beschreibung": "Mehrseitiges Website-Konzept für die CHS Villach mit Startseite, Kontaktseite und einer Projektübersicht. Die Seite setzt auf ein dunkles Erscheinungsbild mit kontrastreichen Akzentfarben.",
+      "tech": [
+        "HTML",
+        "CSS"
+      ],
+      "pfad": "projects/mijo/websites/chs-tag-der-offenen-tuer",
+      "repo": null,
+      "live": "selbst",
+      "stand": "2026-10-06",
       "tags": [
         "Schule"
       ]

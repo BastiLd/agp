@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Kontakt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Kontakt</h1>
+</header>
+
+<nav>
+    <a href="index.html?playSound=1">Startseite</a>
+    <a href="about.html?playSound=1">Über uns</a>
+    <a href="kontakt.html?playSound=1">Kontakt</a>
+</nav>
+
+<audio id="heehee" src="heehee.mp3"></audio>
+
+<audio id="heehee" preload="auto">
+    <source src="heehee.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const sound = document.getElementById("heehee");
+
+document.querySelectorAll("nav a").forEach(link => {
+    link.addEventListener("click", function(event) {
+        event.preventDefault();
+
+        sound.currentTime = 0;
+
+        sound.play().then(() => {
+            sound.onended = () => {
+                window.location.href = this.href;
+            };
+        }).catch(() => {
+            // Falls das Abspielen fehlschlägt, trotzdem weiterleiten
+            window.location.href = this.href;
+        });
+    });
+});
+</script>
+
+<div  class="mitte">
+<main>
+    <h2>Kontakt & Social Media</h2>
+    <p>Email: fanpage@michaeljackson.com</p>
+    <p>Instagram: @michaeljackson</p>
+    <p>Twitter: @michaeljackson</p>
+</main>
+</div>
+
+<footer>
+    <p>© 2026 Michael Jackson Fanpage</p>
+</footer>
+
+</body>
+</html>

@@ -9,7 +9,7 @@ zum Durchstöbern.
 
 ## Was hier drin ist
 
-**56 Projekte** von zwei Rechnern — Websites, Browser-Erweiterungen, Python-Apps,
+**69 Projekte** von zwei Rechnern — Websites, Browser-Erweiterungen, Python-Apps,
 Desktop-Programme und Minecraft-Mods. Bewusst **nicht** enthalten sind Fotos, Videos,
 Schuldokumente, Präsentationen, Dateien von Mitschüler:innen sowie installierte
 Fremdprogramme.
@@ -30,7 +30,7 @@ agp/
 │   │   ├── desktop-apps/
 │   │   └── minecraft-mods/
 │   └── mijo/
-│       └── websites/
+│       └── websites/            Sechs Web- und Schulprojekte
 ├── duplicate-finder/       PowerShell-Skript zur Duplikatsuche
 ├── tools/                  Import-Werkzeug und Verschlüsselung
 ├── DUPLIKATE.md            Wo dasselbe Projekt mehrfach liegt

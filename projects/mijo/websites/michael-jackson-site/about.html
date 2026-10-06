@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Über Michael Jackson</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Über Michael Jackson</h1>
+</header>
+
+<nav>
+    <a href="index.html?playSound=1">Startseite</a>
+    <a href="about.html?playSound=1">Über uns</a>
+    <a href="kontakt.html?playSound=1">Kontakt</a>
+</nav>
+
+<audio id="heehee" src="heehee.mp3"></audio>
+
+<audio id="heehee" preload="auto">
+    <source src="heehee.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const sound = document.getElementById("heehee");
+
+document.querySelectorAll("nav a").forEach(link => {
+    link.addEventListener("click", function(event) {
+        event.preventDefault();
+
+        sound.currentTime = 0;
+
+        sound.play().then(() => {
+            sound.onended = () => {
+                window.location.href = this.href;
+            };
+        }).catch(() => {
+            // Falls das Abspielen fehlschlägt, trotzdem weiterleiten
+            window.location.href = this.href;
+        });
+    });
+});
+</script>
+
+<div  class="mitte">
+<main>
+    <h2>Die Legende</h2>
+    <p>Michael Jackson war einer der erfolgreichsten Musiker aller Zeiten. Er begann seine Karriere bei den Jackson 5 und wurde später zum größten Popstar der Welt.</p>
+
+    <h3>Bekanntes Musikvideo</h3>
+    <iframe width="560" height="315" 
+        src="https://www.youtube.com/embed/sOnqjkJTMaA" 
+        title="YouTube Video" 
+        frameborder="0" 
+        allowfullscreen>
+    </iframe>
+
+    <h3>Galerie</h3>
+    <img src="C:\Users\boncojevic.andrijano\OneDrive - CHS Villach\001_WEB\Jackson html\JacksonPink.jpg" alt="Michael Jackson Auftritt">
+</main>
+</div>
+
+<footer>
+    <p>© 2026 Michael Jackson Fanpage</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="de">
+<head> 
+	<meta charset="UTF-8"> 
+	<title>Mein Steckbrief</title>
+	<style>
+		h1 {
+			color: red;
+			font-size: 60px;
+			text-align: center;
+		}
+		
+		p {
+			font-size: 25px;
+		}
+		
+	</style>
+	
+</head>
+<body>
+	<header>
+		
+		<h1>HTML-Color-Codes</h1>
+		
+		<p>Es gibt drei Möglichkeiten, Farben im HTML-Code einzubauen:</p>
+		
+		<ol>
+			<li>Wir schreiben einfach den Namen der Farbe z.B.: <div style="color: red;">red</div> <div style="color: green;">green</div> <div style="color: blue;">blue</div> usw. </li>
+			<li>Wir verwenden HEXADEZIMAL-Zahlen, z.B.: #FF0000 = Rot (Achtung, immer mit Raute davor verwenden!), #00FF00 = Grün, usw. </li>
+			<li>Wir verwenden WERTE für RGB. Das macht man im CSS so: 
+			<div style="color: rgb(255,0,255);"> color: rgb(255,0,255)</div>
+			=> das wäre dann Magenta! </li>
+		</ol>
+		
+		<h2>Wähle selbst deine Lieblingsfarbe:</h2>
+		
+		<form>
+			<label for="favcolor">Select your favorite color:</label>
+			<input type="color" id="favcolor" name="favcolor" value="#ff0000"><br><br>
+		</form>
+		
+	</header>
+</body>
+</html>

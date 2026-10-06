@@ -1,0 +1,89 @@
+body{
+	background-color: black;
+    color: white;
+    font-family: arial;
+}
+
+header{
+    font-family: edo;
+}
+
+nav{
+	font-family: edo;
+}
+
+nav a{
+    padding-left: 2.5px;
+    padding-right: 2.5px;
+}
+
+footer{
+     margin-top:60px;
+}
+
+@font-face {
+  font-family: edo;
+  src: url(edo.woff2) format(woff2);
+  font-weight: normal;
+  font-style: normal;
+}
+
+h1{
+    text-align: center;
+}
+
+h3{
+    text-align: center;
+}
+
+a{
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+  color: #FEE10B;
+  
+}
+
+.white{
+    background-color: white;
+    color: #505050;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+}
+
+.white img{
+    width: 50%;
+    display: block;
+	margin-top: 100px;
+	margin-bottom: 100px;
+    margin-left: 100px;
+    transform: rotate(355deg);
+}
+
+.white .text{
+    width: 50%;
+    padding: 10px;
+	margin-top: 100px;
+	margin-bottom: 100px;
+}
+
+.white .text h3{
+	font-size: 30px;
+}
+
+.text h3{
+	font-size: 30px;
+}
+
+.text{
+	margin-left: 100px;
+    margin-right: 100px;
+    text-align: justify;
+}
+
+.news-index{
+    margin-top: 40px;
+}

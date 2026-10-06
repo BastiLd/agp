@@ -1,0 +1,12 @@
+<head>
+</head>
+<body>
+	<nev>
+	<header>
+	<main>
+		<img src="bild.jpg" width:"600px" alt:"Bild"></img>
+	<section>
+	<--! Oder alt / der Standard Container -->
+	<div>
+	<footer>
+</body>

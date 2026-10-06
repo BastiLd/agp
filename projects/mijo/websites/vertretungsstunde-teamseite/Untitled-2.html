@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Vertretungs-Stunde</title>
+
+    <style>
+    a {
+      color: magenta;
+      background-color: transparent;
+      text-decoration: none;
+    }
+    
+    p {
+      font-family: Trebuchet MS;
+      color: #d1d1d1;
+    }
+
+    h2 {
+      font-family: Trebuchet MS;
+      color: #79c0ff;
+    }
+    
+    h1 {
+      font-family: Trebuchet MS;
+      color: #79c0ff;
+    }
+
+    li {
+      font-family: Trebuchet MS;
+      color: #d1d1d1;
+    }
+
+    /* Standard-Linie */
+    hr {
+      border: none;
+      height: 1px;
+      background-color: #4d4d4d;
+      margin: 1em 0;
+      transition: background-color 0.3s;
+    }
+
+    /* Standard = Light Mode */
+    body {
+      background: white;
+      transition: background 0.3s;
+    }
+
+    /* Checkbox verstecken */
+    #toggle {
+      display: none;
+    }
+
+    /* Dark Mode aktiv */
+    #toggle:checked ~ body {
+      background-color: #111;
+    }
+    
+    /* Alle anderen Elemente (nav, header, main, footer) im Dark Mode */
+    /* Achtung: Du musst alle Kind-Elemente des Body einzeln ansprechen, 
+    die keinen eigenen dunklen Hintergrund bekommen, wenn du nur ~ body verwendest.
+    Oder du setzt den Body-Hintergrund und lässt die Elemente die Farbe erben (was hier nicht geht, da du nur den Body umschaltst).
+    Am einfachsten ist es, alle im Dark Mode dunkel zu machen, wie du es ursprünglich hattest, ABER den Body zuletzt.
+    Ich habe es wie von dir vorgegeben angepasst, aber nur den Body umschalten reicht, da nav, header, main und footer standardmäßig transparent sind und die Body-Farbe annehmen.
+    */
+    
+    /* hr im Dark Mode HELL machen */
+    #toggle:checked ~ hr {
+      background-color: #fff; /* Von #222 auf #fff (oder #d1d1d1 für helleres Grau) geändert */
+    }
+
+    /* Toggle-Button */
+    label {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      font-size: 24px;
+      user-select: none;
+      background: transparent;
+      color: inherit;
+    }
+    </style>
+  </head>
+
+  <body>
+    <input type="checkbox" id="toggle">
+    <label for="toggle">🌓</label>
+
+    <nav>
+      <p><strong>Navigation:</strong> Startseite </p>
+    </nav>
+
+    <hr>
+
+    <header>
+      <h1>KM‑Media</h1>
+    </header>
+
+    <hr>
+
+    <main>
+      <h2>Mitarbeiter</h2>
+
+      <hr>
+
+      <h1><strong>Eigentümer</strong></h1>
+      <h2><strong>Basti Klaus</strong></h2>
+      <div>
+        <img src="images\coming-soon-2070393.jpg" alt="Coming Soon!" style="float: left; margin-right: 20px; width: 150px; height: auto;">
+        <p><strong>
+          Geschäftsführer seit mehreren Jahren und auch der Gründer. Ich finde Programmierung und 3D Zeug cool und interessant!<br>
+          Ich habe schon meinen ersten (Job) Auftrag, in diesem bin ich der "Techniker" und helfe bei allen technischen Fragen.
+        </strong></p>
+        <ul>
+          <li>Hobbyprogrammierer</li>
+          <li>IT & Technik Berater</li>
+          <li>Hobby 3D‑Artist in Blender und Blockbench</li>
+        </ul>
+      </div>
+
+      <hr>
+
+      <h1><strong>Mitarbeiter und bester Freund</strong></h1>
+      <h2><strong>Mijo Mörtl</strong></h2>
+      <div>
+        <img src="images\coming-soon-2070393.jpg" alt="Coming Soon!" style="float: left; margin-right: 20px; width: 150px; height: auto;">
+        <p><strong>
+          Ich interessiere mich sehr für Videoschnitt, Herstellung von Filmen, Audio und Co.<br>
+          Mein technisches Wissen ergänzt sich mit dem von Basti Klaus.<br>
+          Außerdem bin ich ein Experte im Gebiet von HTML und mehr.
+        </strong></p>
+        <ul>
+          <li>hobbymäßig Videoschnitt</li>
+          <li>HTML und CSS</li>
+          <li>großes Wissen [durch Bücher]</li>
+        </ul>
+      </div>
+
+      <hr>
+
+    </main>
+
+    <footer>
+      <br><br><br><br><br><br><br><br>
+      <p><strong>© 2025 Klaus‑Mörtl_MEDIA<br>Erstellt von: Basti Klaus & Mijo Mörtl</strong></p>
+    </footer>
+
+  </body>
+</html>

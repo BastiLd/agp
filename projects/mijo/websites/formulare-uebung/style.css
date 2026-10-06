@@ -1,0 +1,52 @@
+#blau {color: blue;}
+#rot {color: red;}
+#grün {color: green;}
+#gelb {color: darkgoldenrod;}
+
+body {
+background-color: blanchedalmond;
+}
+
+/* Stylesheet 2: */
+body {
+font-family: Arial;
+background-color: #d14836;
+line-height: 20px;
+}
+
+a {
+color: #d14836;
+text-decoration: none;
+}
+
+a:hover {
+text-decoration: underline;
+}
+
+input {
+border: 1px solid ligthgrey;
+}
+
+
+
+button {
+border-radius: 20rem;
+border: 1.5px solid;
+background-color: wheat;
+padding: 5px;
+color: rgb(155, 115, 67);
+box-shadow: -0.2rem 0.2rem rgb(155, 115, 67);
+text-shadow: 0px 0px 6px black;
+cursor: pointer;
+outline: none;
+}
+
+button:hover {
+background-color: rgb(83, 62, 35);
+text-shadow: 0px 0px 4px rgb(148, 148, 148);
+}
+
+button:active {
+transform: translateX(-4px) translateY(4px);
+box-shadow: none;
+}

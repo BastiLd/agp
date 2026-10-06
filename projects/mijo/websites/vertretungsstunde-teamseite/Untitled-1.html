@@ -1,0 +1,135 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Vertreungs-Stunde</title>
+
+    <style>
+      body {
+        background-color: #0d1117;
+        color: #e6edf3;
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      nav p, footer p {
+        color: #58a6ff;
+      }
+
+      h1, h2 {
+        color: #79c0ff;
+        /* Die Opacity und Animationen bleiben, sie werden nur nicht mehr von JS gesteuert */
+        opacity: 0;
+        animation: fadeIn 3s forwards;
+      }
+
+      p, li {
+        color: #c9d1d9;
+        opacity: 0;
+        animation: fadeIn 3s forwards;
+      }
+
+      ul {
+        margin-top: 10px;
+      }
+
+      img {
+        border-radius: 5px;
+        transition: transform .4s ease;
+        opacity: 0;
+        animation: fadeInImg 3s forwards;
+      }
+
+      img:hover {
+        transform: scale(1.05);
+      }
+
+      hr {
+        border-color: #30363d;
+      }
+
+      /* ✨ Animationen */
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(34px); }
+        to  { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes fadeInImg {
+        from { opacity: 0; transform: scale(0.1); }
+        to  { opacity: 1; transform: scale(1); }
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav>
+      <p><strong>Navigation:</strong> Startseite </p>
+    </nav>
+
+    <hr>
+
+    <header>
+      <h1>KM-Media</h1>
+    </header>
+
+    <hr>
+
+    <main>
+      <h2>Mitarbeiter</h2>
+
+      <hr>
+
+      <h1><strong>Eigentümer</strong></h1>
+      <h2><strong>Basti Klaus</strong></h2>
+
+      <div>
+        <img src="images/coming-soon-2070393.jpg" alt="Coming Soon!"
+          style="float: left; margin-right: 20px; width: 150px; height: auto;">
+        <p><strong>
+          Geschäftsführer seit mehreren Jahren und auch der Gründer.
+          Ich finde Programmierung und 3D Zeug cool und interessant! <br>
+          Ich habe schon meinen ersten (Job) Auftrag, in diesem bin ich der "Techniker" <br>
+          und helfe bei allen technischen Fragen.
+        </strong></p>
+
+        <ul>
+          <li>Hobbyprogrammierer</li>
+          <li>IT & Technik Berater</li>
+          <li>Hobby 3D-Artist in Blender und Blockbench</li>
+        </ul>
+      </div>
+
+      <hr>
+
+      <h1><strong>Mitarbeiter und bester Freund</strong></h1>
+      <h2><strong>Mijo Mörtl</strong></h2>
+
+      <div>
+        <img src="images/coming-soon-2070393.jpg" alt="Coming Soon!"
+          style="float: left; margin-right: 20px; width: 150px; height: auto;">
+        <p><strong>
+          Ich interresiere mich sehr für Videoschnitt, Herstellung von Filmen, Audio und Co. <br>
+          Mein technisches Wissen ergänzt sich mit dem von Basti Klaus. <br>
+          Außerdem bin ich ein Experte im Gebiet von HTML und mehr.
+        </strong></p>
+
+        <ul>
+          <li>hobbymäßig Videoschnitt</li>
+          <li>HTML und CSS</li>
+          <li>großes Wissen [durch Bücher]</li>
+        </ul>
+      </div>
+
+      <hr>
+
+      <footer>
+        <p><strong>Vertreungs-Stunde</strong></p>
+
+        <br><br><br><br><br><br><br><br>
+
+        <p><strong>© 2025 Klaus Bastian  
+        Erstellt von: Basti Klaus & Mijo Mörtl</strong></p>
+      </footer>
+    </main>
+  </body>
+</html>

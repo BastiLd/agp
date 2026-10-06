@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Michael Jackson - Startseite</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Michael Jackson</h1>
+</header>
+
+<nav>
+    <a href="index.html?playSound=1">Startseite</a>
+    <a href="about.html?playSound=1">Über uns</a>
+    <a href="kontakt.html?playSound=1">Kontakt</a>
+</nav>
+
+<audio id="heehee" preload="auto">
+    <source src="heehee.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const sound = document.getElementById("heehee");
+
+document.querySelectorAll("nav a").forEach(link => {
+    link.addEventListener("click", function(event) {
+        event.preventDefault();
+
+        sound.currentTime = 0;
+
+        sound.play().then(() => {
+            sound.onended = () => {
+                window.location.href = this.href;
+            };
+        }).catch(() => {
+            // Falls das Abspielen fehlschlägt, trotzdem weiterleiten
+            window.location.href = this.href;
+        });
+    });
+});
+</script>
+
+<div class="mitte">
+    <main>
+        <h2 class="background">Willkommen Fans!</h2>
+        <p>Willkommen auf der offiziellen Fan-Seite von Michael Jackson – dem King of Pop!</p>
+
+
+        <h2 class="background">Aktuelle News</h2>
+        <p>Neue Dokumentationen und Musikprojekte halten das Erbe von Michael Jackson lebendig.</p>
+
+
+        <h2 class="background">Über Michael Jackson</h2>
+        <p> Michael Jackson, geboren am 29. August 1958 in Gary, Indiana, war der weltberühmte „King of Pop“,<br> Sänger, Tänzer, Songwriter und Musikproduzent, der die Popkultur nachhaltig prägte. </p>
+
+
+        <h2 class="background">Frühes Leben und Familie</h2>
+        <p>Michael Joseph Jackson wurde als achtes von zehn Kindern der Jackson-Familie geboren.<br> Sein Vater Joseph Jackson war Kranführer und Manager der Jackson 5, seine Mutter Katherine Verkäuferin.<br> Bereits im Alter von sechs Jahren begann Michael seine Musikkarriere bei den Jackson 5,<br> die in den 1970er Jahren große Erfolge feierten, darunter der Hit „I Want You Back“.<br> Diana Ross entdeckte ihn 1968 beim Apollo Theatre und erkannte sein außergewöhnliches Talent.</p>
+        
+
+        <h2 class="background">Musikalische Karriere</h2>
+        <p>Michael Jacksons internationaler Durchbruch als Solokünstler gelang 1982 mit dem Album „Thriller“,<br> dem meistverkauften Album aller Zeiten. Weitere erfolgreiche Alben sind „Bad“, „Dangerous“ und „HIStory“,<br> die alle zu den Top 100 der meistverkauften Alben gehören. Zu seinen bekanntesten Songs zählen „Billie Jean“, „Beat It“,<br> „Man in the Mirror“ und „Thriller“. Er revolutionierte Musikvideos und Tanzbewegungen, insbesondere den Moonwalk,<br> und setzte neue Maßstäbe für Bühnenauftritte.</p>
+
+
+        <h2 class="background">Persönliches Leben</h2>
+        <p>Michael Jackson war Vater von drei Kindern: Prince Michael Joseph Jackson Jr.,<br> Paris Michael Katherine Jackson und Prince Michael Joseph Jackson II („Blanket“),.<br> Er war bekannt für seine exzentrische Persönlichkeit und sein verändertes Aussehen,<br> was in den Medien oft thematisiert wurde.</p>
+
+
+        <h2 class="background">Wohltätigkeitsarbeit</h2>
+        <p>Jackson engagierte sich stark für wohltätige Zwecke und spendete über 300 Millionen Dollar.<br> Er unterstützte zahlreiche Organisationen, darunter The United Negro College Fund,<br> Make-A-Wish Foundation, Elizabeth Taylor AIDS Foundation und viele weitere.<br> Sein Hauptanliegen war die Förderung von Kindern und Bildung sowie der Schutz der Natur.</p>
+
+
+        <h2 class="background">Tod und Vermächtnis</h2>
+        <p>Michael Jackson starb am 25. Juni 2009 in Los Angeles an einer Überdosis Sedativa; sein Arzt Conrad Murray wurde wegen fahrlässiger Tötung verurteilt.<br> Sein Tod löste weltweite Trauer aus, über eine Milliarde Menschen verfolgten die Trauerfeier in den Medien.<br> Jackson bleibt eine der einflussreichsten Persönlichkeiten der Musikgeschichte, bekannt für seine Stimme, Tanzkunst, Musikvideos und seinen unverwechselbaren Stil.</p>
+
+
+        <p>Michael Jacksons Leben und Werk haben die Popkultur geprägt und ihn zu einer globalen Ikone gemacht, deren Einfluss bis heute spürbar ist.</p>
+        
+        <img src="Jackson.jpg" alt="Michael Jackson">
+    </main>
+</div>
+<footer>
+    <p>© 2026 Michael Jackson Fanpage</p>
+</footer>
+
+</body>
+</html>

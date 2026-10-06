@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="de-AT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulare</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+        <main>
+        <form>
+            <h1>01 Texteingabe</h1>
+            <label for="eingabe">Vorname</label><br>
+            <input type="text"><br>
+            <label for="eingabe">Nachname</label><br>
+            <input type="text"><br>
+        </form>
+        <form>
+            <h1>02 Radio-Button</h1>
+            <label for="favcolor">Was ist deine Lieblingsfarbe?</label><br>
+            <input type="radio" id="blau" name="fav_language" value="Blau">
+            <label for="html" id="blau">Blau</label><br>
+            <input type="radio" id="rot" name="fav_language" value="Rot">
+            <label for="html" id="rot">Rot</label><br>
+            <input type="radio" id="grün" name="fav_language" value="Grün">
+            <label for="html" id="grün">Grün</label><br>
+            <input type="radio" id="gelb" name="fav_language" value="Gelb">
+            <label for="html" id="gelb">Gelb</label><br>
+        </form>
+        <form>
+            <h1>03 Checkboxen</h1>
+            <label for ="favanimals">Welche Viecher magst du?</label><br>
+            <input type="checkbox" name="fav_language" value="Kadse">
+            <label for="html">Kadse</label><br>
+            <input type="checkbox" name="fav_language" value="Hund">
+            <label for="html">Hund</label><br>
+            <input type="checkbox" name="fav_language" value="Pikachu">
+            <label for="html">Pikachu</label>
+        </form>
+        <form>
+            <h1>04 Dropdown</h1>
+            <label for="favmovie">Was ist dein/e Liebliengsvideo / Lieblingsserie von Julien Bam?</label><br>
+            <select name="favmovie" id="favmovie">
+                <option value="MiM">Songs aus der Bohne / Mann im Mond</option>
+                <option value="Robbe">Mach die Robbe</option>
+                <option value="Märchen">Märchen in Asozial</option>
+                <option value="Ehrenmänner">Ehrenmänner of the Galaxy</option>
+                <option value="SITCOM">Wie isch dein Mutter getroffen habe</option>
+            </select>
+        </form>
+        <form>
+            <h1>05 Textfeld</h1>
+            <textarea name="message" rows="3" cols="40" placeholder="Gib deinen Namen ein..."></textarea>
+        </form>
+        <form>
+            <h1>06 Textfeld</h1>
+            <textarea name="message" style="height: 200px; width: 200px;" placeholder="Tipp hier was."></textarea>
+        </form>
+        <form>
+            <h1>07 Button</h1>
+            <button type="button" onclick="alert('Ich kick dich!')">Klick mich!</button>
+        </form>
+        <form>
+            <h1>08 Passwort</h1>
+            <label for="pwd">Passwort</label><br>
+            <input type="password" minlegth="10" id="pwd" name="pwd">
+
+            <input type="submit">
+        </form>
+    </main>
+</body>
+</html>
