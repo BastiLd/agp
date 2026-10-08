@@ -6,6 +6,7 @@ const SYMBOLE = {
   'browser-extensions': '\u{1F9E9}',
   'plugins-addons': '\u{1F50C}',
   'desktop-apps': '\u{1F5A5}️',
+  'operating-systems': '\u{1F4F1}',
   'minecraft-mods': '\u{1F9F1}',
   'kartenbot-archiv': '\u{1F5C3}️',
   'fremd-tools': '\u{1F9F0}'
@@ -17,6 +18,7 @@ const FARBEN = {
   'browser-extensions': '#c084f5',
   'plugins-addons': '#f0708a',
   'desktop-apps': '#4ad6c0',
+  'operating-systems': '#4a8fd6',
   'minecraft-mods': '#7cc45a',
   'kartenbot-archiv': '#e0a13a',
   'fremd-tools': '#8a93a8'

@@ -379,6 +379,12 @@
       },
       "hinweis": "Bastis PERSÖNLICHEM OneDrive (nicht dem Schul-OneDrive) — Ordner \"OneDrive\" ohne Zusatz, Unterordner \"Apps\". Kein GitHub-Repo. Ausgeschlossen: shortcuts.db (Zugangsdaten, von Import-Projekt.ps1 erkannt), bin/obj-Build-Ausgaben."
     },
+    "token-usage-dashboard": {
+      "pfade": {
+        "BASTI-LAPTOP": "C:\\Users\\basti\\OneDrive - CHS Villach\\Privat\\token-usage-dashboard"
+      },
+      "hinweis": "Lokales Auswertungswerkzeug für Claude-Code-Logs. Es werden ausschließlich Programmdateien übernommen; die Logdateien selbst liegen außerhalb des Projektordners und werden nie in AGP aufgenommen."
+    },
     "aufgabenliste": {
       "pfade": {
         "BASTIAN_PC": "C:\\Users\\basti\\OneDrive\\Apps\\ToDo 15082026 bis 26082026",

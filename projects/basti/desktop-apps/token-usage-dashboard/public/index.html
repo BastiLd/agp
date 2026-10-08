@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Token-Monitor · Claude Code</title>
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#02060c">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="booting">
+  <div class="backdrop" aria-hidden="true"></div>
+
+  <!-- Boot-Sequenz (dekorativ, per Klick/Taste überspringbar) -->
+  <div class="boot" id="boot" aria-hidden="true">
+    <div class="boot-inner">
+      <svg class="boot-mark" viewBox="0 0 120 120">
+        <circle class="b1" cx="60" cy="60" r="54"/>
+        <circle class="b2" cx="60" cy="60" r="43"/>
+        <circle class="b3" cx="60" cy="60" r="32"/>
+        <circle class="b4" cx="60" cy="60" r="11"/>
+      </svg>
+      <div class="boot-title">TOKEN<span>//</span>MONITOR</div>
+      <div class="boot-log" id="bootLog"></div>
+      <div class="boot-bar"><i id="bootBar"></i></div>
+      <div class="boot-skip">Klicken oder Taste drücken zum Überspringen</div>
+    </div>
+  </div>
+
+  <header class="hud-top">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 40 40" aria-hidden="true">
+        <circle cx="20" cy="20" r="17" fill="none" stroke="currentColor" stroke-width="1.5" opacity=".45"/>
+        <circle class="bm-spin" cx="20" cy="20" r="12" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"/>
+        <circle cx="20" cy="20" r="5.5" fill="currentColor"/>
+      </svg>
+      <div class="brand-text">
+        <div class="brand-title">TOKEN<span>//</span>MONITOR</div>
+        <div class="brand-sub" id="statusLine">CLAUDE CODE · 100 % LOKAL</div>
+      </div>
+    </div>
+
+    <div class="sys" aria-live="polite">
+      <span class="sys-dot" id="sysDot"></span>
+      <span id="sysState">VERBINDE …</span>
+      <span class="sys-sep" aria-hidden="true">|</span>
+      <span class="sys-clock" id="clock">--:--:--</span>
+    </div>
+
+    <div class="controls">
+      <div class="seg view-seg" id="viewSeg" role="group" aria-label="Ansicht: Nutzung, Guthaben oder beides"></div>
+      <div class="dd" id="metricDD"></div>
+      <div class="dd" id="projectDD"></div>
+      <div class="dd" id="rangeDD"></div>
+      <button id="liveBtn" class="hud-btn icon live-btn" type="button" aria-pressed="true" title="Live-Aktualisierung pausieren (P)" aria-label="Live-Aktualisierung">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-pause" d="M8 5h3v14H8zM13 5h3v14h-3z" fill="currentColor"/><path class="i-play" d="M8 5.5v13l10.5-6.5z" fill="currentColor"/></svg>
+      </button>
+      <button id="refreshBtn" class="hud-btn icon" type="button" title="Jetzt neu einlesen (R)" aria-label="Jetzt neu einlesen">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2.3 5.7M20 4v7h-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <nav class="pagenav" id="pageNav" aria-label="Bereiche"></nav>
+  </header>
+
+  <main id="app">
+    <div id="errorBox" class="panel error" role="alert" hidden></div>
+    <section id="pageView" class="pageview" hidden></section>
+
+    <section class="comms" aria-label="Status">
+      <div class="comms-text">
+        <div class="greet" id="greet"></div>
+        <div class="comms-sub" id="commsSub"></div>
+      </div>
+      <div class="comms-actions">
+        <button id="briefBtn" class="hud-btn brief" type="button" title="Status-Briefing vorlesen lassen (B)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path class="i-play" d="M8 5.5v13l10.5-6.5z" fill="currentColor"/><path class="i-wave" d="M4 12h2M8 8v8M12 5v14M16 8v8M20 11v2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <span id="briefLabel">Briefing</span>
+        </button>
+        <button id="soundBtn" class="hud-btn icon" type="button" aria-pressed="false" title="UI-Töne ein/aus" aria-label="UI-Töne">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" fill="currentColor"/><path class="i-on" d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path class="i-off" d="M16 9.5l5 5M21 9.5l-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <section class="core">
+      <div class="col col-l">
+        <article class="panel side" id="blockPanel">
+          <div class="panel-head"><span class="tag">// 5-STUNDEN-FENSTER</span><span class="tag dim scope-tag">ALLE PROJEKTE</span></div>
+          <div id="blockBody"><div class="skeleton"></div></div>
+        </article>
+        <article class="panel side" id="logPanel">
+          <div class="panel-head"><span class="tag">// LIVE-PROTOKOLL</span><span class="tag dim scope-tag">ALLE PROJEKTE</span></div>
+          <div class="log" id="log" role="log" aria-label="Letzte Nachrichten von Claude"></div>
+        </article>
+      </div>
+
+      <div class="reactor" id="reactor" data-state="idle">
+        <div class="disc">
+          <svg class="layer spin s1" viewBox="0 0 600 600" aria-hidden="true"><circle class="ring ticks" cx="300" cy="300" r="284"/></svg>
+          <svg class="layer spin s2" viewBox="0 0 600 600" aria-hidden="true">
+            <circle class="ring segs" cx="300" cy="300" r="271"/>
+            <circle class="ring brackets" cx="300" cy="300" r="226"/>
+          </svg>
+          <svg class="layer spin s3" viewBox="0 0 600 600" aria-hidden="true"><circle class="ring dots" cx="300" cy="300" r="214"/></svg>
+          <svg class="layer gauges" viewBox="0 0 600 600" aria-hidden="true">
+            <defs>
+              <linearGradient id="gTime" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#60a5fa"/>
+              </linearGradient>
+              <linearGradient id="gLoad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#fbbf24"/><stop offset="1" stop-color="#f472b6"/>
+              </linearGradient>
+              <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
+                <feGaussianBlur stdDeviation="4" result="b"/>
+                <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <circle class="ring faint" cx="300" cy="300" r="294"/>
+            <g transform="rotate(-90 300 300)">
+              <circle class="gauge-track" cx="300" cy="300" r="256"/>
+              <circle class="gauge time" id="gaugeTime" cx="300" cy="300" r="256" stroke="url(#gTime)" filter="url(#glow)"/>
+              <circle class="gauge-track" cx="300" cy="300" r="242"/>
+              <circle class="gauge load" id="gaugeLoad" cx="300" cy="300" r="242" stroke="url(#gLoad)" filter="url(#glow)"/>
+            </g>
+            <g id="tickMarks"></g>
+            <g class="head-g" id="timeHead"><circle class="head time" cx="300" cy="44" r="5.5"/></g>
+            <g class="head-g" id="loadHead"><circle class="head load" cx="300" cy="58" r="4.5"/></g>
+          </svg>
+          <canvas id="orb" aria-hidden="true"></canvas>
+          <div class="readout">
+            <div class="ro-state" id="roState">BEREIT</div>
+            <div class="ro-value" id="roValue">—</div>
+            <div class="ro-label" id="roLabel">TOKENS IM AKTUELLEN BLOCK</div>
+            <div class="ro-label ro-sub" id="roSub"></div>
+          </div>
+          <div class="flash" id="flash" aria-hidden="true"></div>
+        </div>
+        <div class="rtag tl"><span>ZEIT</span><b id="tagTime">—</b><i id="tagTimeSub">&nbsp;</i></div>
+        <div class="rtag tr load"><span>AUSLASTUNG*</span><b id="tagLoad">—</b><i id="tagLoadSub">&nbsp;</i></div>
+        <div class="rtag bl"><span>RATE · 5 MIN</span><b id="tagRate">—</b><i id="tagRateSub">&nbsp;</i></div>
+        <div class="rtag br"><span>MODELL</span><b id="tagModel">—</b><i id="tagModelSub">&nbsp;</i></div>
+      </div>
+
+      <div class="col col-r">
+        <article class="panel side" id="weekPanel">
+          <div class="panel-head wrap">
+            <span class="tag">// WOCHE</span>
+            <div class="reset-pick">
+              <span class="tag dim">RESET</span>
+              <div class="dd sm" id="weekDayDD"></div>
+              <div class="dd sm" id="weekHourDD"></div>
+            </div>
+          </div>
+          <div id="weekBody"><div class="skeleton"></div></div>
+        </article>
+        <article class="panel side" id="pulsePanel">
+          <div class="panel-head"><span class="tag">// PULS</span><span class="tag dim scope-tag">ALLE PROJEKTE</span></div>
+          <div id="pulseBody"><div class="skeleton"></div></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="kpis" id="kpis" aria-label="Kennzahlen"></section>
+
+    <section class="panel">
+      <div class="panel-head wrap">
+        <span class="tag">// TOKENS PRO TAG <span class="tag dim" id="dailyScope"></span></span>
+        <div class="legend" id="dailyLegend" role="group" aria-label="Kategorien ein- und ausblenden"></div>
+      </div>
+      <div id="dailyChart" class="chart"></div>
+    </section>
+
+    <section class="grid-2">
+      <article class="panel" id="costPanel">
+        <div class="panel-head"><span class="tag">// KOSTEN-RECHNER</span><span class="tag dim">API-PREISE · OHNE ABO</span></div>
+        <div id="costBody"><div class="skeleton"></div></div>
+      </article>
+      <article class="panel" id="recordPanel">
+        <div class="panel-head"><span class="tag">// REKORDE &amp; FAKTEN</span><span class="tag dim scope-tag">ALLE PROJEKTE</span></div>
+        <div id="recordBody"><div class="skeleton"></div></div>
+      </article>
+    </section>
+
+    <section class="grid-2">
+      <article class="panel">
+        <div class="panel-head"><span class="tag">// LETZTE 5-STD-BLÖCKE</span><span class="tag dim scope-tag">ALLE PROJEKTE</span></div>
+        <div id="blocksList" class="bar-list"></div>
+      </article>
+      <article class="panel">
+        <div class="panel-head"><span class="tag">// AKTIVITÄT</span><span class="tag dim">NACHRICHTEN × TAG × STUNDE</span></div>
+        <div id="heatmap" class="heatmap"></div>
+      </article>
+    </section>
+
+    <section class="grid-2">
+      <article class="panel">
+        <div class="panel-head"><span class="tag">// MODELLE</span></div>
+        <div id="models" class="bar-list"></div>
+      </article>
+      <article class="panel">
+        <div class="panel-head"><span class="tag">// PROJEKTE</span><span class="tag dim">KLICK = FILTER</span></div>
+        <div id="projects" class="bar-list"></div>
+      </article>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head wrap">
+        <span class="tag">// CHATS <span id="sessionCount"></span></span>
+        <input type="search" id="sessionSearch" class="search" placeholder="Chat oder Projekt suchen …" aria-label="Chats durchsuchen">
+      </div>
+      <div class="table-wrap">
+        <table id="sessionsTable">
+          <thead>
+            <tr>
+              <th data-sort="title" class="left">Chat</th>
+              <th data-sort="last">Zuletzt</th>
+              <th data-sort="messages">Nachr.</th>
+              <th data-sort="i">Input</th>
+              <th data-sort="cw">Cache&nbsp;schr.</th>
+              <th data-sort="cr">Cache&nbsp;lesen</th>
+              <th data-sort="o">Output</th>
+              <th data-sort="th">Thinking</th>
+              <th data-sort="total">Gesamt</th>
+              <th data-sort="cost">API $</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <button id="moreSessions" class="hud-btn wide" type="button" hidden>Mehr anzeigen</button>
+    </section>
+
+    <section class="grid-2">
+      <article class="panel">
+        <div class="panel-head"><span class="tag">// LIMIT-MELDUNGEN</span></div>
+        <div id="limitsList" class="limit-list"></div>
+      </article>
+      <article class="panel">
+        <div class="panel-head"><span class="tag">// LEGENDE</span></div>
+        <dl class="glossary">
+          <div><dt><i class="dot c-i"></i>Input</dt><dd>Neuer, nicht gecachter Text, den Claude liest (deine Nachricht, Tool-Ergebnisse).</dd></div>
+          <div><dt><i class="dot c-cw"></i>Cache schreiben</dt><dd>Kontext, der beim ersten Mal in den Prompt-Cache gelegt wird.</dd></div>
+          <div><dt><i class="dot c-cr"></i>Cache lesen</dt><dd>Schon gecachter Kontext, der bei jeder weiteren Nachricht erneut gelesen wird – darum so groß. Bei der API kostet das nur 10 % von normalem Input; wie stark es in dein Abo-Limit einfließt, veröffentlicht Anthropic nicht.</dd></div>
+          <div><dt><i class="dot c-o"></i>Output</dt><dd>Text, den Claude schreibt (inkl. Tool-Aufrufe und Thinking).</dd></div>
+          <div><dt><i class="dot c-th"></i>Thinking</dt><dd>Der „Nachdenk“-Anteil vom Output.</dd></div>
+        </dl>
+        <p class="note">* Auslastung = Tokens im aktuellen Block im Vergleich zu dem Block, in dem du zuletzt ans 5-Std-Limit gestoßen bist (sonst: dein größter Block). Nur eine Schätzung – erfasst wird nur Claude Code, nicht claude.ai oder die App, und die exakte Limit-Formel ist nicht öffentlich.</p>
+        <p class="note">Der Reaktor in der Mitte „spricht“, solange Claude gerade arbeitet (letzte Nachricht jünger als 90 s), und pulsiert bei jeder neuen Nachricht. Tastenkürzel: <kbd>B</kbd> Briefing, <kbd>R</kbd> neu einlesen.</p>
+      </article>
+    </section>
+
+    <footer class="foot" id="footer"></footer>
+  </main>
+
+  <div id="tooltip" class="tooltip" role="tooltip" hidden></div>
+  <script src="orb.js" defer></script>
+  <script src="app.js" defer></script>
+</body>
+</html>

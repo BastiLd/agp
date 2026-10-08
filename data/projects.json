@@ -1,5 +1,5 @@
 {
-  "aktualisiert": "2026-10-06",
+  "aktualisiert": "2026-10-08",
   "kategorien": {
     "websites": {
       "label": "Websites",
@@ -20,6 +20,10 @@
     "desktop-apps": {
       "label": "Desktop-Apps",
       "icon": "window"
+    },
+    "operating-systems": {
+      "label": "Betriebssysteme",
+      "icon": "mobile"
     },
     "minecraft-mods": {
       "label": "Minecraft-Mods",
@@ -98,6 +102,30 @@
       ]
     },
     {
+      "id": "token-usage-dashboard",
+      "titel": "Token-Usage-Dashboard",
+      "besitzer": "basti",
+      "kategorie": "desktop-apps",
+      "kurz": "Lokales Dashboard für Claude-Code-Nutzung und Token-Verbrauch",
+      "beschreibung": "Eine lokale Web-App, die die auf dem eigenen Rechner gespeicherten Claude-Code-Logs auswertet. Sie zeigt Token-Nutzung nach Chats, Projekten, Modellen und Zeiträumen, visualisiert 5-Stunden-Fenster und Wochenwerte und bietet CSV-Export sowie optionale lokale Benachrichtigungen. Es gibt keine externen Abfragen, keine Abhängigkeiten und keine Übertragung von Nutzungsdaten.",
+      "tech": [
+        "Node.js",
+        "JavaScript",
+        "HTML",
+        "CSS"
+      ],
+      "pfad": "projects/basti/desktop-apps/token-usage-dashboard",
+      "repo": null,
+      "live": null,
+      "liveHinweis": "Lokal starten: node server.js --open (Node.js 18 oder neuer)",
+      "stand": "2026-10-08",
+      "tags": [
+        "Lokales Tool",
+        "Analyse",
+        "KI"
+      ]
+    },
+    {
       "id": "mijo-webdesign-grundlagen",
       "titel": "Webdesign-Grundlagen",
       "besitzer": "mijo",
@@ -117,6 +145,33 @@
         "Schule",
         "Übung"
       ]
+    },
+    {
+      "id": "mijo-atlantis",
+      "titel": "Atlantis",
+      "besitzer": "mijo",
+      "kategorie": "operating-systems",
+      "kurz": "Debian-basiertes Mobilbetriebssystem in Entwicklung",
+      "beschreibung": "Atlantis ist Mijos eigenes Betriebssystem für Smartphones. Das Projekt umfasst eine reproduzierbare Debian-Rootfs-Erstellung, die Paketierung, eine mobile Wayland-Oberfläche mit Phosh, Installer-Werkzeuge und den ersten Bring-up-Pfad für ein Google Pixel 8. Der Quellcode liegt ausschließlich im geschützten privaten Bereich.",
+      "tech": [
+        "Debian",
+        "Linux",
+        "mmdebstrap",
+        "Wayland",
+        "Phosh",
+        "Bash",
+        "Python"
+      ],
+      "repo": null,
+      "live": null,
+      "liveHinweis": "🔒 Der Quellcode liegt im passwortgeschützten privaten Bereich.",
+      "stand": "2026-10-08",
+      "tags": [
+        "Linux",
+        "Mobil",
+        "Betriebssystem"
+      ],
+      "istPrivat": true
     },
     {
       "id": "mijo-vertretungsstunde-teamseite",

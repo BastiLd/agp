@@ -1,0 +1,12 @@
+{
+  "name": "claude-token-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lokales Dashboard für die Token-Nutzung von Claude Code (ohne Abhängigkeiten).",
+  "scripts": {
+    "start": "node server.js --open"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -9,7 +9,7 @@ zum Durchstöbern.
 
 ## Was hier drin ist
 
-**69 Projekte** von zwei Rechnern — Websites, Browser-Erweiterungen, Python-Apps,
+**70 Projekte** von zwei Rechnern — Websites, Browser-Erweiterungen, Python-Apps,
 Desktop-Programme und Minecraft-Mods. Bewusst **nicht** enthalten sind Fotos, Videos,
 Schuldokumente, Präsentationen, Dateien von Mitschüler:innen sowie installierte
 Fremdprogramme.
@@ -41,8 +41,8 @@ agp/
 
 - **Kacheln in vier Größen** — klein, mittel, groß und Liste, wie die Symbolansicht im
   Windows-Explorer. Die Wahl bleibt gespeichert.
-- **Sechs Kategorien** — Websites, Python-Apps & Bots, Browser-Erweiterungen,
-  Plugins & Add-ons, Desktop-Apps und Minecraft-Mods, jede mit eigenem Symbol und
+- **Sieben Kategorien** — Websites, Python-Apps & Bots, Browser-Erweiterungen,
+  Plugins & Add-ons, Desktop-Apps, Betriebssysteme und Minecraft-Mods, jede mit eigenem Symbol und
   eigener Farbe. Plugins & Add-ons ist für Zusatzmodule zu einem fremden Programm
   gedacht (z. B. ein BetterDiscord-Plugin) — die passen weder zu Browser-Erweiterung
   noch zu Desktop-App.
